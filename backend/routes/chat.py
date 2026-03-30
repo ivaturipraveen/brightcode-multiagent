@@ -6,9 +6,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import StreamingResponse
 from openai import AsyncOpenAI
 
-from models.user import User
-from schemas.chat import ChatRequest
-from security import get_current_user
+from backend.models.user import User
+from backend.schemas.chat import ChatRequest
+from backend.security import get_current_user
 
 router = APIRouter(tags=["chat"])
 
