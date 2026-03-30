@@ -1,23 +1,57 @@
-import { useMemo, useRef, useState } from 'react'
-import { API_BASE_URL } from '../lib/api'
-
-type Message = {
-  role: 'user' | 'assistant'
-  content: string
-}
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { ChatSidebar } from '../components/ChatSidebar'
+import {
+  API_BASE_URL,
+  type ChatMessage,
+  type Conversation,
+  getJson,
+} from '../lib/api'
 
 export function ChatPage() {
   const token = useMemo(() => localStorage.getItem('token') ?? '', [])
   const [input, setInput] = useState('')
-  const [messages, setMessages] = useState<Message[]>([])
+  const [messages, setMessages] = useState<ChatMessage[]>([])
+  const [conversations, setConversations] = useState<Conversation[]>([])
+  const [activeConversationId, setActiveConversationId] = useState<number | null>(null)
   const [loading, setLoading] = useState(false)
+  const [sidebarLoading, setSidebarLoading] = useState(true)
   const containerRef = useRef<HTMLDivElement | null>(null)
 
-  async function handleSend(messageOverride?: string) {
-    const nextInput = (messageOverride ?? input).trim()
+  async function loadConversations() {
+    const data = await getJson<Conversation[]>('/conversations', token)
+    setConversations(data)
+    return data
+  }
+
+  async function loadConversationMessages(conversationId: number) {
+    const data = await getJson<ChatMessage[]>(`/conversations/${conversationId}/messages`, token)
+    setMessages(data)
+    setActiveConversationId(conversationId)
+    requestAnimationFrame(() => {
+      containerRef.current?.scrollTo({ top: containerRef.current.scrollHeight, behavior: 'smooth' })
+    })
+  }
+
+  useEffect(() => {
+    async function initialize() {
+      try {
+        const data = await loadConversations()
+        if (data.length > 0) {
+          await loadConversationMessages(data[0].id)
+        }
+      } finally {
+        setSidebarLoading(false)
+      }
+    }
+
+    void initialize()
+  }, [])
+
+  async function handleSend() {
+    const nextInput = input.trim()
     if (!nextInput || loading) return
 
-    const userMessage: Message = { role: 'user', content: nextInput }
+    const userMessage: ChatMessage = { role: 'user', content: nextInput }
     const assistantIndex = messages.length + 1
     setMessages((prev) => [...prev, userMessage, { role: 'assistant', content: '' }])
     setInput('')
@@ -34,7 +68,10 @@ export function ChatPage() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ message: userMessage.content }),
+        body: JSON.stringify({
+          message: userMessage.content,
+          conversation_id: activeConversationId,
+        }),
       })
 
       if (!response.ok || !response.body) {
@@ -44,6 +81,7 @@ export function ChatPage() {
       const reader = response.body.getReader()
       const decoder = new TextDecoder()
       let buffer = ''
+      let streamedConversationId = activeConversationId
 
       while (true) {
         const { value, done } = await reader.read()
@@ -57,7 +95,11 @@ export function ChatPage() {
           if (!event.startsWith('data: ')) continue
           const payload = event.slice(6)
           if (payload === '[DONE]') continue
-          const parsed = JSON.parse(payload) as { token?: string }
+          const parsed = JSON.parse(payload) as { token?: string; conversation_id?: number }
+          if (parsed.conversation_id && !streamedConversationId) {
+            streamedConversationId = parsed.conversation_id
+            setActiveConversationId(parsed.conversation_id)
+          }
           if (parsed.token) {
             setMessages((prev) => {
               const next = [...prev]
@@ -71,6 +113,14 @@ export function ChatPage() {
               containerRef.current?.scrollTo({ top: containerRef.current.scrollHeight, behavior: 'smooth' })
             })
           }
+        }
+      }
+
+      const data = await loadConversations()
+      if (streamedConversationId) {
+        const exists = data.find((conversation) => conversation.id === streamedConversationId)
+        if (exists) {
+          setActiveConversationId(streamedConversationId)
         }
       }
     } catch (error) {
@@ -87,14 +137,20 @@ export function ChatPage() {
     }
   }
 
+  function handleNewChat() {
+    setActiveConversationId(null)
+    setMessages([])
+    setInput('')
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6 sm:px-6 lg:px-8">
         <header className="mb-6 flex flex-col gap-4 rounded-[2rem] border border-slate-200 bg-white/90 px-6 py-5 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-sky-600">OpenClaw chat</p>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">A cleaner, brighter assistant workspace</h1>
-            <p className="mt-2 text-sm leading-6 text-slate-500">Stream GPT-4o responses in real time with a lighter, more polished interface.</p>
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">Chat with full conversation history</h1>
+            <p className="mt-2 text-sm leading-6 text-slate-500">Browse past conversations in the sidebar and jump between threads instantly.</p>
           </div>
           <div className="flex items-center gap-3">
             <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-medium text-emerald-700">
@@ -112,15 +168,28 @@ export function ChatPage() {
           </div>
         </header>
 
-        <div className="flex flex-1">
+        <div className="grid flex-1 gap-6 lg:grid-cols-[320px_minmax(0,1fr)]">
+          {sidebarLoading ? (
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 text-sm text-slate-500 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
+              Loading conversations...
+            </div>
+          ) : (
+            <ChatSidebar
+              conversations={conversations}
+              activeConversationId={activeConversationId}
+              onSelectConversation={(id) => void loadConversationMessages(id)}
+              onNewChat={handleNewChat}
+            />
+          )}
+
           <section className="flex min-h-[70vh] w-full flex-col rounded-[2rem] border border-slate-200 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
             <div ref={containerRef} className="flex-1 space-y-6 overflow-y-auto px-5 py-6 sm:px-7">
               {messages.length === 0 ? (
                 <div className="flex h-full min-h-[420px] flex-col items-center justify-center rounded-[1.5rem] border border-dashed border-slate-200 bg-slate-50 px-6 text-center">
                   <div className="rounded-full bg-sky-100 px-4 py-1 text-sm font-medium text-sky-700">Ready to chat</div>
-                  <h3 className="mt-5 text-2xl font-semibold text-slate-900">Ask anything</h3>
+                  <h3 className="mt-5 text-2xl font-semibold text-slate-900">Start a new conversation</h3>
                   <p className="mt-3 max-w-md text-sm leading-7 text-slate-500">
-                    The assistant will stream its response into the conversation as it arrives from the backend.
+                    Your conversation history will appear in the sidebar so you can reopen previous chats anytime.
                   </p>
                 </div>
               ) : (
