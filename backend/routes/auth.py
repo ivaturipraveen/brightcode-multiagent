@@ -25,7 +25,7 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)):
     db.add(user)
     db.commit()
     db.refresh(user)
-    token = create_access_token(user.email)
+    token = create_access_token(str(user.id))
     return RegisterResponse(
         access_token=token,
         token_type='bearer',
@@ -42,5 +42,5 @@ def login(payload: LoginRequest, db: Session = Depends(get_db)):
     if not user or not verify_password(payload.password, user.password_hash):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid email or password")
 
-    token = create_access_token(user.email)
+    token = create_access_token(str(user.id))
     return TokenResponse(access_token=token)

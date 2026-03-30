@@ -44,13 +44,7 @@ def test_get_and_update_profile(client):
     assert updated['avatar_url'] == 'https://example.com/avatar.png'
     assert updated['bio'] == 'Building with agents'
 
-    relogin_response = client.post(
-        '/auth/login',
-        json={'email': 'updated@example.com', 'password': 'secret123'},
-    )
-    assert relogin_response.status_code == 200
-    refreshed_headers = {'Authorization': f"Bearer {relogin_response.json()['access_token']}"}
-
-    confirm_response = client.get('/profile', headers=refreshed_headers)
+    confirm_response = client.get('/profile', headers=headers)
     assert confirm_response.status_code == 200
     assert confirm_response.json()['name'] == 'Updated User'
+    assert confirm_response.json()['email'] == 'updated@example.com'

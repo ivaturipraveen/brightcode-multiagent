@@ -52,10 +52,11 @@ def get_current_user(
         subject = payload.get("sub")
         if not subject:
             raise credentials_exception
-    except JWTError as exc:
+        user_id = int(subject)
+    except (JWTError, ValueError, TypeError) as exc:
         raise credentials_exception from exc
 
-    user = db.query(User).filter(User.email == subject).first()
+    user = db.query(User).filter(User.id == user_id).first()
     if not user:
         raise credentials_exception
     return user
