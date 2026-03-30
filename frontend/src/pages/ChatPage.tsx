@@ -1,10 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ChatSidebar } from '../components/ChatSidebar'
+import { SettingsPanel } from '../components/SettingsPanel'
 import {
   apiUrl,
   type ChatMessage,
   type Conversation,
   getJson,
+  putJson,
+  type UserProfile,
 } from '../lib/api'
 
 export function ChatPage() {
@@ -15,12 +18,31 @@ export function ChatPage() {
   const [activeConversationId, setActiveConversationId] = useState<number | null>(null)
   const [loading, setLoading] = useState(false)
   const [sidebarLoading, setSidebarLoading] = useState(true)
+  const [settingsOpen, setSettingsOpen] = useState(false)
+  const [profile, setProfile] = useState<UserProfile>({
+    name: 'OpenClaw User',
+    email: 'you@example.com',
+    avatar_url: '',
+    bio: '',
+  })
+  const [draftProfile, setDraftProfile] = useState<UserProfile>({
+    name: 'OpenClaw User',
+    email: 'you@example.com',
+    avatar_url: '',
+    bio: '',
+  })
   const containerRef = useRef<HTMLDivElement | null>(null)
 
   async function loadConversations() {
     const data = await getJson<Conversation[]>('/conversations', token)
     setConversations(data)
     return data
+  }
+
+  async function loadProfile() {
+    const data = await getJson<UserProfile>('/profile', token)
+    setProfile(data)
+    setDraftProfile(data)
   }
 
   async function loadConversationMessages(conversationId: number) {
@@ -35,6 +57,7 @@ export function ChatPage() {
   useEffect(() => {
     async function initialize() {
       try {
+        await loadProfile()
         const data = await loadConversations()
         if (data.length > 0) {
           await loadConversationMessages(data[0].id)
@@ -143,6 +166,18 @@ export function ChatPage() {
     setInput('')
   }
 
+  function handleOpenSettings() {
+    setDraftProfile(profile)
+    setSettingsOpen(true)
+  }
+
+  async function handleSaveProfile() {
+    const updated = await putJson<UserProfile>('/profile', draftProfile, token)
+    setProfile(updated)
+    setDraftProfile(updated)
+    setSettingsOpen(false)
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6 sm:px-6 lg:px-8">
@@ -179,6 +214,8 @@ export function ChatPage() {
               activeConversationId={activeConversationId}
               onSelectConversation={(id) => void loadConversationMessages(id)}
               onNewChat={handleNewChat}
+              profile={profile}
+              onOpenSettings={handleOpenSettings}
             />
           )}
 
@@ -240,6 +277,15 @@ export function ChatPage() {
           </section>
         </div>
       </div>
+
+      <SettingsPanel
+        profile={profile}
+        draftProfile={draftProfile}
+        isOpen={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        onChange={(field, value) => setDraftProfile((prev) => ({ ...prev, [field]: value }))}
+        onSave={() => void handleSaveProfile()}
+      />
     </div>
   )
 }

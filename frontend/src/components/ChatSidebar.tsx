@@ -1,10 +1,12 @@
-import type { Conversation } from '../lib/api'
+import type { Conversation, UserProfile } from '../lib/api'
 
 type ChatSidebarProps = {
   conversations: Conversation[]
   activeConversationId: number | null
   onSelectConversation: (id: number) => void
   onNewChat: () => void
+  profile: UserProfile
+  onOpenSettings: () => void
 }
 
 export function ChatSidebar({
@@ -12,7 +14,16 @@ export function ChatSidebar({
   activeConversationId,
   onSelectConversation,
   onNewChat,
+  profile,
+  onOpenSettings,
 }: ChatSidebarProps) {
+  const initials = profile.name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? '')
+    .join('') || 'U'
+
   return (
     <aside className="flex h-full w-full max-w-sm flex-col rounded-[2rem] border border-slate-200 bg-white p-4 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
       <div className="mb-4 flex items-center justify-between gap-3">
@@ -55,6 +66,24 @@ export function ChatSidebar({
           })
         )}
       </div>
+
+      <button
+        className="mt-4 flex items-center gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-3 py-3 text-left transition hover:border-slate-300 hover:bg-white"
+        onClick={onOpenSettings}
+      >
+        {profile.avatar_url ? (
+          <img src={profile.avatar_url} alt={profile.name} className="h-11 w-11 rounded-full object-cover" />
+        ) : (
+          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">
+            {initials}
+          </div>
+        )}
+        <div className="min-w-0 flex-1">
+          <div className="truncate text-sm font-medium text-slate-900">{profile.name}</div>
+          <div className="truncate text-xs text-slate-500">{profile.email}</div>
+        </div>
+        <div className="text-xs font-medium text-sky-600">Settings</div>
+      </button>
     </aside>
   )
 }
