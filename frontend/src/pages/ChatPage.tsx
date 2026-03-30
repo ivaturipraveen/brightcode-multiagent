@@ -6,12 +6,6 @@ type Message = {
   content: string
 }
 
-const starterPrompts = [
-  'Summarize my current project status.',
-  'Draft a clean product update for the team.',
-  'Help me debug a failing backend test.',
-]
-
 export function ChatPage() {
   const token = useMemo(() => localStorage.getItem('token') ?? '', [])
   const [input, setInput] = useState('')
@@ -118,26 +112,8 @@ export function ChatPage() {
           </div>
         </header>
 
-        <div className="grid flex-1 gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
-          <aside className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Quick start</p>
-            <h2 className="mt-3 text-xl font-semibold text-slate-900">Prompt ideas</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-500">Use one of these to kick off the conversation faster.</p>
-            <div className="mt-5 space-y-3">
-              {starterPrompts.map((prompt) => (
-                <button
-                  key={prompt}
-                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm text-slate-700 transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700"
-                  onClick={() => void handleSend(prompt)}
-                  disabled={loading}
-                >
-                  {prompt}
-                </button>
-              ))}
-            </div>
-          </aside>
-
-          <section className="flex min-h-[70vh] flex-col rounded-[2rem] border border-slate-200 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
+        <div className="flex flex-1">
+          <section className="flex min-h-[70vh] w-full flex-col rounded-[2rem] border border-slate-200 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
             <div ref={containerRef} className="flex-1 space-y-6 overflow-y-auto px-5 py-6 sm:px-7">
               {messages.length === 0 ? (
                 <div className="flex h-full min-h-[420px] flex-col items-center justify-center rounded-[1.5rem] border border-dashed border-slate-200 bg-slate-50 px-6 text-center">
