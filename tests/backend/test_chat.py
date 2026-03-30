@@ -39,7 +39,7 @@ def test_chat_endpoint_streams_mocked_openai_response(client):
 
     mock_stream = MockStream([MockChunk('Hello'), MockChunk(' world')])
 
-    with patch('backend.routes.chat.AsyncOpenAI') as mock_openai:
+    with patch('routes.chat.AsyncOpenAI') as mock_openai:
         mock_client = AsyncMock()
         mock_client.chat.completions.create = AsyncMock(return_value=mock_stream)
         mock_openai.return_value = mock_client

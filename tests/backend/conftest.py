@@ -1,16 +1,24 @@
 import os
+import sys
 from collections.abc import Generator
+from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+ROOT_DIR = Path(__file__).resolve().parents[2]
+BACKEND_DIR = ROOT_DIR / 'backend'
+for path in (str(ROOT_DIR), str(BACKEND_DIR)):
+    if path not in sys.path:
+        sys.path.insert(0, path)
+
 os.environ['JWT_SECRET'] = 'test-secret'
 os.environ['OPENAI_API_KEY'] = 'test-openai-key'
 
-from backend.database import Base, get_db  # noqa: E402
-from backend.main import app  # noqa: E402
+from database import Base, get_db  # noqa: E402
+from main import app  # noqa: E402
 
 SQLALCHEMY_DATABASE_URL = 'sqlite:///./test.db'
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False})
