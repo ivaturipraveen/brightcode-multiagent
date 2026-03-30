@@ -30,7 +30,7 @@ export function HomePage() {
           <nav className="hidden items-center gap-8 text-sm text-slate-600 md:flex">
             <a href="#features" className="transition hover:text-slate-900">Features</a>
             <a href="#enterprise" className="transition hover:text-slate-900">Enterprise</a>
-            <a href="#pricing" className="transition hover:text-slate-900">Why us</a>
+            <Link to="/pricing" className="transition hover:text-slate-900">Pricing</Link>
           </nav>
           <div className="flex items-center gap-3">
             <Link to="/login" className="text-sm font-medium text-slate-700 transition hover:text-slate-900">
@@ -67,10 +67,10 @@ export function HomePage() {
                 Start building
               </Link>
               <Link
-                to="/login"
+                to="/pricing"
                 className="rounded-full border border-slate-200 bg-white px-7 py-3.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
               >
-                Open workspace
+                View pricing
               </Link>
             </div>
           </div>
@@ -169,7 +169,7 @@ export function HomePage() {
           </div>
         </section>
 
-        <section id="pricing" className="px-6 pb-24 pt-8 lg:px-8">
+        <section className="px-6 pb-24 pt-8 lg:px-8">
           <div className="mx-auto max-w-5xl rounded-[2.5rem] border border-black/5 bg-slate-900 px-8 py-14 text-center text-white shadow-[0_30px_90px_rgba(15,23,42,0.18)] sm:px-12">
             <p className="text-sm font-medium uppercase tracking-[0.26em] text-white/60">Ready to launch</p>
             <h2 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">
@@ -180,16 +180,16 @@ export function HomePage() {
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
-                to="/register"
+                to="/pricing"
                 className="rounded-full bg-white px-7 py-3.5 text-sm font-medium text-slate-900 transition hover:bg-slate-100"
               >
-                Create your account
+                View pricing
               </Link>
               <Link
-                to="/login"
+                to="/register"
                 className="rounded-full border border-white/20 px-7 py-3.5 text-sm font-medium text-white transition hover:bg-white/10"
               >
-                Sign in
+                Create account
               </Link>
             </div>
           </div>
