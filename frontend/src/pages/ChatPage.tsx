@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ChatSidebar } from '../components/ChatSidebar'
 import {
-  API_BASE_URL,
+  apiUrl,
   type ChatMessage,
   type Conversation,
   getJson,
@@ -62,7 +62,7 @@ export function ChatPage() {
     })
 
     try {
-      const response = await fetch(`${API_BASE_URL}/chat`, {
+      const response = await fetch(apiUrl('/chat'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

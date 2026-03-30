@@ -1,4 +1,6 @@
-export const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? 'http://localhost:8000'
+const rawApiBaseUrl = import.meta.env.VITE_API_BASE_URL as string | undefined
+
+export const API_BASE_URL = rawApiBaseUrl && rawApiBaseUrl.trim().length > 0 ? rawApiBaseUrl : ''
 
 export type AuthResponse = {
   access_token: string
@@ -19,8 +21,12 @@ export type ChatMessage = {
   created_at?: string | null
 }
 
+export function apiUrl(path: string): string {
+  return `${API_BASE_URL}${path}`
+}
+
 export async function postJson<T>(path: string, body: unknown, token?: string): Promise<T> {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const response = await fetch(apiUrl(path), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -38,7 +44,7 @@ export async function postJson<T>(path: string, body: unknown, token?: string): 
 }
 
 export async function getJson<T>(path: string, token?: string): Promise<T> {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const response = await fetch(apiUrl(path), {
     headers: {
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
