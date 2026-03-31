@@ -213,7 +213,7 @@ export function ChatPage() {
                   : 'New Chat'}
               </h1>
               <p className="text-xs text-gray-400 dark:text-gray-500">
-                {loading ? 'Claude is typing...' : 'Powered by Claude Sonnet'}
+                {loading ? 'Brightcone is thinking...' : 'Powered by Brightcone AI'}
               </p>
             </div>
           </div>
@@ -340,7 +340,7 @@ export function ChatPage() {
             <div className="flex items-end gap-3 rounded-2xl border border-gray-200 bg-gray-50 p-2 shadow-sm transition focus-within:border-indigo-300 focus-within:bg-white focus-within:shadow-md focus-within:shadow-indigo-50 dark:border-gray-700 dark:bg-gray-800 dark:focus-within:border-indigo-600 dark:focus-within:bg-gray-750">
               <textarea
                 className="max-h-40 min-h-[2.75rem] flex-1 resize-none bg-transparent px-3 py-2.5 text-sm text-gray-900 outline-none placeholder:text-gray-400 dark:text-gray-100 dark:placeholder:text-gray-600"
-                placeholder="Message Claude..."
+                placeholder="Message Brightcone..."
                 rows={1}
                 value={input}
                 onChange={(e) => {
