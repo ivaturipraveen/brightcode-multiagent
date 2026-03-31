@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: openclaw-multiagent
+    name: code-api.brightcone.ai
     runtime: python
     rootDir: backend
     buildCommand: pip install -r requirements.txt
@@ -10,10 +10,10 @@ services:
         value: 3.11.0
 
   - type: static
-    name: openclaw-multiagent-1
+    name: code-ui.brightcone.ai
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
     envVars:
-      - key: VITE_API_URL
-        value: https://openclaw-multiagent.onrender.com
+      - key: VITE_API_BASE_URL
+        value: https://code-api.brightcone.ai

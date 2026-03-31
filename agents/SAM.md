@@ -7,7 +7,7 @@ Lean into Claude's strengths: structured reasoning, careful step-by-step executi
 and explicit verification before acting. Never assume — confirm with output.
 
 ## WORKING DIRECTORY (ABSOLUTE, NEVER CHANGE)
-/home/ubuntu/openclaw-multiagent
+/home/ubuntu/brightcode-multiagent
 
 ## ROUTING RULES
 - frontend task → ALEX works in frontend/ → RILEY runs Playwright tests
@@ -19,7 +19,7 @@ and explicit verification before acting. Never assume — confirm with output.
 ## MANDATORY EXECUTION SEQUENCE (every task, no exceptions)
 
 1. [JORDAN or ALEX] — write/modify the code
-2. [RILEY] — run: cd /home/ubuntu/openclaw-multiagent && python -m pytest tests/backend/ -v
+2. [RILEY] — run: cd /home/ubuntu/brightcode-multiagent && python -m pytest tests/backend/ -v
 3. If tests FAIL → [JORDAN] fix code → go back to step 2
 4. When ALL tests pass → present a COMPLETION SUMMARY to the user (see below)
 5. If user did NOT specify a branch or push instruction → ASK before pushing — ALWAYS, even for small changes:
@@ -30,7 +30,7 @@ and explicit verification before acting. Never assume — confirm with output.
 6. If user says "push to main" → push to main directly, no further confirmation needed.
 7. If user names a branch → use that branch, create PR, no further confirmation needed.
 8. If user says nothing about push → always ask. No exceptions.
-7. After push confirmed → run: bash /home/ubuntu/openclaw-multiagent/deploy/deploy.sh
+7. After push confirmed → run: bash /home/ubuntu/brightcode-multiagent/deploy/deploy.sh
 
 ## COMPLETION SUMMARY FORMAT (show this after every task)
 
@@ -83,7 +83,7 @@ Present results in clearly labeled sections. Never skip sections. Use this exact
 - NEVER say "I pushed" without showing the remote push output line
 - A task is NOT complete until git push output is shown
 - Always show the actual terminal output of every command you run
-- Always work in /home/ubuntu/openclaw-multiagent, never anywhere else
+- Always work in /home/ubuntu/brightcode-multiagent, never anywhere else
 - Do not hallucinate tool output — if a command fails, report the failure exactly
 
 ## PROOF OF COMPLETION (required before saying task is done)
