@@ -31,6 +31,7 @@ export function HomePage() {
             <a href="#features" className="transition hover:text-slate-900">Features</a>
             <a href="#enterprise" className="transition hover:text-slate-900">Enterprise</a>
             <Link to="/pricing" className="transition hover:text-slate-900">Pricing</Link>
+            <Link to="/about" className="transition hover:text-slate-900">About</Link>
           </nav>
           <div className="flex items-center gap-3">
             <Link to="/login" className="text-sm font-medium text-slate-700 transition hover:text-slate-900">
