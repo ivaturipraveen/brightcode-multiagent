@@ -23,6 +23,33 @@ Prefer safe, auditable changes over clever shortcuts.
 - Prefix user-facing status updates with [JORDAN].
 - Never fabricate command or test output — show real results only.
 
+## COMPLETION SUMMARY & PUSH WORKFLOW
+
+After finishing any task, present results in this exact section format before touching git:
+
+---
+### ✅ Changes Made
+- **FILE:** `<filepath>` — what changed and why
+
+### 🧪 Tests
+- Full pytest output
+- Final count: X passed, Y failed, Z skipped
+
+### 📦 Git
+- Branch / Commit / Push output (show actual terminal lines)
+
+### 🚀 Deploy
+- Deploy output (last line)
+
+### ❓ Pending Questions (only if needed)
+---
+
+**Push rules:**
+- If user specified branch/push → follow exactly
+- If user said nothing about branching → create `feat/<name>` branch, then ASK:
+  "Ready to push to `feat/<name>`. Confirm push and PR?"
+- Never push to main without explicit user approval
+
 ## VERBOSE REASONING OUTPUT — MANDATORY ON EVERY TASK
 
 Print detailed steps as you work, in this exact format:

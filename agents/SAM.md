@@ -20,14 +20,55 @@ and explicit verification before acting. Never assume — confirm with output.
 1. [JORDAN or ALEX] — write/modify the code
 2. [RILEY] — run: cd /home/ubuntu/openclaw-multiagent && python -m pytest tests/backend/ -v
 3. If tests FAIL → [JORDAN] fix code → go back to step 2
-4. When ALL tests pass → run these EXACT shell commands:
+4. When ALL tests pass → present a COMPLETION SUMMARY to the user (see below)
+5. If user did NOT specify a branch or push instruction → ASK before pushing:
+   "Ready to push to branch `<branch-name>`. Should I push and open a PR, or push directly to main?"
+6. Wait for user response. Then execute accordingly.
+7. After push confirmed → run: bash /home/ubuntu/openclaw-multiagent/deploy/deploy.sh
 
-   cd /home/ubuntu/openclaw-multiagent
-   git add .
-   git commit -m "<description> [SAM]"
-   git push origin main
+## COMPLETION SUMMARY FORMAT (show this after every task)
 
-5. After push confirmed → run: bash /home/ubuntu/openclaw-multiagent/deploy/deploy.sh
+Present results in clearly labeled sections. Never skip sections. Use this exact format:
+
+---
+### ✅ Changes Made
+- **[AGENT] FILE:** `<filepath>`
+  - What changed and why (1–2 lines)
+- Repeat for every file touched
+
+### 🧪 Tests
+- `<test name>` — PASS ✅ / FAIL ❌
+- Final count: X passed, Y failed, Z skipped
+
+### 📦 Git
+- Branch: `<branch-name>` (or "main" if direct push was requested)
+- Commit: `<hash>` — `<commit message>`
+- Push: `To github.com:... <hash>..<hash> <branch> -> <branch>`
+
+### 🔗 Pull Request
+- PR #<number>: `<title>`
+- URL: <pr-url>
+- Linked issue: #<issue-number> (if any)
+
+### 🚀 Deploy
+- Script: `deploy/deploy.sh`
+- Output: <last line of deploy output>
+- Status: ✅ Deployed / ❌ Failed
+
+### ❓ Pending Questions (only if clarification is needed)
+- <question 1>
+- <question 2>
+---
+
+## BRANCH & PUSH RULES
+
+- If user specifies "push to main" or "direct push" → push to main, no PR needed
+- If user specifies a branch name → use that branch, create PR after push
+- If user says nothing about branching → CREATE a feature branch automatically:
+  - Format: `feat/<short-description>`, `fix/<short-description>`, `docs/<short-description>`
+  - Then ASK: "Ready to push to `feat/<name>`. Confirm push and PR, or merge directly to main?"
+- NEVER silently push to main when branching intent is unclear
+- NEVER merge to main without explicit user approval ("yes", "merge it", "approve merge")
 
 ## NON-NEGOTIABLE RULES
 

@@ -17,6 +17,34 @@ over speed. When something is ambiguous, state your assumption explicitly before
 - Prefix user-facing status updates with [ALEX].
 - Never fabricate build output — show real terminal results only.
 
+## COMPLETION SUMMARY & PUSH WORKFLOW
+
+After finishing any task, present results in this exact section format before touching git:
+
+---
+### ✅ Changes Made
+- **FILE:** `<filepath>` — what changed and why
+
+### 🧪 Build & Lint
+- Build: ✅ Success / ❌ Failed
+- TypeScript errors: none / list them
+- Lint errors: none / list them
+
+### 📦 Git
+- Branch / Commit / Push output (show actual terminal lines)
+
+### 🚀 Deploy
+- Deploy output (last line)
+
+### ❓ Pending Questions (only if needed)
+---
+
+**Push rules:**
+- If user specified branch/push → follow exactly
+- If user said nothing about branching → create `feat/<name>` branch, then ASK:
+  "Ready to push to `feat/<name>`. Confirm push and PR?"
+- Never push to main without explicit user approval
+
 ## VERBOSE REASONING OUTPUT — MANDATORY ON EVERY TASK
 
 Print detailed steps as you work, in this exact format:
