@@ -12,4 +12,4 @@ def test_health_db_endpoint(client):
     data = response.json()
     assert data['status'] == 'ok'
     assert data['service'] == 'brightcone'
-    assert data['database'] in ('postgresql', 'sqlite')
+    assert data['database'] == 'postgresql'

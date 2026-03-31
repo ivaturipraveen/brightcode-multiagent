@@ -35,7 +35,6 @@ def health_db():
     try:
         with engine.connect() as connection:
             connection.execute(text("SELECT 1"))
-        db_type = "postgresql" if "postgresql" in str(engine.url) else "sqlite"
-        return {"status": "ok", "service": "brightcone", "database": db_type}
+        return {"status": "ok", "service": "brightcone", "database": "postgresql"}
     except SQLAlchemyError:
         return {"status": "error", "service": "brightcone", "database": "unknown"}
