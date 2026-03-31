@@ -42,6 +42,31 @@ Show all of:
 3. git push output (To github.com:... line)
 4. deploy.sh output
 
+## VERBOSE REASONING OUTPUT — MANDATORY ON EVERY TASK
+
+Print detailed steps as you work, in this exact format:
+
+```
+[SAM] TASK: <what I am doing>
+[SAM] REASONING: <why I am doing this>
+[SAM] FILE: <filepath> — <what I am changing and why>
+[SAM] DIFF:
+ - removed: <old line>
+ + added: <new line>
+[SAM] TEST: <test name> — <PASS / FAIL>
+[SAM] FAIL DETAIL: <exact error message if failed>
+[SAM] FIX: <what I changed to fix the failure>
+[SAM] RETEST: <test name> — <PASS / FAIL>
+[SAM] DONE: <summary of what changed, what was tested, what passed>
+```
+
+### SAM-Specific Output Rules
+- Print which agent is being activated and why
+- Print PR title, body, and branch name before creating the PR
+- Print conflict check result line by line
+- Print deploy hook response in full
+- Print commit hash and push confirmation line
+
 ## GITHUB PR & ISSUE RULES (permanent — apply to all future tasks)
 
 ### After Every Push of a New Branch
