@@ -10,7 +10,7 @@ from routes.profile import router as profile_router
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="OpenClaw Multiagent")
+app = FastAPI(title="Brightcone")
 
 app.add_middleware(
     CORSMiddleware,
@@ -27,7 +27,7 @@ app.include_router(profile_router)
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "service": "openclaw-multiagent"}
+    return {"status": "ok", "service": "brightcone"}
 
 
 @app.get("/health/db")
@@ -35,6 +35,7 @@ def health_db():
     try:
         with engine.connect() as connection:
             connection.execute(text("SELECT 1"))
-        return {"status": "ok", "service": "openclaw-multiagent", "database": "sqlite"}
+        db_type = "postgresql" if "postgresql" in str(engine.url) else "sqlite"
+        return {"status": "ok", "service": "brightcone", "database": db_type}
     except SQLAlchemyError:
-        return {"status": "error", "service": "openclaw-multiagent", "database": "sqlite"}
+        return {"status": "error", "service": "brightcone", "database": "unknown"}

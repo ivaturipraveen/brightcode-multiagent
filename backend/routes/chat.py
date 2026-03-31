@@ -2,9 +2,9 @@ import json
 import os
 from typing import AsyncGenerator
 
+import anthropic
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import StreamingResponse
-from openai import AsyncOpenAI
 from sqlalchemy.orm import Session
 
 from database import get_db
@@ -53,9 +53,9 @@ async def generate_chat_events(
     conversation: Conversation,
     message: str,
 ) -> AsyncGenerator[str, None]:
-    api_key = os.getenv('OPENAI_API_KEY')
+    api_key = os.getenv('ANTHROPIC_API_KEY')
     if not api_key:
-        raise HTTPException(status_code=500, detail='OPENAI_API_KEY is not set')
+        raise HTTPException(status_code=500, detail='ANTHROPIC_API_KEY is not set')
 
     db_message = ChatMessage(conversation_id=conversation.id, role='user', content=message)
     db.add(db_message)
@@ -68,21 +68,19 @@ async def generate_chat_events(
         .all()
     )
 
-    client = AsyncOpenAI(api_key=api_key)
-    stream = await client.chat.completions.create(
-        model='gpt-4o',
-        messages=[{'role': item.role, 'content': item.content} for item in history],
-        stream=True,
-    )
+    client = anthropic.Anthropic(api_key=api_key)
 
     assistant_parts: list[str] = []
-    async for chunk in stream:
-        delta = ''
-        if chunk.choices:
-            delta = chunk.choices[0].delta.content or ''
-        if delta:
-            assistant_parts.append(delta)
-            yield _sse(json.dumps({'token': delta, 'conversation_id': conversation.id}))
+
+    with client.messages.stream(
+        model=os.getenv('MODEL', 'claude-sonnet-4-6'),
+        max_tokens=4096,
+        messages=[{'role': item.role, 'content': item.content} for item in history],
+    ) as stream:
+        for text in stream.text_stream:
+            if text:
+                assistant_parts.append(text)
+                yield _sse(json.dumps({'token': text, 'conversation_id': conversation.id}))
 
     assistant_text = ''.join(assistant_parts)
     db.add(ChatMessage(conversation_id=conversation.id, role='assistant', content=assistant_text))
