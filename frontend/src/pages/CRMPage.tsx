@@ -7,16 +7,16 @@ type Lead = {
   email: string
   company: string
   status: 'New' | 'Contacted' | 'Qualified' | 'Closed'
-  value: string
+  value: number        // stored as number, formatted on display
   date: string
 }
 
 const INITIAL_LEADS: Lead[] = [
-  { id: 1, name: 'Sarah Johnson', email: 'sarah@acmecorp.com', company: 'Acme Corp', status: 'Qualified', value: '$12,000', date: '2026-03-28' },
-  { id: 2, name: 'James Lee', email: 'james@techwave.io', company: 'TechWave', status: 'Contacted', value: '$8,500', date: '2026-03-29' },
-  { id: 3, name: 'Priya Nair', email: 'priya@nova.ai', company: 'Nova AI', status: 'New', value: '$21,000', date: '2026-03-30' },
-  { id: 4, name: 'Carlos Mendez', email: 'carlos@brightfuture.com', company: 'Bright Future', status: 'Closed', value: '$5,200', date: '2026-03-25' },
-  { id: 5, name: 'Emma Walsh', email: 'emma@pillar.co', company: 'Pillar Co', status: 'New', value: '$15,800', date: '2026-03-31' },
+  { id: 1, name: 'Sarah Johnson', email: 'sarah@acmecorp.com', company: 'Acme Corp', status: 'Qualified', value: 12000, date: '2026-03-28' },
+  { id: 2, name: 'James Lee', email: 'james@techwave.io', company: 'TechWave', status: 'Contacted', value: 8500, date: '2026-03-29' },
+  { id: 3, name: 'Priya Nair', email: 'priya@nova.ai', company: 'Nova AI', status: 'New', value: 21000, date: '2026-03-30' },
+  { id: 4, name: 'Carlos Mendez', email: 'carlos@brightfuture.com', company: 'Bright Future', status: 'Closed', value: 5200, date: '2026-03-25' },
+  { id: 5, name: 'Emma Walsh', email: 'emma@pillar.co', company: 'Pillar Co', status: 'New', value: 15800, date: '2026-03-31' },
 ]
 
 const STATUS_STYLES: Record<Lead['status'], string> = {
@@ -26,12 +26,17 @@ const STATUS_STYLES: Record<Lead['status'], string> = {
   Closed: 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:ring-emerald-800',
 }
 
-const ANALYTICS = [
-  { label: 'Total Leads', value: '5', delta: '+12% this week', up: true },
-  { label: 'Qualified', value: '1', delta: '20% conversion', up: true },
-  { label: 'Pipeline Value', value: '$62,500', delta: '+$8.2k this week', up: true },
-  { label: 'Closed Won', value: '1', delta: '$5,200 revenue', up: true },
-]
+// Format number to currency string
+function formatCurrency(value: number): string {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value)
+}
+
+// Parse user-typed value string to number (strips $, commas)
+function parseValue(raw: string): number {
+  const cleaned = raw.replace(/[$,]/g, '').trim()
+  const parsed = parseFloat(cleaned)
+  return isNaN(parsed) ? 0 : parsed
+}
 
 export function CRMPage() {
   const [leads, setLeads] = useState<Lead[]>(INITIAL_LEADS)
@@ -47,6 +52,22 @@ export function CRMPage() {
   const [importSuccess, setImportSuccess] = useState(false)
   const [newLead, setNewLead] = useState({ name: '', email: '', company: '', value: '' })
   const [showAddLead, setShowAddLead] = useState(false)
+  const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null)
+
+  // ── Analytics derived from live leads state ──────────────────────────────
+  const totalLeads = leads.length
+  const qualifiedCount = leads.filter((l) => l.status === 'Qualified').length
+  const closedLeads = leads.filter((l) => l.status === 'Closed')
+  const pipelineValue = leads.filter((l) => l.status !== 'Closed').reduce((sum, l) => sum + l.value, 0)
+  const closedValue = closedLeads.reduce((sum, l) => sum + l.value, 0)
+  const conversionRate = totalLeads > 0 ? Math.round((qualifiedCount / totalLeads) * 100) : 0
+
+  const ANALYTICS = [
+    { label: 'Total Leads', value: String(totalLeads), delta: `${totalLeads} tracked`, up: true },
+    { label: 'Qualified', value: String(qualifiedCount), delta: `${conversionRate}% conversion rate`, up: qualifiedCount > 0 },
+    { label: 'Pipeline Value', value: formatCurrency(pipelineValue), delta: `${leads.filter(l => l.status !== 'Closed').length} active leads`, up: true },
+    { label: 'Closed Won', value: String(closedLeads.length), delta: `${formatCurrency(closedValue)} revenue`, up: closedLeads.length > 0 },
+  ]
 
   const filtered = leads.filter((lead) => {
     const matchesSearch =
@@ -61,6 +82,11 @@ export function CRMPage() {
     setLeads((prev) => prev.map((l) => (l.id === id ? { ...l, status } : l)))
   }
 
+  function handleDeleteLead(id: number) {
+    setLeads((prev) => prev.filter((l) => l.id !== id))
+    setDeleteConfirmId(null)
+  }
+
   function handleImport() {
     const lines = importText.trim().split('\n').filter(Boolean)
     const imported: Lead[] = lines.map((line, i) => {
@@ -71,7 +97,7 @@ export function CRMPage() {
         email: email || '',
         company: company || '',
         status: 'New',
-        value: value || '$0',
+        value: parseValue(value),
         date: new Date().toISOString().split('T')[0],
       }
     })
@@ -83,7 +109,13 @@ export function CRMPage() {
 
   function handleSendEmail() {
     setEmailSent(true)
-    setTimeout(() => { setEmailSent(false); setShowEmail(false); setEmailTo(''); setEmailSubject(''); setEmailBody('') }, 1500)
+    setTimeout(() => {
+      setEmailSent(false)
+      setShowEmail(false)
+      setEmailTo('')
+      setEmailSubject('')
+      setEmailBody('')
+    }, 1500)
   }
 
   function handleAddLead() {
@@ -94,7 +126,7 @@ export function CRMPage() {
       email: newLead.email,
       company: newLead.company,
       status: 'New',
-      value: newLead.value || '$0',
+      value: parseValue(newLead.value),
       date: new Date().toISOString().split('T')[0],
     }])
     setNewLead({ name: '', email: '', company: '', value: '' })
@@ -161,14 +193,14 @@ export function CRMPage() {
           </div>
         </div>
 
-        {/* Analytics */}
+        {/* Analytics — computed from live leads state */}
         <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {ANALYTICS.map((stat) => (
             <div key={stat.label} className="rounded-[1.5rem] border border-black/5 bg-white p-6 shadow-[0_8px_30px_rgba(15,23,42,0.05)] dark:border-gray-800 dark:bg-gray-900">
               <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-gray-500">{stat.label}</p>
               <p className="mt-2 text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">{stat.value}</p>
-              <p className={`mt-1 text-xs font-medium ${stat.up ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500'}`}>
-                {stat.up ? '↑' : '↓'} {stat.delta}
+              <p className={`mt-1 text-xs font-medium ${stat.up ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'}`}>
+                {stat.delta}
               </p>
             </div>
           ))}
@@ -187,7 +219,7 @@ export function CRMPage() {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex flex-wrap gap-2">
             {(['All', 'New', 'Contacted', 'Qualified', 'Closed'] as const).map((s) => (
               <button
                 key={s}
@@ -215,7 +247,7 @@ export function CRMPage() {
                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-gray-500">Status</th>
                 <th className="hidden px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-gray-500 sm:table-cell">Value</th>
                 <th className="hidden px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-gray-500 lg:table-cell">Date</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-gray-500">Action</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-gray-500">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50 dark:divide-gray-800">
@@ -242,22 +274,49 @@ export function CRMPage() {
                       <select
                         value={lead.status}
                         onChange={(e) => handleStatusChange(lead.id, e.target.value as Lead['status'])}
-                        className={`rounded-lg px-2.5 py-1 text-xs font-medium outline-none cursor-pointer ${STATUS_STYLES[lead.status]}`}
+                        className={`cursor-pointer rounded-lg px-2.5 py-1 text-xs font-medium outline-none ${STATUS_STYLES[lead.status]}`}
                       >
                         {(['New', 'Contacted', 'Qualified', 'Closed'] as Lead['status'][]).map((s) => (
                           <option key={s} value={s}>{s}</option>
                         ))}
                       </select>
                     </td>
-                    <td className="hidden px-6 py-4 font-medium text-slate-900 dark:text-white sm:table-cell">{lead.value}</td>
+                    <td className="hidden px-6 py-4 font-medium text-slate-900 dark:text-white sm:table-cell">
+                      {formatCurrency(lead.value)}
+                    </td>
                     <td className="hidden px-6 py-4 text-slate-400 dark:text-gray-500 lg:table-cell">{lead.date}</td>
                     <td className="px-6 py-4">
-                      <button
-                        onClick={() => { setEmailTo(lead.email); setShowEmail(true) }}
-                        className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-indigo-700 dark:hover:bg-indigo-950 dark:hover:text-indigo-300"
-                      >
-                        Email
-                      </button>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => { setEmailTo(lead.email); setShowEmail(true) }}
+                          className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-indigo-700 dark:hover:bg-indigo-950 dark:hover:text-indigo-300"
+                        >
+                          Email
+                        </button>
+                        {deleteConfirmId === lead.id ? (
+                          <div className="flex items-center gap-1">
+                            <button
+                              onClick={() => handleDeleteLead(lead.id)}
+                              className="rounded-lg bg-red-500 px-2.5 py-1.5 text-xs font-medium text-white hover:bg-red-600"
+                            >
+                              Confirm
+                            </button>
+                            <button
+                              onClick={() => setDeleteConfirmId(null)}
+                              className="rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-500 hover:bg-slate-50 dark:border-gray-700 dark:text-gray-400"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => setDeleteConfirmId(lead.id)}
+                            className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-400 transition hover:border-red-300 hover:bg-red-50 hover:text-red-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-500 dark:hover:border-red-800 dark:hover:bg-red-950 dark:hover:text-red-400"
+                          >
+                            Delete
+                          </button>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))
