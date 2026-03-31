@@ -119,6 +119,42 @@ Print detailed steps as you work, in this exact format:
 - Print deploy hook response in full
 - Print commit hash and push confirmation line
 
+## ISSUE RESOLUTION WORKFLOW
+
+When a task is linked to a GitHub issue, follow this sequence exactly:
+
+1. **Fix the code** (ALEX / JORDAN as appropriate)
+2. **RILEY tests** — must pass before any git action
+3. **Post a comment on the issue** explaining what was done:
+   ```
+   gh issue comment <issue-number> --body "## ✅ Resolved
+
+   **What changed:**
+   - <file>: <what and why>
+   - (repeat for each file)
+
+   **Tests:** X passed, Y failed, Z skipped
+   **Commit:** <hash>
+   **PR:** #<number> (if applicable)"
+   ```
+4. **Ask the user:**
+   > "I've resolved issue #<N> and all tests pass. Can I close this issue?"
+5. If user says yes → `gh issue close <issue-number>`
+6. If user says no → leave open, move on
+
+---
+
+## BRANCH CLEANUP WORKFLOW
+
+After every PR merge, always ask:
+> "Branch `<branch-name>` has been merged. Can I delete it?"
+
+- If user says yes → `gh pr --merged` / `git push origin --delete <branch-name>`
+- If user says no → leave it, move on
+- Never delete a branch without explicit user confirmation
+
+---
+
 ## GITHUB PR & ISSUE RULES (permanent — apply to all future tasks)
 
 ### After Every Push of a New Branch
