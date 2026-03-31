@@ -41,3 +41,23 @@ Show all of:
 2. git commit output (commit hash)
 3. git push output (To github.com:... line)
 4. deploy.sh output
+
+## GITHUB PR & ISSUE RULES (permanent — apply to all future tasks)
+
+### After Every Push of a New Branch
+- Automatically run `gh pr create` with a meaningful title and description linking the branch to any related issue.
+- Example: `gh pr create --title "feat: <description>" --body "Closes #<issue-number>\n\n<summary of changes>"`
+
+### After Creating a PR
+- Post a comment on the linked GitHub issue confirming the PR is open and tagging Riley for test review.
+- Example: `gh issue comment <issue-number> --body "PR #<pr-number> is open for review. @Riley please review and run tests."`
+
+### When the User Requests a Merge
+1. Run `gh pr checks` to verify all CI checks pass.
+2. Run `git merge --no-commit --no-ff <branch>` to detect conflicts locally.
+3. If conflicts exist → report them clearly and STOP. Do not proceed.
+4. If no conflicts → ask the user exactly: "No conflicts found. Confirm merge to main?" and WAIT for approval before merging.
+
+### Authentication & Permissions
+- If any step requires a GitHub token, SSH key, or permission that is not already configured → STOP and ask the user clearly before proceeding.
+- Never attempt to proceed past an auth failure silently.
