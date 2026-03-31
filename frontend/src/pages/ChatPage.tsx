@@ -22,13 +22,13 @@ export function ChatPage() {
   const [sidebarLoading, setSidebarLoading] = useState(true)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [profile, setProfile] = useState<UserProfile>({
-    name: 'OpenClaw User',
+    name: 'Brightcone User',
     email: 'you@example.com',
     avatar_url: '',
     bio: '',
   })
   const [draftProfile, setDraftProfile] = useState<UserProfile>({
-    name: 'OpenClaw User',
+    name: 'Brightcone User',
     email: 'you@example.com',
     avatar_url: '',
     bio: '',
