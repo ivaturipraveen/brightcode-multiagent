@@ -40,7 +40,7 @@ const features = [
 ]
 
 const team = [
-  { name: 'Ivaturi Praveen', role: 'Founder & CEO', initials: 'IP' },
+  { name: 'Sam', role: 'Founder & CEO', initials: 'SA' },
   { name: 'Alex', role: 'Frontend Engineer', initials: 'AX' },
   { name: 'Jordan', role: 'Backend Engineer', initials: 'JO' },
   { name: 'Riley', role: 'QA Engineer', initials: 'RI' },
