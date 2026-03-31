@@ -19,6 +19,12 @@ html, body, #root {
 body {
   background: #f9fafb;
   color: #111827;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.dark body {
+  background: #0f1117;
+  color: #f1f5f9;
 }
 
 * {

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ChatSidebar } from '../components/ChatSidebar'
 import { SettingsPanel } from '../components/SettingsPanel'
+import { useTheme } from '../lib/theme'
 import {
   apiUrl,
   type ChatMessage,
@@ -12,6 +13,7 @@ import {
 
 export function ChatPage() {
   const token = useMemo(() => localStorage.getItem('token') ?? '', [])
+  const { theme, toggle } = useTheme()
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [conversations, setConversations] = useState<Conversation[]>([])
@@ -96,9 +98,7 @@ export function ChatPage() {
         }),
       })
 
-      if (!response.ok || !response.body) {
-        throw new Error('Unable to start chat stream')
-      }
+      if (!response.ok || !response.body) throw new Error('Unable to start chat stream')
 
       const reader = response.body.getReader()
       const decoder = new TextDecoder()
@@ -109,7 +109,6 @@ export function ChatPage() {
         const { value, done } = await reader.read()
         if (done) break
         buffer += decoder.decode(value, { stream: true })
-
         const events = buffer.split('\n\n')
         buffer = events.pop() ?? ''
 
@@ -176,13 +175,13 @@ export function ChatPage() {
   }
 
   return (
-    <div className="flex h-screen bg-gray-50 font-sans antialiased">
+    <div className="flex h-screen bg-gray-50 font-sans antialiased dark:bg-gray-950">
       {/* Sidebar */}
       {sidebarLoading ? (
-        <div className="flex w-72 flex-col border-r border-gray-100 bg-white px-4 py-6">
+        <div className="flex w-72 flex-col border-r border-gray-100 bg-white px-4 py-6 dark:border-gray-800 dark:bg-gray-900">
           <div className="flex flex-col gap-3">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-14 animate-pulse rounded-xl bg-gray-100" />
+              <div key={i} className="h-14 animate-pulse rounded-xl bg-gray-100 dark:bg-gray-800" />
             ))}
           </div>
         </div>
@@ -200,7 +199,7 @@ export function ChatPage() {
       {/* Main chat area */}
       <main className="flex flex-1 flex-col overflow-hidden">
         {/* Top bar */}
-        <header className="flex items-center justify-between border-b border-gray-100 bg-white px-6 py-4">
+        <header className="flex items-center justify-between border-b border-gray-100 bg-white px-6 py-4 dark:border-gray-800 dark:bg-gray-900">
           <div className="flex items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600">
               <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -208,28 +207,60 @@ export function ChatPage() {
               </svg>
             </div>
             <div>
-              <h1 className="text-sm font-semibold text-gray-900">
+              <h1 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
                 {activeConversationId
                   ? conversations.find((c) => c.id === activeConversationId)?.title ?? 'Conversation'
                   : 'New Chat'}
               </h1>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-gray-400 dark:text-gray-500">
                 {loading ? 'Claude is typing...' : 'Powered by Claude Sonnet'}
               </p>
             </div>
           </div>
-          <button
-            onClick={() => {
-              localStorage.removeItem('token')
-              window.location.href = '/login'
-            }}
-            className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium text-gray-500 transition hover:bg-gray-100 hover:text-gray-700"
-          >
-            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-            </svg>
-            Sign out
-          </button>
+
+          <div className="flex items-center gap-2">
+            {/* Theme toggle */}
+            <button
+              onClick={toggle}
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              className="relative flex h-8 w-14 items-center rounded-full border border-gray-200 bg-gray-100 transition-colors hover:border-indigo-300 dark:border-gray-700 dark:bg-gray-800"
+            >
+              {/* Track */}
+              <span
+                className={`absolute left-0.5 flex h-7 w-7 items-center justify-center rounded-full shadow-sm transition-all duration-300 ${
+                  theme === 'dark'
+                    ? 'translate-x-6 bg-indigo-600'
+                    : 'translate-x-0 bg-white'
+                }`}
+              >
+                {theme === 'dark' ? (
+                  /* Moon icon */
+                  <svg className="h-3.5 w-3.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                  </svg>
+                ) : (
+                  /* Sun icon */
+                  <svg className="h-3.5 w-3.5 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
+                  </svg>
+                )}
+              </span>
+            </button>
+
+            {/* Sign out */}
+            <button
+              onClick={() => {
+                localStorage.removeItem('token')
+                window.location.href = '/login'
+              }}
+              className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium text-gray-500 transition hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+            >
+              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              Sign out
+            </button>
+          </div>
         </header>
 
         {/* Messages */}
@@ -240,28 +271,21 @@ export function ChatPage() {
         >
           {messages.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center text-center">
-              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 ring-1 ring-indigo-100">
+              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 ring-1 ring-indigo-100 dark:bg-indigo-950 dark:ring-indigo-900">
                 <svg className="h-8 w-8 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
               </div>
-              <h2 className="text-xl font-semibold text-gray-900">How can I help you today?</h2>
-              <p className="mt-2 max-w-sm text-sm text-gray-400">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">How can I help you today?</h2>
+              <p className="mt-2 max-w-sm text-sm text-gray-400 dark:text-gray-500">
                 Ask me anything. I'll remember your conversation history so you can pick up where you left off.
               </p>
               <div className="mt-8 grid grid-cols-2 gap-3 text-left sm:grid-cols-3">
-                {[
-                  'Explain a concept',
-                  'Write some code',
-                  'Draft an email',
-                  'Summarize text',
-                  'Debug an error',
-                  'Brainstorm ideas',
-                ].map((prompt) => (
+                {['Explain a concept', 'Write some code', 'Draft an email', 'Summarize text', 'Debug an error', 'Brainstorm ideas'].map((prompt) => (
                   <button
                     key={prompt}
                     onClick={() => setInput(prompt)}
-                    className="rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 shadow-sm transition hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700"
+                    className="rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 shadow-sm transition hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-indigo-700 dark:hover:bg-indigo-950 dark:hover:text-indigo-300"
                   >
                     {prompt}
                   </button>
@@ -285,22 +309,22 @@ export function ChatPage() {
                   <div
                     className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                       message.role === 'user'
-                        ? 'bg-indigo-600 text-white shadow-md shadow-indigo-100'
-                        : 'bg-white text-gray-800 shadow-sm ring-1 ring-gray-100'
+                        ? 'bg-indigo-600 text-white shadow-md shadow-indigo-100 dark:shadow-indigo-950'
+                        : 'bg-white text-gray-800 shadow-sm ring-1 ring-gray-100 dark:bg-gray-800 dark:text-gray-200 dark:ring-gray-700'
                     }`}
                   >
                     {message.content ? (
                       <p className="whitespace-pre-wrap">{message.content}</p>
                     ) : loading && message.role === 'assistant' ? (
                       <div className="flex items-center gap-1 px-1 py-0.5">
-                        <span className="typing-dot h-1.5 w-1.5 rounded-full bg-gray-400" />
-                        <span className="typing-dot h-1.5 w-1.5 rounded-full bg-gray-400" />
-                        <span className="typing-dot h-1.5 w-1.5 rounded-full bg-gray-400" />
+                        <span className="typing-dot h-1.5 w-1.5 rounded-full bg-gray-400 dark:bg-gray-500" />
+                        <span className="typing-dot h-1.5 w-1.5 rounded-full bg-gray-400 dark:bg-gray-500" />
+                        <span className="typing-dot h-1.5 w-1.5 rounded-full bg-gray-400 dark:bg-gray-500" />
                       </div>
                     ) : null}
                   </div>
                   {message.role === 'user' && (
-                    <div className="mt-1 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-gray-200 text-xs font-semibold text-gray-600">
+                    <div className="mt-1 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-gray-200 text-xs font-semibold text-gray-600 dark:bg-gray-700 dark:text-gray-300">
                       {profile.name[0]?.toUpperCase() ?? 'U'}
                     </div>
                   )}
@@ -311,11 +335,11 @@ export function ChatPage() {
         </div>
 
         {/* Input area */}
-        <div className="border-t border-gray-100 bg-white px-6 py-4">
+        <div className="border-t border-gray-100 bg-white px-6 py-4 dark:border-gray-800 dark:bg-gray-900">
           <div className="mx-auto max-w-3xl">
-            <div className="flex items-end gap-3 rounded-2xl border border-gray-200 bg-gray-50 p-2 shadow-sm transition focus-within:border-indigo-300 focus-within:bg-white focus-within:shadow-md focus-within:shadow-indigo-50">
+            <div className="flex items-end gap-3 rounded-2xl border border-gray-200 bg-gray-50 p-2 shadow-sm transition focus-within:border-indigo-300 focus-within:bg-white focus-within:shadow-md focus-within:shadow-indigo-50 dark:border-gray-700 dark:bg-gray-800 dark:focus-within:border-indigo-600 dark:focus-within:bg-gray-750">
               <textarea
-                className="max-h-40 min-h-[2.75rem] flex-1 resize-none bg-transparent px-3 py-2.5 text-sm text-gray-900 outline-none placeholder:text-gray-400"
+                className="max-h-40 min-h-[2.75rem] flex-1 resize-none bg-transparent px-3 py-2.5 text-sm text-gray-900 outline-none placeholder:text-gray-400 dark:text-gray-100 dark:placeholder:text-gray-600"
                 placeholder="Message Claude..."
                 rows={1}
                 value={input}
@@ -332,7 +356,7 @@ export function ChatPage() {
                 }}
               />
               <button
-                className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-sm transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-indigo-300"
+                className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-sm transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-indigo-300 dark:disabled:bg-indigo-900"
                 onClick={() => void handleSend()}
                 disabled={loading || !input.trim()}
                 title="Send"
@@ -349,8 +373,9 @@ export function ChatPage() {
                 )}
               </button>
             </div>
-            <p className="mt-2 text-center text-xs text-gray-400">
-              Press <kbd className="rounded bg-gray-100 px-1 py-0.5 text-gray-500">Enter</kbd> to send · <kbd className="rounded bg-gray-100 px-1 py-0.5 text-gray-500">Shift+Enter</kbd> for new line
+            <p className="mt-2 text-center text-xs text-gray-400 dark:text-gray-600">
+              Press <kbd className="rounded bg-gray-100 px-1 py-0.5 text-gray-500 dark:bg-gray-800 dark:text-gray-400">Enter</kbd> to send ·{' '}
+              <kbd className="rounded bg-gray-100 px-1 py-0.5 text-gray-500 dark:bg-gray-800 dark:text-gray-400">Shift+Enter</kbd> for new line
             </p>
           </div>
         </div>
