@@ -26,7 +26,7 @@ export function HomePage() {
     <div className="min-h-screen bg-[#fbfbfd] text-slate-900">
       <header className="sticky top-0 z-20 border-b border-black/5 bg-[#fbfbfd]/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
-          <div className="text-lg font-semibold tracking-tight">OpenClaw</div>
+          <div className="text-lg font-semibold tracking-tight">Brightcone</div>
           <nav className="hidden items-center gap-8 text-sm text-slate-600 md:flex">
             <a href="#features" className="transition hover:text-slate-900">Features</a>
             <a href="#enterprise" className="transition hover:text-slate-900">Enterprise</a>
@@ -56,7 +56,7 @@ export function HomePage() {
               Build modern agent products for enterprise teams.
             </h1>
             <p className="mx-auto mt-8 max-w-3xl text-lg leading-8 text-slate-600 sm:text-xl">
-              OpenClaw gives you a clean, premium interface for orchestrating AI agents, managing conversations,
+              Brightcone gives you a clean, premium interface for orchestrating AI agents, managing conversations,
               and delivering production-ready workflows that feel simple on the surface and powerful underneath.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -81,7 +81,7 @@ export function HomePage() {
                 <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
                 <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
                 <span className="h-3 w-3 rounded-full bg-[#28c840]" />
-                <div className="ml-4 text-sm text-slate-400">OpenClaw Enterprise Console</div>
+                <div className="ml-4 text-sm text-slate-400">Brightcone Enterprise Console</div>
               </div>
               <div className="grid gap-0 lg:grid-cols-[280px_minmax(0,1fr)]">
                 <div className="border-r border-black/5 bg-[#f7f7f8] p-5">
@@ -152,7 +152,7 @@ export function HomePage() {
                 Sell AI agents as serious products, not demos.
               </h2>
               <p className="mt-6 text-base leading-8 text-slate-600">
-                Position OpenClaw as the operating layer for enterprise AI: from premium UX and secure auth to
+                Position Brightcone as the operating layer for enterprise AI: from premium UX and secure auth to
                 persistent conversation history and coordinated multi-agent workflows.
               </p>
             </div>
