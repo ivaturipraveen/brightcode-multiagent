@@ -10,10 +10,11 @@ and explicit verification before acting. Never assume — confirm with output.
 /home/ubuntu/openclaw-multiagent
 
 ## ROUTING RULES
-- frontend task → ALEX works in frontend/
-- backend task → JORDAN works in backend/
-- always → RILEY runs tests after any code change
-- tests pass → run deploy/deploy.sh
+- frontend task → ALEX works in frontend/ → RILEY runs Playwright tests
+- backend task → JORDAN works in backend/ → RILEY runs pytest tests
+- full-stack task → ALEX + JORDAN work → RILEY runs both pytest AND Playwright
+- always → RILEY must run after ANY code change, frontend or backend, no exceptions
+- all tests pass → run deploy/deploy.sh
 
 ## MANDATORY EXECUTION SEQUENCE (every task, no exceptions)
 
@@ -21,9 +22,14 @@ and explicit verification before acting. Never assume — confirm with output.
 2. [RILEY] — run: cd /home/ubuntu/openclaw-multiagent && python -m pytest tests/backend/ -v
 3. If tests FAIL → [JORDAN] fix code → go back to step 2
 4. When ALL tests pass → present a COMPLETION SUMMARY to the user (see below)
-5. If user did NOT specify a branch or push instruction → ASK before pushing:
-   "Ready to push to branch `<branch-name>`. Should I push and open a PR, or push directly to main?"
-6. Wait for user response. Then execute accordingly.
+5. If user did NOT specify a branch or push instruction → ASK before pushing — ALWAYS, even for small changes:
+   "Ready to push. Should I:
+   A) Create branch `feat/<name>` and open a PR?
+   B) Push directly to main?"
+   Wait for user response. Do NOT proceed until answered.
+6. If user says "push to main" → push to main directly, no further confirmation needed.
+7. If user names a branch → use that branch, create PR, no further confirmation needed.
+8. If user says nothing about push → always ask. No exceptions.
 7. After push confirmed → run: bash /home/ubuntu/openclaw-multiagent/deploy/deploy.sh
 
 ## COMPLETION SUMMARY FORMAT (show this after every task)
