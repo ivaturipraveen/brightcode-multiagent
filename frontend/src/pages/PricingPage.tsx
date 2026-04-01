@@ -51,6 +51,13 @@ export function PricingPage() {
       <header className="sticky top-0 z-20 border-b border-black/5 bg-[#fbfbfd]/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
           <Link to="/" className="text-lg font-semibold tracking-tight">Brightcone</Link>
+          <nav className="hidden items-center gap-8 text-sm text-slate-600 md:flex">
+            <Link to="/#features" className="transition hover:text-slate-900">Features</Link>
+            <Link to="/#enterprise" className="transition hover:text-slate-900">Enterprise</Link>
+            <Link to="/pricing" className="font-medium text-slate-900">Pricing</Link>
+            <Link to="/about" className="transition hover:text-slate-900">About</Link>
+            <Link to="/crm" className="transition hover:text-slate-900">CRM</Link>
+          </nav>
           <div className="flex items-center gap-3">
             <Link to="/login" className="text-sm font-medium text-slate-700 transition hover:text-slate-900">
               Sign in

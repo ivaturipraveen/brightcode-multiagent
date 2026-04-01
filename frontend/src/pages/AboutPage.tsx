@@ -58,6 +58,7 @@ export function AboutPage() {
             <Link to="/#enterprise" className="transition hover:text-slate-900">Enterprise</Link>
             <Link to="/pricing" className="transition hover:text-slate-900">Pricing</Link>
             <Link to="/about" className="font-medium text-slate-900">About</Link>
+            <Link to="/crm" className="transition hover:text-slate-900">CRM</Link>
           </nav>
           <div className="flex items-center gap-3">
             <Link to="/login" className="text-sm font-medium text-slate-700 transition hover:text-slate-900">
