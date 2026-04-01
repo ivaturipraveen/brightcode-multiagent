@@ -41,7 +41,12 @@ export function LoginPage() {
           />
         </label>
         <label className="block space-y-2">
-          <span className="text-sm font-medium text-slate-700">Password</span>
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-slate-700">Password</span>
+            <Link className="text-xs font-medium text-[#b85c3d] transition hover:text-[#9f4c31]" to="/forgot-password">
+              Forgot password?
+            </Link>
+          </div>
           <input
             className="w-full rounded-2xl border border-black/10 bg-[#faf8f3] px-4 py-3.5 text-slate-900 outline-none transition focus:border-[#d97757] focus:bg-white focus:ring-4 focus:ring-[#f0d8cf]"
             placeholder="Enter your password"

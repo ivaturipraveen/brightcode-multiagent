@@ -22,3 +22,12 @@ class RegisterResponse(TokenResponse):
     email: EmailStr
     avatar_url: str = ''
     bio: str = ''
+
+
+class ForgotPasswordRequest(BaseModel):
+    email: EmailStr
+
+
+class ResetPasswordRequest(BaseModel):
+    token: str
+    new_password: str
