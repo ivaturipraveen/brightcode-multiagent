@@ -7,6 +7,8 @@ from typing import List
 
 from database import get_db
 from models.email import EmailLog
+from models.user import User
+from security import get_current_user
 
 router = APIRouter(prefix="/email", tags=["email"])
 
@@ -33,12 +35,13 @@ class EmailLogResponse(BaseModel):
     status: str
     sent_at: str
 
-    class Config:
-        from_attributes = True
-
 
 @router.post("/send", response_model=EmailResponse)
-def send_email(payload: EmailRequest, db: Session = Depends(get_db)):
+def send_email(
+    payload: EmailRequest,
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
     api_key = os.getenv("RESEND_API_KEY")
     if not api_key:
         raise HTTPException(status_code=500, detail="Email service not configured")
@@ -53,8 +56,8 @@ def send_email(payload: EmailRequest, db: Session = Depends(get_db)):
             "html": payload.html,
         })
 
-        # Log the sent email to DB
         log = EmailLog(
+            user_id=user.id,
             resend_id=result["id"],
             to_email=payload.to,
             subject=payload.subject,
@@ -67,9 +70,9 @@ def send_email(payload: EmailRequest, db: Session = Depends(get_db)):
         return EmailResponse(id=result["id"], message="Email sent successfully")
 
     except Exception as e:
-        # Log failed attempt too
         try:
             log = EmailLog(
+                user_id=user.id,
                 resend_id="failed",
                 to_email=payload.to,
                 subject=payload.subject,
@@ -84,8 +87,16 @@ def send_email(payload: EmailRequest, db: Session = Depends(get_db)):
 
 
 @router.get("/logs", response_model=List[EmailLogResponse])
-def get_email_logs(db: Session = Depends(get_db)):
-    logs = db.query(EmailLog).order_by(EmailLog.sent_at.desc()).all()
+def get_email_logs(
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    logs = (
+        db.query(EmailLog)
+        .filter(EmailLog.user_id == user.id)
+        .order_by(EmailLog.sent_at.desc())
+        .all()
+    )
     return [
         EmailLogResponse(
             id=log.id,

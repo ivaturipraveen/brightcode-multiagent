@@ -5,9 +5,11 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from database import Base, engine
 from models import email as _email_model  # noqa: F401 — registers EmailLog with Base
+from models import lead as _lead_model    # noqa: F401 — registers Lead with Base
 from routes.auth import router as auth_router
 from routes.chat import router as chat_router
 from routes.email import router as email_router
+from routes.leads import router as leads_router
 from routes.profile import router as profile_router
 
 Base.metadata.create_all(bind=engine)
@@ -25,6 +27,7 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(chat_router)
 app.include_router(email_router)
+app.include_router(leads_router)
 app.include_router(profile_router)
 
 
