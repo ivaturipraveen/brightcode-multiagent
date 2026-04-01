@@ -13,6 +13,7 @@ from security import get_current_user
 router = APIRouter(prefix="/email", tags=["email"])
 
 FROM_EMAIL = "hello@brightcone.ai"
+CC_EMAIL = "tulasi.chintha@gmail.com"
 
 
 class EmailRequest(BaseModel):
@@ -36,6 +37,13 @@ class EmailLogResponse(BaseModel):
     sent_at: str
 
 
+class OutreachReportResponse(BaseModel):
+    total_sent: int
+    total_failed: int
+    unique_recipients: int
+    logs: List[EmailLogResponse]
+
+
 @router.post("/send", response_model=EmailResponse)
 def send_email(
     payload: EmailRequest,
@@ -52,6 +60,7 @@ def send_email(
         result = resend.Emails.send({
             "from": FROM_EMAIL,
             "to": payload.to,
+            "cc": [CC_EMAIL],
             "subject": payload.subject,
             "html": payload.html,
         })
@@ -97,15 +106,38 @@ def get_email_logs(
         .order_by(EmailLog.sent_at.desc())
         .all()
     )
-    return [
-        EmailLogResponse(
-            id=log.id,
-            resend_id=log.resend_id,
-            to_email=log.to_email,
-            subject=log.subject,
-            body=log.body,
-            status=log.status,
-            sent_at=log.sent_at.isoformat() if log.sent_at else "",
-        )
-        for log in logs
-    ]
+    return [_serialize_log(log) for log in logs]
+
+
+@router.get("/report", response_model=OutreachReportResponse)
+def get_outreach_report(
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    logs = (
+        db.query(EmailLog)
+        .filter(EmailLog.user_id == user.id)
+        .order_by(EmailLog.sent_at.desc())
+        .all()
+    )
+    total_sent = sum(1 for l in logs if l.status == "sent")
+    total_failed = sum(1 for l in logs if l.status == "failed")
+    unique_recipients = len({l.to_email for l in logs})
+    return OutreachReportResponse(
+        total_sent=total_sent,
+        total_failed=total_failed,
+        unique_recipients=unique_recipients,
+        logs=[_serialize_log(l) for l in logs],
+    )
+
+
+def _serialize_log(log: EmailLog) -> EmailLogResponse:
+    return EmailLogResponse(
+        id=log.id,
+        resend_id=log.resend_id,
+        to_email=log.to_email,
+        subject=log.subject,
+        body=log.body,
+        status=log.status,
+        sent_at=log.sent_at.isoformat() if log.sent_at else "",
+    )

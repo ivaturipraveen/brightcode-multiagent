@@ -8,6 +8,7 @@ import { HomePage } from './pages/HomePage'
 import { LoginPage } from './pages/LoginPage'
 import { PricingPage } from './pages/PricingPage'
 import { RegisterPage } from './pages/RegisterPage'
+import { ReportPage } from './pages/ReportPage'
 import { ResetPasswordPage } from './pages/ResetPasswordPage'
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
+      <Route path="/report" element={<ProtectedRoute><ReportPage /></ProtectedRoute>} />
       <Route
         path="/chat"
         element={

@@ -178,6 +178,7 @@ export function CRMPage() {
             <Link to="/pricing" className="transition hover:text-slate-900 dark:hover:text-white">Pricing</Link>
             <Link to="/about" className="transition hover:text-slate-900 dark:hover:text-white">About</Link>
             <Link to="/crm" className="font-medium text-slate-900 dark:text-white">CRM</Link>
+            <Link to="/report" className="transition hover:text-slate-900 dark:hover:text-white">Report</Link>
           </nav>
           <div className="flex items-center gap-3">
             <Link to="/chat" className="rounded-full bg-slate-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800 dark:bg-indigo-600 dark:hover:bg-indigo-700">
@@ -197,6 +198,15 @@ export function CRMPage() {
             <p className="mt-1 text-sm text-slate-500 dark:text-gray-400">Track leads, send outreach, and monitor your pipeline.</p>
           </div>
           <div className="flex flex-wrap gap-2">
+            <Link
+              to="/report"
+              className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+            >
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              View Report
+            </Link>
             <button
               onClick={() => setShowImport(true)}
               className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
