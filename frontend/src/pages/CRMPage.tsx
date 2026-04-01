@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import { sendEmail } from '../lib/api'
 
 type Lead = {
   id: number
@@ -48,6 +49,8 @@ export function CRMPage() {
   const [emailSubject, setEmailSubject] = useState('')
   const [emailBody, setEmailBody] = useState('')
   const [emailSent, setEmailSent] = useState(false)
+  const [emailError, setEmailError] = useState('')
+  const [emailSending, setEmailSending] = useState(false)
   const [importText, setImportText] = useState('')
   const [importSuccess, setImportSuccess] = useState(false)
   const [newLead, setNewLead] = useState({ name: '', email: '', company: '', value: '' })
@@ -107,15 +110,28 @@ export function CRMPage() {
     setTimeout(() => { setImportSuccess(false); setShowImport(false) }, 1500)
   }
 
-  function handleSendEmail() {
-    setEmailSent(true)
-    setTimeout(() => {
-      setEmailSent(false)
-      setShowEmail(false)
-      setEmailTo('')
-      setEmailSubject('')
-      setEmailBody('')
-    }, 1500)
+  async function handleSendEmail() {
+    setEmailError('')
+    setEmailSending(true)
+    try {
+      await sendEmail({
+        to: emailTo,
+        subject: emailSubject,
+        html: `<p>${emailBody.replace(/\n/g, '<br/>')}</p>`,
+      })
+      setEmailSent(true)
+      setTimeout(() => {
+        setEmailSent(false)
+        setEmailSending(false)
+        setShowEmail(false)
+        setEmailTo('')
+        setEmailSubject('')
+        setEmailBody('')
+      }, 1500)
+    } catch (err: unknown) {
+      setEmailSending(false)
+      setEmailError(err instanceof Error ? err.message : 'Failed to send email')
+    }
   }
 
   function handleAddLead() {
@@ -361,10 +377,17 @@ export function CRMPage() {
               <input className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100" placeholder="Subject" value={emailSubject} onChange={(e) => setEmailSubject(e.target.value)} />
               <textarea className="h-32 w-full resize-none rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-900 outline-none focus:border-indigo-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100" placeholder="Write your message..." value={emailBody} onChange={(e) => setEmailBody(e.target.value)} />
             </div>
+            {emailError && (
+              <p className="mt-3 text-sm text-red-500">{emailError}</p>
+            )}
             <div className="mt-4 flex justify-end gap-3">
-              <button onClick={() => { setShowEmail(false); setEmailTo(''); setEmailSubject(''); setEmailBody('') }} className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800">Cancel</button>
-              <button onClick={handleSendEmail} className="rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-indigo-700">
-                {emailSent ? '✅ Sent!' : 'Send Email'}
+              <button onClick={() => { setShowEmail(false); setEmailTo(''); setEmailSubject(''); setEmailBody(''); setEmailError('') }} className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800">Cancel</button>
+              <button
+                onClick={handleSendEmail}
+                disabled={emailSending || !emailTo || !emailSubject || !emailBody}
+                className="rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+              >
+                {emailSent ? '✅ Sent!' : emailSending ? 'Sending…' : 'Send Email'}
               </button>
             </div>
           </div>

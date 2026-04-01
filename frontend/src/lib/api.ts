@@ -69,6 +69,21 @@ export async function getJson<T>(path: string, token?: string): Promise<T> {
   return response.json() as Promise<T>
 }
 
+export type EmailPayload = {
+  to: string
+  subject: string
+  html: string
+}
+
+export type EmailResult = {
+  id: string
+  message: string
+}
+
+export async function sendEmail(payload: EmailPayload): Promise<EmailResult> {
+  return postJson<EmailResult>('/email/send', payload)
+}
+
 export async function putJson<T>(path: string, body: unknown, token?: string): Promise<T> {
   const response = await fetch(apiUrl(path), {
     method: 'PUT',
