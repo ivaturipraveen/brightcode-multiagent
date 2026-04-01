@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
-import { sendEmail } from '../lib/api'
+import { useState, useEffect } from 'react'
+import { sendEmail, getEmailLogs, EmailLog } from '../lib/api'
 
 type Lead = {
   id: number
@@ -56,6 +56,19 @@ export function CRMPage() {
   const [newLead, setNewLead] = useState({ name: '', email: '', company: '', value: '' })
   const [showAddLead, setShowAddLead] = useState(false)
   const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null)
+  const [activeTab, setActiveTab] = useState<'leads' | 'outreach'>('leads')
+  const [emailLogs, setEmailLogs] = useState<EmailLog[]>([])
+  const [logsLoading, setLogsLoading] = useState(false)
+
+  useEffect(() => {
+    if (activeTab === 'outreach') {
+      setLogsLoading(true)
+      getEmailLogs()
+        .then(setEmailLogs)
+        .catch(() => setEmailLogs([]))
+        .finally(() => setLogsLoading(false))
+    }
+  }, [activeTab])
 
   // ── Analytics derived from live leads state ──────────────────────────────
   const totalLeads = leads.length
@@ -176,7 +189,7 @@ export function CRMPage() {
       <main className="mx-auto max-w-7xl px-6 py-10 lg:px-8">
 
         {/* Page header */}
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm font-medium uppercase tracking-[0.24em] text-slate-400 dark:text-gray-500">CRM</p>
             <h1 className="mt-1 text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">Lead Management</h1>
@@ -225,6 +238,82 @@ export function CRMPage() {
             </div>
           ))}
         </div>
+
+        {/* Tabs */}
+        <div className="mb-6 flex gap-1 rounded-2xl border border-black/5 bg-slate-100 p-1 dark:border-gray-800 dark:bg-gray-800 w-fit">
+          <button
+            onClick={() => setActiveTab('leads')}
+            className={`rounded-xl px-5 py-2 text-sm font-medium transition ${
+              activeTab === 'leads'
+                ? 'bg-white text-slate-900 shadow-sm dark:bg-gray-700 dark:text-white'
+                : 'text-slate-500 hover:text-slate-700 dark:text-gray-400 dark:hover:text-gray-200'
+            }`}
+          >
+            Leads
+          </button>
+          <button
+            onClick={() => setActiveTab('outreach')}
+            className={`rounded-xl px-5 py-2 text-sm font-medium transition ${
+              activeTab === 'outreach'
+                ? 'bg-white text-slate-900 shadow-sm dark:bg-gray-700 dark:text-white'
+                : 'text-slate-500 hover:text-slate-700 dark:text-gray-400 dark:hover:text-gray-200'
+            }`}
+          >
+            Outreach History
+          </button>
+        </div>
+
+        {/* Outreach History Tab */}
+        {activeTab === 'outreach' && (
+          <div className="overflow-hidden rounded-[1.5rem] border border-black/5 bg-white shadow-[0_8px_30px_rgba(15,23,42,0.05)] dark:border-gray-800 dark:bg-gray-900">
+            {logsLoading ? (
+              <div className="px-6 py-12 text-center text-sm text-slate-400 dark:text-gray-500">Loading outreach history...</div>
+            ) : emailLogs.length === 0 ? (
+              <div className="px-6 py-12 text-center text-sm text-slate-400 dark:text-gray-500">No outreach emails sent yet.</div>
+            ) : (
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-slate-100 dark:border-gray-800">
+                    <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-gray-500">To</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-gray-500">Subject</th>
+                    <th className="hidden px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-gray-500 md:table-cell">Message</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-gray-500">Status</th>
+                    <th className="hidden px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-gray-500 lg:table-cell">Sent At</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-50 dark:divide-gray-800">
+                  {emailLogs.map((log) => (
+                    <tr key={log.id} className="transition hover:bg-slate-50/50 dark:hover:bg-gray-800/50">
+                      <td className="px-6 py-4 font-medium text-slate-900 dark:text-white">{log.to_email}</td>
+                      <td className="px-6 py-4 text-slate-600 dark:text-gray-400">{log.subject}</td>
+                      <td className="hidden px-6 py-4 max-w-xs truncate text-slate-500 dark:text-gray-500 md:table-cell">
+                        {log.body.replace(/<[^>]*>/g, '').slice(0, 80)}{log.body.length > 80 ? '…' : ''}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`rounded-lg px-2.5 py-1 text-xs font-medium ring-1 ${
+                          log.status === 'sent'
+                            ? 'bg-emerald-50 text-emerald-700 ring-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:ring-emerald-800'
+                            : 'bg-red-50 text-red-700 ring-red-200 dark:bg-red-950 dark:text-red-300 dark:ring-red-800'
+                        }`}>
+                          {log.status === 'sent' ? '✓ Sent' : '✗ Failed'}
+                        </span>
+                      </td>
+                      <td className="hidden px-6 py-4 text-slate-400 dark:text-gray-500 lg:table-cell">
+                        {new Date(log.sent_at).toLocaleString()}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+            <p className="px-6 py-3 text-xs text-slate-400 dark:text-gray-600 border-t border-slate-50 dark:border-gray-800">
+              {emailLogs.length} email{emailLogs.length !== 1 ? 's' : ''} total
+            </p>
+          </div>
+        )}
+
+        {/* Leads Tab content below — only show when activeTab === 'leads' */}
+        {activeTab === 'leads' && <>
 
         {/* Filters */}
         <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -345,6 +434,8 @@ export function CRMPage() {
           </table>
         </div>
         <p className="mt-3 text-xs text-slate-400 dark:text-gray-600">{filtered.length} lead{filtered.length !== 1 ? 's' : ''} shown</p>
+
+        </> /* end leads tab */}
       </main>
 
       {/* Import Modal */}

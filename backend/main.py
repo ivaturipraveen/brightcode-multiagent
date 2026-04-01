@@ -4,6 +4,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
 from database import Base, engine
+from models import email as _email_model  # noqa: F401 — registers EmailLog with Base
 from routes.auth import router as auth_router
 from routes.chat import router as chat_router
 from routes.email import router as email_router

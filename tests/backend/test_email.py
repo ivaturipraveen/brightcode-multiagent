@@ -1,5 +1,5 @@
 import os
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 
 def test_send_email_success(client):
@@ -15,6 +15,26 @@ def test_send_email_success(client):
     data = response.json()
     assert data["id"] == "mock-email-id-123"
     assert data["message"] == "Email sent successfully"
+
+
+def test_send_email_logs_to_db(client):
+    mock_result = {"id": "mock-log-id-456"}
+    with patch("routes.email.resend.Emails.send", return_value=mock_result):
+        os.environ["RESEND_API_KEY"] = "re_test_key"
+        client.post("/email/send", json={
+            "to": "logged@example.com",
+            "subject": "Log Test",
+            "html": "<p>Log this</p>",
+        })
+
+    logs_response = client.get("/email/logs")
+    assert logs_response.status_code == 200
+    logs = logs_response.json()
+    assert len(logs) == 1
+    assert logs[0]["to_email"] == "logged@example.com"
+    assert logs[0]["subject"] == "Log Test"
+    assert logs[0]["status"] == "sent"
+    assert logs[0]["resend_id"] == "mock-log-id-456"
 
 
 def test_send_email_missing_api_key(client):
@@ -38,3 +58,9 @@ def test_send_email_resend_failure(client):
         })
     assert response.status_code == 502
     assert "Failed to send email" in response.json()["detail"]
+
+
+def test_get_email_logs_empty(client):
+    response = client.get("/email/logs")
+    assert response.status_code == 200
+    assert response.json() == []

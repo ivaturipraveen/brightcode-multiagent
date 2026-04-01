@@ -99,6 +99,20 @@ export async function sendEmail(payload: EmailPayload): Promise<EmailResult> {
   return postJson<EmailResult>('/email/send', payload)
 }
 
+export type EmailLog = {
+  id: number
+  resend_id: string
+  to_email: string
+  subject: string
+  body: string
+  status: 'sent' | 'failed'
+  sent_at: string
+}
+
+export async function getEmailLogs(): Promise<EmailLog[]> {
+  return getJson<EmailLog[]>('/email/logs')
+}
+
 export async function putJson<T>(path: string, body: unknown, token?: string): Promise<T> {
   const response = await fetch(apiUrl(path), {
     method: 'PUT',
