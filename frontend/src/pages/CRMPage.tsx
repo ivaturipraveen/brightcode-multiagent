@@ -371,11 +371,28 @@ export function CRMPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm">
           <div className="w-full max-w-lg rounded-[2rem] border border-black/5 bg-white p-8 shadow-2xl dark:border-gray-700 dark:bg-gray-900">
             <h2 className="text-xl font-semibold text-slate-900 dark:text-white">Email Outreach</h2>
-            <p className="mt-1 text-sm text-slate-500 dark:text-gray-400">Send a message to a lead directly.</p>
+            <p className="mt-1 text-sm text-slate-500 dark:text-gray-400">
+              Send a message to a lead directly. Fields marked <span className="text-red-500 font-semibold">*</span> are required.
+            </p>
             <div className="mt-4 space-y-3">
-              <input className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100" placeholder="To: email@example.com" value={emailTo} onChange={(e) => setEmailTo(e.target.value)} />
-              <input className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100" placeholder="Subject" value={emailSubject} onChange={(e) => setEmailSubject(e.target.value)} />
-              <textarea className="h-32 w-full resize-none rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-900 outline-none focus:border-indigo-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100" placeholder="Write your message..." value={emailBody} onChange={(e) => setEmailBody(e.target.value)} />
+              <div>
+                <label className="mb-1 block text-xs font-medium text-slate-600 dark:text-gray-400">
+                  To <span className="text-red-500">*</span>
+                </label>
+                <input className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100" placeholder="email@example.com" value={emailTo} onChange={(e) => setEmailTo(e.target.value)} />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-medium text-slate-600 dark:text-gray-400">
+                  Subject <span className="text-red-500">*</span>
+                </label>
+                <input className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100" placeholder="e.g. Quick Connect" value={emailSubject} onChange={(e) => setEmailSubject(e.target.value)} />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-medium text-slate-600 dark:text-gray-400">
+                  Message <span className="text-red-500">*</span>
+                </label>
+                <textarea className="h-32 w-full resize-none rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-900 outline-none focus:border-indigo-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100" placeholder="Write your message..." value={emailBody} onChange={(e) => setEmailBody(e.target.value)} />
+              </div>
             </div>
             {emailError && (
               <p className="mt-3 text-sm text-red-500">{emailError}</p>
