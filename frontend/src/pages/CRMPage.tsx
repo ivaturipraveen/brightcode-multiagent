@@ -112,6 +112,11 @@ export function CRMPage() {
 
   async function handleSendEmail() {
     setEmailError('')
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(emailTo)) {
+      setEmailError('Please enter a valid email address (e.g. name@example.com)')
+      return
+    }
     setEmailSending(true)
     try {
       await sendEmail({

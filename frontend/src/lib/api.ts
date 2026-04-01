@@ -32,8 +32,34 @@ export type UserProfile = {
   bio: string
 }
 
+export type EmailPayload = {
+  to: string
+  subject: string
+  html: string
+}
+
+export type EmailResult = {
+  id: string
+  message: string
+}
+
 export function apiUrl(path: string): string {
   return `${API_BASE_URL}${path}`
+}
+
+function parseErrorDetail(detail: unknown): string {
+  if (Array.isArray(detail)) {
+    return detail
+      .map((e: unknown) => {
+        if (typeof e === 'object' && e !== null && 'msg' in e) {
+          return String((e as { msg: unknown }).msg)
+        }
+        return JSON.stringify(e)
+      })
+      .join(', ')
+  }
+  if (typeof detail === 'string') return detail
+  return 'Request failed'
 }
 
 export async function postJson<T>(path: string, body: unknown, token?: string): Promise<T> {
@@ -48,7 +74,7 @@ export async function postJson<T>(path: string, body: unknown, token?: string): 
 
   if (!response.ok) {
     const data = await response.json().catch(() => ({ detail: 'Request failed' }))
-    throw new Error(data.detail ?? 'Request failed')
+    throw new Error(parseErrorDetail(data.detail))
   }
 
   return response.json() as Promise<T>
@@ -63,21 +89,10 @@ export async function getJson<T>(path: string, token?: string): Promise<T> {
 
   if (!response.ok) {
     const data = await response.json().catch(() => ({ detail: 'Request failed' }))
-    throw new Error(data.detail ?? 'Request failed')
+    throw new Error(parseErrorDetail(data.detail))
   }
 
   return response.json() as Promise<T>
-}
-
-export type EmailPayload = {
-  to: string
-  subject: string
-  html: string
-}
-
-export type EmailResult = {
-  id: string
-  message: string
 }
 
 export async function sendEmail(payload: EmailPayload): Promise<EmailResult> {
@@ -96,7 +111,7 @@ export async function putJson<T>(path: string, body: unknown, token?: string): P
 
   if (!response.ok) {
     const data = await response.json().catch(() => ({ detail: 'Request failed' }))
-    throw new Error(data.detail ?? 'Request failed')
+    throw new Error(parseErrorDetail(data.detail))
   }
 
   return response.json() as Promise<T>
