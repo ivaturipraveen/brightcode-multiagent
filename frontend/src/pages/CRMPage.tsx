@@ -141,6 +141,7 @@ export function CRMPage() {
           <Link to="/" className="text-lg font-semibold tracking-tight dark:text-white">Brightcone</Link>
           <nav className="hidden items-center gap-8 text-sm text-slate-600 dark:text-gray-400 md:flex">
             <Link to="/#features" className="transition hover:text-slate-900 dark:hover:text-white">Features</Link>
+            <Link to="/#enterprise" className="transition hover:text-slate-900 dark:hover:text-white">Enterprise</Link>
             <Link to="/pricing" className="transition hover:text-slate-900 dark:hover:text-white">Pricing</Link>
             <Link to="/about" className="transition hover:text-slate-900 dark:hover:text-white">About</Link>
             <Link to="/crm" className="font-medium text-slate-900 dark:text-white">CRM</Link>
