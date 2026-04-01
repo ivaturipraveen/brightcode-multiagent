@@ -109,8 +109,73 @@ export type EmailLog = {
   sent_at: string
 }
 
-export async function getEmailLogs(): Promise<EmailLog[]> {
-  return getJson<EmailLog[]>('/email/logs')
+export async function getEmailLogs(token: string): Promise<EmailLog[]> {
+  return getJson<EmailLog[]>('/email/logs', token)
+}
+
+export type Lead = {
+  id: number
+  user_id: number
+  name: string
+  email: string
+  company: string
+  status: 'New' | 'Contacted' | 'Qualified' | 'Closed'
+  value: number
+  created_at: string
+}
+
+export type LeadCreate = {
+  name: string
+  email: string
+  company?: string
+  value?: number
+}
+
+export type LeadUpdate = {
+  status?: string
+  name?: string
+  email?: string
+  company?: string
+  value?: number
+}
+
+export async function getLeads(token: string): Promise<Lead[]> {
+  return getJson<Lead[]>('/leads', token)
+}
+
+export async function createLead(payload: LeadCreate, token: string): Promise<Lead> {
+  return postJson<Lead>('/leads', payload, token)
+}
+
+export async function updateLead(id: number, payload: LeadUpdate, token: string): Promise<Lead> {
+  const response = await fetch(apiUrl(`/leads/${id}`), {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  })
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({ detail: 'Request failed' }))
+    throw new Error(parseErrorDetail(data.detail))
+  }
+  return response.json()
+}
+
+export async function deleteLead(id: number, token: string): Promise<void> {
+  const response = await fetch(apiUrl(`/leads/${id}`), {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({ detail: 'Request failed' }))
+    throw new Error(parseErrorDetail(data.detail))
+  }
+}
+
+export async function sendEmailAuth(payload: EmailPayload, token: string): Promise<EmailResult> {
+  return postJson<EmailResult>('/email/send', payload, token)
 }
 
 export async function putJson<T>(path: string, body: unknown, token?: string): Promise<T> {
