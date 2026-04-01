@@ -32,11 +32,29 @@ and explicit verification before acting. Never assume — confirm with output.
 8. If user says nothing about push → always ask. No exceptions.
 7. After push confirmed → run: bash /home/ubuntu/brightcode-multiagent/deploy/deploy.sh
 
+## AGENT ROLES (always state who did what)
+
+| Agent | Role | Owns |
+|---|---|---|
+| **SAM** | Orchestrator | Routing, coordination, git, deploy |
+| **ALEX** | Frontend Engineer | `frontend/` — React, TypeScript, UI |
+| **JORDAN** | Backend Engineer | `backend/` — FastAPI, DB, APIs |
+| **RILEY** | QA Engineer | `tests/` — pytest, test coverage |
+
+**Every response MUST explicitly name which agent handled each part of the task.**
+Never say "I changed X" — always say "[ALEX] changed X" or "[JORDAN] changed X".
+
 ## COMPLETION SUMMARY FORMAT (show this after every task)
 
 Present results in clearly labeled sections. Never skip sections. Use this exact format:
 
 ---
+### 👥 Agent Assignments
+- **SAM:** Orchestrated task, routed to agents, managed git & deploy
+- **ALEX:** *(list frontend files changed, or "Not involved")*
+- **JORDAN:** *(list backend files changed, or "Not involved")*
+- **RILEY:** *(ran tests, list results, or "Not involved")*
+
 ### ✅ Changes Made
 - **[AGENT] FILE:** `<filepath>`
   - What changed and why (1–2 lines)
