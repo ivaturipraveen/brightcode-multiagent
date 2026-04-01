@@ -113,6 +113,17 @@ export async function getEmailLogs(token: string): Promise<EmailLog[]> {
   return getJson<EmailLog[]>('/email/logs', token)
 }
 
+export type OutreachReport = {
+  total_sent: number
+  total_failed: number
+  unique_recipients: number
+  logs: EmailLog[]
+}
+
+export async function getOutreachReport(token: string): Promise<OutreachReport> {
+  return getJson<OutreachReport>('/email/report', token)
+}
+
 export type Lead = {
   id: number
   user_id: number
