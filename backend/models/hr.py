@@ -58,6 +58,8 @@ class HREmployee(Base):
     date_of_joining = Column(Date, nullable=True)
     salary = Column(Float, nullable=True)
     status = Column(Enum(EmployeeStatus), default=EmployeeStatus.active)
+    avatar_url = Column(String, nullable=True)
+    bio = Column(Text, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     company = relationship("HRCompany", back_populates="employees")

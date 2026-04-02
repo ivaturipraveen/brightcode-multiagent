@@ -18,6 +18,7 @@ import { HRAttendancePage } from './pages/hr/HRAttendancePage'
 import { HRLeavePage } from './pages/hr/HRLeavePage'
 import { HRPayslipsPage } from './pages/hr/HRPayslipsPage'
 import { HRReportsPage } from './pages/hr/HRReportsPage'
+import { HRProfilePage } from './pages/hr/HRProfilePage'
 import { getHRToken } from './lib/hrApi'
 import { Navigate } from 'react-router-dom'
 
@@ -47,6 +48,7 @@ export default function App() {
       <Route path="/hr/leave" element={<HRProtectedRoute><HRLeavePage /></HRProtectedRoute>} />
       <Route path="/hr/payslips" element={<HRProtectedRoute><HRPayslipsPage /></HRProtectedRoute>} />
       <Route path="/hr/reports" element={<HRProtectedRoute><HRReportsPage /></HRProtectedRoute>} />
+      <Route path="/hr/profile" element={<HRProtectedRoute><HRProfilePage /></HRProtectedRoute>} />
 
       <Route
         path="/chat"
