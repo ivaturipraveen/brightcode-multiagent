@@ -87,6 +87,12 @@ export async function getJson<T>(path: string, token?: string): Promise<T> {
     },
   })
 
+  if (response.status === 401) {
+    localStorage.removeItem('token')
+    window.location.href = '/login'
+    throw new Error('Session expired. Please log in again.')
+  }
+
   if (!response.ok) {
     const data = await response.json().catch(() => ({ detail: 'Request failed' }))
     throw new Error(parseErrorDetail(data.detail))
