@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import type { PropsWithChildren } from 'react'
 
 type AuthLayoutProps = PropsWithChildren<{
@@ -9,7 +10,25 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
   return (
     <div className="min-h-screen bg-[#f7f4ed] text-slate-900">
       <div className="mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-6 py-10 lg:px-8">
-        <div className="mb-10 flex justify-center">
+        <div className="mb-10 flex items-center justify-between">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-slate-900"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="h-4 w-4"
+            >
+              <path
+                fillRule="evenodd"
+                d="M17 10a.75.75 0 0 1-.75.75H5.612l4.158 3.96a.75.75 0 1 1-1.04 1.08l-5.5-5.25a.75.75 0 0 1 0-1.08l5.5-5.25a.75.75 0 1 1 1.04 1.08L5.612 9.25H16.25A.75.75 0 0 1 17 10Z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Back to home
+          </Link>
           <div className="inline-flex items-center gap-3 rounded-full border border-black/10 bg-white/70 px-4 py-2 text-sm text-slate-600 shadow-sm backdrop-blur">
             <span className="h-2 w-2 rounded-full bg-[#d97757]" />
             Brightcone
