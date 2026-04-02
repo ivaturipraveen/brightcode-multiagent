@@ -1,134 +1,130 @@
 import { Link } from 'react-router-dom'
-import { Navbar } from '../components/Navbar'
-import { Footer } from '../components/Footer'
 
 const tiers = [
   {
     name: 'Starter',
     price: '$29',
-    period: '/mo',
+    period: '/month',
     description: 'For solo builders testing agent workflows and lightweight internal tools.',
     features: ['1 workspace', 'Basic chat history', 'Core agent orchestration', 'Email support'],
-    cta: 'Get started',
-    href: '/register',
+    cta: 'Start Starter',
     featured: false,
   },
   {
     name: 'Pro',
     price: '$99',
-    period: '/mo',
+    period: '/month',
     description: 'For growing teams shipping production-grade agent experiences faster.',
-    features: ['5 team members', 'Advanced conversation history', 'Profile & workspace settings', 'Priority support', 'CRM & outreach tools'],
-    cta: 'Start Pro',
-    href: '/register',
+    features: ['5 team members', 'Advanced conversation history', 'Profile settings + workspace features', 'Priority support'],
+    cta: 'Choose Pro',
     featured: true,
   },
   {
     name: 'Enterprise',
     price: 'Custom',
     period: '',
-    description: 'For enterprises deploying secure, branded, large-scale AI agent systems.',
-    features: ['Unlimited seats', 'Custom deployment', 'SSO / enterprise auth', 'Dedicated support', 'Custom integrations'],
+    description: 'For enterprises rolling out secure, branded, and large-scale AI agent systems.',
+    features: ['Custom deployment', 'SSO / enterprise auth path', 'Dedicated support', 'Custom integrations'],
     cta: 'Talk to sales',
-    href: '/login',
     featured: false,
   },
 ]
 
 const faqs = [
   {
-    q: 'Can I start small and upgrade later?',
-    a: 'Yes. Start on Starter or Pro and move to Enterprise as your team or deployment needs grow.',
+    question: 'Can I start small and upgrade later?',
+    answer: 'Yes. Start with Starter or Pro and move to Enterprise when your team or deployment needs grow.',
   },
   {
-    q: 'Do you support enterprise customization?',
-    a: 'Yes. Enterprise plans include custom branding, deployment setup, and deeper integrations.',
+    question: 'Do you support enterprise customization?',
+    answer: 'Yes. Enterprise plans can include custom branding, deployment setup, and deeper integrations.',
   },
   {
-    q: 'Is pricing monthly or annual?',
-    a: 'Currently monthly. Annual billing with a discount can be arranged for Enterprise customers.',
-  },
-  {
-    q: 'What happens to my data if I cancel?',
-    a: 'Your data is yours. Export it anytime before cancelling — we don\'t hold it hostage.',
+    question: 'Is pricing monthly?',
+    answer: 'The page is set up with simple monthly pricing for the fastest launch path. Annual billing can be added later.',
   },
 ]
 
 export function PricingPage() {
   return (
-    <div className="min-h-screen bg-[#f8f9fb] text-slate-900">
-      <Navbar />
+    <div className="min-h-screen bg-[#fbfbfd] text-slate-900">
+      <header className="sticky top-0 z-20 border-b border-black/5 bg-[#fbfbfd]/90 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+          <Link to="/" className="text-lg font-semibold tracking-tight">Brightcone</Link>
+          <nav className="hidden items-center gap-8 text-sm text-slate-600 md:flex">
+            <Link to="/#features" className="transition hover:text-slate-900">Features</Link>
+            <Link to="/#enterprise" className="transition hover:text-slate-900">Enterprise</Link>
+            <Link to="/pricing" className="font-medium text-slate-900">Pricing</Link>
+            <Link to="/about" className="transition hover:text-slate-900">About</Link>
+            <Link to="/crm" className="transition hover:text-slate-900">CRM</Link>
+          </nav>
+          <div className="flex items-center gap-3">
+            <Link to="/login" className="text-sm font-medium text-slate-700 transition hover:text-slate-900">
+              Sign in
+            </Link>
+            <Link
+              to="/register"
+              className="rounded-full bg-slate-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800"
+            >
+              Get started
+            </Link>
+          </div>
+        </div>
+      </header>
 
-      <main className="px-6 py-20 lg:px-8 lg:py-28">
-        {/* Header */}
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">Pricing</p>
-          <h1 className="mt-3 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-            Simple, transparent pricing.
+      <main className="px-6 py-16 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-6xl text-center">
+          <div className="inline-flex rounded-full border border-[#e7d7cf] bg-[#fff7f3] px-4 py-1.5 text-sm font-medium text-[#b85c3d]">
+            Pricing built for speed
+          </div>
+          <h1 className="mx-auto mt-8 max-w-4xl text-5xl font-semibold tracking-tight text-slate-900 sm:text-6xl">
+            Simple pricing for teams building with AI agents.
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-slate-500">
-            Start lean, upgrade when your workflows mature, move to Enterprise when you need custom deployment and scale.
+          <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-600">
+            Start lean, upgrade when your workflows mature, and move to enterprise when you need security,
+            scale, and custom deployment support.
           </p>
         </div>
 
-        {/* Tiers */}
-        <div className="mx-auto mt-14 grid max-w-6xl gap-6 lg:grid-cols-3">
+        <div className="mx-auto mt-16 grid max-w-6xl gap-6 lg:grid-cols-3">
           {tiers.map((tier) => (
             <div
               key={tier.name}
-              className={`relative flex flex-col rounded-2xl border p-8 shadow-sm transition ${
+              className={`rounded-[2rem] border p-8 shadow-[0_20px_60px_rgba(15,23,42,0.06)] ${
                 tier.featured
-                  ? 'border-blue-600 bg-slate-900 text-white shadow-lg'
-                  : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-md'
+                  ? 'border-slate-900 bg-slate-900 text-white'
+                  : 'border-black/5 bg-white text-slate-900'
               }`}
             >
-              {tier.featured && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                  <span className="rounded-full bg-blue-600 px-4 py-1 text-xs font-semibold text-white shadow">
-                    Most popular
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-semibold tracking-tight">{tier.name}</h2>
+                {tier.featured ? (
+                  <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.24em] text-white/80">
+                    Popular
                   </span>
-                </div>
-              )}
-
-              <div>
-                <p className={`text-sm font-semibold ${tier.featured ? 'text-blue-400' : 'text-slate-500'}`}>
-                  {tier.name}
-                </p>
-                <div className="mt-3 flex items-end gap-1">
-                  <span className={`text-4xl font-bold ${tier.featured ? 'text-white' : 'text-slate-900'}`}>
-                    {tier.price}
-                  </span>
-                  {tier.period && (
-                    <span className={`mb-1 text-sm ${tier.featured ? 'text-slate-400' : 'text-slate-500'}`}>
-                      {tier.period}
-                    </span>
-                  )}
-                </div>
-                <p className={`mt-3 text-sm leading-6 ${tier.featured ? 'text-slate-400' : 'text-slate-500'}`}>
-                  {tier.description}
-                </p>
+                ) : null}
               </div>
-
-              <ul className="mt-8 flex-1 space-y-3">
-                {tier.features.map((f) => (
-                  <li key={f} className="flex items-start gap-3">
-                    <svg
-                      className={`mt-0.5 h-4 w-4 flex-shrink-0 ${tier.featured ? 'text-blue-400' : 'text-blue-600'}`}
-                      fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-                    <span className={`text-sm ${tier.featured ? 'text-slate-300' : 'text-slate-700'}`}>{f}</span>
+              <div className="mt-6 flex items-end gap-1">
+                <span className="text-5xl font-semibold tracking-tight">{tier.price}</span>
+                <span className={`pb-1 text-sm ${tier.featured ? 'text-white/70' : 'text-slate-500'}`}>{tier.period}</span>
+              </div>
+              <p className={`mt-5 text-sm leading-7 ${tier.featured ? 'text-white/75' : 'text-slate-600'}`}>
+                {tier.description}
+              </p>
+              <ul className="mt-8 space-y-3">
+                {tier.features.map((feature) => (
+                  <li key={feature} className={`flex items-start gap-3 text-sm leading-7 ${tier.featured ? 'text-white/85' : 'text-slate-700'}`}>
+                    <span className={`mt-2 h-2.5 w-2.5 rounded-full ${tier.featured ? 'bg-white' : 'bg-[#d97757]'}`} />
+                    <span>{feature}</span>
                   </li>
                 ))}
               </ul>
-
               <Link
-                to={tier.href}
-                className={`mt-10 block rounded-lg px-5 py-3 text-center text-sm font-semibold transition ${
+                to={tier.name === 'Enterprise' ? '/login' : '/register'}
+                className={`mt-10 inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-medium transition ${
                   tier.featured
-                    ? 'bg-blue-600 text-white hover:bg-blue-500'
-                    : 'bg-slate-900 text-white hover:bg-slate-700'
+                    ? 'bg-white text-slate-900 hover:bg-slate-100'
+                    : 'bg-slate-900 text-white hover:bg-slate-800'
                 }`}
               >
                 {tier.cta}
@@ -137,37 +133,39 @@ export function PricingPage() {
           ))}
         </div>
 
-        {/* FAQ */}
-        <div className="mx-auto mt-24 max-w-3xl">
-          <h2 className="text-center text-2xl font-bold tracking-tight text-slate-900">Frequently asked questions</h2>
-          <dl className="mt-10 divide-y divide-slate-200">
-            {faqs.map((faq) => (
-              <div key={faq.q} className="py-6">
-                <dt className="text-sm font-semibold text-slate-900">{faq.q}</dt>
-                <dd className="mt-2 text-sm leading-6 text-slate-500">{faq.a}</dd>
-              </div>
-            ))}
-          </dl>
+        <div className="mx-auto mt-20 grid max-w-5xl gap-6 lg:grid-cols-3">
+          {faqs.map((faq) => (
+            <div key={faq.question} className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-[0_16px_50px_rgba(15,23,42,0.05)]">
+              <h3 className="text-lg font-semibold tracking-tight text-slate-900">{faq.question}</h3>
+              <p className="mt-3 text-sm leading-7 text-slate-600">{faq.answer}</p>
+            </div>
+          ))}
         </div>
 
-        {/* CTA */}
-        <div className="mx-auto mt-24 max-w-3xl rounded-3xl border border-slate-200 bg-white px-8 py-14 text-center shadow-sm">
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900">Still deciding?</h2>
-          <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-500">
-            Start on Starter — no credit card required. Upgrade any time.
+        <div className="mx-auto mt-20 max-w-5xl rounded-[2.5rem] border border-black/5 bg-slate-900 px-8 py-14 text-center text-white shadow-[0_30px_90px_rgba(15,23,42,0.18)] sm:px-12">
+          <p className="text-sm font-medium uppercase tracking-[0.26em] text-white/60">Ready to launch</p>
+          <h2 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">
+            Pick a plan and start shipping faster.
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/70">
+            The fastest path is already live: clean plans, direct CTA, and room to expand later with yearly billing or comparisons.
           </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link to="/register" className="rounded-lg bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-700">
-              Create free account
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <Link
+              to="/register"
+              className="rounded-full bg-white px-7 py-3.5 text-sm font-medium text-slate-900 transition hover:bg-slate-100"
+            >
+              Create your account
             </Link>
-            <Link to="/" className="rounded-lg border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+            <Link
+              to="/"
+              className="rounded-full border border-white/20 px-7 py-3.5 text-sm font-medium text-white transition hover:bg-white/10"
+            >
               Back to home
             </Link>
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   )
 }
