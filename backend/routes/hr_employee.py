@@ -1,8 +1,9 @@
 from datetime import date, datetime
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from typing import List, Optional
+import base64, uuid
 from database import get_db
 from models.hr import HREmployee, HRAttendance, HRLeave, HRPayslip, HRRole, LeaveStatus
 from routes.hr_deps import get_current_hr_employee, require_role
@@ -22,8 +23,19 @@ class ProfileOut(BaseModel):
     salary: Optional[float]
     status: str
     company_id: Optional[int]
+    avatar_url: Optional[str]
+    bio: Optional[str]
+    date_of_joining: Optional[str]
     class Config:
         from_attributes = True
+
+class ProfileUpdate(BaseModel):
+    name: Optional[str] = None
+    phone: Optional[str] = None
+    department: Optional[str] = None
+    designation: Optional[str] = None
+    bio: Optional[str] = None
+    avatar_url: Optional[str] = None
 
 @router.get("/profile", response_model=ProfileOut)
 def get_profile(current: HREmployee = Depends(get_current_hr_employee)):
@@ -32,8 +44,51 @@ def get_profile(current: HREmployee = Depends(get_current_hr_employee)):
         role=current.role.value, department=current.department,
         designation=current.designation, phone=current.phone,
         salary=current.salary, status=current.status.value,
-        company_id=current.company_id
+        company_id=current.company_id, avatar_url=current.avatar_url,
+        bio=current.bio,
+        date_of_joining=str(current.date_of_joining) if current.date_of_joining else None
     )
+
+@router.put("/profile", response_model=ProfileOut)
+def update_profile(
+    payload: ProfileUpdate,
+    db: Session = Depends(get_db),
+    current: HREmployee = Depends(get_current_hr_employee)
+):
+    if payload.name is not None: current.name = payload.name
+    if payload.phone is not None: current.phone = payload.phone
+    if payload.department is not None: current.department = payload.department
+    if payload.designation is not None: current.designation = payload.designation
+    if payload.bio is not None: current.bio = payload.bio
+    if payload.avatar_url is not None: current.avatar_url = payload.avatar_url
+    db.commit()
+    db.refresh(current)
+    return ProfileOut(
+        id=current.id, name=current.name, email=current.email,
+        role=current.role.value, department=current.department,
+        designation=current.designation, phone=current.phone,
+        salary=current.salary, status=current.status.value,
+        company_id=current.company_id, avatar_url=current.avatar_url,
+        bio=current.bio,
+        date_of_joining=str(current.date_of_joining) if current.date_of_joining else None
+    )
+
+@router.post("/profile/avatar")
+def upload_avatar(
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    current: HREmployee = Depends(get_current_hr_employee)
+):
+    if file.content_type not in ("image/jpeg", "image/png", "image/webp", "image/gif"):
+        raise HTTPException(400, "Only image files are allowed.")
+    content = file.file.read()
+    if len(content) > 2 * 1024 * 1024:
+        raise HTTPException(400, "Image must be under 2MB.")
+    b64 = base64.b64encode(content).decode()
+    data_uri = f"data:{file.content_type};base64,{b64}"
+    current.avatar_url = data_uri
+    db.commit()
+    return {"message": "Avatar uploaded.", "avatar_url": data_uri}
 
 # ── Attendance ────────────────────────────────────────────────────────────────
 
