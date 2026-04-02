@@ -112,11 +112,11 @@ export function HRLoginPage() {
               <form onSubmit={handleLogin} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
-                  <input className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="email" value={loginEmail} onChange={e => setLoginEmail(e.target.value)} placeholder="you@company.com" required />
+                  <input className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="email" value={loginEmail} onChange={e => setLoginEmail(e.target.value)} placeholder="you@company.com" required />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1.5">Password</label>
-                  <input className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="password" value={loginPassword} onChange={e => setLoginPassword(e.target.value)} placeholder="••••••••" required />
+                  <input className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="password" value={loginPassword} onChange={e => setLoginPassword(e.target.value)} placeholder="••••••••" required />
                 </div>
                 <button disabled={loading} className="w-full rounded-lg bg-indigo-600 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                   {loading ? 'Signing in...' : 'Sign In'}
@@ -128,16 +128,16 @@ export function HRLoginPage() {
             {tab === 'register-company' && (
               <form onSubmit={handleCompanyRegister} className="space-y-3">
                 <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-2">Company Details</p>
-                <input className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" placeholder="Company name *" value={companyName} onChange={e => setCompanyName(e.target.value)} required />
-                <input className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="email" placeholder="Company email *" value={companyEmail} onChange={e => setCompanyEmail(e.target.value)} required />
+                <input className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" placeholder="Company name *" value={companyName} onChange={e => setCompanyName(e.target.value)} required />
+                <input className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="email" placeholder="Company email *" value={companyEmail} onChange={e => setCompanyEmail(e.target.value)} required />
                 <div className="grid grid-cols-2 gap-3">
-                  <input className="rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" placeholder="Phone" value={companyPhone} onChange={e => setCompanyPhone(e.target.value)} />
-                  <input className="rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" placeholder="Industry" value={industry} onChange={e => setIndustry(e.target.value)} />
+                  <input className="rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" placeholder="Phone" value={companyPhone} onChange={e => setCompanyPhone(e.target.value)} />
+                  <input className="rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" placeholder="Industry" value={industry} onChange={e => setIndustry(e.target.value)} />
                 </div>
                 <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mt-3">Admin Account</p>
-                <input className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" placeholder="Admin full name *" value={adminName} onChange={e => setAdminName(e.target.value)} required />
-                <input className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="email" placeholder="Admin email *" value={adminEmail} onChange={e => setAdminEmail(e.target.value)} required />
-                <input className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="password" placeholder="Admin password *" value={adminPassword} onChange={e => setAdminPassword(e.target.value)} required />
+                <input className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" placeholder="Admin full name *" value={adminName} onChange={e => setAdminName(e.target.value)} required />
+                <input className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="email" placeholder="Admin email *" value={adminEmail} onChange={e => setAdminEmail(e.target.value)} required />
+                <input className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="password" placeholder="Admin password *" value={adminPassword} onChange={e => setAdminPassword(e.target.value)} required />
                 <button disabled={loading} className="w-full rounded-lg bg-indigo-600 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                   {loading ? 'Registering...' : 'Register Company'}
                 </button>
@@ -147,13 +147,13 @@ export function HRLoginPage() {
             {/* Employee Registration */}
             {tab === 'register-employee' && (
               <form onSubmit={handleEmployeeRegister} className="space-y-3">
-                <input className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" placeholder="Full name *" value={empName} onChange={e => setEmpName(e.target.value)} required />
-                <input className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="email" placeholder="Email *" value={empEmail} onChange={e => setEmpEmail(e.target.value)} required />
-                <input className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="password" placeholder="Password *" value={empPassword} onChange={e => setEmpPassword(e.target.value)} required />
-                <input className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="number" placeholder="Company ID *" value={empCompanyId} onChange={e => setEmpCompanyId(e.target.value)} required />
+                <input className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" placeholder="Full name *" value={empName} onChange={e => setEmpName(e.target.value)} required />
+                <input className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="email" placeholder="Email *" value={empEmail} onChange={e => setEmpEmail(e.target.value)} required />
+                <input className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="password" placeholder="Password *" value={empPassword} onChange={e => setEmpPassword(e.target.value)} required />
+                <input className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="number" placeholder="Company ID *" value={empCompanyId} onChange={e => setEmpCompanyId(e.target.value)} required />
                 <div className="grid grid-cols-2 gap-3">
-                  <input className="rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" placeholder="Department" value={empDept} onChange={e => setEmpDept(e.target.value)} />
-                  <input className="rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" placeholder="Designation" value={empDesig} onChange={e => setEmpDesig(e.target.value)} />
+                  <input className="rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" placeholder="Department" value={empDept} onChange={e => setEmpDept(e.target.value)} />
+                  <input className="rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" placeholder="Designation" value={empDesig} onChange={e => setEmpDesig(e.target.value)} />
                 </div>
                 <button disabled={loading} className="w-full rounded-lg bg-indigo-600 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                   {loading ? 'Registering...' : 'Register Employee'}

@@ -31,8 +31,13 @@ body {
   box-sizing: border-box;
 }
 
-button, input, textarea {
+button, input, textarea, select {
   font: inherit;
+  color: inherit;
+}
+
+input, textarea, select {
+  color: #0f172a;
 }
 
 /* Scrollbar styling */
