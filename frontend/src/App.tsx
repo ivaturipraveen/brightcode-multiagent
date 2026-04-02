@@ -10,6 +10,20 @@ import { PricingPage } from './pages/PricingPage'
 import { RegisterPage } from './pages/RegisterPage'
 import { ReportPage } from './pages/ReportPage'
 import { ResetPasswordPage } from './pages/ResetPasswordPage'
+import { HRLoginPage } from './pages/hr/HRLoginPage'
+import { HRDashboard } from './pages/hr/HRDashboard'
+import { HRCompaniesPage } from './pages/hr/HRCompaniesPage'
+import { HREmployeesPage } from './pages/hr/HREmployeesPage'
+import { HRAttendancePage } from './pages/hr/HRAttendancePage'
+import { HRLeavePage } from './pages/hr/HRLeavePage'
+import { HRPayslipsPage } from './pages/hr/HRPayslipsPage'
+import { HRReportsPage } from './pages/hr/HRReportsPage'
+import { getHRToken } from './lib/hrApi'
+import { Navigate } from 'react-router-dom'
+
+function HRProtectedRoute({ children }: { children: React.ReactNode }) {
+  return getHRToken() ? <>{children}</> : <Navigate to="/hr" replace />
+}
 
 export default function App() {
   return (
@@ -23,6 +37,17 @@ export default function App() {
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
       <Route path="/report" element={<ProtectedRoute><ReportPage /></ProtectedRoute>} />
+
+      {/* ── HR Portal ── */}
+      <Route path="/hr" element={<HRLoginPage />} />
+      <Route path="/hr/dashboard" element={<HRProtectedRoute><HRDashboard /></HRProtectedRoute>} />
+      <Route path="/hr/companies" element={<HRProtectedRoute><HRCompaniesPage /></HRProtectedRoute>} />
+      <Route path="/hr/employees" element={<HRProtectedRoute><HREmployeesPage /></HRProtectedRoute>} />
+      <Route path="/hr/attendance" element={<HRProtectedRoute><HRAttendancePage /></HRProtectedRoute>} />
+      <Route path="/hr/leave" element={<HRProtectedRoute><HRLeavePage /></HRProtectedRoute>} />
+      <Route path="/hr/payslips" element={<HRProtectedRoute><HRPayslipsPage /></HRProtectedRoute>} />
+      <Route path="/hr/reports" element={<HRProtectedRoute><HRReportsPage /></HRProtectedRoute>} />
+
       <Route
         path="/chat"
         element={

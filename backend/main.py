@@ -11,6 +11,10 @@ from routes.chat import router as chat_router
 from routes.email import router as email_router
 from routes.leads import router as leads_router
 from routes.profile import router as profile_router
+from routes.hr_auth import router as hr_auth_router
+from routes.hr_admin import router as hr_admin_router
+from routes.hr_employee import router as hr_employee_router
+from models import hr as _hr_model  # noqa: F401 — registers HR models with Base
 
 Base.metadata.create_all(bind=engine)
 
@@ -29,6 +33,9 @@ app.include_router(chat_router)
 app.include_router(email_router)
 app.include_router(leads_router)
 app.include_router(profile_router)
+app.include_router(hr_auth_router)
+app.include_router(hr_admin_router)
+app.include_router(hr_employee_router)
 
 
 @app.get("/health")

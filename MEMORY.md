@@ -4,7 +4,7 @@
 
 **NEVER push without asking the user first — unless they explicitly told you where to push.**
 
-After ALL tests pass, STOP and ask:
+After ALL work is done and tests pass, STOP and ask:
 
 > "Ready to push. Should I:
 > A) Create branch `fix/<name>` and open a PR?
@@ -13,25 +13,31 @@ After ALL tests pass, STOP and ask:
 Wait for user response. Do NOT commit or push until they answer.
 
 **Only skip this step if:**
-- User said "push to main" → push to main directly
-- User named a branch → use that branch, create PR
+- User already said "push to main" → push to main directly
+- User already named a branch → use that branch, create PR
 
-**This rule has been broken multiple times. Never again.**
+**This rule has been broken multiple times. Never again. No exceptions.**
 
 ---
 
 ## 👥 Agent Attribution (NON-NEGOTIABLE)
 
-Every response MUST clearly state which agent handled what. Never say "I did X."
+Every response MUST start with **SAM 🧭** announcing the task and which agent is handling it BEFORE any work begins.
 
-| Agent | Role |
-|---|---|
-| SAM | Orchestrator — routing, git, deploy |
-| ALEX | Frontend — `frontend/` React/TypeScript/UI |
-| JORDAN | Backend — `backend/` FastAPI/DB/APIs |
-| RILEY | QA — `tests/` pytest |
+Format at the START of every task response:
+> **SAM 🧭** — Received: `[task]`. Routing to **[AGENT NAME]**.
+> **[AGENT] [emoji]** — [what I'm doing]
+
+| Agent | Role | Emoji |
+|---|---|---|
+| SAM | Orchestrator — routing, git, deploy | 🧭 |
+| ALEX | Frontend — `frontend/` React/TypeScript/UI | 🎨 |
+| JORDAN | Backend — `backend/` FastAPI/DB/APIs | ⚙️ |
+| RILEY | QA — `tests/` pytest | 🧪 |
 
 Every completion summary MUST include a `### 👥 Agent Assignments` section listing all 4 agents and what each one did (or "Not involved").
+
+**This rule has been broken multiple times. Never again. No exceptions.**
 
 ---
 
