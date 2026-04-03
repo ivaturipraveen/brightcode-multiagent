@@ -211,11 +211,30 @@ def action_leave(leave_id: int, payload: LeaveAction, db: Session = Depends(get_
     leave = db.query(HRLeave).filter(HRLeave.id == leave_id).first()
     if not leave:
         raise HTTPException(404, "Leave not found.")
-    leave.status = LeaveStatus.approved if payload.action == "approved" else LeaveStatus.rejected
+    if payload.action == "approved":
+        leave.status = LeaveStatus.approved
+    elif payload.action == "rejected":
+        leave.status = LeaveStatus.rejected
+    else:
+        raise HTTPException(400, "Invalid action. Use 'approved' or 'rejected'.")
     leave.reviewed_by = current.id
     leave.reviewed_at = datetime.utcnow()
     db.commit()
     return {"message": f"Leave {payload.action}."}
+
+@router.delete("/leave/{leave_id}")
+def cancel_leave(leave_id: int, db: Session = Depends(get_db), current: HREmployee = Depends(get_current_hr_employee)):
+    """Employee can cancel their own pending leave."""
+    leave = db.query(HRLeave).filter(HRLeave.id == leave_id).first()
+    if not leave:
+        raise HTTPException(404, "Leave not found.")
+    if leave.employee_id != current.id and current.role == HRRole.employee:
+        raise HTTPException(403, "Not authorized.")
+    if leave.status != LeaveStatus.pending:
+        raise HTTPException(400, "Only pending leaves can be cancelled.")
+    db.delete(leave)
+    db.commit()
+    return {"message": "Leave cancelled."}
 
 # ── Payslips ──────────────────────────────────────────────────────────────────
 
