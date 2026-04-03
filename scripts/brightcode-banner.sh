@@ -37,7 +37,7 @@ done
 printf "${BCYAN}║${RESET}                                                                      ${BCYAN}║${RESET}\n"
 
 # ── Tagline ──────────────────────────────────────────────────
-printf "${BCYAN}║${RESET}  ${DIM}${WHITE}  Multi-Agent HR & Productivity Platform  •  Powered by AI${RESET}           ${BCYAN}║${RESET}\n"
+printf "${BCYAN}║${RESET}  ${DIM}${WHITE}  Multi-Agent HR & Productivity Platform  •  Powered by Brightcone${RESET}           ${BCYAN}║${RESET}\n"
 printf "${BCYAN}║${RESET}                                                                      ${BCYAN}║${RESET}\n"
 printf "${BCYAN}╠══════════════════════════════════════════════════════════════════════╣${RESET}\n"
 

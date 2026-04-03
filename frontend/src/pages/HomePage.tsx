@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useTheme } from '../lib/theme'
 
 const features = [
   {
@@ -21,26 +22,52 @@ const useCases = [
   'Multi-agent product workflows with human review in the loop',
 ]
 
+function ThemeToggle() {
+  const { theme, toggle } = useTheme()
+  return (
+    <button
+      onClick={toggle}
+      aria-label="Toggle dark mode"
+      className="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-white/80 text-slate-600 shadow-sm backdrop-blur transition hover:bg-slate-100 dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10"
+    >
+      {theme === 'dark' ? (
+        /* Sun icon */
+        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+        </svg>
+      ) : (
+        /* Moon icon */
+        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+        </svg>
+      )}
+    </button>
+  )
+}
+
 export function HomePage() {
   return (
-    <div className="min-h-screen bg-[#fbfbfd] text-slate-900">
-      <header className="sticky top-0 z-20 border-b border-black/5 bg-[#fbfbfd]/90 backdrop-blur-xl">
+    <div className="min-h-screen bg-[#fbfbfd] text-slate-900 dark:bg-[#0a0a0f] dark:text-slate-100 transition-colors duration-300">
+
+      {/* ── Header ─────────────────────────────────────────────── */}
+      <header className="sticky top-0 z-20 border-b border-black/5 bg-[#fbfbfd]/90 backdrop-blur-xl dark:border-white/5 dark:bg-[#0a0a0f]/90">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
-          <div className="text-lg font-semibold tracking-tight">Brightcone</div>
-          <nav className="hidden items-center gap-8 text-sm text-slate-600 md:flex">
-            <a href="#features" className="transition hover:text-slate-900">Features</a>
-            <a href="#enterprise" className="transition hover:text-slate-900">Enterprise</a>
-            <Link to="/pricing" className="transition hover:text-slate-900">Pricing</Link>
-            <Link to="/about" className="transition hover:text-slate-900">About</Link>
-            <Link to="/crm" className="transition hover:text-slate-900">CRM</Link>
+          <div className="text-lg font-semibold tracking-tight dark:text-white">Brightcone</div>
+          <nav className="hidden items-center gap-8 text-sm text-slate-600 dark:text-slate-400 md:flex">
+            <a href="#features" className="transition hover:text-slate-900 dark:hover:text-white">Features</a>
+            <a href="#enterprise" className="transition hover:text-slate-900 dark:hover:text-white">Enterprise</a>
+            <Link to="/pricing" className="transition hover:text-slate-900 dark:hover:text-white">Pricing</Link>
+            <Link to="/about" className="transition hover:text-slate-900 dark:hover:text-white">About</Link>
+            <Link to="/crm" className="transition hover:text-slate-900 dark:hover:text-white">CRM</Link>
           </nav>
           <div className="flex items-center gap-3">
-            <Link to="/login" className="text-sm font-medium text-slate-700 transition hover:text-slate-900">
+            <ThemeToggle />
+            <Link to="/login" className="text-sm font-medium text-slate-700 transition hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">
               Sign in
             </Link>
             <Link
               to="/register"
-              className="rounded-full bg-slate-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800"
+              className="rounded-full bg-slate-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100"
             >
               Get started
             </Link>
@@ -49,62 +76,67 @@ export function HomePage() {
       </header>
 
       <main>
+        {/* ── Hero ──────────────────────────────────────────────── */}
         <section className="px-6 pb-20 pt-16 lg:px-8 lg:pb-28 lg:pt-24">
           <div className="mx-auto max-w-6xl text-center">
-            <div className="inline-flex rounded-full border border-[#e7d7cf] bg-[#fff7f3] px-4 py-1.5 text-sm font-medium text-[#b85c3d]">
+            <div className="inline-flex rounded-full border border-[#e7d7cf] bg-[#fff7f3] px-4 py-1.5 text-sm font-medium text-[#b85c3d] dark:border-[#b85c3d]/30 dark:bg-[#b85c3d]/10 dark:text-[#e8916f]">
               Enterprise AI agents, designed with restraint
             </div>
-            <h1 className="mx-auto mt-8 max-w-5xl text-5xl font-semibold tracking-tight text-slate-900 sm:text-6xl lg:text-7xl lg:leading-[1.05]">
+            <h1 className="mx-auto mt-8 max-w-5xl text-5xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-6xl lg:text-7xl lg:leading-[1.05]">
               Build modern agent products for enterprise teams.
             </h1>
-            <p className="mx-auto mt-8 max-w-3xl text-lg leading-8 text-slate-600 sm:text-xl">
+            <p className="mx-auto mt-8 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-400 sm:text-xl">
               Brightcone gives you a clean, premium interface for orchestrating AI agents, managing conversations,
               and delivering production-ready workflows that feel simple on the surface and powerful underneath.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
                 to="/register"
-                className="rounded-full bg-slate-900 px-7 py-3.5 text-sm font-medium text-white transition hover:bg-slate-800"
+                className="rounded-full bg-slate-900 px-7 py-3.5 text-sm font-medium text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100"
               >
                 Start building
               </Link>
               <Link
                 to="/pricing"
-                className="rounded-full border border-slate-200 bg-white px-7 py-3.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+                className="rounded-full border border-slate-200 bg-white px-7 py-3.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:border-white/20 dark:hover:bg-white/10"
               >
                 View pricing
               </Link>
             </div>
           </div>
 
-          <div className="mx-auto mt-16 max-w-6xl rounded-[2.5rem] border border-black/5 bg-gradient-to-b from-white to-[#f5f5f7] p-4 shadow-[0_30px_90px_rgba(15,23,42,0.08)] sm:p-6 lg:mt-20">
-            <div className="overflow-hidden rounded-[2rem] border border-black/5 bg-white">
-              <div className="flex items-center gap-2 border-b border-black/5 px-5 py-4">
+          {/* Console preview */}
+          <div className="mx-auto mt-16 max-w-6xl rounded-[2.5rem] border border-black/5 bg-gradient-to-b from-white to-[#f5f5f7] p-4 shadow-[0_30px_90px_rgba(15,23,42,0.08)] dark:border-white/5 dark:from-[#111118] dark:to-[#0d0d14] dark:shadow-[0_30px_90px_rgba(0,0,0,0.4)] sm:p-6 lg:mt-20">
+            <div className="overflow-hidden rounded-[2rem] border border-black/5 bg-white dark:border-white/5 dark:bg-[#111118]">
+              {/* Window chrome */}
+              <div className="flex items-center gap-2 border-b border-black/5 px-5 py-4 dark:border-white/5">
                 <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
                 <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
                 <span className="h-3 w-3 rounded-full bg-[#28c840]" />
-                <div className="ml-4 text-sm text-slate-400">Brightcone Enterprise Console</div>
+                <div className="ml-4 text-sm text-slate-400 dark:text-slate-500">Brightcone Enterprise Console</div>
               </div>
               <div className="grid gap-0 lg:grid-cols-[280px_minmax(0,1fr)]">
-                <div className="border-r border-black/5 bg-[#f7f7f8] p-5">
-                  <div className="rounded-2xl bg-white p-4 shadow-sm">
-                    <div className="text-xs font-medium uppercase tracking-[0.22em] text-slate-400">Agents</div>
+                {/* Sidebar */}
+                <div className="border-r border-black/5 bg-[#f7f7f8] p-5 dark:border-white/5 dark:bg-[#0d0d14]">
+                  <div className="rounded-2xl bg-white p-4 shadow-sm dark:bg-[#16161f]">
+                    <div className="text-xs font-medium uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Agents</div>
                     <div className="mt-4 space-y-3">
                       {['Revenue Analyst', 'Support Copilot', 'Release Manager'].map((agent) => (
-                        <div key={agent} className="rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-700">
+                        <div key={agent} className="rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-700 dark:border-white/5 dark:text-slate-400">
                           {agent}
                         </div>
                       ))}
                     </div>
                   </div>
                 </div>
-                <div className="bg-white p-6 sm:p-8">
+                {/* Main panel */}
+                <div className="bg-white p-6 dark:bg-[#111118] sm:p-8">
                   <div className="max-w-2xl">
-                    <div className="text-sm font-medium text-[#b85c3d]">Enterprise workflow</div>
-                    <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-900">
+                    <div className="text-sm font-medium text-[#b85c3d] dark:text-[#e8916f]">Enterprise workflow</div>
+                    <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">
                       One system for orchestrating agents, context, and human decisions.
                     </h2>
-                    <p className="mt-4 text-base leading-7 text-slate-600">
+                    <p className="mt-4 text-base leading-7 text-slate-600 dark:text-slate-400">
                       Create AI experiences that feel premium: fast chats, structured sidebars, persistent history,
                       and enterprise-ready collaboration patterns.
                     </p>
@@ -114,9 +146,9 @@ export function HomePage() {
                         ['92%', 'conversation recall accuracy'],
                         ['24/7', 'agent availability across workflows'],
                       ].map(([value, label]) => (
-                        <div key={value} className="rounded-3xl bg-[#f7f7f8] p-5">
-                          <div className="text-3xl font-semibold tracking-tight text-slate-900">{value}</div>
-                          <div className="mt-2 text-sm leading-6 text-slate-500">{label}</div>
+                        <div key={value} className="rounded-3xl bg-[#f7f7f8] p-5 dark:bg-[#0d0d14]">
+                          <div className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">{value}</div>
+                          <div className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">{label}</div>
                         </div>
                       ))}
                     </div>
@@ -127,42 +159,44 @@ export function HomePage() {
           </div>
         </section>
 
+        {/* ── Features ──────────────────────────────────────────── */}
         <section id="features" className="px-6 py-20 lg:px-8">
           <div className="mx-auto max-w-6xl">
             <div className="max-w-2xl">
-              <p className="text-sm font-medium uppercase tracking-[0.24em] text-slate-400">Features</p>
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight text-slate-900">
+              <p className="text-sm font-medium uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500">Features</p>
+              <h2 className="mt-4 text-4xl font-semibold tracking-tight text-slate-900 dark:text-white">
                 Minimalist by design, enterprise by intent.
               </h2>
             </div>
             <div className="mt-12 grid gap-6 lg:grid-cols-3">
               {features.map((feature) => (
-                <div key={feature.title} className="rounded-[2rem] border border-black/5 bg-white p-8 shadow-[0_16px_50px_rgba(15,23,42,0.05)]">
-                  <h3 className="text-xl font-semibold tracking-tight text-slate-900">{feature.title}</h3>
-                  <p className="mt-4 text-sm leading-7 text-slate-600">{feature.description}</p>
+                <div key={feature.title} className="rounded-[2rem] border border-black/5 bg-white p-8 shadow-[0_16px_50px_rgba(15,23,42,0.05)] dark:border-white/5 dark:bg-[#111118] dark:shadow-[0_16px_50px_rgba(0,0,0,0.3)]">
+                  <h3 className="text-xl font-semibold tracking-tight text-slate-900 dark:text-white">{feature.title}</h3>
+                  <p className="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-400">{feature.description}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
+        {/* ── Enterprise ────────────────────────────────────────── */}
         <section id="enterprise" className="px-6 py-20 lg:px-8">
           <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
             <div>
-              <p className="text-sm font-medium uppercase tracking-[0.24em] text-slate-400">Enterprise value</p>
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight text-slate-900">
+              <p className="text-sm font-medium uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500">Enterprise value</p>
+              <h2 className="mt-4 text-4xl font-semibold tracking-tight text-slate-900 dark:text-white">
                 Sell AI agents as serious products, not demos.
               </h2>
-              <p className="mt-6 text-base leading-8 text-slate-600">
+              <p className="mt-6 text-base leading-8 text-slate-600 dark:text-slate-400">
                 Position Brightcone as the operating layer for enterprise AI: from premium UX and secure auth to
                 persistent conversation history and coordinated multi-agent workflows.
               </p>
             </div>
-            <div className="rounded-[2rem] border border-black/5 bg-white p-8 shadow-[0_18px_60px_rgba(15,23,42,0.06)]">
+            <div className="rounded-[2rem] border border-black/5 bg-white p-8 shadow-[0_18px_60px_rgba(15,23,42,0.06)] dark:border-white/5 dark:bg-[#111118] dark:shadow-[0_18px_60px_rgba(0,0,0,0.3)]">
               <ul className="space-y-4">
                 {useCases.map((item) => (
-                  <li key={item} className="flex items-start gap-4 rounded-2xl bg-[#f7f7f8] px-4 py-4 text-sm leading-7 text-slate-700">
-                    <span className="mt-2 h-2.5 w-2.5 rounded-full bg-[#d97757]" />
+                  <li key={item} className="flex items-start gap-4 rounded-2xl bg-[#f7f7f8] px-4 py-4 text-sm leading-7 text-slate-700 dark:bg-[#0d0d14] dark:text-slate-300">
+                    <span className="mt-2 h-2.5 w-2.5 flex-shrink-0 rounded-full bg-[#d97757]" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -171,8 +205,9 @@ export function HomePage() {
           </div>
         </section>
 
+        {/* ── CTA ───────────────────────────────────────────────── */}
         <section className="px-6 pb-24 pt-8 lg:px-8">
-          <div className="mx-auto max-w-5xl rounded-[2.5rem] border border-black/5 bg-slate-900 px-8 py-14 text-center text-white shadow-[0_30px_90px_rgba(15,23,42,0.18)] sm:px-12">
+          <div className="mx-auto max-w-5xl rounded-[2.5rem] border border-black/5 bg-slate-900 px-8 py-14 text-center text-white shadow-[0_30px_90px_rgba(15,23,42,0.18)] dark:border-white/5 dark:bg-[#111118] dark:shadow-[0_30px_90px_rgba(0,0,0,0.5)] sm:px-12">
             <p className="text-sm font-medium uppercase tracking-[0.26em] text-white/60">Ready to launch</p>
             <h2 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">
               Start shipping enterprise AI agents with a product people actually want to use.
@@ -197,6 +232,18 @@ export function HomePage() {
           </div>
         </section>
       </main>
+
+      {/* ── Footer ────────────────────────────────────────────── */}
+      <footer className="border-t border-black/5 px-6 py-8 dark:border-white/5">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 sm:flex-row lg:px-8">
+          <p className="text-sm text-slate-400 dark:text-slate-600">© 2026 Brightcone. All rights reserved.</p>
+          <div className="flex items-center gap-6 text-sm text-slate-400 dark:text-slate-600">
+            <Link to="/about" className="transition hover:text-slate-600 dark:hover:text-slate-400">About</Link>
+            <Link to="/pricing" className="transition hover:text-slate-600 dark:hover:text-slate-400">Pricing</Link>
+            <Link to="/login" className="transition hover:text-slate-600 dark:hover:text-slate-400">Sign in</Link>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
