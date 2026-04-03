@@ -51,8 +51,15 @@ export function HomePage() {
 
       {/* ── Header ─────────────────────────────────────────────── */}
       <header className="sticky top-0 z-20 border-b border-black/5 bg-[#fbfbfd]/90 backdrop-blur-xl dark:border-white/5 dark:bg-[#0a0a0f]/90">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
-          <div className="text-lg font-semibold tracking-tight dark:text-white">Brightcone</div>
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 lg:px-8">
+          {/* Logo */}
+          <Link to="/" className="flex items-center">
+            <img
+              src="/brightcone-logo.jpg"
+              alt="Brightcone"
+              className="h-9 w-auto object-contain dark:brightness-0 dark:invert"
+            />
+          </Link>
           <nav className="hidden items-center gap-8 text-sm text-slate-600 dark:text-slate-400 md:flex">
             <a href="#features" className="transition hover:text-slate-900 dark:hover:text-white">Features</a>
             <a href="#enterprise" className="transition hover:text-slate-900 dark:hover:text-white">Enterprise</a>
@@ -236,7 +243,14 @@ export function HomePage() {
       {/* ── Footer ────────────────────────────────────────────── */}
       <footer className="border-t border-black/5 px-6 py-8 dark:border-white/5">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 sm:flex-row lg:px-8">
-          <p className="text-sm text-slate-400 dark:text-slate-600">© 2026 Brightcone. All rights reserved.</p>
+          <div className="flex flex-col items-center gap-2 sm:items-start">
+            <img
+              src="/brightcone-logo.jpg"
+              alt="Brightcone"
+              className="h-7 w-auto object-contain dark:brightness-0 dark:invert opacity-60"
+            />
+            <p className="text-xs text-slate-400 dark:text-slate-600">© 2026 Brightcone. All rights reserved.</p>
+          </div>
           <div className="flex items-center gap-6 text-sm text-slate-400 dark:text-slate-600">
             <Link to="/about" className="transition hover:text-slate-600 dark:hover:text-slate-400">About</Link>
             <Link to="/pricing" className="transition hover:text-slate-600 dark:hover:text-slate-400">Pricing</Link>
