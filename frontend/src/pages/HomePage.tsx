@@ -46,18 +46,19 @@ function ThemeToggle() {
 }
 
 export function HomePage() {
+  const { theme } = useTheme()
   return (
     <div className="min-h-screen bg-[#fbfbfd] text-slate-900 dark:bg-[#0a0a0f] dark:text-slate-100 transition-colors duration-300">
 
       {/* ── Header ─────────────────────────────────────────────── */}
       <header className="sticky top-0 z-20 border-b border-black/5 bg-[#fbfbfd]/90 backdrop-blur-xl dark:border-white/5 dark:bg-[#0a0a0f]/90">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 lg:px-8">
-          {/* Logo */}
+          {/* Logo — swaps between light and dark asset */}
           <Link to="/" className="flex items-center">
             <img
-              src="/brightcone-logo.jpg"
+              src={theme === 'dark' ? '/brightcone-logo-dark.jpg' : '/brightcone-logo.jpg'}
               alt="Brightcone"
-              className="h-9 w-auto object-contain dark:brightness-0 dark:invert"
+              className="h-9 w-auto object-contain"
             />
           </Link>
           <nav className="hidden items-center gap-8 text-sm text-slate-600 dark:text-slate-400 md:flex">
@@ -245,9 +246,9 @@ export function HomePage() {
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 sm:flex-row lg:px-8">
           <div className="flex flex-col items-center gap-2 sm:items-start">
             <img
-              src="/brightcone-logo.jpg"
+              src={theme === 'dark' ? '/brightcone-logo-dark.jpg' : '/brightcone-logo.jpg'}
               alt="Brightcone"
-              className="h-7 w-auto object-contain dark:brightness-0 dark:invert opacity-60"
+              className="h-7 w-auto object-contain opacity-60"
             />
             <p className="text-xs text-slate-400 dark:text-slate-600">© 2026 Brightcone. All rights reserved.</p>
           </div>
