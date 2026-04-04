@@ -85,24 +85,24 @@ export function HomePage() {
 
       <main>
         {/* ── Hero ──────────────────────────────────────────────── */}
-        <section className="px-6 pb-20 pt-16 lg:px-8 lg:pb-28 lg:pt-24">
-          <div className="mx-auto max-w-6xl text-center">
+        <section className="px-6 pb-24 pt-20 lg:px-8 lg:pb-32 lg:pt-32">
+          <div className="mx-auto max-w-3xl text-center">
             <div className="inline-flex rounded-full border border-[#e7d7cf] bg-[#fff7f3] px-4 py-1.5 text-sm font-medium text-[#b85c3d] dark:border-[#b85c3d]/30 dark:bg-[#b85c3d]/10 dark:text-[#e8916f]">
               Enterprise AI agents, designed with restraint
             </div>
-            <h1 className="mx-auto mt-8 max-w-5xl text-5xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-6xl lg:text-7xl lg:leading-[1.05]">
-              Build modern agent products for enterprise teams.
+            <h1 className="mt-8 text-5xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-6xl lg:text-7xl lg:leading-[1.05]">
+              Build agent products teams actually use.
             </h1>
-            <p className="mx-auto mt-8 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-400 sm:text-xl">
-              Brightcone gives you a clean, premium interface for orchestrating AI agents, managing conversations,
-              and delivering production-ready workflows that feel simple on the surface and powerful underneath.
+            <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-slate-500 dark:text-slate-400">
+              Brightcone is a clean foundation for orchestrating AI agents, managing conversations, and shipping
+              production workflows — fast.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
                 to="/register"
-                className="rounded-full bg-slate-900 px-7 py-3.5 text-sm font-medium text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100"
+                className="rounded-full bg-slate-900 px-7 py-3.5 text-sm font-medium text-white transition hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100"
               >
-                Start building
+                Get started
               </Link>
               <Link
                 to="/pricing"
@@ -110,59 +110,6 @@ export function HomePage() {
               >
                 View pricing
               </Link>
-            </div>
-          </div>
-
-          {/* Console preview */}
-          <div className="mx-auto mt-16 max-w-6xl rounded-[2.5rem] border border-black/5 bg-gradient-to-b from-white to-[#f5f5f7] p-4 shadow-[0_30px_90px_rgba(15,23,42,0.08)] dark:border-white/5 dark:from-[#111118] dark:to-[#0d0d14] dark:shadow-[0_30px_90px_rgba(0,0,0,0.4)] sm:p-6 lg:mt-20">
-            <div className="overflow-hidden rounded-[2rem] border border-black/5 bg-white dark:border-white/5 dark:bg-[#111118]">
-              {/* Window chrome */}
-              <div className="flex items-center gap-2 border-b border-black/5 px-5 py-4 dark:border-white/5">
-                <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
-                <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
-                <span className="h-3 w-3 rounded-full bg-[#28c840]" />
-                <div className="ml-4 text-sm text-slate-400 dark:text-slate-500">Brightcone Enterprise Console</div>
-              </div>
-              <div className="grid gap-0 lg:grid-cols-[280px_minmax(0,1fr)]">
-                {/* Sidebar */}
-                <div className="border-r border-black/5 bg-[#f7f7f8] p-5 dark:border-white/5 dark:bg-[#0d0d14]">
-                  <div className="rounded-2xl bg-white p-4 shadow-sm dark:bg-[#16161f]">
-                    <div className="text-xs font-medium uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Agents</div>
-                    <div className="mt-4 space-y-3">
-                      {['Revenue Analyst', 'Support Copilot', 'Release Manager'].map((agent) => (
-                        <div key={agent} className="rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-700 dark:border-white/5 dark:text-slate-400">
-                          {agent}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                {/* Main panel */}
-                <div className="bg-white p-6 dark:bg-[#111118] sm:p-8">
-                  <div className="max-w-2xl">
-                    <div className="text-sm font-medium text-[#b85c3d] dark:text-[#e8916f]">Enterprise workflow</div>
-                    <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">
-                      One system for orchestrating agents, context, and human decisions.
-                    </h2>
-                    <p className="mt-4 text-base leading-7 text-slate-600 dark:text-slate-400">
-                      Create AI experiences that feel premium: fast chats, structured sidebars, persistent history,
-                      and enterprise-ready collaboration patterns.
-                    </p>
-                    <div className="mt-8 grid gap-4 sm:grid-cols-3">
-                      {[
-                        ['18x', 'faster internal task routing'],
-                        ['92%', 'conversation recall accuracy'],
-                        ['24/7', 'agent availability across workflows'],
-                      ].map(([value, label]) => (
-                        <div key={value} className="rounded-3xl bg-[#f7f7f8] p-5 dark:bg-[#0d0d14]">
-                          <div className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">{value}</div>
-                          <div className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">{label}</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </section>
