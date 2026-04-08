@@ -1,17 +1,28 @@
 ---
-name: context-aware-test-case-generation-safe-execution
-description: Generate test cases from uploaded PDFs with strict context validation and safe execution boundaries. Use when a user uploads a PDF or other requirements document and asks for test case generation, Selenium script generation, or test execution, especially when you must decide whether the document is related to the current repository/application or should be handled as isolated ad-hoc work.
+name: nano-pdf
+description: Edit PDFs with natural-language instructions using the nano-pdf CLI, and handle uploaded PDF requirements documents safely when generating test cases or Selenium scripts. Use when a user uploads a PDF and asks for PDF editing, requirement extraction, test case generation, Selenium generation, or isolated/local execution based on whether the document is related to the current repository/application.
 ---
 
-# Context-Aware Test Case Generation & Safe Execution
+# nano-pdf
 
-Follow these requirements exactly when handling uploaded requirement documents, especially PDFs, for test generation or execution.
+Use `nano-pdf` to apply edits to a specific page in a PDF using a natural-language instruction.
 
-## Requirements
+## Quick start
+
+```bash
+nano-pdf edit deck.pdf 1 "Change the title to 'Q3 Results' and fix the typo in the subtitle"
+```
+
+Notes:
+
+- Page numbers are 0-based or 1-based depending on the tool’s version/config; if the result looks off by one, retry with the other.
+- Always sanity-check the output PDF before sending it out.
+
+## Context-Aware Test Case Generation & Safe Execution
+
+When a user uploads a PDF and requests test case generation, Selenium generation, or test execution, follow these requirements.
 
 ### 1. PDF Input Handling
-
-When a user uploads a PDF and requests test case generation:
 
 - Parse the document.
 - Extract requirements, workflows, pages, roles, endpoints, validations, or features.
