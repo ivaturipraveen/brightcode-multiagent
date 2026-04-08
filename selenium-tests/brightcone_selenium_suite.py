@@ -17,25 +17,22 @@ Execution notes:
 from __future__ import annotations
 
 import os
-import time
+import tempfile
 import uuid
 from dataclasses import dataclass
 from typing import Callable
 
 import requests
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select, WebDriverWait
-from webdriver_manager.chrome import ChromeDriverManager
 
 BASE_URL = os.getenv('BASE_URL', 'https://code-ui.brightcone.ai').rstrip('/')
 API_BASE_URL = os.getenv('API_BASE_URL', 'https://code-api.brightcone.ai').rstrip('/')
 CHROME_BIN = os.getenv('CHROME_BIN', os.path.expanduser('~/.cache/ms-playwright/chromium-1217/chrome-linux64/chrome'))
+CHROMEDRIVER_BIN = os.getenv('CHROMEDRIVER_BIN', '').strip()
 HEADLESS = os.getenv('HEADLESS', '1') != '0'
 TIMEOUT = int(os.getenv('SELENIUM_TIMEOUT', '20'))
 
@@ -63,20 +60,32 @@ def build_driver() -> webdriver.Chrome:
     if os.path.exists(CHROME_BIN):
         options.binary_location = CHROME_BIN
     if HEADLESS:
-        options.add_argument('--headless=new')
+        options.add_argument('--headless')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-gpu')
     options.add_argument('--disable-software-rasterizer')
     options.add_argument('--disable-extensions')
-    options.add_argument('--remote-debugging-port=9222')
+    options.add_argument('--disable-background-networking')
+    options.add_argument('--disable-background-timer-throttling')
+    options.add_argument('--disable-breakpad')
+    options.add_argument('--disable-component-update')
+    options.add_argument('--disable-renderer-backgrounding')
+    options.add_argument('--disable-ipc-flooding-protection')
+    options.add_argument('--remote-debugging-port=0')
     options.add_argument('--window-size=1440,1400')
-    options.add_argument('--user-data-dir=/tmp/brightcone-selenium-profile')
-    options.add_argument('--data-path=/tmp/brightcone-selenium-data')
-    options.add_argument('--disk-cache-dir=/tmp/brightcone-selenium-cache')
-    options.add_argument('--homedir=/tmp')
-    service = Service(ChromeDriverManager().install())
-    return webdriver.Chrome(service=service, options=options)
+
+    profile_dir = tempfile.mkdtemp(prefix='brightcone-selenium-profile-')
+    cache_dir = tempfile.mkdtemp(prefix='brightcone-selenium-cache-')
+    data_dir = tempfile.mkdtemp(prefix='brightcone-selenium-data-')
+    options.add_argument(f'--user-data-dir={profile_dir}')
+    options.add_argument(f'--disk-cache-dir={cache_dir}')
+    options.add_argument(f'--data-path={data_dir}')
+
+    if CHROMEDRIVER_BIN and os.path.exists(CHROMEDRIVER_BIN):
+        service = Service(CHROMEDRIVER_BIN)
+        return webdriver.Chrome(service=service, options=options)
+    return webdriver.Chrome(options=options)
 
 
 def wait_for_text(driver: webdriver.Chrome, text: str, timeout: int = TIMEOUT) -> None:
@@ -107,7 +116,7 @@ def xpath_literal(value: str) -> str:
     if "'" not in value:
         return f"'{value}'"
     parts = value.split('"')
-    return 'concat(' + ', ' .join([f'"{part}"' if part else '""' for part in parts[:-1]] + ['\'"\'', f'"{parts[-1]}"']) + ')'
+    return 'concat(' + ', '.join([f'"{part}"' if part else '""' for part in parts[:-1]] + ['\'"\'', f'"{parts[-1]}"']) + ')'
 
 
 def unique_email(prefix: str) -> str:
@@ -234,7 +243,6 @@ def test_auth_pages_validate_and_transition():
         wait_for_text(driver, 'Send reset link')
         driver.find_element(By.LINK_TEXT, 'Sign in').click()
         wait_for_text(driver, 'Continue')
-
         driver.find_element(By.LINK_TEXT, 'Create one').click()
         wait_for_text(driver, 'Create your account')
         assert 'Create account' in body_text(driver)
@@ -310,7 +318,6 @@ def test_authenticated_crm_flow_add_search_update_delete_and_outreach_tab():
         seed_web_auth(driver, user)
         open_page(driver, '/crm')
         wait_for_text(driver, 'Lead Management')
-
         driver.find_element(By.XPATH, "//button[contains(., 'Add Lead')]").click()
         find_input_by_placeholder(driver, 'Full name *').send_keys('Alice Prospect')
         find_input_by_placeholder(driver, 'Email address *').send_keys('alice@example.com')
@@ -357,7 +364,6 @@ def test_hr_public_page_tabs_and_company_registration():
         wait_for_text(driver, 'HR Portal')
         driver.find_element(By.XPATH, "//button[normalize-space()='Register Company']").click()
         wait_for_text(driver, 'Company Details')
-
         suffix = uuid.uuid4().hex[:6]
         find_input_by_placeholder(driver, 'Company name *').send_keys(f'Selenium Co {suffix}')
         find_input_by_placeholder(driver, 'Company email *').send_keys(f'company-{suffix}@example.com')
@@ -395,7 +401,6 @@ def test_hr_authenticated_admin_shell_pages():
     def assertions(driver: webdriver.Chrome):
         open_page(driver, '/hr')
         seed_hr_auth(driver, hr_session)
-
         protected_pages = [
             ('/hr/dashboard', 'Welcome back'),
             ('/hr/employees', 'Employees'),
@@ -422,7 +427,6 @@ def test_hr_admin_can_add_employee_from_ui():
         wait_for_text(driver, 'Employees')
         driver.find_element(By.XPATH, "//button[contains(., '+ Add Employee')]").click()
         wait_for_text(driver, 'Add New Employee')
-
         suffix = uuid.uuid4().hex[:6]
         find_input_by_placeholder(driver, 'John Doe').send_keys('Employee One')
         find_input_by_placeholder(driver, 'john@company.com').send_keys(f'employee-{suffix}@example.com')
@@ -443,11 +447,9 @@ def test_hr_admin_leave_and_profile_pages_render_interactive_sections():
     def assertions(driver: webdriver.Chrome):
         open_page(driver, '/hr')
         seed_hr_auth(driver, hr_session)
-
         open_page(driver, '/hr/leave')
         wait_for_text(driver, 'My Leave Requests')
         assert 'Apply Leave' in body_text(driver)
-
         open_page(driver, '/hr/profile')
         wait_for_text(driver, 'My Profile')
         assert 'Edit Profile' in body_text(driver)
