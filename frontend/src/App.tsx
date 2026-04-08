@@ -10,6 +10,7 @@ import { PricingPage } from './pages/PricingPage'
 import { RegisterPage } from './pages/RegisterPage'
 import { ReportPage } from './pages/ReportPage'
 import { ResetPasswordPage } from './pages/ResetPasswordPage'
+import { TicketsPage } from './pages/TicketsPage'
 import { HRLoginPage } from './pages/hr/HRLoginPage'
 import { HRDashboard } from './pages/hr/HRDashboard'
 import { HRCompaniesPage } from './pages/hr/HRCompaniesPage'
@@ -32,6 +33,7 @@ export default function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/crm" element={<ProtectedRoute><CRMPage /></ProtectedRoute>} />
+      <Route path="/tickets" element={<ProtectedRoute><TicketsPage /></ProtectedRoute>} />
       <Route path="/pricing" element={<PricingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />

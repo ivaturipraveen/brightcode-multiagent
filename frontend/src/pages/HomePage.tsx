@@ -67,6 +67,7 @@ export function HomePage() {
             <Link to="/pricing" className="transition hover:text-slate-900 dark:hover:text-white">Pricing</Link>
             <Link to="/about" className="transition hover:text-slate-900 dark:hover:text-white">About</Link>
             <Link to="/crm" className="transition hover:text-slate-900 dark:hover:text-white">CRM</Link>
+            <Link to="/tickets" className="transition hover:text-slate-900 dark:hover:text-white">Tickets</Link>
           </nav>
           <div className="flex items-center gap-3">
             <ThemeToggle />

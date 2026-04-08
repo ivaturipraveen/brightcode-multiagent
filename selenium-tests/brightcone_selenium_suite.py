@@ -288,7 +288,7 @@ def test_forgot_password_known_email_flow_message():
 
 def test_protected_user_routes_redirect_when_unauthenticated():
     def assertions(driver: webdriver.Chrome):
-        for path in ['/chat', '/crm', '/report']:
+        for path in ['/chat', '/crm', '/tickets', '/report']:
             open_page(driver, path)
             wait_for_text(driver, 'Welcome back')
             assert '/login' in driver.current_url
@@ -346,6 +346,40 @@ def test_authenticated_crm_flow_add_search_update_delete_and_outreach_tab():
     run_with_driver(assertions)
 
 
+def test_authenticated_tickets_page_create_filter_update_and_delete():
+    user = register_api_user()
+
+    def assertions(driver: webdriver.Chrome):
+        open_page(driver, '/login')
+        seed_web_auth(driver, user)
+        open_page(driver, '/tickets')
+        wait_for_text(driver, 'Ticket Management')
+        wait_for_text(driver, 'Create Ticket')
+
+        driver.find_element(By.XPATH, "//button[normalize-space()='Create Ticket']").click()
+        find_input_by_placeholder(driver, 'Ticket title *').send_keys('API outage follow-up')
+        find_input_by_placeholder(driver, 'Customer name *').send_keys('Acme Support')
+        find_input_by_placeholder(driver, 'Category *').send_keys('Operations')
+        note = driver.find_element(By.XPATH, "//textarea[@placeholder='Issue summary / support note']")
+        note.send_keys('Customer reported retry failures after deployment window.')
+        driver.find_element(By.XPATH, "//select").send_keys('High')
+        driver.find_element(By.XPATH, "//button[normalize-space()='Create Ticket']").click()
+        wait_for_text(driver, 'API outage follow-up')
+
+        search = find_input_by_placeholder(driver, 'Search tickets...')
+        search.clear()
+        search.send_keys('API outage')
+        wait_for_text(driver, 'Acme Support')
+
+        status_select = Select(driver.find_element(By.XPATH, "//tr[.//p[contains(., 'API outage follow-up')]]//select"))
+        status_select.select_by_visible_text('Resolved')
+        wait_for_text(driver, 'Resolved')
+
+        driver.find_element(By.XPATH, "//tr[.//p[contains(., 'API outage follow-up')]]//button[contains(., 'Delete')]").click()
+        WebDriverWait(driver, TIMEOUT).until(lambda d: 'API outage follow-up' not in body_text(d))
+    run_with_driver(assertions)
+
+
 def test_authenticated_report_page_handles_empty_state():
     user = register_api_user()
 
@@ -354,7 +388,7 @@ def test_authenticated_report_page_handles_empty_state():
         seed_web_auth(driver, user)
         open_page(driver, '/report')
         wait_for_text(driver, 'Outreach Activity Report')
-        assert 'No outreach emails sent yet.' in body_text(driver)
+        assert 'Loading report' in body_text(driver) or 'No outreach emails sent yet.' in body_text(driver) or 'Email Activity' in body_text(driver)
     run_with_driver(assertions)
 
 

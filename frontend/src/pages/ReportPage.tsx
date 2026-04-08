@@ -31,6 +31,7 @@ export function ReportPage() {
             <Link to="/pricing" className="transition hover:text-slate-900">Pricing</Link>
             <Link to="/about" className="transition hover:text-slate-900">About</Link>
             <Link to="/crm" className="transition hover:text-slate-900">CRM</Link>
+            <Link to="/tickets" className="transition hover:text-slate-900">Tickets</Link>
             <Link to="/report" className="font-medium text-slate-900">Report</Link>
           </nav>
           <div className="flex items-center gap-3">
