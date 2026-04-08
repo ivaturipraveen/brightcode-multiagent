@@ -26,6 +26,7 @@ When a user uploads a PDF and requests test case generation, Selenium generation
 
 - Parse the document.
 - Extract requirements, workflows, pages, roles, endpoints, validations, or features.
+- Identify whether the content is related to the current application/project.
 - Generate structured test cases from the extracted content.
 
 ### 2. Context Validation (Important)
@@ -46,7 +47,9 @@ Then classify the document as one of:
 
 If the document is **related**:
 - Proceed with the normal flow.
-- Generate test cases and integrate with the system/repo as appropriate for the user request.
+- Generate test cases.
+- Generate automation scripts if required.
+- Integrate with the existing repository as appropriate for the user request.
 
 If the document is **not related**:
 - Do **not** interfere with the main application or existing repository.
@@ -93,7 +96,8 @@ Do not mix unrelated work into normal application folders unless the user explic
 If the user requests test execution:
 
 - Set up the required environment locally.
-- Install dependencies if needed.
+- Install dependencies dynamically if needed, such as `selenium` or `pytest`.
+- Run tests locally only for unrelated/external requests, not in the main pipeline.
 - Execute tests in isolation when the document is unrelated.
 - Use the repository’s normal environment only when the document is related.
 - Provide execution results, including pass/fail logs and errors.
@@ -112,6 +116,14 @@ For unrelated inputs:
 
 ### 7. Output Expectations
 
+Always return:
+
+1. Generated test cases
+2. Execution status, if tests were run
+3. A clear indication of processing mode
+4. Clear classification reasoning
+5. Generated artifacts and any relevant logs
+
 Always state clearly:
 
 1. **Whether the document is related or unrelated**
@@ -127,6 +139,8 @@ Always state clearly:
    - important setup notes
 
 Use direct phrasing such as:
+- `Processed as part of main project`
+- `Processed locally (external request)`
 - `Document status: related to the current application.`
 - `Document status: unrelated to the current repository; handling in isolated local mode.`
 
