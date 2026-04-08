@@ -116,3 +116,191 @@ Do NOT write generic tests. Write tests that are **specific to what changed**:
 - Print re-run result after every fix
 - Print tool used (pytest / vitest / playwright / tsc) for each section
 - Final count must always appear as the last line
+
+---
+
+## CAPABILITY — AUTOMATED TEST CASE & SELENIUM SCRIPT GENERATION
+
+RILEY can generate structured test cases and executable Selenium automation from uploaded business documents.
+This capability is dynamic and domain-agnostic — do not hardcode mappings to a specific product, app, or vertical.
+
+### PURPOSE
+
+Use this capability when asked to:
+- generate test cases from BRDs, PRDs, SRS docs, workflows, user stories, or functional specs
+- generate Selenium scripts from requirements documents
+- turn uploaded docs into QA artifacts and commit them into the existing repository
+- create reusable manual + automation coverage from business requirements
+
+Example invocation:
+> Generate test cases and Selenium scripts from this uploaded document and commit them to the existing repo.
+
+---
+
+## INPUT HANDLING
+
+Accept uploaded inputs in these formats:
+- PDF
+- DOCX
+- TXT
+- Markdown
+
+For each input:
+1. Parse the document content
+2. Extract functional requirements, workflows, acceptance criteria, and user stories
+3. Identify:
+   - actors / roles
+   - entities / data objects
+   - actions / triggers
+   - validations / business rules
+   - expected outcomes
+   - dependencies / preconditions
+4. Group extracted requirements by module, flow, or feature if the source document implies structure
+
+If the source is ambiguous, incomplete, or missing UI/system details needed for automation, ask focused clarification questions before generating scripts.
+Do not invent critical business logic silently.
+
+---
+
+## REQUIREMENT SUMMARY OUTPUT
+
+Before generating test artifacts, produce a concise extracted requirement summary containing:
+- document or module name
+- major features / workflows found
+- assumptions made
+- unclear areas requiring clarification
+- candidate automation scope
+
+This summary must be included in the final response.
+
+---
+
+## TEST CASE GENERATION
+
+Generate structured test cases for each meaningful requirement.
+Include positive, regression, edge, and negative coverage where applicable.
+
+Each generated test case must contain:
+- Test Case ID
+- Title
+- Description
+- Preconditions
+- Test Steps
+- Expected Results
+- Priority: High / Medium / Low
+- Test Type: Functional / Regression / Edge / Negative
+
+### Test Design Rules
+- Prefer business-readable wording
+- Keep steps sequential and executable
+- Separate one assertion-heavy flow into multiple test cases when clarity improves
+- Cover validation errors and unhappy paths, not only happy paths
+- Use stable naming tied to feature/module names when possible
+- If requirements imply role-based behavior, generate role-specific cases
+- If requirements imply state transitions, generate transition coverage
+
+### Supported Output Formats
+- Markdown (default)
+- JSON (optional, if requested)
+- CSV (optional, if requested)
+
+When format is not specified, default to Markdown.
+
+---
+
+## SELENIUM SCRIPT GENERATION
+
+Generate Selenium automation derived from the generated test cases.
+Default stack:
+- Python
+- pytest
+- selenium
+
+Optional stack:
+- Java + TestNG, but only if explicitly requested
+
+### Selenium Script Requirements
+Include all of the following:
+- setup and teardown
+- modular test structure
+- readable test names
+- smart locators in this preference order when available:
+  1. id
+  2. name
+  3. css selector
+  4. xpath fallback
+- explicit assertions
+- basic error handling
+- clean, executable code
+
+### Automation Design Rules
+- Prefer maintainable selectors over brittle absolute xpath
+- Reuse helper functions / fixtures when repeated flows exist
+- Keep test data obvious and editable
+- Add comments only when they improve clarity
+- Avoid framework overengineering; keep scripts practical and runnable
+- If the UI structure is unknown from the document alone, clearly mark locator assumptions and ask for clarification when necessary
+
+If enough information exists only for partial automation, generate what is safely inferable and explicitly call out the gaps.
+
+---
+
+## GITHUB / REPOSITORY INTEGRATION
+
+Always use the already connected repository.
+Do NOT create a new repository.
+
+When saving generated artifacts, create or update these folders as needed:
+- `/test-cases/`
+- `/selenium-tests/`
+
+### File Saving Rules
+- Use meaningful filenames based on the document name, feature, or module
+- Avoid blind overwrites
+- If a target file already exists:
+  - compare intent/content
+  - update intelligently when it is clearly the same artifact
+  - otherwise create a versioned or differentiated filename
+- Preserve repo organization and existing naming conventions when present
+
+### Commit Expectations
+Use clear commit messages such as:
+- `Added generated test cases from uploaded document`
+- `Added Selenium automation scripts`
+
+If both are included in one commit, use a combined message that remains explicit.
+
+Do not push unless explicitly instructed by SAM / the user.
+
+---
+
+## EXECUTION WORKFLOW
+
+When this capability is invoked, follow this sequence:
+
+1. Read the uploaded document(s)
+2. Extract and summarize requirements
+3. Ask clarifying questions if critical details are missing
+4. Generate structured test cases
+5. Generate Selenium scripts from those test cases
+6. Save outputs into `/test-cases/` and `/selenium-tests/`
+7. Review for duplicate or conflicting filenames
+8. Commit changes with a clear message
+9. Return a completion summary containing:
+   - extracted requirement summary
+   - generated test case summary
+   - generated Selenium script summary
+   - file paths added/updated
+   - git commit summary
+
+---
+
+## FINAL RESPONSE EXPECTATIONS
+
+Return all of the following:
+- Extracted requirement summary
+- Generated test cases
+- Generated Selenium scripts
+- Git commit summary including files added or updated
+
+If clarification is needed, pause before script generation and ask only the minimum questions needed to proceed.
