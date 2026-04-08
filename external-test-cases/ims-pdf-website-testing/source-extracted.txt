@@ -1,0 +1,77 @@
+Website  Testing  Input  Document  
+1.  Application  Details  
+●  Application  Name:  IMS  (Inventory  Management  System)  ●  Environment:  Staging  ●  URL: https://staging-ims.ezmedtech.ai/ 
+2.  Login  Credentials  
+●  Username:  saicharan+33@ezmedtech.ai  ●  Password:  Admin123!  
+3.  Objective  
+The  objective  of  this  document  is  to  enable  automated  analysis  of  the  application,  generate  test  
+cases,
+ 
+and
+ 
+create
+ 
+Selenium
+ 
+automation
+ 
+scripts
+ 
+by
+ 
+navigating
+ 
+through
+ 
+the
+ 
+system
+ 
+and
+ 
+validating
+ 
+core
+ 
+functionalities.
+ 
+4.  Scope  of  Testing  
+The  testing  should  cover  the  following  areas:  
+4.1  Authentication  
+●  Verify  login  with  valid  credentials  ●  Verify  login  with  invalid  credentials  ●  Validate  error  messages  ●  Verify  session  handling  and  logout  functionality  
+4.2  Dashboard  
+●  Validate  dashboard  loads  successfully  after  login  ●  Verify  key  elements/widgets  are  displayed  ●  Check  responsiveness  and  data  visibility  
+4.3  Navigation  
+●  Verify  navigation  across  different  modules/pages  ●  Validate  menu  items  and  links  ●  Ensure  proper  redirection  between  pages  
+4.4  Module  Testing  
+(Identify  modules  dynamically  from  the  application  UI)  
+For  each  module:  
+●  Validate  page  load  ●  Verify  data  display  (tables/lists)  ●  Test  Create,  Read,  Update,  Delete  (CRUD)  operations  ●  Validate  form  inputs  and  error  handling  
+4.5  Forms  &  Validations  
+●  Validate  mandatory  fields  ●  Validate  incorrect  input  formats  ●  Verify  error  messages  and  success  messages  
+4.6  Data  Handling  
+●  Verify  data  persistence  after  operations  ●  Validate  search,  filter,  and  sorting  functionality  (if  available)  
+4.7  Logout  
+●  Verify  logout  functionality  ●  Ensure  session  is  terminated  properly  ●  Validate  redirection  to  login  page  
+ 
+5.  Expected  Outputs  
+The  system  (agent)  should:  
+5.1  Test  Case  Generation  
+Generate  structured  test  cases  including:  
+●  Test  Case  ID  ●  Title  ●  Description  ●  Preconditions  ●  Test  Steps  ●  Expected  Results  ●  Priority  ●  Test  Type  
+5.2  Selenium  Script  Generation  
+●  Generate  automation  scripts  using:  
+○  Python  +  Selenium  +  Pytest  ●  Scripts  should  include:  ○  Setup  and  teardown  ○  Element  locators  (id,  name,  css,  xpath)  ○  Assertions  ○  Error  handling  
+5.3  Execution  (Optional)  
+●  Execute  test  scripts  locally  if  requested  ●  Install  dependencies  if  required  ●  Provide  execution  logs  and  results  
+ 
+6.  Special  Instructions  
+●  The  agent  should:  ○  Navigate  the  application  dynamically  ○  Identify  pages  and  elements  automatically  ○  Avoid  hardcoded  assumptions  ●  If  the  application  is  accessible:  ○  Perform  live  validation  ●  If  not:  ○  Still  generate  test  cases  based  on  inferred  structure  
+ 
+7.  Repository  Handling  
+●  If  the  request  includes  pushing  code:  ○  Add  files  to:  ■  /test-cases/  ■  /selenium-tests/  ●  If  this  task  is  treated  as  external:  ○  Use  a  separate  folder:  ■  /ad-hoc-tests/ or  /external-tests/  
+ 
+8.  Final  Output  Format  
+The  agent  should  return:  
+●  Summary  of  analyzed  application  ●  Generated  test  cases  ●  Selenium  scripts  ●  Execution  results  (if  run)  
+●  Git  commit  summary  (if  pushed)  
