@@ -1,6 +1,7 @@
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { AboutPage } from './pages/AboutPage'
+import { CalendarBookingPage } from './pages/CalendarBookingPage'
 import { ChatPage } from './pages/ChatPage'
 import { CRMPage } from './pages/CRMPage'
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage'
@@ -11,17 +12,16 @@ import { RegisterPage } from './pages/RegisterPage'
 import { ReportPage } from './pages/ReportPage'
 import { ResetPasswordPage } from './pages/ResetPasswordPage'
 import { TicketsPage } from './pages/TicketsPage'
-import { HRLoginPage } from './pages/hr/HRLoginPage'
-import { HRDashboard } from './pages/hr/HRDashboard'
-import { HRCompaniesPage } from './pages/hr/HRCompaniesPage'
-import { HREmployeesPage } from './pages/hr/HREmployeesPage'
 import { HRAttendancePage } from './pages/hr/HRAttendancePage'
+import { HRCompaniesPage } from './pages/hr/HRCompaniesPage'
+import { HRDashboard } from './pages/hr/HRDashboard'
+import { HREmployeesPage } from './pages/hr/HREmployeesPage'
 import { HRLeavePage } from './pages/hr/HRLeavePage'
+import { HRLoginPage } from './pages/hr/HRLoginPage'
 import { HRPayslipsPage } from './pages/hr/HRPayslipsPage'
-import { HRReportsPage } from './pages/hr/HRReportsPage'
 import { HRProfilePage } from './pages/hr/HRProfilePage'
+import { HRReportsPage } from './pages/hr/HRReportsPage'
 import { getHRToken } from './lib/hrApi'
-import { Navigate } from 'react-router-dom'
 
 function HRProtectedRoute({ children }: { children: React.ReactNode }) {
   return getHRToken() ? <>{children}</> : <Navigate to="/hr" replace />
@@ -34,6 +34,7 @@ export default function App() {
       <Route path="/about" element={<AboutPage />} />
       <Route path="/crm" element={<ProtectedRoute><CRMPage /></ProtectedRoute>} />
       <Route path="/tickets" element={<ProtectedRoute><TicketsPage /></ProtectedRoute>} />
+      <Route path="/cal" element={<CalendarBookingPage />} />
       <Route path="/pricing" element={<PricingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />

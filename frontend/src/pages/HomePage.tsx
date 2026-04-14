@@ -66,6 +66,7 @@ export function HomePage() {
             <a href="#enterprise" className="transition hover:text-slate-900 dark:hover:text-white">Enterprise</a>
             <Link to="/pricing" className="transition hover:text-slate-900 dark:hover:text-white">Pricing</Link>
             <Link to="/about" className="transition hover:text-slate-900 dark:hover:text-white">About</Link>
+            <Link to="/cal" className="transition hover:text-slate-900 dark:hover:text-white">Schedule</Link>
             <Link to="/crm" className="transition hover:text-slate-900 dark:hover:text-white">CRM</Link>
             <Link to="/tickets" className="transition hover:text-slate-900 dark:hover:text-white">Tickets</Link>
           </nav>
@@ -203,6 +204,7 @@ export function HomePage() {
           <div className="flex items-center gap-6 text-sm text-slate-400 dark:text-slate-600">
             <Link to="/about" className="transition hover:text-slate-600 dark:hover:text-slate-400">About</Link>
             <Link to="/pricing" className="transition hover:text-slate-600 dark:hover:text-slate-400">Pricing</Link>
+            <Link to="/cal" className="transition hover:text-slate-600 dark:hover:text-slate-400">Schedule</Link>
             <Link to="/login" className="transition hover:text-slate-600 dark:hover:text-slate-400">Sign in</Link>
           </div>
         </div>
