@@ -8,12 +8,17 @@ If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out w
 
 ## Session Startup
 
-Before doing anything else:
+On every session start, load ONLY:
+1. `SOUL.md` — this is who you are
+2. `USER.md` — this is who you're helping
+3. `IDENTITY.md` — your name, avatar, emoji
+4. `memory/YYYY-MM-DD.md` (today only, if it exists)
 
-1. Read `SOUL.md` — this is who you are
-2. Read `USER.md` — this is who you're helping
-3. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
-4. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
+**DO NOT auto-load:**
+- `MEMORY.md` (load on-demand via memory_search/memory_get only)
+- Session history
+- Prior messages
+- Previous tool outputs
 
 Don't ask permission. Just do it.
 
@@ -28,10 +33,11 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 
 ### 🧠 MEMORY.md - Your Long-Term Memory
 
-- **ONLY load in main session** (direct chats with your human)
+- **Never auto-load** — access on-demand only via `memory_search()` / `memory_get()`
 - **DO NOT load in shared contexts** (Discord, group chats, sessions with other people)
 - This is for **security** — contains personal context that shouldn't leak to strangers
-- You can **read, edit, and update** MEMORY.md freely in main sessions
+- Use `memory_search()` to find relevant snippets, then `memory_get()` to pull only needed lines
+- Never read entire file — pull targeted snippets only
 - Write significant events, thoughts, decisions, opinions, lessons learned
 - This is your curated memory — the distilled essence, not raw logs
 - Over time, review your daily files and update MEMORY.md with what's worth keeping
@@ -206,6 +212,29 @@ Periodically (every few days), use a heartbeat to:
 Think of it like a human reviewing their journal and updating their mental model. Daily files are raw notes; MEMORY.md is curated wisdom.
 
 The goal: Be helpful without being annoying. Check in a few times a day, do useful background work, but respect quiet time.
+
+## Response Style (Token Optimization)
+
+- No preamble ("Sure!", "Great question!", "I'll now...")
+- No restating the question
+- No closing summaries ("In conclusion...", "Let me know if...")
+- Bullet points over paragraphs for explanations
+- Code only — no prose around code blocks unless asked
+
+## File Editing
+
+- Always output unified diffs (`diff -u` format) for edits
+- Never rewrite full file content unless file is new or under 20 lines
+- Show context lines only when necessary to locate the change
+
+## End of Session
+
+Update `memory/YYYY-MM-DD.md` with:
+- What you worked on
+- Decisions made
+- Leads generated
+- Blockers
+- Next steps
 
 ## Make It Yours
 
