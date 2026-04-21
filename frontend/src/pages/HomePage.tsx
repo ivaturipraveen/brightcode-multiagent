@@ -93,7 +93,7 @@ export function HomePage() {
               Enterprise AI agents, designed with restraint
             </div>
             <h1 className="mt-8 text-5xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-6xl lg:text-7xl lg:leading-[1.05]">
-              Build agent products teams actually use.
+              We build your AI Agentic platform so you can focus on your business
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-slate-500 dark:text-slate-400">
               Brightcone is a clean foundation for orchestrating AI agents, managing conversations, and shipping
