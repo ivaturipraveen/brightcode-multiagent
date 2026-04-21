@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { AboutPage } from './pages/AboutPage'
+import { CareersPage } from './pages/CareersPage'
 import { CalendarBookingPage } from './pages/CalendarBookingPage'
 import { ChatPage } from './pages/ChatPage'
 import { CRMPage } from './pages/CRMPage'
@@ -32,6 +33,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
+      <Route path="/careers" element={<CareersPage />} />
       <Route path="/crm" element={<ProtectedRoute><CRMPage /></ProtectedRoute>} />
       <Route path="/tickets" element={<ProtectedRoute><TicketsPage /></ProtectedRoute>} />
       <Route path="/cal" element={<CalendarBookingPage />} />
