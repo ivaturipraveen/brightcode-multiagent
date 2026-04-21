@@ -15,8 +15,8 @@ from routes.hr_auth import router as hr_auth_router
 from routes.hr_admin import router as hr_admin_router
 from routes.hr_employee import router as hr_employee_router
 from models import hr as _hr_model  # noqa: F401 — registers HR models with Base
-
-Base.metadata.create_all(bind=engine)
+from models import signup as _signup_model  # noqa: F401 — registers Signup with Base
+from routes.signup import router as signup_router
 
 app = FastAPI(title="Brightcone")
 
@@ -36,6 +36,12 @@ app.include_router(profile_router)
 app.include_router(hr_auth_router)
 app.include_router(hr_admin_router)
 app.include_router(hr_employee_router)
+app.include_router(signup_router)
+
+
+@app.on_event("startup")
+def create_tables() -> None:
+    Base.metadata.create_all(bind=engine)
 
 
 @app.get("/health")

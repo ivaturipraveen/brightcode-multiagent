@@ -1,4 +1,6 @@
+import { FormEvent, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { apiUrl } from '../lib/api'
 import { useTheme } from '../lib/theme'
 
 const features = [
@@ -21,6 +23,92 @@ const useCases = [
   'Internal research and ops assistants for enterprise teams',
   'Multi-agent product workflows with human review in the loop',
 ]
+
+function SignupSection() {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [company, setCompany] = useState('')
+  const [phone, setPhone] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState('')
+  const [error, setError] = useState('')
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault()
+    setError('')
+    setSuccess('')
+    setLoading(true)
+    try {
+      const res = await fetch(apiUrl('/signup'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, company, phone }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.detail ?? 'Signup failed')
+      setSuccess(data.message)
+      setName(''); setEmail(''); setCompany(''); setPhone('')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const inputCls = "w-full rounded-2xl border border-black/10 bg-[#faf8f3] px-4 py-3.5 text-slate-900 outline-none transition focus:border-[#d97757] focus:bg-white focus:ring-4 focus:ring-[#f0d8cf] dark:border-white/10 dark:bg-white/5 dark:text-white dark:focus:border-[#d97757] dark:focus:bg-white/10"
+
+  return (
+    <section id="signup" className="px-6 py-20 lg:px-8">
+      <div className="mx-auto max-w-2xl">
+        <div className="rounded-[2.5rem] border border-black/5 bg-white p-10 shadow-[0_20px_60px_rgba(15,23,42,0.07)] dark:border-white/5 dark:bg-[#111118] dark:shadow-[0_20px_60px_rgba(0,0,0,0.4)]">
+          <p className="text-sm font-medium uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500">Get early access</p>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">
+            Let's build something together
+          </h2>
+          <p className="mt-3 text-base text-slate-500 dark:text-slate-400">
+            Tell us a bit about yourself and we'll reach out to get you started.
+          </p>
+
+          {success ? (
+            <div className="mt-8 rounded-2xl border border-green-200 bg-green-50 px-6 py-5 text-sm font-medium text-green-700 dark:border-green-800/40 dark:bg-green-900/20 dark:text-green-400">
+              ✅ {success}
+            </div>
+          ) : (
+            <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
+              <div className="grid gap-5 sm:grid-cols-2">
+                <label className="block space-y-2">
+                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Full name <span className="text-[#d97757]">*</span></span>
+                  <input className={inputCls} placeholder="Jane Smith" value={name} onChange={e => setName(e.target.value)} required />
+                </label>
+                <label className="block space-y-2">
+                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Work email <span className="text-[#d97757]">*</span></span>
+                  <input className={inputCls} placeholder="jane@company.com" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+                </label>
+                <label className="block space-y-2">
+                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Company</span>
+                  <input className={inputCls} placeholder="Acme Corp" value={company} onChange={e => setCompany(e.target.value)} />
+                </label>
+                <label className="block space-y-2">
+                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Phone</span>
+                  <input className={inputCls} placeholder="+1 (555) 000-0000" type="tel" value={phone} onChange={e => setPhone(e.target.value)} />
+                </label>
+              </div>
+              {error && (
+                <p className="rounded-2xl border border-[#efc7ba] bg-[#fff4ef] px-4 py-3 text-sm text-[#a44b2f]">{error}</p>
+              )}
+              <button
+                className="w-full rounded-full bg-slate-900 px-4 py-3.5 font-medium text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100"
+                disabled={loading}
+              >
+                {loading ? 'Submitting…' : 'Request access →'}
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}
 
 function ThemeToggle() {
   const { theme, toggle } = useTheme()
@@ -161,6 +249,9 @@ export function HomePage() {
             </div>
           </div>
         </section>
+
+        {/* ── Signup ────────────────────────────────────────────── */}
+        <SignupSection />
 
         {/* ── CTA ───────────────────────────────────────────────── */}
         <section className="px-6 pb-24 pt-8 lg:px-8">
