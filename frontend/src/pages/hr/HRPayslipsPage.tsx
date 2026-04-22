@@ -84,7 +84,7 @@ export function HRPayslipsPage() {
                 <div className="flex justify-between"><span className="text-slate-500">Deductions</span><span className="font-medium text-red-500">-${s.deductions.toLocaleString()}</span></div>
                 <div className="border-t border-slate-100 pt-2 flex justify-between"><span className="font-semibold text-slate-900">Net Pay</span><span className="font-bold text-indigo-600">${s.net_pay.toLocaleString()}</span></div>
               </div>
-              <p className="mt-3 text-xs text-slate-400">Generated {new Date(s.generated_at).toLocaleDateString()}</p>
+              <p className="mt-3 text-xs text-slate-400">Generated {new Date(s.generated_at).toLocaleDateString('en-US', { timeZone: 'America/New_York' })}</p>
             </div>
           ))}
         </div>

@@ -135,7 +135,7 @@ export function ReportPage() {
                           </span>
                         </td>
                         <td className="hidden px-6 py-4 text-slate-400 text-xs lg:table-cell">
-                          {new Date(log.sent_at).toLocaleString()}
+                          {new Date(log.sent_at).toLocaleString('en-US', { timeZone: 'America/New_York' })}
                         </td>
                       </tr>
                     ))}
@@ -146,7 +146,7 @@ export function ReportPage() {
 
             {/* Footer note */}
             <p className="mt-4 text-center text-xs text-slate-400">
-              Report generated at {new Date().toLocaleString()} · All times in local timezone
+              Report generated at {new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })} · All times in EST (America/New_York)
             </p>
           </>
         )}

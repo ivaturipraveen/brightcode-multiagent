@@ -1,4 +1,7 @@
 from datetime import date, datetime
+from zoneinfo import ZoneInfo
+
+EST = ZoneInfo("America/New_York")
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
@@ -170,7 +173,7 @@ def admin_apply_leave(payload: AdminLeaveRequest, db: Session = Depends(get_db),
         reason=payload.reason,
         status=LeaveStatus.approved,  # admin-applied leaves auto-approved
         reviewed_by=current.id,
-        reviewed_at=datetime.utcnow(),
+        reviewed_at=datetime.now(EST),
     )
     db.add(leave)
     db.commit()

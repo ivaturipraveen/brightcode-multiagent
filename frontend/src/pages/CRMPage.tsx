@@ -308,7 +308,7 @@ export function CRMPage() {
                         </span>
                       </td>
                       <td className="hidden px-6 py-4 text-slate-400 dark:text-gray-500 lg:table-cell">
-                        {new Date(log.sent_at).toLocaleString()}
+                        {new Date(log.sent_at).toLocaleString('en-US', { timeZone: 'America/New_York' })}
                       </td>
                     </tr>
                   ))}
@@ -401,7 +401,7 @@ export function CRMPage() {
                         {formatCurrency(lead.value)}
                       </td>
                       <td className="hidden px-6 py-4 text-slate-400 dark:text-gray-500 lg:table-cell">
-                        {lead.created_at ? new Date(lead.created_at).toLocaleDateString() : '—'}
+                        {lead.created_at ? new Date(lead.created_at).toLocaleDateString('en-US', { timeZone: 'America/New_York' }) : '—'}
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">

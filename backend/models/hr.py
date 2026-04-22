@@ -1,8 +1,14 @@
 from datetime import date, datetime
+from zoneinfo import ZoneInfo
 from sqlalchemy import Boolean, Column, Date, DateTime, Float, ForeignKey, Integer, String, Text, Enum
 from sqlalchemy.orm import relationship
 from database import Base
 import enum
+
+EST = ZoneInfo("America/New_York")
+
+def now_est():
+    return datetime.now(EST)
 
 
 class CompanyStatus(str, enum.Enum):
@@ -37,7 +43,7 @@ class HRCompany(Base):
     address = Column(Text, nullable=True)
     industry = Column(String, nullable=True)
     status = Column(Enum(CompanyStatus), default=CompanyStatus.active)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), default=now_est)
 
     employees = relationship("HREmployee", back_populates="company", cascade="all, delete-orphan")
 
@@ -60,7 +66,7 @@ class HREmployee(Base):
     status = Column(Enum(EmployeeStatus), default=EmployeeStatus.active)
     avatar_url = Column(String, nullable=True)
     bio = Column(Text, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), default=now_est)
 
     company = relationship("HRCompany", back_populates="employees")
     attendance = relationship("HRAttendance", back_populates="employee", cascade="all, delete-orphan")
@@ -93,7 +99,7 @@ class HRLeave(Base):
     days = Column(Integer, nullable=False)
     reason = Column(Text, nullable=True)
     status = Column(Enum(LeaveStatus), default=LeaveStatus.pending)
-    applied_at = Column(DateTime, default=datetime.utcnow)
+    applied_at = Column(DateTime(timezone=True), default=now_est)
     reviewed_by = Column(Integer, ForeignKey("hr_employees.id"), nullable=True)
     reviewed_at = Column(DateTime, nullable=True)
 
@@ -110,6 +116,6 @@ class HRPayslip(Base):
     allowances = Column(Float, default=0)
     deductions = Column(Float, default=0)
     net_pay = Column(Float, default=0)
-    generated_at = Column(DateTime, default=datetime.utcnow)
+    generated_at = Column(DateTime(timezone=True), default=now_est)
 
     employee = relationship("HREmployee", back_populates="payslips")

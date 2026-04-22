@@ -1,4 +1,7 @@
 from datetime import date, datetime
+from zoneinfo import ZoneInfo
+
+EST = ZoneInfo("America/New_York")
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
@@ -112,7 +115,7 @@ def clock_in(db: Session = Depends(get_db), current: HREmployee = Depends(get_cu
     if not existing:
         existing = HRAttendance(employee_id=current.id, date=today)
         db.add(existing)
-    existing.clock_in = datetime.utcnow()
+    existing.clock_in = datetime.now(EST)
     db.commit()
     return {"message": "Clocked in.", "time": existing.clock_in.isoformat()}
 
@@ -127,7 +130,7 @@ def clock_out(db: Session = Depends(get_db), current: HREmployee = Depends(get_c
         raise HTTPException(400, "Not clocked in today.")
     if record.clock_out:
         raise HTTPException(400, "Already clocked out.")
-    record.clock_out = datetime.utcnow()
+    record.clock_out = datetime.now(EST)
     delta = record.clock_out - record.clock_in
     record.total_hours = round(delta.total_seconds() / 3600, 2)
     db.commit()
@@ -218,7 +221,7 @@ def action_leave(leave_id: int, payload: LeaveAction, db: Session = Depends(get_
     else:
         raise HTTPException(400, "Invalid action. Use 'approved' or 'rejected'.")
     leave.reviewed_by = current.id
-    leave.reviewed_at = datetime.utcnow()
+    leave.reviewed_at = datetime.now(EST)
     db.commit()
     return {"message": f"Leave {payload.action}."}
 

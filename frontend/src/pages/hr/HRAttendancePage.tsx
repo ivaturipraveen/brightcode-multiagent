@@ -18,7 +18,7 @@ export function HRAttendancePage() {
     setActionLoading(true); setError(''); setMessage('')
     try {
       const res = await hrPost<any>('/hr/attendance/clockin', {}, token)
-      setMessage(`Clocked in at ${new Date(res.time).toLocaleTimeString()}`)
+      setMessage(`Clocked in at ${new Date(res.time).toLocaleTimeString('en-US', { timeZone: 'America/New_York' })}`)
       const updated = await hrGet<any[]>('/hr/attendance', token)
       setRecords(updated)
     } catch (e: any) { setError(e.message) }
@@ -47,20 +47,20 @@ export function HRAttendancePage() {
 
       {/* Today's Status */}
       <div className="mb-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-4">Today — {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+        <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-4">Today — {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/New_York' })}</p>
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex items-center gap-3">
             <div className={`h-10 w-10 rounded-xl flex items-center justify-center text-lg ${today?.clock_in ? 'bg-green-100' : 'bg-slate-100'}`}>⏰</div>
             <div>
               <p className="text-xs text-slate-400">Clock In</p>
-              <p className="text-sm font-semibold text-slate-900">{today?.clock_in ? new Date(today.clock_in).toLocaleTimeString() : '—'}</p>
+              <p className="text-sm font-semibold text-slate-900">{today?.clock_in ? new Date(today.clock_in).toLocaleTimeString('en-US', { timeZone: 'America/New_York' }) : '—'}</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <div className={`h-10 w-10 rounded-xl flex items-center justify-center text-lg ${today?.clock_out ? 'bg-blue-100' : 'bg-slate-100'}`}>🏁</div>
             <div>
               <p className="text-xs text-slate-400">Clock Out</p>
-              <p className="text-sm font-semibold text-slate-900">{today?.clock_out ? new Date(today.clock_out).toLocaleTimeString() : '—'}</p>
+              <p className="text-sm font-semibold text-slate-900">{today?.clock_out ? new Date(today.clock_out).toLocaleTimeString('en-US', { timeZone: 'America/New_York' }) : '—'}</p>
             </div>
           </div>
           {today?.total_hours && (
@@ -103,8 +103,8 @@ export function HRAttendancePage() {
               ) : records.map(r => (
                 <tr key={r.id} className="hover:bg-slate-50">
                   <td className="px-5 py-3.5 font-medium text-slate-900">{r.date}</td>
-                  <td className="px-5 py-3.5 text-slate-500">{r.clock_in ? new Date(r.clock_in).toLocaleTimeString() : '—'}</td>
-                  <td className="px-5 py-3.5 text-slate-500">{r.clock_out ? new Date(r.clock_out).toLocaleTimeString() : '—'}</td>
+                  <td className="px-5 py-3.5 text-slate-500">{r.clock_in ? new Date(r.clock_in).toLocaleTimeString('en-US', { timeZone: 'America/New_York' }) : '—'}</td>
+                  <td className="px-5 py-3.5 text-slate-500">{r.clock_out ? new Date(r.clock_out).toLocaleTimeString('en-US', { timeZone: 'America/New_York' }) : '—'}</td>
                   <td className="px-5 py-3.5 text-slate-500">{r.total_hours ? `${r.total_hours}h` : '—'}</td>
                   <td className="px-5 py-3.5">
                     <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${r.status === 'present' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>{r.status}</span>

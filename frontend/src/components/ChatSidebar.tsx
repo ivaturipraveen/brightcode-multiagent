@@ -79,7 +79,7 @@ export function ChatSidebar({
                   </span>
                   <span className={`mt-0.5 text-xs ${active ? 'text-indigo-400 dark:text-indigo-500' : 'text-gray-400 dark:text-gray-600'}`}>
                     {conversation.updated_at
-                      ? new Date(conversation.updated_at).toLocaleDateString(undefined, {
+                      ? new Date(conversation.updated_at).toLocaleDateString('en-US', { timeZone: 'America/New_York',
                           month: 'short',
                           day: 'numeric',
                           hour: '2-digit',
