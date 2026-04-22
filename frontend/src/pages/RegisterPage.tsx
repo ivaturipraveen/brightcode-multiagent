@@ -11,13 +11,18 @@ export function RegisterPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  async function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setError('')
     setLoading(true)
 
+    const form = event.currentTarget
+    const nameValue = (form.elements.namedItem('name') as HTMLInputElement)?.value || name
+    const emailValue = (form.elements.namedItem('email') as HTMLInputElement)?.value || email
+    const passwordValue = (form.elements.namedItem('password') as HTMLInputElement)?.value || password
+
     try {
-      const data = await postJson<AuthResponse>('/auth/register', { name, email, password })
+      const data = await postJson<AuthResponse>('/auth/register', { name: nameValue, email: emailValue, password: passwordValue })
       localStorage.setItem('token', data.access_token)
       navigate('/chat')
     } catch (err) {
@@ -35,6 +40,8 @@ export function RegisterPage() {
           <input
             className="w-full rounded-2xl border border-black/10 bg-[#faf8f3] px-4 py-3.5 text-slate-900 outline-none transition focus:border-[#d97757] focus:bg-white focus:ring-4 focus:ring-[#f0d8cf]"
             placeholder="Your name"
+            name="name"
+            autoComplete="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -46,6 +53,8 @@ export function RegisterPage() {
             className="w-full rounded-2xl border border-black/10 bg-[#faf8f3] px-4 py-3.5 text-slate-900 outline-none transition focus:border-[#d97757] focus:bg-white focus:ring-4 focus:ring-[#f0d8cf]"
             placeholder="you@example.com"
             type="email"
+            name="email"
+            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -57,6 +66,8 @@ export function RegisterPage() {
             className="w-full rounded-2xl border border-black/10 bg-[#faf8f3] px-4 py-3.5 text-slate-900 outline-none transition focus:border-[#d97757] focus:bg-white focus:ring-4 focus:ring-[#f0d8cf]"
             placeholder="Choose a password"
             type="password"
+            name="password"
+            autoComplete="new-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required

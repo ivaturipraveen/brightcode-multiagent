@@ -30,11 +30,15 @@ export function HRLoginPage() {
   const [empDept, setEmpDept] = useState('')
   const [empDesig, setEmpDesig] = useState('')
 
-  async function handleLogin(e: FormEvent) {
+  async function handleLogin(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setError(''); setLoading(true)
+    // Read from DOM at submit time to handle browser autofill bypassing React onChange
+    const form = e.currentTarget
+    const emailValue = (form.elements.namedItem('hr_email') as HTMLInputElement)?.value || loginEmail
+    const passwordValue = (form.elements.namedItem('hr_password') as HTMLInputElement)?.value || loginPassword
     try {
-      const data = await hrPost<any>('/hr/auth/login', { email: loginEmail, password: loginPassword })
+      const data = await hrPost<any>('/hr/auth/login', { email: emailValue, password: passwordValue })
       setHRSession(data.access_token, data.role, data.name, data.company_id)
       navigate('/hr/dashboard')
     } catch (err: any) { setError(err.message) }
@@ -112,11 +116,11 @@ export function HRLoginPage() {
               <form onSubmit={handleLogin} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
-                  <input className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="email" value={loginEmail} onChange={e => setLoginEmail(e.target.value)} placeholder="you@company.com" required />
+                  <input className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="email" name="hr_email" autoComplete="email" value={loginEmail} onChange={e => setLoginEmail(e.target.value)} placeholder="you@company.com" required />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1.5">Password</label>
-                  <input className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="password" value={loginPassword} onChange={e => setLoginPassword(e.target.value)} placeholder="••••••••" required />
+                  <input className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" type="password" name="hr_password" autoComplete="current-password" value={loginPassword} onChange={e => setLoginPassword(e.target.value)} placeholder="••••••••" required />
                 </div>
                 <button disabled={loading} className="w-full rounded-lg bg-indigo-600 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60">
                   {loading ? 'Signing in...' : 'Sign In'}
