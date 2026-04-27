@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { TopsysPage } from './pages/TopsysPage'
 import { SmartShopPage } from './pages/SmartShopPage'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { AboutPage } from './pages/AboutPage'
@@ -32,6 +33,7 @@ function HRProtectedRoute({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <Routes>
+      <Route path="/topsys" element={<TopsysPage />} />
       <Route path="/smartshop" element={<SmartShopPage />} />
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
