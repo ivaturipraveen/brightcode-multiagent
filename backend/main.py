@@ -19,6 +19,8 @@ from models import signup as _signup_model  # noqa: F401 — registers Signup wi
 from models import career as _career_model  # noqa: F401 — registers JobApplication with Base
 from routes.signup import router as signup_router
 from routes.careers import router as careers_router
+from models import freelance as _freelance_model  # noqa: F401 — registers Freelance models with Base
+from routes.freelance import router as freelance_router
 
 app = FastAPI(title="Brightcone")
 
@@ -40,6 +42,7 @@ app.include_router(hr_admin_router)
 app.include_router(hr_employee_router)
 app.include_router(signup_router)
 app.include_router(careers_router)
+app.include_router(freelance_router)
 
 
 @app.on_event("startup")

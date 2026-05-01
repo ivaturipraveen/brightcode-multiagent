@@ -25,6 +25,10 @@ import { HRPayslipsPage } from './pages/hr/HRPayslipsPage'
 import { HRProfilePage } from './pages/hr/HRProfilePage'
 import { HRReportsPage } from './pages/hr/HRReportsPage'
 import { getHRToken } from './lib/hrApi'
+import { FreelanceLandingPage } from './pages/FreelanceLandingPage'
+import { FreelanceJobsPage } from './pages/FreelanceJobsPage'
+import { FreelancePostJobPage } from './pages/FreelancePostJobPage'
+import { FreelanceFreelancersPage } from './pages/FreelanceFreelancersPage'
 
 function HRProtectedRoute({ children }: { children: React.ReactNode }) {
   return getHRToken() ? <>{children}</> : <Navigate to="/hr" replace />
@@ -58,6 +62,12 @@ export default function App() {
       <Route path="/hr/payslips" element={<HRProtectedRoute><HRPayslipsPage /></HRProtectedRoute>} />
       <Route path="/hr/reports" element={<HRProtectedRoute><HRReportsPage /></HRProtectedRoute>} />
       <Route path="/hr/profile" element={<HRProtectedRoute><HRProfilePage /></HRProtectedRoute>} />
+
+      {/* ── Freelance Marketplace ── */}
+      <Route path="/freelance" element={<FreelanceLandingPage />} />
+      <Route path="/freelance/jobs" element={<FreelanceJobsPage />} />
+      <Route path="/freelance/post-job" element={<FreelancePostJobPage />} />
+      <Route path="/freelance/freelancers" element={<FreelanceFreelancersPage />} />
 
       <Route
         path="/chat"
