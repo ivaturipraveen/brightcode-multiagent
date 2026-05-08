@@ -179,7 +179,7 @@ export function HomePage() {
         <section className="px-6 pb-24 pt-20 lg:px-8 lg:pb-32 lg:pt-32">
           <div className="mx-auto max-w-3xl text-center">
             <div className="inline-flex rounded-full border border-[#e7d7cf] bg-[#fff7f3] px-4 py-1.5 text-sm font-medium text-[#b85c3d] dark:border-[#b85c3d]/30 dark:bg-[#b85c3d]/10 dark:text-[#e8916f]">
-              Enterprise AI agents, designed with restraint
+              Enterprise AI simplified
             </div>
             <h1 className="mt-8 text-5xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-6xl lg:text-7xl lg:leading-[1.05]">
               We build your AI Agentic platform so you can focus on your business
