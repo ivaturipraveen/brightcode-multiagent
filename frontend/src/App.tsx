@@ -29,6 +29,7 @@ import { FreelanceLandingPage } from './pages/FreelanceLandingPage'
 import { FreelanceJobsPage } from './pages/FreelanceJobsPage'
 import { FreelancePostJobPage } from './pages/FreelancePostJobPage'
 import { FreelanceFreelancersPage } from './pages/FreelanceFreelancersPage'
+import { BartPage } from './pages/BartPage'
 
 function HRProtectedRoute({ children }: { children: React.ReactNode }) {
   return getHRToken() ? <>{children}</> : <Navigate to="/hr" replace />
@@ -62,6 +63,9 @@ export default function App() {
       <Route path="/hr/payslips" element={<HRProtectedRoute><HRPayslipsPage /></HRProtectedRoute>} />
       <Route path="/hr/reports" element={<HRProtectedRoute><HRReportsPage /></HRProtectedRoute>} />
       <Route path="/hr/profile" element={<HRProtectedRoute><HRProfilePage /></HRProtectedRoute>} />
+
+      {/* ── BART Transit Portal ── */}
+      <Route path="/bart" element={<BartPage />} />
 
       {/* ── Freelance Marketplace ── */}
       <Route path="/freelance" element={<FreelanceLandingPage />} />
