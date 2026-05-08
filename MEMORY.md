@@ -69,6 +69,20 @@ Every task response MUST follow this exact format — no exceptions:
 
 ---
 
+## 🧪 RILEY Must Always Write Tests (NON-NEGOTIABLE)
+
+**Every feature task MUST include Selenium integration tests — no exceptions.**
+
+- RILEY writes tests for every new page/feature before the task is marked done
+- Tests must be committed in the same branch as the feature
+- If tests can't run (no live URL yet), write them anyway and document the target URL
+- Never mark RILEY as "Not involved" for any frontend feature
+- Tests go in `tests/selenium/` or `tests/frontend/`
+
+**Missed on BART transit portal (#19). Never again.**
+
+---
+
 ## 📌 Project Info
 
 - **Repo:** git@github.com:ivaturipraveen/brightcode-multiagent.git
