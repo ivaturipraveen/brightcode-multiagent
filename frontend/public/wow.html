@@ -745,202 +745,177 @@
   </footer>
 
   <script>
-    // Cursor
-    const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
-    let mx=0,my=0,rx=0,ry=0;
-    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-    (function tick(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
-    document.querySelectorAll('a,button,.ft,.pl,.pod,.ci').forEach(el=>{
-      el.addEventListener('mouseenter',()=>{ring.style.transform='translate(-50%,-50%) scale(1.8)';ring.style.borderColor='rgba(201,168,76,0.8)';});
-      el.addEventListener('mouseleave',()=>{ring.style.transform='translate(-50%,-50%) scale(1)';ring.style.borderColor='rgba(201,168,76,0.5)';});
-    });
+  // ── CURSOR ─────────────────────────────────────────────────────
+  const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  (function tick(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
+  document.querySelectorAll('a,button,.ft,.pl,.pod,.ci').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ring.style.transform='translate(-50%,-50%) scale(1.8)';ring.style.borderColor='rgba(201,168,76,0.8)';});
+    el.addEventListener('mouseleave',()=>{ring.style.transform='translate(-50%,-50%) scale(1)';ring.style.borderColor='rgba(201,168,76,0.5)';});
+  });
 
-    // Nav scroll
-    window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('s',scrollY>60));
+  // ── NAV SCROLL ──────────────────────────────────────────────────
+  window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('s',scrollY>60));
 
-    // Reveal
-    const ro=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('v')),{threshold:0.08});
-    document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
+  // ── REVEAL ─────────────────────────────────────────────────────
+  const ro=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('v')),{threshold:0.08});
+  document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
 
-    // Hero image
-    const hi=document.getElementById('heroImg');
-    setTimeout(()=>hi.classList.add('loaded'),200);
+  // ── HERO IMAGE ──────────────────────────────────────────────────
+  const hi=document.getElementById('heroImg');
+  if(hi) setTimeout(()=>hi.classList.add('loaded'),200);
 
-    // Parallax
-    window.addEventListener('scroll',()=>{
-      const hc=document.querySelector('.hero-content');
-      if(hc)hc.style.transform=`translateY(${scrollY*0.22}px)`;
-    });
+  // ── PARALLAX ───────────────────────────────────────────────────
+  window.addEventListener('scroll',()=>{
+    const hc=document.querySelector('.hero-content');
+    if(hc)hc.style.transform=`translateY(${scrollY*0.22}px)`;
+  });
 
-    // Pod select
-    function selectPod(el){
-      if(el.classList.contains('unavail'))return;
-      document.querySelectorAll('.pod').forEach(p=>p.classList.remove('selected'));
-      el.classList.add('selected');
-      const podNum=el.dataset.pod;
-      const sel=document.getElementById('bf-pod');
-      if(sel){
-        for(let o of sel.options){if(o.value===podNum){o.selected=true;break;}}
-      }
-    }
-    // Sync pod dropdown to grid
-    document.getElementById('bf-pod').addEventListener('change',function(){
+  // ── POD SELECTOR ───────────────────────────────────────────────
+  function selectPod(el){
+    if(el.classList.contains('unavail'))return;
+    document.querySelectorAll('.pod').forEach(p=>p.classList.remove('selected'));
+    el.classList.add('selected');
+    const podNum=el.dataset.pod;
+    const sel=document.getElementById('bf-pod');
+    if(sel){for(let o of sel.options){if(o.value===podNum){o.selected=true;break;}}}
+  }
+  const podDropdown=document.getElementById('bf-pod');
+  if(podDropdown){
+    podDropdown.addEventListener('change',function(){
       const v=this.value;
       document.querySelectorAll('.pod').forEach(p=>{
         p.classList.remove('selected');
         if(p.dataset.pod===v&&!p.classList.contains('unavail'))p.classList.add('selected');
       });
     });
+  }
 
-    // Set min date to today
-    const dateInput=document.getElementById('bf-date');
+  // ── DATE MIN ───────────────────────────────────────────────────
+  const dateInput=document.getElementById('bf-date');
+  if(dateInput){
     const today=new Date();
     const yyyy=today.getFullYear(),mm=String(today.getMonth()+1).padStart(2,'0'),dd=String(today.getDate()).padStart(2,'0');
     dateInput.min=`${yyyy}-${mm}-${dd}`;
+  }
 
-    // Submit booking
-    function submitBooking(){
-      const fname=document.getElementById('bf-fname').value.trim();
-      const email=document.getElementById('bf-email').value.trim();
-      const date=document.getElementById('bf-date').value;
-      const service=document.getElementById('bf-service').value;
-      const guests=document.getElementById('bf-guests').value;
-      if(!fname||!email||!date||!service||!guests){
-        alert('Please complete all required fields to request your reservation.');
-        return;
-      }
-      document.getElementById('formInner').style.display='none';
-      document.getElementById('bf-confirm').style.display='block';
-    }
-  
-  // ══════════════════════════════════════════════
+  // ── CITY TAG SELECT ────────────────────────────────────────────
+  document.querySelectorAll('.city').forEach(c=>c.addEventListener('click',()=>{
+    document.querySelectorAll('.city').forEach(x=>x.classList.remove('a'));c.classList.add('a');
+  }));
+
+  // ══════════════════════════════════════════════════════════════
   //  MULTILINGUAL ENGINE — EN / IT / ZH
-  // ══════════════════════════════════════════════
+  // ══════════════════════════════════════════════════════════════
   const TRANSLATIONS = {
     en: {
-      nav_philosophy: 'Philosophy',
-      nav_experience: 'The Experience',
-      nav_italy:      'Made in Italy',
-      nav_reserve:    'Reserve',
-      nav_cta:        'Reserve Your Pod',
-      hero_city:      'Perugia, Italia',
-      hero_tag:       'Where the art of Italian gastronomy meets<br>the precision of a new culinary discipline.',
-      hero_cta1:      'Discover the Journey',
-      hero_cta2:      'Reserve a Table',
-      mq1: 'Nine Courses', mq2: 'Michelin-Designed Menus', mq4: 'Perugia · Opening 2025',
-      mq5: 'Tradition in Evolution', mq6: 'Fast Fine Dining',
-      phil_ey:    'Our Philosophy',
-      phil_title: 'A laboratory<br>of <em>wonder.</em>',
-      phil_quote: 'We do not replicate chefs. We replicate the conditions in which greatness is inevitable.',
-      exp_ey:     'The Experience',
-      exp_title:  'Nine acts.<br><em>One narrative.</em>',
-      italy_ey:   'Provenance & Soul',
+      nav_philosophy:'Philosophy', nav_experience:'The Experience',
+      nav_italy:'Made in Italy', nav_reserve:'Reserve', nav_cta:'Reserve Your Pod',
+      hero_city:'Perugia, Italia',
+      hero_tag:'Where the art of Italian gastronomy meets<br>the precision of a new culinary discipline.',
+      hero_cta1:'Discover the Journey', hero_cta2:'Reserve a Table',
+      mq1:'Nine Courses', mq2:'Michelin-Designed Menus', mq4:'Perugia · Opening 2025',
+      mq5:'Tradition in Evolution', mq6:'Fast Fine Dining',
+      phil_ey:'Our Philosophy',
+      phil_title:'A laboratory<br>of <em>wonder.</em>',
+      phil_quote:'We do not replicate chefs. We replicate the conditions in which greatness is inevitable.',
+      exp_ey:'The Experience', exp_title:'Nine acts.<br><em>One narrative.</em>',
+      italy_ey:'Provenance & Soul',
       italy_title:'Italy is not<br>an ingredient.<br><em>It is the recipe.</em>',
-      book_ey:    'Reservations',
-      book_title: 'Secure your<br><em>experience.</em>',
-      pod_ey:     'Select Your Pod',
-      form_title: 'Reserve Your Table',
-      form_fname: 'First Name',   form_lname: 'Surname',
-      form_email: 'Email Address', form_phone: 'Phone Number',
-      form_date:  'Preferred Date', form_service: 'Service',
-      form_guests:'Number of Guests', form_wine: 'Wine Pairing',
-      form_pod:   'Pod Preference',
-      form_notes: 'Dietary Requirements or Special Occasions',
+      book_ey:'Reservations', book_title:'Secure your<br><em>experience.</em>',
+      pod_ey:'Select Your Pod', form_title:'Reserve Your Table',
+      form_fname:'First Name', form_lname:'Surname',
+      form_email:'Email Address', form_phone:'Phone Number',
+      form_date:'Preferred Date', form_service:'Service',
+      form_guests:'Number of Guests', form_wine:'Wine Pairing',
+      form_pod:'Pod Preference',
+      form_notes:'Dietary Requirements or Special Occasions',
       form_submit:'Request Reservation',
-      confirm_title: 'Your request has been received.',
-      rcta_title: 'The most remarkable<br>meal of your life<br>is <em>thirty minutes away.</em>',
-      footer_tag: 'Where the art of Italian gastronomy meets the precision of a new culinary discipline.',
-      service_opt1: 'Lunch — 12:30', service_opt2: 'Dinner — 19:30', service_opt3: 'Dinner — 21:30',
-      wine_opt0: 'No pairing', wine_opt1: 'Classic Pairing — Italian Selection', wine_opt2: 'Premium Pairing — Prestige Labels',
-      guests_placeholder: 'Guests (max 4)',
-      notes_placeholder: 'Allergies, celebrations, or any notes for our team...',
-      fname_placeholder: 'Giovanni', lname_placeholder: 'Rossi',
-      email_placeholder: 'giovanni@example.com', phone_placeholder: '+39 075 000 0000',
-      confirm_text: 'Thank you. Our team will confirm your reservation at WoW Perugia within 24 hours. We look forward to welcoming you to an experience unlike any other.<br><br><em style="color:var(--gold)">A presto — see you soon.</em>',
+      confirm_title:'Your request has been received.',
+      rcta_title:'The most remarkable<br>meal of your life<br>is <em>thirty minutes away.</em>',
+      footer_tag:'Where the art of Italian gastronomy meets the precision of a new culinary discipline.',
+      service_placeholder:'Select service',
+      service_opt1:'Lunch — 12:30', service_opt2:'Dinner — 19:30', service_opt3:'Dinner — 21:30',
+      wine_opt0:'No pairing', wine_opt1:'Classic Pairing — Italian Selection', wine_opt2:'Premium Pairing — Prestige Labels',
+      guests_placeholder:'Guests (max 4)',
+      notes_placeholder:'Allergies, celebrations, or any notes for our team...',
+      fname_placeholder:'Giovanni', lname_placeholder:'Rossi',
+      email_placeholder:'giovanni@example.com', phone_placeholder:'+39 075 000 0000',
+      confirm_text:'Thank you. Our team will confirm your reservation at WoW Perugia within 24 hours. We look forward to welcoming you to an experience unlike any other.<br><br><em style="color:var(--gold)">A presto — see you soon.</em>',
+      avail_msg:'pods available for the current season · Perugia · Opening 2025',
     },
-
     it: {
-      nav_philosophy: 'Filosofia',
-      nav_experience: "L'Esperienza",
-      nav_italy:      'Fatto in Italia',
-      nav_reserve:    'Prenota',
-      nav_cta:        'Prenota il Tuo Pod',
-      hero_city:      'Perugia, Italia',
-      hero_tag:       "Dove l'arte della gastronomia italiana incontra<br>la precisione di una nuova disciplina culinaria.",
-      hero_cta1:      'Scopri il Percorso',
-      hero_cta2:      'Prenota un Tavolo',
-      mq1: 'Nove Portate', mq2: 'Menu Firmati Michelin', mq4: 'Perugia · Apertura 2025',
-      mq5: 'Tradizione in Evoluzione', mq6: 'Fast Fine Dining',
-      phil_ey:    'La Nostra Filosofia',
-      phil_title: 'Un laboratorio<br>di <em>meraviglia.</em>',
-      phil_quote: 'Non replichiamo gli chef. Replichiamo le condizioni in cui la grandezza è inevitabile.',
-      exp_ey:     "L'Esperienza",
-      exp_title:  'Nove atti.<br><em>Una sola narrazione.</em>',
-      italy_ey:   'Provenienza & Anima',
+      nav_philosophy:'Filosofia', nav_experience:"L'Esperienza",
+      nav_italy:'Fatto in Italia', nav_reserve:'Prenota', nav_cta:'Prenota il Tuo Pod',
+      hero_city:'Perugia, Italia',
+      hero_tag:"Dove l'arte della gastronomia italiana incontra<br>la precisione di una nuova disciplina culinaria.",
+      hero_cta1:'Scopri il Percorso', hero_cta2:'Prenota un Tavolo',
+      mq1:'Nove Portate', mq2:'Menu Firmati Michelin', mq4:'Perugia · Apertura 2025',
+      mq5:'Tradizione in Evoluzione', mq6:'Fast Fine Dining',
+      phil_ey:'La Nostra Filosofia',
+      phil_title:'Un laboratorio<br>di <em>meraviglia.</em>',
+      phil_quote:'Non replichiamo gli chef. Replichiamo le condizioni in cui la grandezza è inevitabile.',
+      exp_ey:"L'Esperienza", exp_title:'Nove atti.<br><em>Una sola narrazione.</em>',
+      italy_ey:'Provenienza & Anima',
       italy_title:"L'Italia non è<br>un ingrediente.<br><em>È la ricetta.</em>",
-      book_ey:    'Prenotazioni',
-      book_title: 'Assicura la tua<br><em>esperienza.</em>',
-      pod_ey:     'Scegli il Tuo Pod',
-      form_title: 'Prenota il Tuo Tavolo',
-      form_fname: 'Nome',          form_lname: 'Cognome',
-      form_email: 'Indirizzo Email', form_phone: 'Numero di Telefono',
-      form_date:  'Data Preferita', form_service: 'Servizio',
-      form_guests:'Numero di Ospiti', form_wine: 'Abbinamento Vini',
-      form_pod:   'Preferenza Pod',
-      form_notes: 'Requisiti Dietetici o Occasioni Speciali',
+      book_ey:'Prenotazioni', book_title:'Assicura la tua<br><em>esperienza.</em>',
+      pod_ey:'Scegli il Tuo Pod', form_title:'Prenota il Tuo Tavolo',
+      form_fname:'Nome', form_lname:'Cognome',
+      form_email:'Indirizzo Email', form_phone:'Numero di Telefono',
+      form_date:'Data Preferita', form_service:'Servizio',
+      form_guests:'Numero di Ospiti', form_wine:'Abbinamento Vini',
+      form_pod:'Preferenza Pod',
+      form_notes:'Requisiti Dietetici o Occasioni Speciali',
       form_submit:'Richiedi Prenotazione',
-      confirm_title: 'La tua richiesta è stata ricevuta.',
-      rcta_title: 'Il pasto più straordinario<br>della tua vita<br>è a <em>trenta minuti da qui.</em>',
-      footer_tag: "Dove l'arte della gastronomia italiana incontra la precisione di una nuova disciplina culinaria.",
-      service_opt1: 'Pranzo — 12:30', service_opt2: 'Cena — 19:30', service_opt3: 'Cena — 21:30',
-      wine_opt0: 'Senza abbinamento', wine_opt1: 'Abbinamento Classico — Selezione Italiana', wine_opt2: 'Abbinamento Premium — Etichette Prestigiose',
-      guests_placeholder: 'Ospiti (max 4)',
-      notes_placeholder: 'Allergie, celebrazioni o qualsiasi nota per il nostro team...',
-      fname_placeholder: 'Giovanni', lname_placeholder: 'Rossi',
-      email_placeholder: 'giovanni@esempio.it', phone_placeholder: '+39 075 000 0000',
-      confirm_text: 'Grazie. Il nostro team confermerà la tua prenotazione presso WoW Perugia entro 24 ore. Non vediamo l'ora di accoglierti in un'esperienza senza pari.<br><br><em style="color:var(--gold)">A presto — ci vediamo presto.</em>',
+      confirm_title:'La tua richiesta è stata ricevuta.',
+      rcta_title:'Il pasto più straordinario<br>della tua vita<br>è a <em>trenta minuti da qui.</em>',
+      footer_tag:"Dove l'arte della gastronomia italiana incontra la precisione di una nuova disciplina culinaria.",
+      service_placeholder:'Seleziona servizio',
+      service_opt1:'Pranzo — 12:30', service_opt2:'Cena — 19:30', service_opt3:'Cena — 21:30',
+      wine_opt0:'Senza abbinamento', wine_opt1:'Abbinamento Classico — Selezione Italiana', wine_opt2:'Abbinamento Premium — Etichette Prestigiose',
+      guests_placeholder:'Ospiti (max 4)',
+      notes_placeholder:'Allergie, celebrazioni o qualsiasi nota per il nostro team...',
+      fname_placeholder:'Giovanni', lname_placeholder:'Rossi',
+      email_placeholder:'giovanni@esempio.it', phone_placeholder:'+39 075 000 0000',
+      confirm_text:'Grazie. Il nostro team confermerà la tua prenotazione presso WoW Perugia entro 24 ore. Non vediamo l'ora di accoglierti in un'esperienza senza pari.<br><br><em style="color:var(--gold)">A presto — ci vediamo presto.</em>',
+      avail_msg:'pod disponibili per la stagione corrente · Perugia · Apertura 2025',
     },
-
     zh: {
-      nav_philosophy: '品牌哲学',
-      nav_experience: '用餐体验',
-      nav_italy:      '意大利原产',
-      nav_reserve:    '立即预订',
-      nav_cta:        '预订您的餐厅席位',
-      hero_city:      '佩鲁贾，意大利',
-      hero_tag:       '意大利美食艺术与新烹饪精准工艺<br>的完美融合。',
-      hero_cta1:      '探索味觉旅程',
-      hero_cta2:      '预订席位',
-      mq1: '九道佳肴', mq2: '米其林主厨设计菜单', mq4: '佩鲁贾 · 2025年开业',
-      mq5: '传承与创新', mq6: '快速精致餐饮',
-      phil_ey:    '我们的哲学',
-      phil_title: '一个充满<br><em>惊叹的实验室。</em>',
-      phil_quote: '我们复制的不是厨师，而是让卓越成为必然的条件。',
-      exp_ey:     '用餐体验',
-      exp_title:  '九幕叙事，<br><em>一段难忘旅程。</em>',
-      italy_ey:   '产地与灵魂',
+      nav_philosophy:'品牌哲学', nav_experience:'用餐体验',
+      nav_italy:'意大利原产', nav_reserve:'立即预订', nav_cta:'预订您的餐厅席位',
+      hero_city:'佩鲁贾，意大利',
+      hero_tag:'意大利美食艺术与新烹饪精准工艺<br>的完美融合。',
+      hero_cta1:'探索味觉旅程', hero_cta2:'预订席位',
+      mq1:'九道佳肴', mq2:'米其林主厨设计菜单', mq4:'佩鲁贾 · 2025年开业',
+      mq5:'传承与创新', mq6:'快速精致餐饮',
+      phil_ey:'我们的哲学',
+      phil_title:'一个充满<br><em>惊叹的实验室。</em>',
+      phil_quote:'我们复制的不是厨师，而是让卓越成为必然的条件。',
+      exp_ey:'用餐体验', exp_title:'九幕叙事，<br><em>一段难忘旅程。</em>',
+      italy_ey:'产地与灵魂',
       italy_title:'意大利不仅是<br>一种食材，<br><em>它本身就是配方。</em>',
-      book_ey:    '预订',
-      book_title: '预留您的<br><em>专属体验。</em>',
-      pod_ey:     '选择您的餐厅席位',
-      form_title: '预订您的席位',
-      form_fname: '名字',    form_lname: '姓氏',
-      form_email: '电子邮箱', form_phone: '联系电话',
-      form_date:  '首选日期', form_service: '用餐时段',
-      form_guests:'用餐人数', form_wine: '葡萄酒搭配',
-      form_pod:   '席位偏好',
-      form_notes: '饮食要求或特殊场合说明',
+      book_ey:'预订', book_title:'预留您的<br><em>专属体验。</em>',
+      pod_ey:'选择您的餐厅席位', form_title:'预订您的席位',
+      form_fname:'名字', form_lname:'姓氏',
+      form_email:'电子邮箱', form_phone:'联系电话',
+      form_date:'首选日期', form_service:'用餐时段',
+      form_guests:'用餐人数', form_wine:'葡萄酒搭配',
+      form_pod:'席位偏好',
+      form_notes:'饮食要求或特殊场合说明',
       form_submit:'提交预订申请',
-      confirm_title: '您的申请已成功提交。',
-      rcta_title: '您人生中最难忘的<br>一顿晚餐，<br>仅需<em>三十分钟。</em>',
-      footer_tag: '意大利美食艺术与新烹饪精准工艺的完美融合。',
-      service_opt1: '午餐 — 12:30', service_opt2: '晚餐 — 19:30', service_opt3: '晚餐 — 21:30',
-      wine_opt0: '不需要搭配', wine_opt1: '经典搭配 — 意大利精选', wine_opt2: '臻品搭配 — 顶级名庄',
-      guests_placeholder: '用餐人数（最多4位）',
-      notes_placeholder: '过敏信息、特殊庆典或任何团队备注...',
-      fname_placeholder: '张', lname_placeholder: '伟',
-      email_placeholder: 'zhang@example.com', phone_placeholder: '+86 138 0000 0000',
-      confirm_text: '感谢您的预订申请。我们的团队将在24小时内与您确认WoW佩鲁贾的预订。期待在这里为您带来一段无与伦比的体验。<br><br><em style="color:var(--gold)">期待与您相见。</em>',
+      confirm_title:'您的申请已成功提交。',
+      rcta_title:'您人生中最难忘的<br>一顿晚餐，<br>仅需<em>三十分钟。</em>',
+      footer_tag:'意大利美食艺术与新烹饪精准工艺的完美融合。',
+      service_placeholder:'选择时段',
+      service_opt1:'午餐 — 12:30', service_opt2:'晚餐 — 19:30', service_opt3:'晚餐 — 21:30',
+      wine_opt0:'不需要搭配', wine_opt1:'经典搭配 — 意大利精选', wine_opt2:'臻品搭配 — 顶级名庄',
+      guests_placeholder:'用餐人数（最多4位）',
+      notes_placeholder:'过敏信息、特殊庆典或任何团队备注...',
+      fname_placeholder:'张', lname_placeholder:'伟',
+      email_placeholder:'zhang@example.com', phone_placeholder:'+86 138 0000 0000',
+      confirm_text:'感谢您的预订申请。我们的团队将在24小时内与您确认WoW佩鲁贾的预订。期待在这里为您带来一段无与伦比的体验。<br><br><em style="color:var(--gold)">期待与您相见。</em>',
+      avail_msg:'个席位可供本季预订 · 佩鲁贾 · 2025年开业',
     }
   };
 
@@ -949,152 +924,110 @@
   function setLang(lang) {
     currentLang = lang;
     const t = TRANSLATIONS[lang];
-
-    // Update all data-i18n elements
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
       if (t[key] !== undefined) el.innerHTML = t[key];
     });
-
-    // Update placeholders
-    const fields = {
-      'bf-fname': 'fname_placeholder', 'bf-lname': 'lname_placeholder',
-      'bf-email': 'email_placeholder', 'bf-phone': 'phone_placeholder',
-      'bf-guests': 'guests_placeholder',
-    };
-    Object.entries(fields).forEach(([id, key]) => {
-      const el = document.getElementById(id);
-      if (el && t[key]) el.placeholder = t[key];
+    // Placeholders
+    const pmap = {'bf-fname':'fname_placeholder','bf-lname':'lname_placeholder','bf-email':'email_placeholder','bf-phone':'phone_placeholder'};
+    Object.entries(pmap).forEach(([id,key])=>{const el=document.getElementById(id);if(el&&t[key])el.placeholder=t[key];});
+    // Guests placeholder
+    const gsel=document.getElementById('bf-guests');
+    if(gsel&&gsel.options[0])gsel.options[0].text=t.guests_placeholder;
+    // Notes placeholder
+    const notesInput=document.querySelector('input[placeholder*="Allergies"], input[placeholder*="Allergie"], input[placeholder*="过敏"]');
+    if(notesInput&&t.notes_placeholder)notesInput.placeholder=t.notes_placeholder;
+    // Service options
+    const svc=document.getElementById('bf-service');
+    if(svc&&svc.options.length>=4){
+      svc.options[0].text=t.service_placeholder;
+      svc.options[1].text=t.service_opt1; svc.options[1].value=t.service_opt1;
+      svc.options[2].text=t.service_opt2; svc.options[2].value=t.service_opt2;
+      svc.options[3].text=t.service_opt3; svc.options[3].value=t.service_opt3;
+    }
+    // Wine options
+    const allSelects=document.querySelectorAll('select');
+    allSelects.forEach(sel=>{
+      if(sel.id==='bf-service'||sel.id==='bf-guests'||sel.id==='bf-pod')return;
+      if(sel.options[0])sel.options[0].text=t.wine_opt0;
+      if(sel.options[1])sel.options[1].text=t.wine_opt1;
+      if(sel.options[2])sel.options[2].text=t.wine_opt2;
     });
-    const notes = document.querySelector('[data-i18n="form_notes"]');
-    if (notes) {
-      const input = notes.closest('.bf-field')?.querySelector('input');
-      if (input && t.notes_placeholder) input.placeholder = t.notes_placeholder;
-    }
-
-    // Update select options - service
-    const svc = document.getElementById('bf-service');
-    if (svc) {
-      svc.options[0].text = lang === 'en' ? 'Select service' : lang === 'it' ? 'Seleziona servizio' : '选择时段';
-      svc.options[1].text = t.service_opt1; svc.options[1].value = t.service_opt1;
-      svc.options[2].text = t.service_opt2; svc.options[2].value = t.service_opt2;
-      svc.options[3].text = t.service_opt3; svc.options[3].value = t.service_opt3;
-    }
-
-    // Update wine options
-    const wine = document.querySelector('select:not(#bf-service):not(#bf-guests):not(#bf-pod)');
-    if (wine) {
-      if (wine.options[0]) wine.options[0].text = t.wine_opt0;
-      if (wine.options[1]) wine.options[1].text = t.wine_opt1;
-      if (wine.options[2]) wine.options[2].text = t.wine_opt2;
-    }
-
-    // Update confirmation text
-    const confirmText = document.querySelector('.bf-confirm-text');
-    if (confirmText) confirmText.innerHTML = t.confirm_text;
-
-    // Update active lang button
-    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.lang-btn').forEach(b => {
-      if ((lang === 'en' && b.textContent === 'EN') ||
-          (lang === 'it' && b.textContent === 'IT') ||
-          (lang === 'zh' && b.textContent === '中文')) {
-        b.classList.add('active');
-      }
+    // Confirm text
+    const ct=document.querySelector('.bf-confirm-text');
+    if(ct)ct.innerHTML=t.confirm_text;
+    // Active button
+    document.querySelectorAll('.lang-btn').forEach(b=>{
+      b.classList.toggle('active',
+        (lang==='en'&&b.textContent==='EN')||
+        (lang==='it'&&b.textContent==='IT')||
+        (lang==='zh'&&b.textContent==='中文'));
     });
-
-    // Update html lang attribute
-    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
-
-    // Store preference
-    localStorage.setItem('wow_lang', lang);
+    // html lang
+    document.documentElement.lang=lang==='zh'?'zh-CN':lang;
+    localStorage.setItem('wow_lang',lang);
   }
 
-  // ══════════════════════════════════════════════
-  //  BACKEND RESERVATION SUBMISSION
-  // ══════════════════════════════════════════════
+  // ══════════════════════════════════════════════════════════════
+  //  RESERVATION SUBMISSION — Backend API
+  // ══════════════════════════════════════════════════════════════
   const API_BASE = 'https://code-api.brightcone.ai';
 
   async function submitBooking() {
     const t = TRANSLATIONS[currentLang];
-    const fname  = document.getElementById('bf-fname').value.trim();
-    const lname  = document.getElementById('bf-lname').value.trim();
-    const email  = document.getElementById('bf-email').value.trim();
-    const phone  = document.getElementById('bf-phone').value.trim();
-    const date   = document.getElementById('bf-date').value;
-    const service= document.getElementById('bf-service').value;
-    const guests = document.getElementById('bf-guests').value;
-    const pod    = document.getElementById('bf-pod').value;
+    const fname   = (document.getElementById('bf-fname')||{}).value?.trim();
+    const lname   = (document.getElementById('bf-lname')||{}).value?.trim();
+    const email   = (document.getElementById('bf-email')||{}).value?.trim();
+    const phone   = (document.getElementById('bf-phone')||{}).value?.trim();
+    const date    = (document.getElementById('bf-date')||{}).value;
+    const service = (document.getElementById('bf-service')||{}).value;
+    const guests  = (document.getElementById('bf-guests')||{}).value;
+    const pod     = (document.getElementById('bf-pod')||{}).value;
 
-    const errmsg = currentLang === 'zh'
+    const errmsg = currentLang==='zh'
       ? '请填写所有必填字段以完成预订申请。'
-      : currentLang === 'it'
-      ? 'Si prega di compilare tutti i campi obbligatori per richiedere la prenotazione.'
-      : 'Please complete all required fields to request your reservation.';
+      : currentLang==='it'
+      ? 'Si prega di compilare tutti i campi obbligatori.'
+      : 'Please complete all required fields.';
 
-    if (!fname || !lname || !email || !date || !service || !guests) {
-      alert(errmsg);
-      return;
-    }
+    if(!fname||!lname||!email||!date||!service||!guests){alert(errmsg);return;}
 
-    const payload = {
-      first_name:   fname,
-      last_name:    lname,
-      email:        email,
-      phone:        phone || null,
-      date:         date,
-      service:      service,
-      guests:       parseInt(guests),
-      pod:          pod || null,
-      language:     currentLang,
-    };
-
-    const btn = document.querySelector('.bf-btn');
-    const origText = btn.innerHTML;
-    btn.innerHTML = currentLang === 'zh' ? '提交中...' : currentLang === 'it' ? 'Invio...' : 'Sending...';
-    btn.disabled = true;
+    const btn=document.querySelector('.bf-btn');
+    if(btn){btn.disabled=true; btn.innerHTML=currentLang==='zh'?'提交中…':currentLang==='it'?'Invio…':'Sending…';}
 
     try {
-      const res = await fetch(`${API_BASE}/wow/reservations`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(payload),
+      const res = await fetch(`${API_BASE}/wow/reservations`,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({first_name:fname,last_name:lname,email,phone:phone||null,
+          date,service,guests:parseInt(guests),pod:pod||null,language:currentLang})
       });
-
-      if (res.status === 201) {
-        document.getElementById('formInner').style.display = 'none';
-        const confirm = document.getElementById('bf-confirm');
-        confirm.style.display = 'block';
-        // Update confirm text in correct language
-        const confirmText = confirm.querySelector('.bf-confirm-text');
-        if (confirmText) confirmText.innerHTML = t.confirm_text;
-        const confirmTitle = confirm.querySelector('[data-i18n="confirm_title"]');
-        if (confirmTitle) confirmTitle.innerHTML = t.confirm_title;
-      } else if (res.status === 409) {
-        const data = await res.json();
-        alert(data.detail || 'This pod is already reserved. Please choose another.');
-        btn.innerHTML = origText;
-        btn.disabled = false;
-      } else {
-        throw new Error('Server error');
+      if(res.status===409){
+        const d=await res.json();
+        alert(d.detail||'Pod not available. Please choose another.');
+        return;
       }
-    } catch (e) {
-      // Fallback: show confirmation anyway (graceful degradation)
-      console.warn('API unavailable, showing confirmation:', e);
-      document.getElementById('formInner').style.display = 'none';
-      document.getElementById('bf-confirm').style.display = 'block';
-    } finally {
-      btn.innerHTML = origText;
-      btn.disabled = false;
+    } catch(e){ console.warn('API offline, showing confirmation anyway'); }
+
+    // Show confirmation
+    const inner=document.getElementById('formInner');
+    const confirm=document.getElementById('bf-confirm');
+    if(inner) inner.style.display='none';
+    if(confirm){
+      confirm.style.display='block';
+      const ct=confirm.querySelector('.bf-confirm-text');
+      if(ct) ct.innerHTML=t.confirm_text;
+      const ctitle=confirm.querySelector('[data-i18n="confirm_title"]');
+      if(ctitle) ctitle.innerHTML=t.confirm_title;
     }
+    if(btn){btn.disabled=false; btn.innerHTML=t.form_submit;}
   }
 
-  // Restore language preference on load
-  window.addEventListener('DOMContentLoaded', () => {
-    const saved = localStorage.getItem('wow_lang');
-    if (saved && saved !== 'en') setLang(saved);
+  // Restore language on load
+  window.addEventListener('DOMContentLoaded',()=>{
+    const saved=localStorage.getItem('wow_lang');
+    if(saved&&saved!=='en') setLang(saved);
   });
-
 </script>
 </body>
 </html>
