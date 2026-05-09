@@ -4,1855 +4,437 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WoW — Fast Fine Dining</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --green-deep: #0B1A12;
+      --green: #0B1A12;
       --green-mid: #122A1C;
       --green-rich: #1A3D28;
-      --green-accent: #2A5C3F;
       --gold: #C9A84C;
       --gold-light: #E8D5A3;
-      --gold-dim: #8B6E2E;
+      --gold-dim: #7A6030;
       --black: #060A07;
       --off-white: #F5F0E8;
-      --cream: #EDE5D3;
-      --text-muted: #8A9E8E;
-      --marble-dark: #0E0E0E;
+      --muted: #7A9480;
     }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Montserrat',sans-serif; background:var(--black); color:var(--off-white); overflow-x:hidden; cursor:none; }
 
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    /* CURSOR */
+    #cur { position:fixed; width:8px; height:8px; background:var(--gold); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); }
+    #cur-ring { position:fixed; width:36px; height:36px; border:1px solid rgba(201,168,76,0.5); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:all 0.15s; }
 
-    html { scroll-behavior: smooth; }
+    /* NAV */
+    nav { position:fixed; top:0; left:0; right:0; z-index:200; padding:2rem 5rem; display:flex; align-items:center; justify-content:space-between; transition:all 0.5s; }
+    nav.s { background:rgba(6,10,7,0.95); backdrop-filter:blur(20px); padding:1.2rem 5rem; border-bottom:1px solid rgba(201,168,76,0.1); }
+    .logo { text-decoration:none; }
+    .logo-wow { font-family:'Cormorant Garamond',serif; font-size:2.2rem; color:var(--gold); letter-spacing:0.3em; line-height:1; font-weight:400; display:block; }
+    .logo-sub { font-size:0.5rem; letter-spacing:0.45em; text-transform:uppercase; color:var(--muted); }
+    .nav-links { display:flex; gap:2.5rem; list-style:none; }
+    .nav-links a { font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(245,240,232,0.55); text-decoration:none; transition:color 0.3s; }
+    .nav-links a:hover { color:var(--gold); }
+    .nav-cta { font-size:0.6rem; letter-spacing:0.25em; text-transform:uppercase; background:var(--gold); color:var(--black); padding:0.75rem 2rem; text-decoration:none; transition:background 0.3s; font-weight:600; }
+    .nav-cta:hover { background:var(--gold-light); }
 
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background: var(--black);
-      color: var(--off-white);
-      overflow-x: hidden;
-      cursor: none;
-    }
+    /* HERO */
+    .hero { position:relative; height:100vh; min-height:700px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    .hero-img { position:absolute; inset:0; background-image:url('/wow-assets/wow-interior.png'); background-size:cover; background-position:center; filter:brightness(0.28); transform:scale(1.05); transition:transform 8s ease; }
+    .hero-img.loaded { transform:scale(1); }
+    .hero-overlay { position:absolute; inset:0; background:linear-gradient(to bottom, rgba(6,10,7,0.3) 0%, rgba(6,10,7,0.1) 40%, rgba(6,10,7,0.6) 100%); }
+    .hero-green { position:absolute; inset:0; background:radial-gradient(ellipse at 20% 80%, rgba(11,26,18,0.7), transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.05), transparent 50%); }
+    .hero-content { position:relative; z-index:2; text-align:center; padding:2rem; }
+    .h-eye { font-size:0.6rem; letter-spacing:0.55em; text-transform:uppercase; color:var(--gold); margin-bottom:2rem; opacity:0; animation:fu 1s 0.4s forwards; }
+    .h-title { font-family:'Cormorant Garamond',serif; font-size:clamp(7rem,20vw,18rem); font-weight:300; line-height:0.85; letter-spacing:0.1em; opacity:0; animation:fu 1.2s 0.6s forwards; }
+    .h-title .o { color:var(--gold); position:relative; display:inline-block; }
+    .h-title .o::after { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:0.12em; height:0.12em; border-radius:50%; background:var(--gold); }
+    .h-div { width:50px; height:1px; background:var(--gold); margin:1.8rem auto; opacity:0; animation:fu 1s 1s forwards; }
+    .h-tag { font-family:'Cormorant Garamond',serif; font-size:clamp(1.1rem,2.5vw,1.6rem); font-style:italic; font-weight:300; color:rgba(245,240,232,0.8); letter-spacing:0.05em; opacity:0; animation:fu 1s 1.2s forwards; margin-bottom:0.7rem; }
+    .h-sub { font-size:0.65rem; letter-spacing:0.4em; text-transform:uppercase; color:var(--muted); opacity:0; animation:fu 1s 1.4s forwards; margin-bottom:3rem; }
+    .h-ctas { display:flex; gap:1.5rem; justify-content:center; opacity:0; animation:fu 1s 1.6s forwards; }
+    .btn-g { font-size:0.6rem; letter-spacing:0.3em; text-transform:uppercase; background:var(--gold); color:var(--black); padding:1rem 2.5rem; text-decoration:none; font-weight:600; transition:background 0.3s; }
+    .btn-g:hover { background:var(--gold-light); }
+    .btn-o { font-size:0.6rem; letter-spacing:0.3em; text-transform:uppercase; border:1px solid rgba(201,168,76,0.45); color:var(--gold); padding:1rem 2.5rem; text-decoration:none; transition:all 0.3s; }
+    .btn-o:hover { background:rgba(201,168,76,0.08); border-color:var(--gold); }
+    .h-scroll { position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:0.5rem; opacity:0; animation:fu 1s 2.2s forwards; }
+    .h-scroll span { font-size:0.5rem; letter-spacing:0.5em; text-transform:uppercase; color:var(--muted); }
+    .scroll-ln { width:1px; height:50px; background:linear-gradient(to bottom, var(--gold), transparent); animation:sl 2s 2.8s infinite; }
+    @keyframes sl { 0%{transform:scaleY(0);transform-origin:top} 50%{transform:scaleY(1);transform-origin:top} 51%{transform:scaleY(1);transform-origin:bottom} 100%{transform:scaleY(0);transform-origin:bottom} }
+    @keyframes fu { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
 
-    /* ── CUSTOM CURSOR ── */
-    .cursor {
-      position: fixed;
-      width: 10px; height: 10px;
-      background: var(--gold);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%,-50%);
-      transition: transform 0.1s;
-    }
-    .cursor-ring {
-      position: fixed;
-      width: 40px; height: 40px;
-      border: 1px solid rgba(201,168,76,0.5);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%,-50%);
-      transition: all 0.15s ease;
-    }
+    /* MARQUEE */
+    .mq { overflow:hidden; background:var(--gold); padding:0.85rem 0; }
+    .mq-track { display:flex; width:max-content; animation:mq 28s linear infinite; }
+    .mq-item { font-size:0.6rem; letter-spacing:0.35em; text-transform:uppercase; color:var(--black); padding:0 2.5rem; white-space:nowrap; font-weight:600; }
+    .mq-dot { color:rgba(0,0,0,0.35); padding:0 0.5rem; }
+    @keyframes mq { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-    /* ── NOISE OVERLAY ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0.4;
-    }
+    /* SHARED */
+    section { position:relative; }
+    .c { max-width:1280px; margin:0 auto; padding:0 5rem; }
+    .ey { font-size:0.58rem; letter-spacing:0.5em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; display:flex; align-items:center; gap:1rem; }
+    .ey::before { content:''; display:inline-block; width:28px; height:1px; background:var(--gold); }
+    h2.st { font-family:'Cormorant Garamond',serif; font-size:clamp(2.5rem,5vw,4.5rem); font-weight:300; line-height:1.1; }
+    h2.st em { color:var(--gold); font-style:italic; }
+    .sb { font-size:0.85rem; line-height:1.9; color:var(--muted); font-weight:300; }
+    .rv { opacity:0; transform:translateY(35px); transition:opacity 0.9s, transform 0.9s; }
+    .rv.v { opacity:1; transform:none; }
+    .d1 { transition-delay:0.15s; } .d2 { transition-delay:0.3s; } .d3 { transition-delay:0.45s; } .d4 { transition-delay:0.6s; }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 2rem 4rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: all 0.5s ease;
-    }
-    nav.scrolled {
-      background: rgba(6,10,7,0.92);
-      backdrop-filter: blur(20px);
-      padding: 1.2rem 4rem;
-      border-bottom: 1px solid rgba(201,168,76,0.12);
-    }
-    .nav-logo {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.1rem;
-      text-decoration: none;
-    }
-    .nav-logo-wow {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
-      font-weight: 600;
-      color: var(--gold);
-      letter-spacing: 0.25em;
-      line-height: 1;
-    }
-    .nav-logo-sub {
-      font-size: 0.55rem;
-      letter-spacing: 0.35em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
-    .nav-links a {
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(245,240,232,0.6);
-      text-decoration: none;
-      transition: color 0.3s;
-      position: relative;
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px; left: 0;
-      width: 0; height: 1px;
-      background: var(--gold);
-      transition: width 0.3s;
-    }
-    .nav-links a:hover { color: var(--gold); }
-    .nav-links a:hover::after { width: 100%; }
-    .nav-reserve {
-      font-size: 0.65rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--black);
-      background: var(--gold);
-      padding: 0.7rem 1.8rem;
-      text-decoration: none;
-      transition: all 0.3s;
-    }
-    .nav-reserve:hover { background: var(--gold-light); transform: translateY(-1px); }
+    /* STATEMENT SECTION */
+    .stmt { padding:9rem 0; background:var(--black); }
+    .stmt-grid { display:grid; grid-template-columns:1fr 1fr; gap:8rem; align-items:center; }
+    .stmt-img { position:relative; height:580px; overflow:hidden; }
+    .stmt-img img { width:100%; height:100%; object-fit:cover; filter:brightness(0.75); transition:transform 8s ease; }
+    .stmt-img:hover img { transform:scale(1.04); }
+    .stmt-img-overlay { position:absolute; inset:0; background:linear-gradient(135deg, rgba(11,26,18,0.4), transparent); }
+    .stmt-img-tag { position:absolute; bottom:0; left:0; right:0; padding:2rem; background:linear-gradient(to top, rgba(6,10,7,0.9), transparent); }
+    .stmt-img-tag-label { font-size:0.55rem; letter-spacing:0.4em; text-transform:uppercase; color:var(--gold); }
+    .stmt-img-tag-val { font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--off-white); }
 
-    /* ── HERO ── */
-    .hero {
-      position: relative;
-      height: 100vh;
-      min-height: 700px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      background: var(--green-deep);
-    }
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 15% 85%, rgba(42,92,63,0.35) 0%, transparent 55%),
-        radial-gradient(ellipse at 85% 15%, rgba(201,168,76,0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 50%, rgba(26,61,40,0.5) 0%, transparent 70%),
-        linear-gradient(160deg, #0B1A12 0%, #060A07 60%, #0D1A0F 100%);
-    }
-    .hero-marble {
-      position: absolute;
-      inset: 0;
-      opacity: 0.04;
-      background-image:
-        repeating-linear-gradient(
-          -45deg,
-          transparent, transparent 40px,
-          rgba(201,168,76,0.5) 40px, rgba(201,168,76,0.5) 41px
-        );
-    }
-    .hero-lines {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-    }
-    .hero-line {
-      position: absolute;
-      background: rgba(201,168,76,0.06);
-    }
-    .hero-line-h { height: 1px; width: 100%; }
-    .hero-line-v { width: 1px; height: 100%; }
+    /* EXPERIENCE */
+    .exp { padding:10rem 0; background:var(--green); }
+    .exp-hdr { text-align:center; max-width:780px; margin:0 auto 6rem; }
+    .courses { display:grid; grid-template-columns:repeat(9,1fr); position:relative; margin-bottom:6rem; }
+    .courses::before { content:''; position:absolute; top:calc(50% - 20px); left:5%; right:5%; height:1px; background:linear-gradient(to right, transparent, rgba(201,168,76,0.25), transparent); }
+    .ci { display:flex; flex-direction:column; align-items:center; gap:0.8rem; padding:2rem 0.3rem; cursor:default; transition:transform 0.3s; }
+    .ci:hover { transform:translateY(-10px); }
+    .ci-n { font-family:'Cormorant Garamond',serif; font-size:1.6rem; color:rgba(201,168,76,0.15); line-height:1; transition:color 0.3s; }
+    .ci:hover .ci-n { color:var(--gold); }
+    .ci-dot { width:10px; height:10px; border-radius:50%; border:1px solid rgba(201,168,76,0.3); background:var(--green); transition:all 0.3s; position:relative; z-index:1; }
+    .ci:hover .ci-dot { background:var(--gold); box-shadow:0 0 18px rgba(201,168,76,0.5); }
+    .ci-lbl { font-size:0.55rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); text-align:center; transition:color 0.3s; }
+    .ci:hover .ci-lbl { color:var(--off-white); }
+    .exp-feat { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
+    .ef { position:relative; overflow:hidden; transition:transform 0.4s; }
+    .ef img { width:100%; height:340px; object-fit:cover; display:block; filter:brightness(0.5); transition:all 0.6s; }
+    .ef:hover img { filter:brightness(0.65); transform:scale(1.03); }
+    .ef-content { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:2.5rem; background:linear-gradient(to top, rgba(6,10,7,0.9) 0%, transparent 60%); }
+    .ef-icon { font-size:1.6rem; margin-bottom:1rem; }
+    .ef-title { font-family:'Cormorant Garamond',serif; font-size:1.5rem; color:var(--off-white); margin-bottom:0.6rem; }
+    .ef-text { font-size:0.75rem; color:rgba(245,240,232,0.7); line-height:1.7; }
+    .ef-line { position:absolute; top:0; left:0; right:0; height:2px; background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform 0.4s; }
+    .ef:hover .ef-line { transform:scaleX(1); }
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      padding: 2rem;
-      max-width: 900px;
-    }
-    .hero-eyebrow {
-      font-size: 0.65rem;
-      letter-spacing: 0.5em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 2.5rem;
-      opacity: 0;
-      animation: fadeUp 1s 0.3s forwards;
-    }
-    .hero-wow {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(6rem, 18vw, 16rem);
-      font-weight: 300;
-      color: var(--off-white);
-      letter-spacing: 0.15em;
-      line-height: 0.85;
-      opacity: 0;
-      animation: fadeUp 1.2s 0.5s forwards;
-      position: relative;
-      display: inline-block;
-    }
-    .hero-wow .wow-o {
-      color: var(--gold);
-      position: relative;
-      display: inline-block;
-    }
-    .hero-wow .wow-o::before {
-      content: '';
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 0.55em; height: 0.55em;
-      border-radius: 50%;
-      border: 2px solid rgba(201,168,76,0.4);
-      animation: pulseRing 3s 2s infinite;
-    }
-    .hero-wow .wow-o::after {
-      content: '';
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 0.12em; height: 0.12em;
-      border-radius: 50%;
-      background: var(--gold);
-    }
-    @keyframes pulseRing {
-      0%,100% { opacity: 0.4; transform: translate(-50%,-50%) scale(1); }
-      50% { opacity: 0.8; transform: translate(-50%,-50%) scale(1.08); }
-    }
-    .hero-divider {
-      width: 60px; height: 1px;
-      background: var(--gold);
-      margin: 2rem auto;
-      opacity: 0;
-      animation: fadeUp 1s 0.9s forwards;
-    }
-    .hero-tagline {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1rem, 2.5vw, 1.5rem);
-      font-weight: 300;
-      font-style: italic;
-      color: rgba(245,240,232,0.75);
-      letter-spacing: 0.1em;
-      opacity: 0;
-      animation: fadeUp 1s 1.1s forwards;
-      margin-bottom: 1rem;
-    }
-    .hero-sub {
-      font-size: 0.7rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      opacity: 0;
-      animation: fadeUp 1s 1.3s forwards;
-      margin-bottom: 3.5rem;
-    }
-    .hero-cta-group {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      opacity: 0;
-      animation: fadeUp 1s 1.5s forwards;
-    }
-    .btn-gold {
-      display: inline-block;
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--black);
-      background: var(--gold);
-      padding: 1rem 2.5rem;
-      text-decoration: none;
-      transition: all 0.35s;
-      position: relative;
-      overflow: hidden;
-    }
-    .btn-gold::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--gold-light);
-      transform: translateX(-100%);
-      transition: transform 0.35s;
-    }
-    .btn-gold:hover::before { transform: translateX(0); }
-    .btn-gold span { position: relative; z-index: 1; }
-    .btn-outline {
-      display: inline-block;
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--gold);
-      border: 1px solid rgba(201,168,76,0.5);
-      padding: 1rem 2.5rem;
-      text-decoration: none;
-      transition: all 0.35s;
-    }
-    .btn-outline:hover {
-      background: rgba(201,168,76,0.08);
-      border-color: var(--gold);
-    }
-    .hero-scroll {
-      position: absolute;
-      bottom: 3rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      opacity: 0;
-      animation: fadeUp 1s 2s forwards;
-    }
-    .hero-scroll span {
-      font-size: 0.55rem;
-      letter-spacing: 0.4em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-    .scroll-line {
-      width: 1px;
-      height: 60px;
-      background: linear-gradient(to bottom, var(--gold), transparent);
-      animation: scrollLine 2s 2.5s infinite;
-    }
-    @keyframes scrollLine {
-      0% { transform: scaleY(0); transform-origin: top; }
-      50% { transform: scaleY(1); transform-origin: top; }
-      51% { transform: scaleY(1); transform-origin: bottom; }
-      100% { transform: scaleY(0); transform-origin: bottom; }
-    }
+    /* FOOD GALLERY */
+    .gallery { padding:0; background:var(--black); }
+    .gallery-grid { display:grid; grid-template-columns:2fr 1fr 1fr; grid-template-rows:400px 400px; gap:2px; }
+    .g-item { overflow:hidden; position:relative; }
+    .g-item img { width:100%; height:100%; object-fit:cover; filter:brightness(0.65); transition:all 0.6s; }
+    .g-item:hover img { filter:brightness(0.8); transform:scale(1.04); }
+    .g-item.tall { grid-row:span 2; }
+    .g-item-label { position:absolute; bottom:1.5rem; left:1.5rem; }
+    .g-item-label span { font-size:0.55rem; letter-spacing:0.3em; text-transform:uppercase; color:rgba(245,240,232,0.6); }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    /* MADE IN ITALY */
+    .italy { padding:10rem 0; background:var(--green); }
+    .italy-layout { display:grid; grid-template-columns:1fr 1.1fr; gap:8rem; align-items:start; }
+    .italy-img { position:relative; height:500px; overflow:hidden; }
+    .italy-img img { width:100%; height:100%; object-fit:cover; filter:brightness(0.7); }
+    .italy-img-ovl { position:absolute; inset:0; background:linear-gradient(135deg, rgba(11,26,18,0.5), transparent); }
+    .italy-quote-box { position:absolute; bottom:0; left:0; right:0; padding:2.5rem; background:linear-gradient(to top, rgba(6,10,7,0.95), transparent); }
+    .iq-text { font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-style:italic; color:var(--off-white); line-height:1.5; margin-bottom:0.5rem; }
+    .iq-attr { font-size:0.55rem; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); }
+    .pillars { display:flex; flex-direction:column; gap:0; margin-top:3rem; }
+    .pl { display:flex; gap:2rem; padding:1.8rem 0; border-bottom:1px solid rgba(201,168,76,0.07); transition:all 0.3s; cursor:default; }
+    .pl:hover { padding-left:0.8rem; border-bottom-color:rgba(201,168,76,0.2); }
+    .pl-n { font-family:'Cormorant Garamond',serif; font-size:2.2rem; color:rgba(201,168,76,0.18); line-height:1; min-width:2.8rem; transition:color 0.3s; }
+    .pl:hover .pl-n { color:var(--gold); }
+    .pl-title { font-size:0.78rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--off-white); margin-bottom:0.3rem; }
+    .pl-text { font-size:0.78rem; color:var(--muted); line-height:1.7; }
 
-    /* ── MARQUEE ── */
-    .marquee-wrap {
-      overflow: hidden;
-      background: var(--gold);
-      padding: 0.9rem 0;
-      position: relative;
-      z-index: 2;
-    }
-    .marquee-track {
-      display: flex;
-      gap: 0;
-      width: max-content;
-      animation: marquee 30s linear infinite;
-    }
-    .marquee-item {
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--black);
-      padding: 0 3rem;
-      white-space: nowrap;
-      font-weight: 600;
-    }
-    .marquee-dot {
-      color: rgba(0,0,0,0.4);
-      padding: 0 1rem;
-    }
-    @keyframes marquee {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
+    /* BOUTIQUE */
+    .boutique { padding:10rem 0; background:var(--black); }
+    .boutique-layout { display:grid; grid-template-columns:1fr 1fr; gap:6rem; align-items:center; }
+    .boutique-img { position:relative; height:600px; overflow:hidden; }
+    .boutique-img img { width:100%; height:100%; object-fit:cover; filter:brightness(0.7); transition:transform 6s ease; }
+    .boutique-img:hover img { transform:scale(1.03); }
+    .boutique-img-ovl { position:absolute; inset:0; background:linear-gradient(to bottom, transparent, rgba(6,10,7,0.8)); }
+    .boutique-tag { position:absolute; bottom:2rem; left:2rem; right:2rem; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(201,168,76,0.1); }
+    .bt-item { background:rgba(6,10,7,0.85); backdrop-filter:blur(10px); padding:1.2rem; text-align:center; }
+    .bt-val { font-family:'Cormorant Garamond',serif; font-size:1.6rem; color:var(--gold); line-height:1; }
+    .bt-lbl { font-size:0.5rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-top:0.3rem; }
+    .boutique-specs { display:flex; flex-direction:column; gap:0; }
+    .bs { display:flex; justify-content:space-between; align-items:center; padding:1.5rem 0; border-bottom:1px solid rgba(201,168,76,0.07); }
+    .bs-label { font-size:0.78rem; color:var(--muted); }
+    .bs-val { font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:var(--off-white); }
 
-    /* ── SECTIONS ── */
-    section { position: relative; }
-    .container { max-width: 1280px; margin: 0 auto; padding: 0 4rem; }
-    .section-eyebrow {
-      font-size: 0.6rem;
-      letter-spacing: 0.5em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.2rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .section-eyebrow::before {
-      content: '';
-      display: inline-block;
-      width: 30px; height: 1px;
-      background: var(--gold);
-    }
-    .section-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.5rem, 5vw, 4.5rem);
-      font-weight: 300;
-      line-height: 1.1;
-      color: var(--off-white);
-    }
-    .section-title em {
-      color: var(--gold);
-      font-style: italic;
-    }
-    .section-body {
-      font-size: 0.9rem;
-      line-height: 1.9;
-      color: var(--text-muted);
-      font-weight: 300;
-      max-width: 560px;
-    }
+    /* ROADMAP */
+    .roadmap { padding:10rem 0; background:var(--green); }
+    .phases { display:grid; grid-template-columns:repeat(5,1fr); gap:2px; margin-top:5rem; background:rgba(201,168,76,0.06); }
+    .ph { background:var(--green); padding:3rem 2rem; position:relative; transition:background 0.4s; }
+    .ph:hover { background:var(--green-mid); }
+    .ph::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform 0.4s; }
+    .ph:hover::before { transform:scaleX(1); }
+    .ph-year { font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--gold); margin-bottom:0.8rem; }
+    .ph-place { font-size:0.8rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--off-white); margin-bottom:0.5rem; }
+    .ph-desc { font-size:0.72rem; color:var(--muted); line-height:1.6; }
+    .flagships { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-top:2px; }
+    .fl { padding:2.5rem; background:var(--green-mid); border-top:1px solid rgba(201,168,76,0.12); }
+    .fl-city { font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--gold); font-weight:300; margin-bottom:0.5rem; }
+    .fl-year { font-size:0.6rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted); margin-bottom:0.8rem; }
+    .fl-desc { font-size:0.78rem; color:var(--muted); line-height:1.6; }
 
-    /* ── REVEAL ANIMATIONS ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.9s ease, transform 0.9s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal-delay-1 { transition-delay: 0.15s; }
-    .reveal-delay-2 { transition-delay: 0.3s; }
-    .reveal-delay-3 { transition-delay: 0.45s; }
-    .reveal-delay-4 { transition-delay: 0.6s; }
+    /* RESERVE */
+    .reserve { padding:12rem 0; background:var(--black); text-align:center; position:relative; overflow:hidden; }
+    .reserve-bg-img { position:absolute; inset:0; background-image:url('/wow-assets/wow-tablesetting.png'); background-size:cover; background-position:center; filter:brightness(0.12); }
+    .reserve-overlay { position:absolute; inset:0; background:radial-gradient(ellipse at 50% 50%, rgba(11,26,18,0.4), rgba(6,10,7,0.9)); }
+    .reserve-content { position:relative; z-index:2; }
+    .r-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2.5rem,6vw,5.5rem); font-weight:300; line-height:1.15; margin-bottom:1.5rem; }
+    .r-title em { color:var(--gold); font-style:italic; }
+    .r-sub { font-size:0.82rem; color:var(--muted); max-width:480px; margin:0 auto 3.5rem; line-height:1.8; }
+    .r-form { display:flex; gap:1rem; justify-content:center; max-width:540px; margin:0 auto; }
+    .r-form input { flex:1; background:rgba(245,240,232,0.05); border:1px solid rgba(201,168,76,0.2); color:var(--off-white); padding:0.9rem 1.3rem; font-family:'Montserrat',sans-serif; font-size:0.78rem; outline:none; transition:border 0.3s; }
+    .r-form input:focus { border-color:var(--gold); }
+    .r-form input::placeholder { color:var(--muted); }
+    .cities { display:flex; gap:1rem; justify-content:center; margin-top:2.5rem; flex-wrap:wrap; }
+    .city { font-size:0.6rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--muted); border:1px solid rgba(201,168,76,0.12); padding:0.4rem 0.9rem; cursor:pointer; transition:all 0.3s; }
+    .city:hover, .city.a { color:var(--black); background:var(--gold); border-color:var(--gold); }
 
-    /* ── WHAT IS WOW ── */
-    .what-section {
-      padding: 10rem 0;
-      background: var(--black);
-    }
-    .what-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8rem;
-      align-items: center;
-    }
-    .what-visual {
-      position: relative;
-      height: 600px;
-    }
-    .what-card {
-      position: absolute;
-      background: var(--green-mid);
-      border: 1px solid rgba(201,168,76,0.15);
-      padding: 2.5rem;
-    }
-    .what-card-main {
-      top: 0; left: 0;
-      width: 75%;
-      height: 65%;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      background: linear-gradient(135deg, var(--green-mid), var(--green-rich));
-    }
-    .what-card-main::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.08) 0%, transparent 60%);
-    }
-    .what-card-accent {
-      bottom: 0; right: 0;
-      width: 60%;
-      height: 55%;
-      background: var(--green-deep);
-      border-color: rgba(201,168,76,0.25);
-    }
-    .what-big-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 8rem;
-      color: rgba(201,168,76,0.08);
-      line-height: 1;
-      position: absolute;
-      top: 1rem; right: 1.5rem;
-      font-weight: 600;
-    }
-    .what-card-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 0.5rem;
-    }
-    .what-card-value {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.2rem;
-      color: var(--off-white);
-      font-weight: 300;
-    }
-    .what-card-sub {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: 0.3rem;
-    }
-    .what-gold-line {
-      position: absolute;
-      background: var(--gold);
-    }
-    .wgl-h { height: 2px; width: 80px; top: -2px; left: 0; }
-    .wgl-v { width: 2px; height: 80px; top: -2px; left: -2px; }
-    .what-stats {
-      position: absolute;
-      bottom: 3rem; left: 80%;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
+    /* FOOTER */
+    footer { background:var(--green); border-top:1px solid rgba(201,168,76,0.1); padding:5rem 0 2.5rem; }
+    .fg { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:4rem; margin-bottom:4rem; }
+    .f-brand { font-family:'Cormorant Garamond',serif; font-size:3rem; color:var(--gold); letter-spacing:0.2em; font-weight:300; }
+    .f-sub { font-size:0.5rem; letter-spacing:0.45em; text-transform:uppercase; color:var(--muted); margin-bottom:1.2rem; }
+    .f-tag { font-family:'Cormorant Garamond',serif; font-size:1rem; font-style:italic; color:rgba(245,240,232,0.4); line-height:1.5; max-width:260px; }
+    .fc-title { font-size:0.55rem; letter-spacing:0.4em; text-transform:uppercase; color:var(--gold); margin-bottom:1.2rem; }
+    .fc-links { list-style:none; display:flex; flex-direction:column; gap:0.7rem; }
+    .fc-links a { font-size:0.78rem; color:var(--muted); text-decoration:none; transition:color 0.3s; }
+    .fc-links a:hover { color:var(--off-white); }
+    .f-bottom { display:flex; justify-content:space-between; padding-top:2rem; border-top:1px solid rgba(201,168,76,0.07); font-size:0.65rem; color:rgba(122,148,128,0.45); }
+    .investor-link { font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold-dim); text-decoration:none; transition:color 0.3s; }
+    .investor-link:hover { color:var(--gold); }
 
-    /* ── THE EXPERIENCE ── */
-    .experience-section {
-      padding: 10rem 0;
-      background: var(--green-deep);
-      overflow: hidden;
-    }
-    .experience-bg {
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 0% 50%, rgba(42,92,63,0.2) 0%, transparent 50%),
-        radial-gradient(ellipse at 100% 50%, rgba(201,168,76,0.05) 0%, transparent 50%);
-    }
-    .experience-header {
-      text-align: center;
-      max-width: 800px;
-      margin: 0 auto 7rem;
-    }
-    .courses-grid {
-      display: grid;
-      grid-template-columns: repeat(9, 1fr);
-      gap: 0;
-      margin-bottom: 6rem;
-      position: relative;
-    }
-    .courses-grid::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(to right, transparent, rgba(201,168,76,0.3), transparent);
-    }
-    .course-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.8rem;
-      padding: 2rem 0.5rem;
-      position: relative;
-      cursor: default;
-      transition: transform 0.3s;
-    }
-    .course-item:hover { transform: translateY(-8px); }
-    .course-dot {
-      width: 12px; height: 12px;
-      border-radius: 50%;
-      border: 1px solid rgba(201,168,76,0.4);
-      background: var(--green-deep);
-      transition: all 0.3s;
-      position: relative;
-      z-index: 1;
-    }
-    .course-item:hover .course-dot {
-      background: var(--gold);
-      box-shadow: 0 0 20px rgba(201,168,76,0.5);
-      border-color: var(--gold);
-    }
-    .course-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.8rem;
-      color: rgba(201,168,76,0.2);
-      line-height: 1;
-      font-weight: 300;
-      transition: color 0.3s;
-    }
-    .course-item:hover .course-num { color: var(--gold); }
-    .course-name {
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      text-align: center;
-      transition: color 0.3s;
-    }
-    .course-item:hover .course-name { color: var(--off-white); }
-
-    .experience-feat {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 2px;
-    }
-    .feat-block {
-      background: var(--green-mid);
-      padding: 3.5rem 3rem;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.4s;
-    }
-    .feat-block:hover { background: var(--green-rich); }
-    .feat-block::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(to right, transparent, var(--gold), transparent);
-      transform: scaleX(0);
-      transition: transform 0.4s;
-    }
-    .feat-block:hover::before { transform: scaleX(1); }
-    .feat-icon {
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-      display: block;
-    }
-    .feat-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.6rem;
-      color: var(--off-white);
-      margin-bottom: 1rem;
-      font-weight: 400;
-    }
-    .feat-text {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      line-height: 1.8;
-    }
-    .feat-num {
-      position: absolute;
-      bottom: 2rem; right: 2rem;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 5rem;
-      color: rgba(201,168,76,0.06);
-      font-weight: 600;
-      line-height: 1;
-    }
-
-    /* ── THE PRICE REVELATION ── */
-    .price-section {
-      padding: 12rem 0;
-      background: var(--black);
-      text-align: center;
-      overflow: hidden;
-      position: relative;
-    }
-    .price-bg-text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%,-50%);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 30vw;
-      color: rgba(201,168,76,0.025);
-      white-space: nowrap;
-      pointer-events: none;
-      font-weight: 600;
-      line-height: 1;
-    }
-    .price-compare {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4rem;
-      margin: 5rem 0;
-      flex-wrap: wrap;
-      position: relative;
-      z-index: 2;
-    }
-    .price-col {
-      text-align: center;
-    }
-    .price-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-    }
-    .price-value {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 5rem;
-      font-weight: 300;
-      line-height: 1;
-    }
-    .price-value.struck {
-      color: rgba(245,240,232,0.2);
-      text-decoration: line-through;
-      text-decoration-color: rgba(231,76,60,0.4);
-    }
-    .price-value.hero-price {
-      color: var(--gold);
-      font-size: 7rem;
-      text-shadow: 0 0 80px rgba(201,168,76,0.3);
-    }
-    .price-courses {
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      color: var(--text-muted);
-      margin-top: 0.5rem;
-    }
-    .price-vs {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3rem;
-      color: rgba(201,168,76,0.3);
-      font-style: italic;
-    }
-    .price-statement {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.5rem, 3vw, 2.5rem);
-      font-style: italic;
-      color: rgba(245,240,232,0.6);
-      max-width: 700px;
-      margin: 0 auto;
-      line-height: 1.5;
-      position: relative;
-      z-index: 2;
-    }
-    .price-statement strong { color: var(--gold); font-style: normal; }
-
-    /* ── THE BOUTIQUE ── */
-    .boutique-section {
-      padding: 10rem 0;
-      background: var(--green-deep);
-    }
-    .boutique-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: start;
-    }
-    .boutique-specs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      margin-top: 3rem;
-      background: rgba(201,168,76,0.1);
-    }
-    .spec-item {
-      background: var(--green-deep);
-      padding: 2rem;
-      transition: background 0.3s;
-    }
-    .spec-item:hover { background: var(--green-mid); }
-    .spec-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3rem;
-      color: var(--gold);
-      line-height: 1;
-      font-weight: 300;
-    }
-    .spec-unit {
-      font-size: 0.9rem;
-      color: var(--gold-dim);
-    }
-    .spec-label {
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-top: 0.4rem;
-    }
-    .boutique-visual {
-      position: relative;
-    }
-    .boutique-img-mock {
-      width: 100%;
-      height: 500px;
-      background: linear-gradient(135deg, var(--green-mid) 0%, var(--green-rich) 50%, var(--marble-dark) 100%);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .boutique-img-mock::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 50% 50%, rgba(201,168,76,0.08) 0%, transparent 70%),
-        repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(201,168,76,0.02) 30px, rgba(201,168,76,0.02) 31px);
-    }
-    .boutique-center-mark {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 8rem;
-      color: rgba(201,168,76,0.15);
-      letter-spacing: 0.2em;
-      font-weight: 300;
-    }
-    .boutique-tag {
-      position: absolute;
-      bottom: 2rem; right: 2rem;
-      background: rgba(6,10,7,0.8);
-      border: 1px solid rgba(201,168,76,0.2);
-      padding: 1rem 1.5rem;
-      backdrop-filter: blur(10px);
-    }
-    .boutique-tag-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
-    .boutique-tag-val {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      color: var(--off-white);
-    }
-
-    /* ── MADE IN ITALY ── */
-    .italy-section {
-      padding: 10rem 0;
-      background: var(--black);
-      overflow: hidden;
-    }
-    .italy-layout {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 8rem;
-      align-items: center;
-    }
-    .italy-pillars {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      margin-top: 3rem;
-    }
-    .pillar {
-      display: flex;
-      gap: 2rem;
-      padding: 2rem 0;
-      border-bottom: 1px solid rgba(201,168,76,0.08);
-      transition: all 0.3s;
-      cursor: default;
-    }
-    .pillar:hover { padding-left: 1rem; border-bottom-color: rgba(201,168,76,0.25); }
-    .pillar-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.5rem;
-      color: rgba(201,168,76,0.2);
-      line-height: 1;
-      min-width: 3rem;
-      transition: color 0.3s;
-    }
-    .pillar:hover .pillar-num { color: var(--gold); }
-    .pillar-title {
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--off-white);
-      margin-bottom: 0.4rem;
-    }
-    .pillar-text {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      line-height: 1.7;
-    }
-    .italy-quote {
-      position: relative;
-      padding: 4rem;
-      background: var(--green-mid);
-      border: 1px solid rgba(201,168,76,0.1);
-    }
-    .italy-quote::before {
-      content: '"';
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 12rem;
-      color: rgba(201,168,76,0.08);
-      position: absolute;
-      top: -2rem; left: 2rem;
-      line-height: 1;
-    }
-    .italy-quote-text {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.8rem;
-      font-style: italic;
-      color: var(--off-white);
-      line-height: 1.5;
-      font-weight: 300;
-      position: relative;
-      z-index: 1;
-      margin-bottom: 2rem;
-    }
-    .italy-quote-attr {
-      font-size: 0.7rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
-    .italy-nodes {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-top: 3rem;
-    }
-    .italy-node {
-      background: rgba(201,168,76,0.05);
-      border: 1px solid rgba(201,168,76,0.1);
-      padding: 1.5rem;
-      text-align: center;
-      transition: all 0.3s;
-    }
-    .italy-node:hover {
-      background: rgba(201,168,76,0.1);
-      border-color: rgba(201,168,76,0.3);
-      transform: translateY(-3px);
-    }
-    .italy-node-val {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
-      color: var(--gold);
-      display: block;
-    }
-    .italy-node-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-top: 0.3rem;
-    }
-
-    /* ── ROADMAP ── */
-    .roadmap-section {
-      padding: 10rem 0;
-      background: var(--green-deep);
-      overflow: hidden;
-    }
-    .roadmap-header { margin-bottom: 6rem; }
-    .roadmap-track {
-      position: relative;
-      padding: 3rem 0;
-    }
-    .roadmap-line {
-      position: absolute;
-      top: 50%; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(to right, transparent, rgba(201,168,76,0.3) 10%, rgba(201,168,76,0.3) 90%, transparent);
-    }
-    .roadmap-phases {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 0;
-      position: relative;
-      z-index: 1;
-    }
-    .phase {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-      padding: 2rem 1rem;
-      text-align: center;
-      position: relative;
-      transition: transform 0.3s;
-    }
-    .phase:hover { transform: translateY(-5px); }
-    .phase-dot {
-      width: 16px; height: 16px;
-      border-radius: 50%;
-      background: var(--green-deep);
-      border: 2px solid rgba(201,168,76,0.4);
-      position: relative;
-      z-index: 1;
-      transition: all 0.3s;
-    }
-    .phase:hover .phase-dot {
-      background: var(--gold);
-      box-shadow: 0 0 25px rgba(201,168,76,0.5);
-    }
-    .phase-year {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      color: var(--gold);
-      font-weight: 300;
-    }
-    .phase-place {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--off-white);
-    }
-    .phase-desc {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-    .roadmap-scenarios {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      margin-top: 6rem;
-      background: rgba(201,168,76,0.08);
-    }
-    .scenario {
-      background: var(--green-deep);
-      padding: 3.5rem 3rem;
-      position: relative;
-      transition: background 0.4s;
-    }
-    .scenario:hover { background: var(--green-mid); }
-    .scenario.featured {
-      background: var(--green-rich);
-      border-top: 2px solid var(--gold);
-    }
-    .scenario-tag {
-      font-size: 0.6rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.5rem;
-    }
-    .scenario-ev {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3.5rem;
-      color: var(--off-white);
-      font-weight: 300;
-      line-height: 1;
-      margin-bottom: 0.5rem;
-    }
-    .scenario-ev span { color: var(--gold); }
-    .scenario-sub {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-bottom: 2.5rem;
-    }
-    .scenario-list {
-      list-style: none;
-      font-size: 0.8rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.7rem;
-    }
-    .scenario-list li {
-      display: flex;
-      justify-content: space-between;
-      color: var(--text-muted);
-      padding-bottom: 0.7rem;
-      border-bottom: 1px solid rgba(201,168,76,0.06);
-    }
-    .scenario-list li span:last-child { color: var(--off-white); font-weight: 500; }
-
-    /* ── INVESTOR ── */
-    .investor-section {
-      padding: 10rem 0;
-      background: var(--black);
-    }
-    .investor-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8rem;
-      align-items: start;
-    }
-    .investor-layers {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      margin-top: 3rem;
-    }
-    .layer-card {
-      border: 1px solid rgba(201,168,76,0.1);
-      padding: 2rem;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 1.5rem;
-      align-items: center;
-      transition: all 0.3s;
-    }
-    .layer-card:hover {
-      background: rgba(201,168,76,0.04);
-      border-color: rgba(201,168,76,0.25);
-    }
-    .layer-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.5rem;
-      color: rgba(201,168,76,0.2);
-      font-weight: 300;
-      min-width: 2.5rem;
-    }
-    .layer-title {
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--off-white);
-      margin-bottom: 0.3rem;
-    }
-    .layer-desc { font-size: 0.78rem; color: var(--text-muted); }
-    .layer-val {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
-      color: var(--gold);
-      text-align: right;
-      white-space: nowrap;
-    }
-    .investor-eval {
-      background: var(--green-mid);
-      border: 1px solid rgba(201,168,76,0.15);
-      padding: 4rem;
-      position: relative;
-    }
-    .investor-eval::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(to right, var(--gold), var(--gold-dim));
-    }
-    .eval-title {
-      font-size: 0.6rem;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 2rem;
-    }
-    .eval-val {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 4.5rem;
-      color: var(--off-white);
-      font-weight: 300;
-      line-height: 1;
-      margin-bottom: 0.5rem;
-    }
-    .eval-val span { color: var(--gold); }
-    .eval-range { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 3rem; }
-    .eval-methods {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .eval-method {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.78rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid rgba(201,168,76,0.08);
-    }
-    .eval-method-name { color: var(--text-muted); }
-    .eval-method-val { color: var(--off-white); }
-    .eval-note {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      margin-top: 2rem;
-      font-style: italic;
-    }
-
-    /* ── THE TEAM ── */
-    .team-section {
-      padding: 10rem 0;
-      background: var(--green-deep);
-    }
-    .team-header {
-      text-align: center;
-      max-width: 700px;
-      margin: 0 auto 6rem;
-    }
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      background: rgba(201,168,76,0.06);
-    }
-    .team-card {
-      background: var(--green-deep);
-      padding: 3rem;
-      transition: background 0.4s;
-      position: relative;
-      overflow: hidden;
-    }
-    .team-card::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 2px;
-      background: var(--gold);
-      transform: scaleY(0);
-      transform-origin: bottom;
-      transition: transform 0.4s;
-    }
-    .team-card:hover { background: var(--green-mid); }
-    .team-card:hover::before { transform: scaleY(1); }
-    .team-role {
-      font-size: 0.6rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 0.8rem;
-    }
-    .team-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.6rem;
-      color: var(--off-white);
-      margin-bottom: 1.5rem;
-      font-weight: 400;
-    }
-    .team-desc {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      line-height: 1.8;
-    }
-    .team-extras {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2px;
-      margin-top: 2px;
-      background: rgba(201,168,76,0.06);
-    }
-    .team-extra {
-      background: var(--green-deep);
-      padding: 2.5rem 3rem;
-      display: flex;
-      gap: 1.5rem;
-      align-items: flex-start;
-      transition: background 0.3s;
-    }
-    .team-extra:hover { background: var(--green-mid); }
-    .team-extra-icon { font-size: 1.5rem; flex-shrink: 0; }
-    .team-extra-title {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--off-white);
-      margin-bottom: 0.4rem;
-    }
-    .team-extra-desc { font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; }
-
-    /* ── RESERVE ── */
-    .reserve-section {
-      padding: 12rem 0;
-      background: var(--black);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .reserve-bg {
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 50% 50%, rgba(26,61,40,0.3) 0%, transparent 60%);
-    }
-    .reserve-wow {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20vw;
-      color: rgba(201,168,76,0.03);
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%,-50%);
-      white-space: nowrap;
-      pointer-events: none;
-      font-weight: 600;
-    }
-    .reserve-content { position: relative; z-index: 2; }
-    .reserve-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      font-weight: 300;
-      color: var(--off-white);
-      line-height: 1.2;
-      margin-bottom: 1.5rem;
-    }
-    .reserve-title em { color: var(--gold); font-style: italic; }
-    .reserve-sub {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      max-width: 500px;
-      margin: 0 auto 4rem;
-      line-height: 1.8;
-    }
-    .reserve-form {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      max-width: 600px;
-      margin: 0 auto 2rem;
-    }
-    .reserve-form input {
-      flex: 1;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(201,168,76,0.2);
-      color: var(--off-white);
-      padding: 1rem 1.5rem;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.8rem;
-      outline: none;
-      transition: border-color 0.3s;
-    }
-    .reserve-form input::placeholder { color: var(--text-muted); }
-    .reserve-form input:focus { border-color: var(--gold); }
-    .reserve-cities {
-      display: flex;
-      gap: 2rem;
-      justify-content: center;
-      margin-top: 3rem;
-    }
-    .city-tag {
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      padding: 0.5rem 1rem;
-      border: 1px solid rgba(201,168,76,0.1);
-      transition: all 0.3s;
-      cursor: pointer;
-    }
-    .city-tag:hover {
-      color: var(--gold);
-      border-color: rgba(201,168,76,0.4);
-    }
-    .city-tag.active {
-      color: var(--black);
-      background: var(--gold);
-      border-color: var(--gold);
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      background: var(--green-deep);
-      border-top: 1px solid rgba(201,168,76,0.1);
-      padding: 5rem 0 3rem;
-    }
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 4rem;
-      margin-bottom: 4rem;
-    }
-    .footer-brand-wow {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3rem;
-      color: var(--gold);
-      letter-spacing: 0.2em;
-      font-weight: 300;
-      line-height: 1;
-      margin-bottom: 0.3rem;
-    }
-    .footer-brand-sub {
-      font-size: 0.6rem;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-    }
-    .footer-tagline {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-style: italic;
-      color: rgba(245,240,232,0.5);
-      line-height: 1.5;
-      max-width: 280px;
-    }
-    .footer-col-title {
-      font-size: 0.6rem;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.5rem;
-    }
-    .footer-links {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-    .footer-links a {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    .footer-links a:hover { color: var(--off-white); }
-    .footer-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 3rem;
-      border-top: 1px solid rgba(201,168,76,0.08);
-    }
-    .footer-copy {
-      font-size: 0.7rem;
-      color: rgba(138,158,142,0.5);
-    }
-    .footer-conf {
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      color: rgba(138,158,142,0.4);
-    }
-
-    /* ── COUNTER ── */
-    .count-up { display: inline-block; }
-
-    /* ── MOBILE ── */
-    @media (max-width: 1024px) {
-      .container { padding: 0 2rem; }
-      nav { padding: 1.5rem 2rem; }
-      nav.scrolled { padding: 1rem 2rem; }
-      .what-layout, .boutique-layout, .italy-layout,
-      .investor-layout { grid-template-columns: 1fr; gap: 4rem; }
-      .what-visual { height: 350px; }
-      .courses-grid { grid-template-columns: repeat(3, 1fr); }
-      .experience-feat { grid-template-columns: 1fr; }
-      .roadmap-phases { grid-template-columns: 1fr 1fr; gap: 2rem; }
-      .roadmap-line { display: none; }
-      .roadmap-scenarios { grid-template-columns: 1fr; }
-      .team-grid { grid-template-columns: 1fr 1fr; }
-      .team-extras { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
-      .nav-links { display: none; }
-      .hero-cta-group { flex-direction: column; align-items: center; }
-      .price-compare { gap: 2rem; }
-    }
-    @media (max-width: 640px) {
-      .team-grid { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr; }
-      .boutique-specs { grid-template-columns: 1fr 1fr; }
-      .italy-nodes { grid-template-columns: 1fr 1fr; }
-      .reserve-form { flex-direction: column; }
-      .reserve-cities { flex-wrap: wrap; justify-content: center; }
-    }
+    @media(max-width:1024px) { .c{padding:0 2rem;} nav{padding:1.5rem 2rem;} nav.s{padding:1rem 2rem;} .nav-links{display:none;} .stmt-grid,.italy-layout,.boutique-layout{grid-template-columns:1fr;} .courses{grid-template-columns:repeat(3,1fr);} .exp-feat{grid-template-columns:1fr;} .phases{grid-template-columns:1fr 1fr;} .flagships{grid-template-columns:1fr;} .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;} .g-item.tall{grid-row:span 1;} .fg{grid-template-columns:1fr 1fr;} }
+    @media(max-width:640px) { .phases{grid-template-columns:1fr;} .fg{grid-template-columns:1fr;} .r-form{flex-direction:column;} .h-ctas{flex-direction:column;align-items:center;} }
   </style>
 </head>
 <body>
+  <div id="cur"></div>
+  <div id="cur-ring"></div>
 
-  <!-- CURSOR -->
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
-  <!-- NAV -->
   <nav id="nav">
-    <a class="nav-logo" href="#">
-      <span class="nav-logo-wow">WoW</span>
-      <span class="nav-logo-sub">Fast Fine Dining</span>
+    <a class="logo" href="#">
+      <span class="logo-wow">WoW</span>
+      <span class="logo-sub">Fast Fine Dining</span>
     </a>
     <ul class="nav-links">
       <li><a href="#experience">Experience</a></li>
-      <li><a href="#boutique">The Boutique</a></li>
       <li><a href="#italy">Made in Italy</a></li>
-      <li><a href="#roadmap">Roadmap</a></li>
-      <li><a href="#investors">Investors</a></li>
-      <li><a href="#team">Team</a></li>
+      <li><a href="#boutique">The Boutique</a></li>
+      <li><a href="#roadmap">Expansion</a></li>
+      <li><a href="#reserve">Reserve</a></li>
     </ul>
-    <a href="#reserve" class="nav-reserve"><span>Reserve Your Table</span></a>
+    <a href="#reserve" class="nav-cta">Reserve Your Table</a>
   </nav>
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-marble"></div>
-    <div class="hero-lines">
-      <div class="hero-line hero-line-h" style="top:25%"></div>
-      <div class="hero-line hero-line-h" style="top:75%"></div>
-      <div class="hero-line hero-line-v" style="left:20%"></div>
-      <div class="hero-line hero-line-v" style="left:80%"></div>
-    </div>
+    <div class="hero-img" id="heroImg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-green"></div>
     <div class="hero-content">
-      <div class="hero-eyebrow">Engineering Fine Dining to Scale — A New Global Category</div>
-      <h1 class="hero-wow">W<span class="wow-o">o</span>W</h1>
-      <div class="hero-divider"></div>
-      <p class="hero-tagline">"Fine Dining. Reengineered. For Everyone."</p>
-      <p class="hero-sub">A 9-course Michelin experience · €35–50 · 30 minutes</p>
-      <div class="hero-cta-group">
-        <a href="#experience" class="btn-gold"><span>Discover the Experience</span></a>
-        <a href="#investors" class="btn-outline">For Investors & Licensees</a>
+      <div class="h-eye">Engineering Fine Dining to Scale — A New Global Category</div>
+      <h1 class="h-title">W<span class="o">o</span>W</h1>
+      <div class="h-div"></div>
+      <p class="h-tag">"Fine Dining. Reengineered. For Everyone."</p>
+      <p class="h-sub">A 9-course Michelin experience · Accessible. Always.</p>
+      <div class="h-ctas">
+        <a href="#experience" class="btn-g">Discover the Experience</a>
+        <a href="#reserve" class="btn-o">Reserve a Table</a>
       </div>
     </div>
-    <div class="hero-scroll">
-      <span>Scroll</span>
-      <div class="scroll-line"></div>
-    </div>
+    <div class="h-scroll"><span>Scroll</span><div class="scroll-ln"></div></div>
   </section>
 
   <!-- MARQUEE -->
-  <div class="marquee-wrap">
-    <div class="marquee-track">
-      <span class="marquee-item">Fast Fine Dining</span><span class="marquee-dot">◆</span>
-      <span class="marquee-item">9 Michelin-Designed Courses</span><span class="marquee-dot">◆</span>
-      <span class="marquee-item">Made in Italy</span><span class="marquee-dot">◆</span>
-      <span class="marquee-item">€35–50 per cover</span><span class="marquee-dot">◆</span>
-      <span class="marquee-item">FFD · FFL System</span><span class="marquee-dot">◆</span>
-      <span class="marquee-item">Engineered to Scale</span><span class="marquee-dot">◆</span>
-      <span class="marquee-item">A New Category</span><span class="marquee-dot">◆</span>
-      <span class="marquee-item">Fast Fine Dining</span><span class="marquee-dot">◆</span>
-      <span class="marquee-item">9 Michelin-Designed Courses</span><span class="marquee-dot">◆</span>
-      <span class="marquee-item">Made in Italy</span><span class="marquee-dot">◆</span>
-      <span class="marquee-item">€35–50 per cover</span><span class="marquee-dot">◆</span>
-      <span class="marquee-item">FFD · FFL System</span><span class="marquee-dot">◆</span>
-      <span class="marquee-item">Engineered to Scale</span><span class="marquee-dot">◆</span>
-      <span class="marquee-item">A New Category</span><span class="marquee-dot">◆</span>
+  <div class="mq">
+    <div class="mq-track">
+      <span class="mq-item">Fast Fine Dining</span><span class="mq-dot">◆</span>
+      <span class="mq-item">9 Michelin-Designed Courses</span><span class="mq-dot">◆</span>
+      <span class="mq-item">Made in Italy</span><span class="mq-dot">◆</span>
+      <span class="mq-item">Boutique · Intimate · Theatrical</span><span class="mq-dot">◆</span>
+      <span class="mq-item">Engineered to Amaze</span><span class="mq-dot">◆</span>
+      <span class="mq-item">A New Category</span><span class="mq-dot">◆</span>
+      <span class="mq-item">Fast Fine Dining</span><span class="mq-dot">◆</span>
+      <span class="mq-item">9 Michelin-Designed Courses</span><span class="mq-dot">◆</span>
+      <span class="mq-item">Made in Italy</span><span class="mq-dot">◆</span>
+      <span class="mq-item">Boutique · Intimate · Theatrical</span><span class="mq-dot">◆</span>
+      <span class="mq-item">Engineered to Amaze</span><span class="mq-dot">◆</span>
+      <span class="mq-item">A New Category</span><span class="mq-dot">◆</span>
     </div>
   </div>
 
-  <!-- WHAT IS WOW -->
-  <section class="what-section" id="concept">
-    <div class="container">
-      <div class="what-layout">
+  <!-- STATEMENT -->
+  <section class="stmt" id="concept">
+    <div class="c">
+      <div class="stmt-grid">
         <div>
-          <div class="section-eyebrow reveal">What is WoW</div>
-          <h2 class="section-title reveal reveal-delay-1">Not a<br>restaurant.<br><em>A revolution.</em></h2>
-          <div style="height:2rem"></div>
-          <p class="section-body reveal reveal-delay-2">
-            WoW was conceived as an operational response to a structural inefficiency in global premium dining. Fine dining creates cultural value but rarely produces replicable economic value.
-            <br><br>
-            WoW replicates processes — not chefs. Scales infrastructure — not restaurants. Monetizes supply, certification and IP — not tables.
+          <div class="ey rv">The WoW Difference</div>
+          <h2 class="st rv d1">Not a restaurant.<br><em>A revolution.</em></h2>
+          <div style="height:1.5rem"></div>
+          <p class="sb rv d2" style="max-width:520px">
+            Fine dining creates cultural value but rarely produces accessible experiences. Fast food scales but strips out soul. WoW is the first engineered solution to that contradiction — combining Michelin-calibre quality, emotional impact, and operational scalability in a single platform.
           </p>
-          <div style="height:3rem"></div>
-          <div style="display:grid; grid-template-columns: repeat(3,1fr); gap:2rem;" class="reveal reveal-delay-3">
+          <div style="margin-top:3rem;display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem" class="rv d3">
             <div>
-              <div style="font-family:'Cormorant Garamond',serif;font-size:3rem;color:var(--gold);font-weight:300;line-height:1">FFD</div>
-              <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);margin-top:0.4rem">Food Flow Design</div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;color:var(--gold);font-weight:300;line-height:1">9</div>
+              <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-top:0.3rem">Michelin-designed courses</div>
             </div>
             <div>
-              <div style="font-family:'Cormorant Garamond',serif;font-size:3rem;color:var(--gold);font-weight:300;line-height:1">FFL</div>
-              <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);margin-top:0.4rem">Fast Fine Licensing</div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;color:var(--gold);font-weight:300;line-height:1">30</div>
+              <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-top:0.3rem">Minutes of wonder</div>
             </div>
             <div>
-              <div style="font-family:'Cormorant Garamond',serif;font-size:3rem;color:var(--gold);font-weight:300;line-height:1">IP</div>
-              <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);margin-top:0.4rem">Proprietary Platform</div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;color:var(--gold);font-weight:300;line-height:1">50%</div>
+              <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-top:0.3rem">Below traditional fine dining</div>
             </div>
           </div>
         </div>
-        <div class="what-visual reveal reveal-delay-2">
-          <div class="what-card what-card-main">
-            <div class="what-gold-line wgl-h"></div>
-            <div class="what-gold-line wgl-v"></div>
-            <div class="what-big-num">W</div>
-            <div>
-              <div class="what-card-label">The WoW Effect</div>
-              <div class="what-card-value">Expectation<br>Asymmetry</div>
-              <div class="what-card-sub">Guests encounter richness disproportionate to the price paid</div>
-            </div>
+        <div class="stmt-img rv d2">
+          <img src="/wow-assets/wow-theatre.png" alt="WoW theatrical dining experience" loading="lazy">
+          <div class="stmt-img-overlay"></div>
+          <div class="stmt-img-tag">
+            <div class="stmt-img-tag-label">The WoW Moment</div>
+            <div class="stmt-img-tag-val">Every visit. Every table. Every time.</div>
           </div>
-          <div class="what-card what-card-accent">
-            <div style="display:flex;flex-direction:column;gap:1.5rem;height:100%;justify-content:center">
-              <div>
-                <div class="what-card-label">Category</div>
-                <div class="what-card-value" style="font-size:1.3rem">Fast Fine Dining</div>
-              </div>
-              <div style="width:40px;height:1px;background:var(--gold);opacity:0.4"></div>
-              <div>
-                <div class="what-card-label">Model</div>
-                <div style="font-size:0.8rem;color:var(--off-white)">IP Company<br>disguised as hospitality</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Comparison Table -->
-      <div style="margin-top:8rem" class="reveal">
-        <div style="overflow-x:auto">
-          <table style="width:100%;border-collapse:collapse;font-family:'Montserrat',sans-serif">
-            <thead>
-              <tr style="border-bottom:1px solid rgba(201,168,76,0.2)">
-                <th style="text-align:left;padding:1.2rem 1.5rem;font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);font-weight:400">Dimension</th>
-                <th style="padding:1.2rem 1.5rem;font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(138,158,142,0.6);font-weight:400">Fine Dining</th>
-                <th style="padding:1.2rem 1.5rem;font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(138,158,142,0.6);font-weight:400">Fast Food</th>
-                <th style="padding:1.2rem 1.5rem;font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);font-weight:600;background:rgba(201,168,76,0.06)">WoW</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:var(--text-muted)">Quality</td>
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:rgba(245,240,232,0.5);text-align:center">Very High</td>
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:rgba(245,240,232,0.3);text-align:center">Low–Medium</td>
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:var(--gold);text-align:center;background:rgba(201,168,76,0.04);font-weight:600">High ✦</td>
-              </tr>
-              <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:var(--text-muted)">Emotional Impact</td>
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:rgba(245,240,232,0.5);text-align:center">High</td>
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:rgba(245,240,232,0.3);text-align:center">Low</td>
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:var(--gold);text-align:center;background:rgba(201,168,76,0.04);font-weight:600">High ✦</td>
-              </tr>
-              <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:var(--text-muted)">Scalability</td>
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:rgba(245,240,232,0.5);text-align:center">Low</td>
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:rgba(245,240,232,0.3);text-align:center">Very High</td>
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:var(--gold);text-align:center;background:rgba(201,168,76,0.04);font-weight:600">High ✦</td>
-              </tr>
-              <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:var(--text-muted)">Operational Model</td>
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:rgba(245,240,232,0.5);text-align:center">Chef Dependent</td>
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:rgba(245,240,232,0.3);text-align:center">Process Driven</td>
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:var(--gold);text-align:center;background:rgba(201,168,76,0.04);font-weight:600">Engineered Gastronomy ✦</td>
-              </tr>
-              <tr>
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:var(--text-muted)">Expansion Speed</td>
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:rgba(245,240,232,0.5);text-align:center">Slow</td>
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:rgba(245,240,232,0.3);text-align:center">Fast</td>
-                <td style="padding:1.2rem 1.5rem;font-size:0.8rem;color:var(--gold);text-align:center;background:rgba(201,168,76,0.04);font-weight:600">Fast & Controlled ✦</td>
-              </tr>
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- THE EXPERIENCE -->
-  <section class="experience-section" id="experience">
-    <div class="experience-bg"></div>
-    <div class="container" style="position:relative;z-index:1">
-      <div class="experience-header">
-        <div class="section-eyebrow reveal" style="justify-content:center">The Experience</div>
-        <h2 class="section-title reveal reveal-delay-1" style="text-align:center">Nine courses.<br><em>One unforgettable moment.</em></h2>
-        <p class="section-body reveal reveal-delay-2" style="margin:1.5rem auto 0;text-align:center;max-width:600px">
-          Each WoW menu is a curated journey through Italian gastronomy — conceived by Michelin-starred chefs, engineered to be consistent at every table, every time.
+  <!-- EXPERIENCE -->
+  <section class="exp" id="experience">
+    <div class="c">
+      <div class="exp-hdr">
+        <div class="ey rv" style="justify-content:center">The Experience</div>
+        <h2 class="st rv d1" style="text-align:center">Nine courses.<br><em>One unforgettable moment.</em></h2>
+        <p class="sb rv d2" style="text-align:center;margin:1.5rem auto 0;max-width:580px">
+          Each WoW menu is a curated journey through Italian gastronomy — conceived by our Michelin-starred culinary team, engineered to be flawless at every table.
         </p>
       </div>
-
-      <!-- 9 Courses -->
-      <div class="courses-grid reveal">
-        <div class="courses-grid reveal">
-        </div>
-        <div class="course-item">
-          <div class="course-num">I</div>
-          <div class="course-dot"></div>
-          <div class="course-name">Amuse<br>Bouche</div>
-        </div>
-        <div class="course-item">
-          <div class="course-num">II</div>
-          <div class="course-dot"></div>
-          <div class="course-name">Cold<br>Appetiser</div>
-        </div>
-        <div class="course-item">
-          <div class="course-num">III</div>
-          <div class="course-dot"></div>
-          <div class="course-name">Warm<br>Starter</div>
-        </div>
-        <div class="course-item">
-          <div class="course-num">IV</div>
-          <div class="course-dot"></div>
-          <div class="course-name">Pasta<br>Primo</div>
-        </div>
-        <div class="course-item">
-          <div class="course-num">V</div>
-          <div class="course-dot"></div>
-          <div class="course-name">Sorbet<br>Palate</div>
-        </div>
-        <div class="course-item">
-          <div class="course-num">VI</div>
-          <div class="course-dot"></div>
-          <div class="course-name">Main<br>Secondo</div>
-        </div>
-        <div class="course-item">
-          <div class="course-num">VII</div>
-          <div class="course-dot"></div>
-          <div class="course-name">Cheese<br>Selection</div>
-        </div>
-        <div class="course-item">
-          <div class="course-num">VIII</div>
-          <div class="course-dot"></div>
-          <div class="course-name">Pre-Dessert<br>Mignardise</div>
-        </div>
-        <div class="course-item">
-          <div class="course-num">IX</div>
-          <div class="course-dot"></div>
-          <div class="course-name">Dessert<br>Finale</div>
-        </div>
+      <div class="courses rv">
+        <div class="ci"><div class="ci-n">I</div><div class="ci-dot"></div><div class="ci-lbl">Amuse<br>Bouche</div></div>
+        <div class="ci"><div class="ci-n">II</div><div class="ci-dot"></div><div class="ci-lbl">Cold<br>Appetiser</div></div>
+        <div class="ci"><div class="ci-n">III</div><div class="ci-dot"></div><div class="ci-lbl">Warm<br>Starter</div></div>
+        <div class="ci"><div class="ci-n">IV</div><div class="ci-dot"></div><div class="ci-lbl">Pasta<br>Primo</div></div>
+        <div class="ci"><div class="ci-n">V</div><div class="ci-dot"></div><div class="ci-lbl">Sorbet<br>Palate</div></div>
+        <div class="ci"><div class="ci-n">VI</div><div class="ci-dot"></div><div class="ci-lbl">Main<br>Secondo</div></div>
+        <div class="ci"><div class="ci-n">VII</div><div class="ci-dot"></div><div class="ci-lbl">Cheese<br>Selection</div></div>
+        <div class="ci"><div class="ci-n">VIII</div><div class="ci-dot"></div><div class="ci-lbl">Mignardise</div></div>
+        <div class="ci"><div class="ci-n">IX</div><div class="ci-dot"></div><div class="ci-lbl">Dessert<br>Finale</div></div>
       </div>
-
-      <div class="experience-feat">
-        <div class="feat-block reveal">
-          <span class="feat-icon">🔥</span>
-          <div class="feat-title">The Theatrical Moment</div>
-          <p class="feat-text">Each visit includes a live tableside finishing — a copper-torched course, a flambé, or a tableside pour — the engineered "WoW moment" that makes a meal into a memory.</p>
-          <div class="feat-num">I</div>
+      <div class="exp-feat rv">
+        <div class="ef">
+          <div class="ef-line"></div>
+          <img src="/wow-assets/wow-theatre.png" alt="Theatrical dining">
+          <div class="ef-content">
+            <div class="ef-icon">🔥</div>
+            <div class="ef-title">The Theatrical Moment</div>
+            <p class="ef-text">Live tableside finishing — copper torch, flambé, or tableside pour. The engineered WoW moment that turns a meal into a memory.</p>
+          </div>
         </div>
-        <div class="feat-block reveal reveal-delay-1">
-          <span class="feat-icon">⭐</span>
-          <div class="feat-title">Michelin-Designed Menus</div>
-          <p class="feat-text">Every menu is conceived by our CCO — awarded Emerging Chef of the Year by L'Espresso — alongside a network of starred chefs who are equity partners in WoW's mission.</p>
-          <div class="feat-num">II</div>
+        <div class="ef">
+          <div class="ef-line"></div>
+          <img src="/wow-assets/wow-food1.png" alt="Michelin food">
+          <div class="ef-content">
+            <div class="ef-icon">⭐</div>
+            <div class="ef-title">Michelin-Designed Menus</div>
+            <p class="ef-text">Every menu conceived by our CCO — L'Espresso Emerging Chef of the Year — alongside starred chefs who are equity partners in WoW's mission.</p>
+          </div>
         </div>
-        <div class="feat-block reveal reveal-delay-2">
-          <span class="feat-icon">⏱</span>
-          <div class="feat-title">30-Minute Precision</div>
-          <p class="feat-text">The FFD system decouples production from service. Central hubs prepare. Tasting stations finish. Result: Michelin-quality plating delivered in time windows compatible with lunch, dinner, or a business meeting.</p>
-          <div class="feat-num">III</div>
+        <div class="ef">
+          <div class="ef-line"></div>
+          <img src="/wow-assets/wow-dessert.png" alt="Fine dessert">
+          <div class="ef-content">
+            <div class="ef-icon">⏱</div>
+            <div class="ef-title">30-Minute Precision</div>
+            <p class="ef-text">Central production hubs prepare. Tasting stations finish. Michelin-quality plating delivered in time windows compatible with any occasion.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PRICE REVELATION -->
-  <section class="price-section">
-    <div class="price-bg-text">WoW</div>
-    <div class="container">
-      <div class="section-eyebrow reveal" style="justify-content:center">The Price Revolution</div>
-      <h2 class="section-title reveal reveal-delay-1" style="text-align:center;max-width:700px;margin:0 auto">Half the price.<br><em>Twice the courses.</em></h2>
-      <div class="price-compare reveal reveal-delay-2">
-        <div class="price-col">
-          <div class="price-label">Traditional Michelin<br>5-course menu</div>
-          <div class="price-value struck">€235</div>
-          <div class="price-courses">5 courses · 3+ hours</div>
-        </div>
-        <div class="price-vs">vs</div>
-        <div class="price-col">
-          <div class="price-label">WoW Fast Fine Dining<br>9-course experience</div>
-          <div class="price-value hero-price">€35–50</div>
-          <div class="price-courses" style="color:var(--gold-dim)">9 courses · 30 minutes</div>
-        </div>
+  <!-- GALLERY -->
+  <section class="gallery">
+    <div class="gallery-grid rv">
+      <div class="g-item tall">
+        <img src="/wow-assets/wow-interior.png" alt="WoW interior">
+        <div class="g-item-label"><span>The Boutique Interior</span></div>
       </div>
-      <p class="price-statement reveal reveal-delay-3">
-        "More courses. Less than half the price of conventional fine dining.<br>Menu developed with <strong>Michelin-starred chefs as equity partners.</strong>"
-      </p>
-    </div>
-  </section>
-
-  <!-- THE BOUTIQUE -->
-  <section class="boutique-section" id="boutique">
-    <div class="container">
-      <div class="boutique-layout">
-        <div>
-          <div class="section-eyebrow reveal">The Boutique</div>
-          <h2 class="section-title reveal reveal-delay-1">An intimate<br><em>Boutique of Tasting.</em></h2>
-          <div style="height:1.5rem"></div>
-          <p class="section-body reveal reveal-delay-2">
-            WoW units are not restaurants in the traditional sense. Each is a calibrated finishing environment — a Boutique of Tasting — built around engineered tasting stations. Intimate by design. Exclusive by architecture.
-          </p>
-          <div class="boutique-specs reveal reveal-delay-3">
-            <div class="spec-item">
-              <div class="spec-num">24<span class="spec-unit"></span></div>
-              <div class="spec-label">Seats per unit</div>
-            </div>
-            <div class="spec-item">
-              <div class="spec-num">2<span class="spec-unit">×</span></div>
-              <div class="spec-label">Daily service turns</div>
-            </div>
-            <div class="spec-item">
-              <div class="spec-num">4<span class="spec-unit">d</span></div>
-              <div class="spec-label">Operating days/week</div>
-            </div>
-            <div class="spec-item">
-              <div class="spec-num">~8k</div>
-              <div class="spec-label">Annual covers</div>
-            </div>
-            <div class="spec-item">
-              <div class="spec-num">80<span class="spec-unit">%</span></div>
-              <div class="spec-label">Target occupancy</div>
-            </div>
-            <div class="spec-item">
-              <div class="spec-num">€420k</div>
-              <div class="spec-label">Avg annual revenue</div>
-            </div>
-          </div>
-        </div>
-        <div class="boutique-visual reveal reveal-delay-2">
-          <div class="boutique-img-mock">
-            <div class="boutique-center-mark">WoW</div>
-            <div class="boutique-tag">
-              <div class="boutique-tag-label">Interior Concept</div>
-              <div class="boutique-tag-val">Marble · Velvet · Gold · 24 Seats</div>
-            </div>
-          </div>
-          <div style="background:var(--green-mid);border:1px solid rgba(201,168,76,0.1);padding:2rem;margin-top:2px">
-            <div style="font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem">Unit Economics</div>
-            <div style="display:flex;justify-content:space-between;font-size:0.82rem;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.06)">
-              <span style="color:var(--text-muted)">Annual Revenue</span>
-              <span style="color:var(--off-white)">€370k–€490k</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:0.82rem;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.06)">
-              <span style="color:var(--text-muted)">EBITDA Margin</span>
-              <span style="color:var(--gold)">22–27%</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:0.82rem;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.06)">
-              <span style="color:var(--text-muted)">Licensee CAPEX</span>
-              <span style="color:var(--off-white)">~€100k</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:0.82rem;padding:0.6rem 0">
-              <span style="color:var(--text-muted)">ROI / Payback</span>
-              <span style="color:var(--gold)">~80% · 14–18 months</span>
-            </div>
-          </div>
-        </div>
+      <div class="g-item">
+        <img src="/wow-assets/wow-food1.png" alt="Course presentation">
+        <div class="g-item-label"><span>Course Presentation</span></div>
+      </div>
+      <div class="g-item">
+        <img src="/wow-assets/wow-tablesetting.png" alt="Table setting">
+        <div class="g-item-label"><span>The Table Setting</span></div>
+      </div>
+      <div class="g-item">
+        <img src="/wow-assets/wow-dessert.png" alt="Dessert finale">
+        <div class="g-item-label"><span>Dessert Finale</span></div>
+      </div>
+      <div class="g-item">
+        <img src="/wow-assets/wow-italy.png" alt="Made in Italy">
+        <div class="g-item-label"><span>Made in Italy</span></div>
       </div>
     </div>
   </section>
 
   <!-- MADE IN ITALY -->
-  <section class="italy-section" id="italy">
-    <div class="container">
+  <section class="italy" id="italy">
+    <div class="c">
       <div class="italy-layout">
-        <div>
-          <div class="section-eyebrow reveal">Made in Italy</div>
-          <h2 class="section-title reveal reveal-delay-1">The soul of<br>Italy. <em>At every<br>table.</em></h2>
-          <div style="height:1.5rem"></div>
-          <p class="section-body reveal reveal-delay-2">
-            WoW's supply chain is not a logistical afterthought — it is a vertically integrated cultural asset. From origin-controlled Italian producers to your plate, every ingredient carries the authenticity of the land it came from.
-          </p>
-          <div class="italy-pillars reveal reveal-delay-3">
-            <div class="pillar">
-              <div class="pillar-num">01</div>
-              <div>
-                <div class="pillar-title">Origin-Controlled Supply</div>
-                <div class="pillar-text">Centralized procurement from verified Italian producers. Every ingredient is traceable, authentic, and seasonally aligned.</div>
-              </div>
-            </div>
-            <div class="pillar">
-              <div class="pillar-num">02</div>
-              <div>
-                <div class="pillar-title">Proprietary Wine Vertical</div>
-                <div class="pillar-text">Exclusive WoW wine labels sourced directly. 30% supply margin retained. 1.5 glasses per guest, curated to each menu chapter.</div>
-              </div>
-            </div>
-            <div class="pillar">
-              <div class="pillar-num">03</div>
-              <div>
-                <div class="pillar-title">Global Trademark Protection</div>
-                <div class="pillar-text">A registered "Made in Italy" global F&B trademark in 50+ countries ensures no dilution of authenticity as WoW scales internationally.</div>
-              </div>
-            </div>
-            <div class="pillar">
-              <div class="pillar-num">04</div>
-              <div>
-                <div class="pillar-title">Nobel-Backed Non-Profit</div>
-                <div class="pillar-text">Association with a non-profit institute protecting Italian gastronomy — supported by Michelin chefs, F&B KOLs, and Nobel Peace Prize laureate Muhammad Yunus.</div>
-              </div>
+        <div class="rv">
+          <div class="italy-img">
+            <img src="/wow-assets/wow-italy.png" alt="Italian landscape">
+            <div class="italy-img-ovl"></div>
+            <div class="italy-quote-box">
+              <p class="iq-text">"Engineer what was historically artisanal — and scale what was historically unscalable."</p>
+              <div class="iq-attr">WoW Founding Principle</div>
             </div>
           </div>
         </div>
-        <div class="reveal reveal-delay-2">
-          <div class="italy-quote">
-            <p class="italy-quote-text">
-              "Engineer what was historically artisanal — and scale what was historically unscalable."
-            </p>
-            <div class="italy-quote-attr">WoW Founding Principle</div>
+        <div>
+          <div class="ey rv">Made in Italy</div>
+          <h2 class="st rv d1">The soul of Italy.<br><em>At every table.</em></h2>
+          <p class="sb rv d2" style="margin-top:1.5rem;max-width:500px">WoW's supply chain is not a logistical detail — it is a vertically integrated cultural asset. Every ingredient carries the authenticity of the land it came from.</p>
+          <div class="pillars rv d3">
+            <div class="pl"><div class="pl-n">01</div><div><div class="pl-title">Origin-Controlled Supply</div><div class="pl-text">Centralized procurement from verified Italian producers. Traceable, authentic, seasonally aligned.</div></div></div>
+            <div class="pl"><div class="pl-n">02</div><div><div class="pl-title">Proprietary Wine Vertical</div><div class="pl-text">Exclusive WoW wine labels sourced directly from Italian estates. Curated to each menu chapter.</div></div></div>
+            <div class="pl"><div class="pl-n">03</div><div><div class="pl-title">Global Trademark in 50+ Countries</div><div class="pl-text">A registered Made in Italy F&B trademark ensures no dilution of authenticity as WoW scales internationally.</div></div></div>
+            <div class="pl"><div class="pl-n">04</div><div><div class="pl-title">Nobel-Backed Non-Profit</div><div class="pl-text">An institute protecting Italian gastronomy — supported by Michelin chefs, F&B KOLs, and Nobel Peace Prize laureate Muhammad Yunus.</div></div></div>
           </div>
-          <div class="italy-nodes">
-            <div class="italy-node">
-              <span class="italy-node-val">407</span>
-              <div class="italy-node-label">Michelin Stars in Italy</div>
-            </div>
-            <div class="italy-node">
-              <span class="italy-node-val">50+</span>
-              <div class="italy-node-label">Countries, Trademark</div>
-            </div>
-            <div class="italy-node">
-              <span class="italy-node-val">20%</span>
-              <div class="italy-node-label">Food Supply Margin</div>
-            </div>
-            <div class="italy-node">
-              <span class="italy-node-val">30%</span>
-              <div class="italy-node-label">Wine Supply Margin</div>
-            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOUTIQUE -->
+  <section class="boutique" id="boutique">
+    <div class="c">
+      <div class="boutique-layout">
+        <div class="boutique-img rv">
+          <img src="/wow-assets/wow-interior.png" alt="WoW boutique interior">
+          <div class="boutique-img-ovl"></div>
+          <div class="boutique-tag">
+            <div class="bt-item"><div class="bt-val">24</div><div class="bt-lbl">Seats</div></div>
+            <div class="bt-item"><div class="bt-val">2×</div><div class="bt-lbl">Daily Turns</div></div>
+            <div class="bt-item"><div class="bt-val">~30<span style="font-size:1rem">min</span></div><div class="bt-lbl">Service</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="ey rv">The Boutique</div>
+          <h2 class="st rv d1">An intimate<br><em>Boutique of Tasting.</em></h2>
+          <p class="sb rv d2" style="margin-top:1.5rem;max-width:480px">WoW units are not restaurants in the traditional sense. Each is a calibrated finishing environment — a Boutique of Tasting — built around engineered tasting stations. Intimate by design. Exclusive by architecture.</p>
+          <div class="boutique-specs rv d3" style="margin-top:3rem">
+            <div class="bs"><span class="bs-label">Marble, velvet, gold — every surface curated</span></div>
+            <div class="bs"><span class="bs-label">Black chef attire — understated elegance</span><span class="bs-val">All-Black</span></div>
+            <div class="bs"><span class="bs-label">Operating days per week</span><span class="bs-val">4 days</span></div>
+            <div class="bs"><span class="bs-label">Target occupancy</span><span class="bs-val">80%</span></div>
+            <div class="bs"><span class="bs-label">Annual covers per unit</span><span class="bs-val">~8,000</span></div>
+            <div class="bs"><span class="bs-label">Launch cities</span><span class="bs-val" style="font-size:1rem;font-family:'Montserrat',sans-serif;font-size:0.8rem">Perugia · Florence · Rome</span></div>
           </div>
         </div>
       </div>
@@ -1860,288 +442,63 @@
   </section>
 
   <!-- ROADMAP -->
-  <section class="roadmap-section" id="roadmap">
-    <div class="container">
-      <div class="roadmap-header">
-        <div class="section-eyebrow reveal">Global Expansion</div>
-        <h2 class="section-title reveal reveal-delay-1">From Perugia<br>to the <em>world.</em></h2>
-        <p class="section-body reveal reveal-delay-2" style="margin-top:1.5rem">A decade-long journey — beginning with a proof of process in Central Italy and scaling to a global gastronomic infrastructure across Europe, the US, China and Japan.</p>
+  <section class="roadmap" id="roadmap">
+    <div class="c">
+      <div class="ey rv">Global Expansion</div>
+      <h2 class="st rv d1">From Perugia<br>to the <em>world.</em></h2>
+      <p class="sb rv d2" style="margin-top:1.2rem;max-width:560px">Beginning with a proof of concept in Central Italy and scaling to a global gastronomic infrastructure across Europe, the US, China and Japan.</p>
+      <div class="phases rv">
+        <div class="ph"><div class="ph-year">Years 1–2</div><div class="ph-place">Perugia</div><div class="ph-desc">Hub 1 · Proof of Process · Pilot units · Model validation</div></div>
+        <div class="ph"><div class="ph-year">Year 3</div><div class="ph-place">Central Italy</div><div class="ph-desc">Florence · Rome · Hub saturation · Licensee activation</div></div>
+        <div class="ph"><div class="ph-year">Year 4</div><div class="ph-place">North Italy</div><div class="ph-desc">Hub 2 · Milan flagship opens · European training centre</div></div>
+        <div class="ph"><div class="ph-year">Years 5–7</div><div class="ph-place">Europe</div><div class="ph-desc">Hub 3–5 · Paris & London flagships · Platform EU scaling</div></div>
+        <div class="ph"><div class="ph-year">Years 8–10</div><div class="ph-place">Global</div><div class="ph-desc">Hub 6–10 · US · China · Japan · 55–200 units</div></div>
       </div>
-
-      <div class="roadmap-track reveal">
-        <div class="roadmap-line"></div>
-        <div class="roadmap-phases">
-          <div class="phase">
-            <div class="phase-year">Y 1–2</div>
-            <div class="phase-dot"></div>
-            <div class="phase-place">Perugia</div>
-            <div class="phase-desc">Hub 1 · Proof of Process · Pilot units activated</div>
-          </div>
-          <div class="phase">
-            <div class="phase-year">Y 3</div>
-            <div class="phase-dot"></div>
-            <div class="phase-place">Central Italy</div>
-            <div class="phase-desc">Hub 1 saturation · Florence · Rome · Model validation</div>
-          </div>
-          <div class="phase">
-            <div class="phase-year">Y 4</div>
-            <div class="phase-dot"></div>
-            <div class="phase-place">North Italy</div>
-            <div class="phase-desc">Hub 2 · Milan flagship opens · Training capital</div>
-          </div>
-          <div class="phase">
-            <div class="phase-year">Y 5–7</div>
-            <div class="phase-dot"></div>
-            <div class="phase-place">Europe</div>
-            <div class="phase-desc">Hub 3–5 · Paris & London flagships · Platform EU scaling</div>
-          </div>
-          <div class="phase">
-            <div class="phase-year">Y 8–10</div>
-            <div class="phase-dot"></div>
-            <div class="phase-place">Global</div>
-            <div class="phase-desc">Hub 6–10 · US · China · Japan · 55–200 units</div>
-          </div>
+      <div class="flagships rv" style="margin-top:5rem">
+        <div style="grid-column:span 3;padding:2rem 0;border-bottom:1px solid rgba(201,168,76,0.15);margin-bottom:0">
+          <div class="ey" style="margin-bottom:0">Strategic Flagship Locations</div>
         </div>
-      </div>
-
-      <div class="roadmap-scenarios reveal">
-        <div class="scenario">
-          <div class="scenario-tag">Conservative · 55 Units</div>
-          <div class="scenario-ev">€<span>9.6</span>M</div>
-          <div class="scenario-sub">Enterprise Value (8× EBITDA)</div>
-          <ul class="scenario-list">
-            <li><span>Licensed units</span><span>55</span></li>
-            <li><span>Flagships</span><span>3</span></li>
-            <li><span>Hubs</span><span>4</span></li>
-            <li><span>Platform EBITDA</span><span>€1.2M</span></li>
-            <li><span>Occupancy</span><span>80%</span></li>
-          </ul>
-        </div>
-        <div class="scenario featured">
-          <div class="scenario-tag">Case 1 · 100 Units</div>
-          <div class="scenario-ev">€<span>48</span>M</div>
-          <div class="scenario-sub">Enterprise Value (8× EBITDA)</div>
-          <ul class="scenario-list">
-            <li><span>Licensed units</span><span>100</span></li>
-            <li><span>Flagships</span><span>5</span></li>
-            <li><span>Hubs</span><span>8</span></li>
-            <li><span>Platform EBITDA</span><span>€6.0M</span></li>
-            <li><span>Platform Revenue</span><span>€11.5M</span></li>
-          </ul>
-        </div>
-        <div class="scenario">
-          <div class="scenario-tag">Case 2 · 200 Units</div>
-          <div class="scenario-ev">€<span>120</span>M</div>
-          <div class="scenario-sub">Enterprise Value (8× EBITDA)</div>
-          <ul class="scenario-list">
-            <li><span>Licensed units</span><span>200</span></li>
-            <li><span>Flagships</span><span>10</span></li>
-            <li><span>Hubs</span><span>14</span></li>
-            <li><span>Platform EBITDA</span><span>€15M</span></li>
-            <li><span>Platform Revenue</span><span>€33M</span></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- INVESTORS -->
-  <section class="investor-section" id="investors">
-    <div class="container">
-      <div class="investor-layout">
-        <div>
-          <div class="section-eyebrow reveal">Investment Rationale</div>
-          <h2 class="section-title reveal reveal-delay-1">Platform economics.<br><em>Not restaurant<br>risk.</em></h2>
-          <p class="section-body reveal reveal-delay-2" style="margin-top:1.5rem">
-            Each additional licensed unit requires external capital from the operator — not WoW. Each new node increases supply throughput, expands the royalty base, and strengthens purchasing leverage without proportional capital deployment.
-          </p>
-          <div class="investor-layers reveal reveal-delay-3">
-            <div class="layer-card">
-              <div class="layer-num">1</div>
-              <div>
-                <div class="layer-title">Flagship & Experience Units</div>
-                <div class="layer-desc">Brand anchors, training centres, R&D labs. Strategic, not financial.</div>
-              </div>
-              <div class="layer-val">Brand</div>
-            </div>
-            <div class="layer-card">
-              <div class="layer-num">2</div>
-              <div>
-                <div class="layer-title">Fast Fine Licensing (FFL)</div>
-                <div class="layer-desc">Initial fee €10–25k + royalty 5–9% of turnover. Scales with network.</div>
-              </div>
-              <div class="layer-val">Recurring</div>
-            </div>
-            <div class="layer-card">
-              <div class="layer-num">3</div>
-              <div>
-                <div class="layer-title">Centralized Supply Margin</div>
-                <div class="layer-desc">+20% food margin · +30% wine margin. Structurally embedded, automatic.</div>
-              </div>
-              <div class="layer-val">€40–50k/unit</div>
-            </div>
-            <div class="layer-card">
-              <div class="layer-num">4</div>
-              <div>
-                <div class="layer-title">Knowledge & Certification</div>
-                <div class="layer-desc">Training, auditing, system updates. Increases switching cost for operators.</div>
-              </div>
-              <div class="layer-val">Phase 2</div>
-            </div>
-          </div>
-        </div>
-        <div class="reveal reveal-delay-2">
-          <div class="investor-eval">
-            <div class="eval-title">Current Platform Valuation</div>
-            <div class="eval-val">€<span>4.3</span>M</div>
-            <div class="eval-range">Range: €3.6M – €5.0M · Pre-scale stage</div>
-            <div class="eval-methods">
-              <div class="eval-method">
-                <span class="eval-method-name">Replacement Cost (Berkus)</span>
-                <span class="eval-method-val">€3.2M – €4.6M</span>
-              </div>
-              <div class="eval-method">
-                <span class="eval-method-name">Comparable Platforms</span>
-                <span class="eval-method-val">€4.0M – €6.0M</span>
-              </div>
-              <div class="eval-method">
-                <span class="eval-method-name">Node Activation Model</span>
-                <span class="eval-method-val">€3.1M – €4.2M</span>
-              </div>
-              <div class="eval-method">
-                <span class="eval-method-name">Scorecard Method</span>
-                <span class="eval-method-val">€4.0M – €5.4M</span>
-              </div>
-            </div>
-            <div class="eval-note">Valuation reflects engineered IP readiness. Excludes scale premium. This document is strictly confidential.</div>
-          </div>
-          <div style="margin-top:2px;background:var(--green-mid);border:1px solid rgba(201,168,76,0.1);padding:2.5rem">
-            <div style="font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem">Why WoW. Not a restaurant valuation.</div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:rgba(245,240,232,0.7);font-style:italic;line-height:1.6">
-              "WoW is an IP company disguised as hospitality."
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TEAM -->
-  <section class="team-section" id="team">
-    <div class="container">
-      <div class="team-header">
-        <div class="section-eyebrow reveal" style="justify-content:center">The Founders</div>
-        <h2 class="section-title reveal reveal-delay-1" style="text-align:center">A global team<br>for a <em>global project.</em></h2>
-        <p class="section-body reveal reveal-delay-2" style="margin:1.5rem auto 0;text-align:center">Every founder is a shareholder. Every shareholder is active. No passengers.</p>
-      </div>
-      <div class="team-grid reveal">
-        <div class="team-card">
-          <div class="team-role">CEO · Strategy & Global Coordination</div>
-          <div class="team-name">Chief Executive</div>
-          <p class="team-desc">International project leader specializing in scalable ventures, cross-border ecosystems, and supply chain integration. Deep expertise in Food & Wine business development. Architect of WoW's vision, mission and the FFD/FFL strategy.</p>
-        </div>
-        <div class="team-card">
-          <div class="team-role">COO · FFD Engineering Head</div>
-          <div class="team-name">Chief Operations</div>
-          <p class="team-desc">Entrepreneur with significant international experience in China. Data-driven, process-optimization focused. Bridges strategic vision with on-the-ground implementation. Leads the Food Flow Design system and global supply integration.</p>
-        </div>
-        <div class="team-card">
-          <div class="team-role">CFO · FFL Engineering Head</div>
-          <div class="team-name">Chief Finance</div>
-          <p class="team-desc">London-based investment professional with nearly two decades of private equity experience. Global network across institutional investors and management teams. Leads FFL financial architecture and European development.</p>
-        </div>
-        <div class="team-card">
-          <div class="team-role">CCO · Michelin-Starred Chef</div>
-          <div class="team-name">Chief Culinary</div>
-          <p class="team-desc">Award-winning Italian Michelin-starred chef. Named Emerging Young Chef of the Year — L'Espresso Restaurant Guide. Expert in culinary research, menu engineering, and scalable fine dining execution. Architect of the WoW menu ecosystem.</p>
-        </div>
-        <div class="team-card">
-          <div class="team-role">CTO · Platform & AI</div>
-          <div class="team-name">Chief Technology</div>
-          <p class="team-desc">Technology and AI platform head. Oversees digital infrastructure, social intelligence, and US market development. Builds the data layer that transforms WoW from a dining concept into an intelligent operating platform.</p>
-        </div>
-        <div class="team-card" style="background:var(--green-mid);border-top:2px solid var(--gold)">
-          <div class="team-role" style="color:var(--gold-dim)">The Ecosystem</div>
-          <div class="team-name">Strategic Partners</div>
-          <p class="team-desc">Italian F&W Exporter · Asian Importer · Global F&B Trademark (50+ countries) · Non-Profit Institute with Michelin Chefs, F&B KOLs, and Nobel Peace Prize laureate Muhammad Yunus.</p>
-        </div>
-      </div>
-      <div class="team-extras reveal">
-        <div class="team-extra">
-          <div class="team-extra-icon">🇮🇹</div>
-          <div>
-            <div class="team-extra-title">Italian F&B Exporter</div>
-            <div class="team-extra-desc">Direct access to origin-controlled supply chains. Preferential pricing. Traceability. The backbone of WoW's Made in Italy authenticity.</div>
-          </div>
-        </div>
-        <div class="team-extra">
-          <div class="team-extra-icon">🌏</div>
-          <div>
-            <div class="team-extra-title">Asian Importer · China & Japan</div>
-            <div class="team-extra-desc">Established distribution channels, regulatory expertise, and cultural intelligence for Asia — WoW's most important growth corridor.</div>
-          </div>
-        </div>
+        <div class="fl"><div class="fl-city">Milan</div><div class="fl-year">Year 5 · Operational & Training Capital</div><div class="fl-desc">European training centre for licensees. Development lab for culinary innovation. Investor-facing showcase.</div></div>
+        <div class="fl"><div class="fl-city">Paris</div><div class="fl-year">Year 6 · Gastronomic Validation</div><div class="fl-desc">Credibility in Europe's most demanding culinary ecosystem. Cultural bridge between Italian tradition and engineered dining.</div></div>
+        <div class="fl"><div class="fl-city">London</div><div class="fl-year">Year 7 · Global Commercial Gateway</div><div class="fl-desc">Platform for international partnerships and master licensing. Launchpad for post-European global expansion.</div></div>
       </div>
     </div>
   </section>
 
   <!-- RESERVE -->
-  <section class="reserve-section" id="reserve">
-    <div class="reserve-bg"></div>
-    <div class="reserve-wow">WoW</div>
-    <div class="container reserve-content">
-      <div class="section-eyebrow reveal" style="justify-content:center">Experience WoW</div>
-      <h2 class="reserve-title reveal reveal-delay-1">
-        Your table is<br><em>waiting.</em>
-      </h2>
-      <p class="reserve-sub reveal reveal-delay-2">
-        Reserve your seat at one of our pilot locations. A 9-course journey through Italian gastronomy, engineered to amaze. Opening soon in Central Italy.
-      </p>
-      <div class="reserve-form reveal reveal-delay-3">
-        <input type="email" placeholder="Your email address" />
-        <a href="#" class="btn-gold"><span>Request Early Access</span></a>
+  <section class="reserve" id="reserve">
+    <div class="reserve-bg-img"></div>
+    <div class="reserve-overlay"></div>
+    <div class="c reserve-content">
+      <div class="ey rv" style="justify-content:center">Experience WoW</div>
+      <h2 class="r-title rv d1">Your table<br>is <em>waiting.</em></h2>
+      <p class="r-sub rv d2">Reserve your seat at one of our pilot locations. A 9-course journey through Italian gastronomy, engineered to amaze. Opening soon in Perugia, Florence and Rome.</p>
+      <div class="r-form rv d3">
+        <input type="email" placeholder="Your email address">
+        <a href="#" class="btn-g">Request Early Access</a>
       </div>
-      <div class="reserve-cities reveal reveal-delay-4">
-        <div class="city-tag active">Perugia</div>
-        <div class="city-tag">Florence</div>
-        <div class="city-tag">Rome</div>
-        <div class="city-tag">Milan</div>
-        <div class="city-tag">Paris</div>
-        <div class="city-tag">London</div>
-      </div>
-      <div style="margin-top:5rem;display:flex;gap:4rem;justify-content:center;flex-wrap:wrap;" class="reveal reveal-delay-4">
-        <div style="text-align:center">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:3.5rem;color:var(--gold);font-weight:300;line-height:1" class="count-up" data-target="9">0</div>
-          <div style="font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-muted);margin-top:0.5rem">Courses</div>
-        </div>
-        <div style="text-align:center">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:3.5rem;color:var(--gold);font-weight:300;line-height:1" class="count-up" data-target="30">0</div>
-          <div style="font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-muted);margin-top:0.5rem">Minutes</div>
-        </div>
-        <div style="text-align:center">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:3.5rem;color:var(--gold);font-weight:300;line-height:1"><span class="count-up" data-target="50">0</span></div>
-          <div style="font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-muted);margin-top:0.5rem">Max €/Cover</div>
-        </div>
-        <div style="text-align:center">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:3.5rem;color:var(--gold);font-weight:300;line-height:1"><span class="count-up" data-target="200">0</span></div>
-          <div style="font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-muted);margin-top:0.5rem">10-Year Unit Vision</div>
-        </div>
+      <div class="cities rv d4">
+        <div class="city a">Perugia</div>
+        <div class="city">Florence</div>
+        <div class="city">Rome</div>
+        <div class="city">Milan</div>
+        <div class="city">Paris</div>
+        <div class="city">London</div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
-    <div class="container">
-      <div class="footer-grid">
+    <div class="c">
+      <div class="fg">
         <div>
-          <div class="footer-brand-wow">WoW</div>
-          <div class="footer-brand-sub">Fast Fine Dining</div>
-          <p class="footer-tagline">"Engineering Fine Dining to Scale — A New Global Category."</p>
+          <div class="f-brand">WoW</div>
+          <div class="f-sub">Fast Fine Dining</div>
+          <p class="f-tag">"Engineering Fine Dining to Scale — A New Global Category."</p>
         </div>
         <div>
-          <div class="footer-col-title">Experience</div>
-          <ul class="footer-links">
+          <div class="fc-title">Experience</div>
+          <ul class="fc-links">
             <li><a href="#experience">The 9 Courses</a></li>
             <li><a href="#boutique">The Boutique</a></li>
             <li><a href="#italy">Made in Italy</a></li>
@@ -2149,110 +506,55 @@
           </ul>
         </div>
         <div>
-          <div class="footer-col-title">Platform</div>
-          <ul class="footer-links">
-            <li><a href="#concept">What is WoW</a></li>
-            <li><a href="#roadmap">Roadmap</a></li>
-            <li><a href="#investors">Investors</a></li>
-            <li><a href="#team">The Team</a></li>
+          <div class="fc-title">The Brand</div>
+          <ul class="fc-links">
+            <li><a href="#concept">Our Story</a></li>
+            <li><a href="#roadmap">Expansion</a></li>
+            <li><a href="#reserve">Early Access</a></li>
           </ul>
         </div>
         <div>
-          <div class="footer-col-title">Contact</div>
-          <ul class="footer-links">
-            <li><a href="#">investor@wow-ffd.com</a></li>
+          <div class="fc-title">Contact</div>
+          <ul class="fc-links">
+            <li><a href="#">hello@wow-ffd.com</a></li>
             <li><a href="#">Perugia · Italy</a></li>
-            <li><a href="#">LinkedIn</a></li>
-            <li><a href="#">Confidential Brief</a></li>
+            <li><a href="#">Instagram</a></li>
           </ul>
         </div>
       </div>
-      <div class="footer-bottom">
-        <div class="footer-copy">© 2025 WoW Fast Fine Dining. All rights reserved.</div>
-        <div class="footer-conf">Strictly Confidential · For Authorised Recipients Only</div>
+      <div class="f-bottom">
+        <span>© 2025 WoW Fast Fine Dining. All rights reserved.</span>
+        <a href="/wow-investor.html" class="investor-link">Investor Portal →</a>
       </div>
     </div>
   </footer>
 
   <script>
-    // ── CURSOR
-    const cursor = document.getElementById('cursor');
-    const ring = document.getElementById('cursorRing');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    function animateCursor() {
-      cursor.style.left = mx + 'px';
-      cursor.style.top = my + 'px';
-      rx += (mx - rx) * 0.12;
-      ry += (my - ry) * 0.12;
-      ring.style.left = rx + 'px';
-      ring.style.top = ry + 'px';
-      requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-    document.querySelectorAll('a, button, .feat-block, .pillar, .phase, .team-card').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        ring.style.transform = 'translate(-50%,-50%) scale(1.8)';
-        ring.style.borderColor = 'rgba(201,168,76,0.8)';
-        cursor.style.transform = 'translate(-50%,-50%) scale(0.5)';
-      });
-      el.addEventListener('mouseleave', () => {
-        ring.style.transform = 'translate(-50%,-50%) scale(1)';
-        ring.style.borderColor = 'rgba(201,168,76,0.5)';
-        cursor.style.transform = 'translate(-50%,-50%) scale(1)';
-      });
+    // Cursor
+    const cur = document.getElementById('cur'), ring = document.getElementById('cur-ring');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+    (function tick(){cur.style.cssText+=`;left:${mx}px;top:${my}px`;rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.cssText+=`;left:${rx}px;top:${ry}px`;requestAnimationFrame(tick);})();
+    document.querySelectorAll('a,button,.ef,.pl,.ph').forEach(el=>{
+      el.addEventListener('mouseenter',()=>{ring.style.transform='translate(-50%,-50%) scale(1.8)';ring.style.borderColor='rgba(201,168,76,0.8)';});
+      el.addEventListener('mouseleave',()=>{ring.style.transform='translate(-50%,-50%) scale(1)';ring.style.borderColor='rgba(201,168,76,0.5)';});
     });
-
-    // ── NAV SCROLL
-    window.addEventListener('scroll', () => {
-      document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 80);
-    });
-
-    // ── REVEAL ON SCROLL
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-    }, { threshold: 0.12 });
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-    // ── COUNTER ANIMATION
-    function animateCounter(el) {
-      const target = parseInt(el.dataset.target);
-      const duration = 2000;
-      const start = performance.now();
-      function update(now) {
-        const elapsed = now - start;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        el.textContent = Math.round(eased * target);
-        if (progress < 1) requestAnimationFrame(update);
-      }
-      requestAnimationFrame(update);
-    }
-    const counterObserver = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.querySelectorAll('.count-up').forEach(animateCounter);
-          counterObserver.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.3 });
-    document.querySelectorAll('.reserve-section').forEach(s => counterObserver.observe(s));
-
-    // ── CITY TAG SELECT
-    document.querySelectorAll('.city-tag').forEach(tag => {
-      tag.addEventListener('click', () => {
-        document.querySelectorAll('.city-tag').forEach(t => t.classList.remove('active'));
-        tag.classList.add('active');
-      });
-    });
-
-    // ── PARALLAX HERO TEXT
-    window.addEventListener('scroll', () => {
-      const s = window.scrollY;
-      const heroContent = document.querySelector('.hero-content');
-      const priceText = document.querySelector('.price-bg-text');
-      if (heroContent) heroContent.style.transform = `translateY(${s * 0.3}px)`;
-      if (priceText) priceText.style.transform = `translate(-50%, calc(-50% + ${s * 0.05}px))`;
+    // Nav
+    window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('s',scrollY>60));
+    // Reveal
+    const ro=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('v')),{threshold:0.1});
+    document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
+    // Hero image loaded
+    const hi=document.getElementById('heroImg');
+    hi.style.backgroundImage="url('/wow-assets/wow-interior.png')";
+    setTimeout(()=>hi.classList.add('loaded'),100);
+    // City select
+    document.querySelectorAll('.city').forEach(c=>c.addEventListener('click',()=>{document.querySelectorAll('.city').forEach(x=>x.classList.remove('a'));c.classList.add('a');}));
+    // Parallax
+    window.addEventListener('scroll',()=>{
+      const s=scrollY;
+      const hc=document.querySelector('.hero-content');
+      if(hc)hc.style.transform=`translateY(${s*0.25}px)`;
     });
   </script>
 </body>
