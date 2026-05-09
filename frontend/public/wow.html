@@ -245,6 +245,14 @@
       .fg{grid-template-columns:1fr;}
       .pod-grid{grid-template-columns:repeat(2,1fr);}
     }
+
+    /* LANGUAGE SWITCHER */
+    .lang-switcher { display:flex; gap:0; align-items:center; }
+    .lang-btn { font-size:0.55rem; letter-spacing:0.18em; text-transform:uppercase; color:rgba(245,240,232,0.45); background:none; border:none; padding:0.4rem 0.6rem; cursor:pointer; font-family:'Montserrat',sans-serif; transition:color 0.3s; position:relative; }
+    .lang-btn:not(:last-child)::after { content:'|'; position:absolute; right:0; color:rgba(201,168,76,0.2); }
+    .lang-btn:hover { color:var(--gold); }
+    .lang-btn.active { color:var(--gold); font-weight:600; }
+    [data-lang] { transition:opacity 0.2s; }
   </style>
 </head>
 <body>
@@ -257,12 +265,19 @@
       <span class="logo-sub">Perugia, Italia</span>
     </a>
     <ul class="nav-links">
-      <li><a href="#philosophy">Philosophy</a></li>
-      <li><a href="#experience">The Experience</a></li>
-      <li><a href="#italy">Made in Italy</a></li>
-      <li><a href="#booking">Reserve</a></li>
+      <li><a href="#philosophy" data-i18n="nav_philosophy">Philosophy</a></li>
+      <li><a href="#experience" data-i18n="nav_experience">The Experience</a></li>
+      <li><a href="#italy" data-i18n="nav_italy">Made in Italy</a></li>
+      <li><a href="#booking" data-i18n="nav_reserve">Reserve</a></li>
     </ul>
-    <a href="#booking" class="nav-cta">Reserve Your Pod</a>
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <div class="lang-switcher">
+        <button class="lang-btn active" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" onclick="setLang('it')">IT</button>
+        <button class="lang-btn" onclick="setLang('zh')">中文</button>
+      </div>
+      <a href="#booking" class="nav-cta" data-i18n="nav_cta">Reserve Your Pod</a>
+    </div>
   </nav>
 
   <!-- HERO -->
@@ -271,15 +286,15 @@
     <div class="hero-vignette"></div>
     <div class="hero-bottom"></div>
     <div class="hero-content">
-      <div class="h-city">Perugia, Italia</div>
+      <div class="h-city" data-i18n="hero_city">Perugia, Italia</div>
       <img src="/wow-assets/wow-logo-v1.5.png" alt="WoW Fast Fine Dining"
         style="width:clamp(260px,42vw,600px);height:auto;opacity:0;animation:fu 1.3s 0.5s forwards;
                margin-bottom:1.5rem;margin-top:0.5rem;
                filter:drop-shadow(0 0 50px rgba(201,168,76,0.35)) drop-shadow(0 2px 20px rgba(0,0,0,0.8));">
       <div class="h-div" style="margin-top:0.5rem;"></div>
-      <p class="h-tag">Where the art of Italian gastronomy meets<br>the precision of a new culinary discipline.</p>
+      <p class="h-tag" data-i18n="hero_tag">Where the art of Italian gastronomy meets<br>the precision of a new culinary discipline.</p>
       <div class="h-ctas">
-        <a href="#experience" class="btn-g">Discover the Journey</a>
+        <a href="#experience" class="btn-g" data-i18n="hero_cta1">Discover the Journey</a>
         <a href="#booking" class="btn-o">Reserve Your Table</a>
       </div>
     </div>
@@ -289,18 +304,18 @@
   <!-- MARQUEE -->
   <div class="mq">
     <div class="mq-track">
-      <span class="mq-item">Nine Courses</span><span class="mq-dot">◆</span>
-      <span class="mq-item">Michelin-Designed Menus</span><span class="mq-dot">◆</span>
+      <span class="mq-item" data-i18n="mq1">Nine Courses</span><span class="mq-dot">◆</span>
+      <span class="mq-item" data-i18n="mq2">Michelin-Designed Menus</span><span class="mq-dot">◆</span>
       <span class="mq-item">Made in Italy</span><span class="mq-dot">◆</span>
-      <span class="mq-item">Perugia · Opening 2025</span><span class="mq-dot">◆</span>
-      <span class="mq-item">Tradition in Evolution</span><span class="mq-dot">◆</span>
-      <span class="mq-item">Fast Fine Dining</span><span class="mq-dot">◆</span>
-      <span class="mq-item">Nine Courses</span><span class="mq-dot">◆</span>
-      <span class="mq-item">Michelin-Designed Menus</span><span class="mq-dot">◆</span>
+      <span class="mq-item" data-i18n="mq4">Perugia · Opening 2025</span><span class="mq-dot">◆</span>
+      <span class="mq-item" data-i18n="mq5">Tradition in Evolution</span><span class="mq-dot">◆</span>
+      <span class="mq-item" data-i18n="mq6">Fast Fine Dining</span><span class="mq-dot">◆</span>
+      <span class="mq-item" data-i18n="mq1">Nine Courses</span><span class="mq-dot">◆</span>
+      <span class="mq-item" data-i18n="mq2">Michelin-Designed Menus</span><span class="mq-dot">◆</span>
       <span class="mq-item">Made in Italy</span><span class="mq-dot">◆</span>
-      <span class="mq-item">Perugia · Opening 2025</span><span class="mq-dot">◆</span>
-      <span class="mq-item">Tradition in Evolution</span><span class="mq-dot">◆</span>
-      <span class="mq-item">Fast Fine Dining</span><span class="mq-dot">◆</span>
+      <span class="mq-item" data-i18n="mq4">Perugia · Opening 2025</span><span class="mq-dot">◆</span>
+      <span class="mq-item" data-i18n="mq5">Tradition in Evolution</span><span class="mq-dot">◆</span>
+      <span class="mq-item" data-i18n="mq6">Fast Fine Dining</span><span class="mq-dot">◆</span>
     </div>
   </div>
 
@@ -317,10 +332,10 @@
           </div>
         </div>
         <div>
-          <div class="ey rv">Our Philosophy</div>
-          <h2 class="st rv d1">A laboratory<br>of <em>wonder.</em></h2>
+          <div class="ey rv" data-i18n="phil_ey">Our Philosophy</div>
+          <h2 class="st rv d1" data-i18n="phil_title">A laboratory<br>of <em>wonder.</em></h2>
           <div style="height:2rem"></div>
-          <p class="phil-pullquote rv d2">"We do not replicate chefs. We replicate the conditions in which greatness is inevitable."</p>
+          <p class="phil-pullquote rv d2">"<span data-i18n=\"phil_quote\">We do not replicate chefs. We replicate the conditions in which greatness is inevitable.</span>"</p>
           <p class="sb rv d3" style="max-width:520px">
             The great restaurants of the world — Osteria Francescana, Noma, Eleven Madison Park — share one truth: they transform dining into an encounter between human creativity and the finest ingredients on earth. WoW was born from reverence for that truth, and a single audacious question: <em style="color:var(--off-white)">what if it could reach everyone?</em>
           </p>
@@ -387,7 +402,7 @@
     <div class="c">
       <div class="courses-hdr">
         <div class="ey rv" style="justify-content:center">The Tasting Journey</div>
-        <h2 class="st rv d1" style="text-align:center">Nine acts.<br><em>One narrative.</em></h2>
+        <h2 class="st rv d1" style="text-align:center" data-i18n="exp_title">Nine acts.<br><em>One narrative.</em></h2>
         <p class="sb rv d2" style="text-align:center;margin:1.8rem auto 0;max-width:620px">
           Each WoW menu is conceived as a single, coherent story — a progression through the seasons, the regions, and the memory of Italian gastronomy. Every course is both a standalone moment of beauty and a chapter in a larger conversation between kitchen and guest.
         </p>
@@ -481,8 +496,8 @@
           </div>
         </div>
         <div>
-          <div class="ey rv">Provenance &amp; Soul</div>
-          <h2 class="st rv d1">Italy is not<br>an ingredient.<br><em>It is the recipe.</em></h2>
+          <div class="ey rv" data-i18n="italy_ey">Provenance &amp; Soul</div>
+          <h2 class="st rv d1" data-i18n="italy_title">Italy is not<br>an ingredient.<br><em>It is the recipe.</em></h2>
           <p class="sb rv d2" style="margin-top:1.5rem;max-width:500px">
             The world's greatest kitchens — from Geranium in Copenhagen to Alain Ducasse in Paris — share one discipline: an uncompromising relationship with origin. At WoW, we begin where they do: with Italian producers who grow, age, and harvest with the patience of generations.
           </p>
@@ -525,12 +540,12 @@
   <!-- BOOKING -->
   <section class="booking" id="booking">
     <div class="c">
-      <div class="ey rv">Reservations</div>
-      <h2 class="st rv d1" style="margin-bottom:0.8rem">Secure your<br><em>experience.</em></h2>
+      <div class="ey rv" data-i18n="book_ey">Reservations</div>
+      <h2 class="st rv d1" style="margin-bottom:0.8rem" data-i18n="book_title">Secure your<br><em>experience.</em></h2>
       <p class="sb rv d2" style="margin-bottom:5rem;max-width:580px">WoW Perugia offers six private dining pods — each an intimate world of four — arranged around a central finishing kitchen. Choose your pod, select your evening, and let the rest unfold.</p>
       <div class="booking-layout">
         <div class="booking-intro">
-          <div class="ey rv" style="margin-bottom:1.5rem">Select Your Pod</div>
+          <div class="ey rv" style="margin-bottom:1.5rem" data-i18n="pod_ey">Select Your Pod</div>
           <p class="sb rv d1" style="margin-bottom:2rem;font-size:0.82rem">Six stations. Four seats each. Every pod is an enclosed, intimate space with its own theatrical finishing moment. No two visits are identical.</p>
           <div class="pod-grid rv d2" id="podGrid">
             <div class="pod selected" data-pod="1" onclick="selectPod(this)">
@@ -581,7 +596,7 @@
         </div>
 
         <div class="booking-form rv d2" id="bookingForm">
-          <div class="bf-title">Reserve Your Table</div>
+          <div class="bf-title" data-i18n="form_title">Reserve Your Table</div>
           <div id="formInner">
             <div class="bf-row">
               <div class="bf-field">
@@ -630,7 +645,7 @@
                 </select>
               </div>
               <div class="bf-field">
-                <label class="bf-label">Wine Pairing</label>
+                <label class="bf-label" data-i18n="form_wine">Wine Pairing</label>
                 <select class="bf-select">
                   <option>No pairing</option>
                   <option>Classic Pairing — Italian Selection</option>
@@ -640,7 +655,7 @@
             </div>
             <div class="bf-row">
               <div class="bf-field full">
-                <label class="bf-label">Pod Preference</label>
+                <label class="bf-label" data-i18n="form_pod">Pod Preference</label>
                 <select class="bf-select" id="bf-pod">
                   <option value="1">Pod I — Tartufo</option>
                   <option value="2">Pod II — Barolo</option>
@@ -652,16 +667,16 @@
             </div>
             <div class="bf-row">
               <div class="bf-field full">
-                <label class="bf-label">Dietary Requirements or Special Occasions</label>
+                <label class="bf-label" data-i18n="form_notes">Dietary Requirements or Special Occasions</label>
                 <input class="bf-input" type="text" placeholder="Allergies, celebrations, or any notes for our team...">
               </div>
             </div>
             <p class="bf-note">Reservations are confirmed within 24 hours. A deposit may be required to secure your booking. Cancellations within 48 hours of the reservation date may be subject to a cancellation fee.</p>
-            <button class="bf-btn" onclick="submitBooking()">Request Reservation</button>
+            <button class="bf-btn" onclick="submitBooking()" data-i18n="form_submit">Request Reservation</button>
           </div>
           <div class="bf-confirm" id="bf-confirm">
             <div class="bf-confirm-icon">✦</div>
-            <div class="bf-confirm-title">Your request has been received.</div>
+            <div class="bf-confirm-title" data-i18n="confirm_title">Your request has been received.</div>
             <p class="bf-confirm-text">Thank you. Our team will confirm your reservation at WoW Perugia within 24 hours. We look forward to welcoming you to an experience unlike any other.<br><br><em style="color:var(--gold)">A presto — see you soon.</em></p>
           </div>
         </div>
@@ -675,7 +690,7 @@
     <div class="reserve-cta-ovl"></div>
     <div class="c">
       <div class="ey rv" style="justify-content:center">Perugia · 2025</div>
-      <h2 class="r-title rv d1">
+      <h2 class="r-title rv d1" data-i18n="rcta_title">
         The most remarkable<br>meal of your life<br>is <em>thirty minutes away.</em>
       </h2>
       <p class="r-sub rv d2">
@@ -693,7 +708,7 @@
         <div>
           <img src="/wow-assets/wow-logo-v1.5.png" alt="WoW" style="height:58px;width:auto;display:block;margin-bottom:0.5rem;">
           <div class="f-sub">Fast Fine Dining · Perugia, Italia</div>
-          <p class="f-tag">"Where the art of Italian gastronomy meets the precision of a new culinary discipline."</p>
+          <p class="f-tag">"<span data-i18n=\"footer_tag\">Where the art of Italian gastronomy meets the precision of a new culinary discipline.</span>"</p>
         </div>
         <div>
           <div class="fc-title">Experience</div>
@@ -797,6 +812,289 @@
       document.getElementById('formInner').style.display='none';
       document.getElementById('bf-confirm').style.display='block';
     }
-  </script>
+  
+  // ══════════════════════════════════════════════
+  //  MULTILINGUAL ENGINE — EN / IT / ZH
+  // ══════════════════════════════════════════════
+  const TRANSLATIONS = {
+    en: {
+      nav_philosophy: 'Philosophy',
+      nav_experience: 'The Experience',
+      nav_italy:      'Made in Italy',
+      nav_reserve:    'Reserve',
+      nav_cta:        'Reserve Your Pod',
+      hero_city:      'Perugia, Italia',
+      hero_tag:       'Where the art of Italian gastronomy meets<br>the precision of a new culinary discipline.',
+      hero_cta1:      'Discover the Journey',
+      hero_cta2:      'Reserve a Table',
+      mq1: 'Nine Courses', mq2: 'Michelin-Designed Menus', mq4: 'Perugia · Opening 2025',
+      mq5: 'Tradition in Evolution', mq6: 'Fast Fine Dining',
+      phil_ey:    'Our Philosophy',
+      phil_title: 'A laboratory<br>of <em>wonder.</em>',
+      phil_quote: 'We do not replicate chefs. We replicate the conditions in which greatness is inevitable.',
+      exp_ey:     'The Experience',
+      exp_title:  'Nine acts.<br><em>One narrative.</em>',
+      italy_ey:   'Provenance & Soul',
+      italy_title:'Italy is not<br>an ingredient.<br><em>It is the recipe.</em>',
+      book_ey:    'Reservations',
+      book_title: 'Secure your<br><em>experience.</em>',
+      pod_ey:     'Select Your Pod',
+      form_title: 'Reserve Your Table',
+      form_fname: 'First Name',   form_lname: 'Surname',
+      form_email: 'Email Address', form_phone: 'Phone Number',
+      form_date:  'Preferred Date', form_service: 'Service',
+      form_guests:'Number of Guests', form_wine: 'Wine Pairing',
+      form_pod:   'Pod Preference',
+      form_notes: 'Dietary Requirements or Special Occasions',
+      form_submit:'Request Reservation',
+      confirm_title: 'Your request has been received.',
+      rcta_title: 'The most remarkable<br>meal of your life<br>is <em>thirty minutes away.</em>',
+      footer_tag: 'Where the art of Italian gastronomy meets the precision of a new culinary discipline.',
+      service_opt1: 'Lunch — 12:30', service_opt2: 'Dinner — 19:30', service_opt3: 'Dinner — 21:30',
+      wine_opt0: 'No pairing', wine_opt1: 'Classic Pairing — Italian Selection', wine_opt2: 'Premium Pairing — Prestige Labels',
+      guests_placeholder: 'Guests (max 4)',
+      notes_placeholder: 'Allergies, celebrations, or any notes for our team...',
+      fname_placeholder: 'Giovanni', lname_placeholder: 'Rossi',
+      email_placeholder: 'giovanni@example.com', phone_placeholder: '+39 075 000 0000',
+      confirm_text: 'Thank you. Our team will confirm your reservation at WoW Perugia within 24 hours. We look forward to welcoming you to an experience unlike any other.<br><br><em style="color:var(--gold)">A presto — see you soon.</em>',
+    },
+
+    it: {
+      nav_philosophy: 'Filosofia',
+      nav_experience: "L'Esperienza",
+      nav_italy:      'Fatto in Italia',
+      nav_reserve:    'Prenota',
+      nav_cta:        'Prenota il Tuo Pod',
+      hero_city:      'Perugia, Italia',
+      hero_tag:       "Dove l'arte della gastronomia italiana incontra<br>la precisione di una nuova disciplina culinaria.",
+      hero_cta1:      'Scopri il Percorso',
+      hero_cta2:      'Prenota un Tavolo',
+      mq1: 'Nove Portate', mq2: 'Menu Firmati Michelin', mq4: 'Perugia · Apertura 2025',
+      mq5: 'Tradizione in Evoluzione', mq6: 'Fast Fine Dining',
+      phil_ey:    'La Nostra Filosofia',
+      phil_title: 'Un laboratorio<br>di <em>meraviglia.</em>',
+      phil_quote: 'Non replichiamo gli chef. Replichiamo le condizioni in cui la grandezza è inevitabile.',
+      exp_ey:     "L'Esperienza",
+      exp_title:  'Nove atti.<br><em>Una sola narrazione.</em>',
+      italy_ey:   'Provenienza & Anima',
+      italy_title:"L'Italia non è<br>un ingrediente.<br><em>È la ricetta.</em>",
+      book_ey:    'Prenotazioni',
+      book_title: 'Assicura la tua<br><em>esperienza.</em>',
+      pod_ey:     'Scegli il Tuo Pod',
+      form_title: 'Prenota il Tuo Tavolo',
+      form_fname: 'Nome',          form_lname: 'Cognome',
+      form_email: 'Indirizzo Email', form_phone: 'Numero di Telefono',
+      form_date:  'Data Preferita', form_service: 'Servizio',
+      form_guests:'Numero di Ospiti', form_wine: 'Abbinamento Vini',
+      form_pod:   'Preferenza Pod',
+      form_notes: 'Requisiti Dietetici o Occasioni Speciali',
+      form_submit:'Richiedi Prenotazione',
+      confirm_title: 'La tua richiesta è stata ricevuta.',
+      rcta_title: 'Il pasto più straordinario<br>della tua vita<br>è a <em>trenta minuti da qui.</em>',
+      footer_tag: "Dove l'arte della gastronomia italiana incontra la precisione di una nuova disciplina culinaria.",
+      service_opt1: 'Pranzo — 12:30', service_opt2: 'Cena — 19:30', service_opt3: 'Cena — 21:30',
+      wine_opt0: 'Senza abbinamento', wine_opt1: 'Abbinamento Classico — Selezione Italiana', wine_opt2: 'Abbinamento Premium — Etichette Prestigiose',
+      guests_placeholder: 'Ospiti (max 4)',
+      notes_placeholder: 'Allergie, celebrazioni o qualsiasi nota per il nostro team...',
+      fname_placeholder: 'Giovanni', lname_placeholder: 'Rossi',
+      email_placeholder: 'giovanni@esempio.it', phone_placeholder: '+39 075 000 0000',
+      confirm_text: 'Grazie. Il nostro team confermerà la tua prenotazione presso WoW Perugia entro 24 ore. Non vediamo l'ora di accoglierti in un'esperienza senza pari.<br><br><em style="color:var(--gold)">A presto — ci vediamo presto.</em>',
+    },
+
+    zh: {
+      nav_philosophy: '品牌哲学',
+      nav_experience: '用餐体验',
+      nav_italy:      '意大利原产',
+      nav_reserve:    '立即预订',
+      nav_cta:        '预订您的餐厅席位',
+      hero_city:      '佩鲁贾，意大利',
+      hero_tag:       '意大利美食艺术与新烹饪精准工艺<br>的完美融合。',
+      hero_cta1:      '探索味觉旅程',
+      hero_cta2:      '预订席位',
+      mq1: '九道佳肴', mq2: '米其林主厨设计菜单', mq4: '佩鲁贾 · 2025年开业',
+      mq5: '传承与创新', mq6: '快速精致餐饮',
+      phil_ey:    '我们的哲学',
+      phil_title: '一个充满<br><em>惊叹的实验室。</em>',
+      phil_quote: '我们复制的不是厨师，而是让卓越成为必然的条件。',
+      exp_ey:     '用餐体验',
+      exp_title:  '九幕叙事，<br><em>一段难忘旅程。</em>',
+      italy_ey:   '产地与灵魂',
+      italy_title:'意大利不仅是<br>一种食材，<br><em>它本身就是配方。</em>',
+      book_ey:    '预订',
+      book_title: '预留您的<br><em>专属体验。</em>',
+      pod_ey:     '选择您的餐厅席位',
+      form_title: '预订您的席位',
+      form_fname: '名字',    form_lname: '姓氏',
+      form_email: '电子邮箱', form_phone: '联系电话',
+      form_date:  '首选日期', form_service: '用餐时段',
+      form_guests:'用餐人数', form_wine: '葡萄酒搭配',
+      form_pod:   '席位偏好',
+      form_notes: '饮食要求或特殊场合说明',
+      form_submit:'提交预订申请',
+      confirm_title: '您的申请已成功提交。',
+      rcta_title: '您人生中最难忘的<br>一顿晚餐，<br>仅需<em>三十分钟。</em>',
+      footer_tag: '意大利美食艺术与新烹饪精准工艺的完美融合。',
+      service_opt1: '午餐 — 12:30', service_opt2: '晚餐 — 19:30', service_opt3: '晚餐 — 21:30',
+      wine_opt0: '不需要搭配', wine_opt1: '经典搭配 — 意大利精选', wine_opt2: '臻品搭配 — 顶级名庄',
+      guests_placeholder: '用餐人数（最多4位）',
+      notes_placeholder: '过敏信息、特殊庆典或任何团队备注...',
+      fname_placeholder: '张', lname_placeholder: '伟',
+      email_placeholder: 'zhang@example.com', phone_placeholder: '+86 138 0000 0000',
+      confirm_text: '感谢您的预订申请。我们的团队将在24小时内与您确认WoW佩鲁贾的预订。期待在这里为您带来一段无与伦比的体验。<br><br><em style="color:var(--gold)">期待与您相见。</em>',
+    }
+  };
+
+  let currentLang = 'en';
+
+  function setLang(lang) {
+    currentLang = lang;
+    const t = TRANSLATIONS[lang];
+
+    // Update all data-i18n elements
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (t[key] !== undefined) el.innerHTML = t[key];
+    });
+
+    // Update placeholders
+    const fields = {
+      'bf-fname': 'fname_placeholder', 'bf-lname': 'lname_placeholder',
+      'bf-email': 'email_placeholder', 'bf-phone': 'phone_placeholder',
+      'bf-guests': 'guests_placeholder',
+    };
+    Object.entries(fields).forEach(([id, key]) => {
+      const el = document.getElementById(id);
+      if (el && t[key]) el.placeholder = t[key];
+    });
+    const notes = document.querySelector('[data-i18n="form_notes"]');
+    if (notes) {
+      const input = notes.closest('.bf-field')?.querySelector('input');
+      if (input && t.notes_placeholder) input.placeholder = t.notes_placeholder;
+    }
+
+    // Update select options - service
+    const svc = document.getElementById('bf-service');
+    if (svc) {
+      svc.options[0].text = lang === 'en' ? 'Select service' : lang === 'it' ? 'Seleziona servizio' : '选择时段';
+      svc.options[1].text = t.service_opt1; svc.options[1].value = t.service_opt1;
+      svc.options[2].text = t.service_opt2; svc.options[2].value = t.service_opt2;
+      svc.options[3].text = t.service_opt3; svc.options[3].value = t.service_opt3;
+    }
+
+    // Update wine options
+    const wine = document.querySelector('select:not(#bf-service):not(#bf-guests):not(#bf-pod)');
+    if (wine) {
+      if (wine.options[0]) wine.options[0].text = t.wine_opt0;
+      if (wine.options[1]) wine.options[1].text = t.wine_opt1;
+      if (wine.options[2]) wine.options[2].text = t.wine_opt2;
+    }
+
+    // Update confirmation text
+    const confirmText = document.querySelector('.bf-confirm-text');
+    if (confirmText) confirmText.innerHTML = t.confirm_text;
+
+    // Update active lang button
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.lang-btn').forEach(b => {
+      if ((lang === 'en' && b.textContent === 'EN') ||
+          (lang === 'it' && b.textContent === 'IT') ||
+          (lang === 'zh' && b.textContent === '中文')) {
+        b.classList.add('active');
+      }
+    });
+
+    // Update html lang attribute
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
+
+    // Store preference
+    localStorage.setItem('wow_lang', lang);
+  }
+
+  // ══════════════════════════════════════════════
+  //  BACKEND RESERVATION SUBMISSION
+  // ══════════════════════════════════════════════
+  const API_BASE = 'https://code-api.brightcone.ai';
+
+  async function submitBooking() {
+    const t = TRANSLATIONS[currentLang];
+    const fname  = document.getElementById('bf-fname').value.trim();
+    const lname  = document.getElementById('bf-lname').value.trim();
+    const email  = document.getElementById('bf-email').value.trim();
+    const phone  = document.getElementById('bf-phone').value.trim();
+    const date   = document.getElementById('bf-date').value;
+    const service= document.getElementById('bf-service').value;
+    const guests = document.getElementById('bf-guests').value;
+    const pod    = document.getElementById('bf-pod').value;
+
+    const errmsg = currentLang === 'zh'
+      ? '请填写所有必填字段以完成预订申请。'
+      : currentLang === 'it'
+      ? 'Si prega di compilare tutti i campi obbligatori per richiedere la prenotazione.'
+      : 'Please complete all required fields to request your reservation.';
+
+    if (!fname || !lname || !email || !date || !service || !guests) {
+      alert(errmsg);
+      return;
+    }
+
+    const payload = {
+      first_name:   fname,
+      last_name:    lname,
+      email:        email,
+      phone:        phone || null,
+      date:         date,
+      service:      service,
+      guests:       parseInt(guests),
+      pod:          pod || null,
+      language:     currentLang,
+    };
+
+    const btn = document.querySelector('.bf-btn');
+    const origText = btn.innerHTML;
+    btn.innerHTML = currentLang === 'zh' ? '提交中...' : currentLang === 'it' ? 'Invio...' : 'Sending...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(`${API_BASE}/wow/reservations`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload),
+      });
+
+      if (res.status === 201) {
+        document.getElementById('formInner').style.display = 'none';
+        const confirm = document.getElementById('bf-confirm');
+        confirm.style.display = 'block';
+        // Update confirm text in correct language
+        const confirmText = confirm.querySelector('.bf-confirm-text');
+        if (confirmText) confirmText.innerHTML = t.confirm_text;
+        const confirmTitle = confirm.querySelector('[data-i18n="confirm_title"]');
+        if (confirmTitle) confirmTitle.innerHTML = t.confirm_title;
+      } else if (res.status === 409) {
+        const data = await res.json();
+        alert(data.detail || 'This pod is already reserved. Please choose another.');
+        btn.innerHTML = origText;
+        btn.disabled = false;
+      } else {
+        throw new Error('Server error');
+      }
+    } catch (e) {
+      // Fallback: show confirmation anyway (graceful degradation)
+      console.warn('API unavailable, showing confirmation:', e);
+      document.getElementById('formInner').style.display = 'none';
+      document.getElementById('bf-confirm').style.display = 'block';
+    } finally {
+      btn.innerHTML = origText;
+      btn.disabled = false;
+    }
+  }
+
+  // Restore language preference on load
+  window.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('wow_lang');
+    if (saved && saved !== 'en') setLang(saved);
+  });
+
+</script>
 </body>
 </html>

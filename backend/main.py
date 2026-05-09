@@ -21,6 +21,8 @@ from routes.signup import router as signup_router
 from routes.careers import router as careers_router
 from models import freelance as _freelance_model  # noqa: F401 — registers Freelance models with Base
 from routes.freelance import router as freelance_router
+from models import wow_reservation as _wow_reservation_model  # noqa: F401
+from routes.wow_reservations import router as wow_reservations_router
 
 app = FastAPI(title="Brightcone")
 
@@ -43,6 +45,7 @@ app.include_router(hr_employee_router)
 app.include_router(signup_router)
 app.include_router(careers_router)
 app.include_router(freelance_router)
+app.include_router(wow_reservations_router)
 
 
 @app.on_event("startup")
