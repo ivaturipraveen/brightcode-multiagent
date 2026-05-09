@@ -17,7 +17,7 @@
     .login-overlay{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(11,26,18,0.6),rgba(6,10,7,0.95));}
     .login-box{position:relative;z-index:2;width:100%;max-width:420px;padding:4rem;background:rgba(18,42,28,0.6);border:1px solid rgba(201,168,76,0.2);backdrop-filter:blur(20px);}
     .login-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent);}
-    .lb-logo{font-family:'Cormorant Garamond',serif;font-size:3rem;color:var(--gold);letter-spacing:0.3em;text-align:center;line-height:1;margin-bottom:0.2rem;}
+    .lb-logo{display:flex;justify-content:center;margin-bottom:0.4rem;}
     .lb-sub{font-size:0.55rem;letter-spacing:0.45em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:0.5rem;}
     .lb-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--off-white);text-align:center;margin-bottom:2.5rem;font-style:italic;}
     .lb-field{margin-bottom:1.2rem;}
@@ -34,8 +34,8 @@
     #portal{display:none;}
     nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(6,10,7,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(201,168,76,0.12);padding:1.2rem 4rem;display:flex;align-items:center;justify-content:space-between;}
     .logo{text-decoration:none;}
-    .logo-wow{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold);letter-spacing:0.3em;line-height:1;font-weight:400;display:block;}
-    .logo-sub{font-size:0.45rem;letter-spacing:0.45em;text-transform:uppercase;color:var(--muted);}
+    .logo-wow{display:block;height:38px;width:auto;}
+    .logo-sub{font-size:0.45rem;letter-spacing:0.45em;text-transform:uppercase;color:var(--muted);margin-top:1px;display:block;}
     .nav-badge{display:flex;align-items:center;gap:1rem;}
     .badge{font-size:0.55rem;letter-spacing:0.25em;text-transform:uppercase;background:rgba(201,168,76,0.15);color:var(--gold);border:1px solid rgba(201,168,76,0.3);padding:0.35rem 0.9rem;}
     .nav-links{display:flex;gap:2rem;list-style:none;}
@@ -127,7 +127,7 @@
   <div class="login-bg"></div>
   <div class="login-overlay"></div>
   <div class="login-box">
-    <div class="lb-logo">WoW</div>
+    <div class="lb-logo"><img src="/wow-assets/wow-logo-gold.svg" alt="WoW" style="height:62px;width:auto;"></div>
     <div class="lb-sub">Fast Fine Dining</div>
     <div class="lb-title">Investor & Partner Portal</div>
     <div class="lb-field">
@@ -148,8 +148,8 @@
 <div id="portal">
   <nav>
     <a class="logo" href="#top">
-      <span class="logo-wow">WoW</span>
-      <span class="logo-sub">Fast Fine Dining</span>
+      <img class="logo-wow" src="/wow-assets/wow-logo-gold.svg" alt="WoW Fast Fine Dining">
+      <span class="logo-sub">Investor Portal · Confidential</span>
     </a>
     <ul class="nav-links">
       <li><a href="#overview">Overview</a></li>
@@ -570,7 +570,7 @@
 
   <footer style="background:var(--green);border-top:1px solid rgba(201,168,76,0.1);padding:2.5rem 0">
     <div class="c" style="display:flex;justify-content:space-between;align-items:center;font-size:0.65rem;color:rgba(122,148,128,0.45)">
-      <span>© 2025 WoW Fast Fine Dining. All rights reserved.</span>
+      <span style="display:flex;align-items:center;gap:1.2rem;"><img src="/wow-assets/wow-logo-gold.svg" alt="WoW" style="height:28px;width:auto;opacity:0.6;"> © 2025 WoW Fast Fine Dining. All rights reserved.</span>
       <span>Memorandum Summary v3.9.1 · Strictly Confidential · For Authorised Recipients Only</span>
     </div>
   </footer>

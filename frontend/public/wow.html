@@ -23,8 +23,8 @@
     nav { position:fixed; top:0; left:0; right:0; z-index:200; padding:2rem 5rem; display:flex; align-items:center; justify-content:space-between; transition:all 0.5s; }
     nav.s { background:rgba(6,10,7,0.96); backdrop-filter:blur(24px); padding:1.2rem 5rem; border-bottom:1px solid rgba(201,168,76,0.1); }
     .logo { text-decoration:none; }
-    .logo-wow { font-family:'Cormorant Garamond',serif; font-size:2.2rem; color:var(--gold); letter-spacing:0.3em; line-height:1; font-weight:400; display:block; }
-    .logo-sub { font-size:0.48rem; letter-spacing:0.48em; text-transform:uppercase; color:var(--muted); }
+    .logo-wow { display:block; height:42px; width:auto; }
+    .logo-sub { font-size:0.48rem; letter-spacing:0.48em; text-transform:uppercase; color:var(--muted); margin-top:1px; display:block; }
     .nav-links { display:flex; gap:2.5rem; list-style:none; }
     .nav-links a { font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(245,240,232,0.5); text-decoration:none; transition:color 0.3s; }
     .nav-links a:hover { color:var(--gold); }
@@ -253,8 +253,8 @@
 
   <nav id="nav">
     <a class="logo" href="#">
-      <span class="logo-wow">WoW</span>
-      <span class="logo-sub">Fast Fine Dining · Perugia</span>
+      <img class="logo-wow" src="/wow-assets/wow-logo-gold.svg" alt="WoW Fast Fine Dining">
+      <span class="logo-sub">Perugia, Italia</span>
     </a>
     <ul class="nav-links">
       <li><a href="#philosophy">Philosophy</a></li>
@@ -688,7 +688,7 @@
     <div class="c">
       <div class="fg">
         <div>
-          <div class="f-brand">WoW</div>
+          <img src="/wow-assets/wow-logo-gold.svg" alt="WoW" style="height:58px;width:auto;display:block;margin-bottom:0.5rem;">
           <div class="f-sub">Fast Fine Dining · Perugia, Italia</div>
           <p class="f-tag">"Where the art of Italian gastronomy meets the precision of a new culinary discipline."</p>
         </div>

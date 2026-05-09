@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 170" width="360" height="170">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#F0D880"/>
+      <stop offset="35%"  stop-color="#D4A843"/>
+      <stop offset="75%"  stop-color="#B8892A"/>
+      <stop offset="100%" stop-color="#96711C"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#F0D880"/>
+      <stop offset="50%"  stop-color="#C9A84C"/>
+      <stop offset="100%" stop-color="#A07828"/>
+    </linearGradient>
+    <!-- Mask to cut the inner ring gap from the O -->
+    <mask id="oMask">
+      <circle cx="180" cy="56" r="44" fill="white"/>
+      <circle cx="180" cy="56" r="29" fill="black"/>
+      <circle cx="180" cy="56" r="14" fill="white"/>
+    </mask>
+  </defs>
+
+  <!-- ═══ W LEFT ═══  spans x=4..128, y=8..104 -->
+  <path d="M 4,8 L 22,8 L 50,78 L 66,40 L 76,40 L 104,78 L 126,8 L 108,8 L 74,95 L 64,68 L 54,95 Z"
+    fill="url(#g1)"/>
+
+  <!-- ═══ O CENTER ═══  centered at 180,56  — uses mask for transparent inner ring -->
+  <circle cx="180" cy="56" r="44" fill="url(#g1)" mask="url(#oMask)"/>
+
+  <!-- ═══ W RIGHT ═══  mirror, spans x=232..356 -->
+  <path d="M 356,8 L 338,8 L 310,78 L 294,40 L 284,40 L 256,78 L 234,8 L 252,8 L 286,95 L 296,68 L 306,95 Z"
+    fill="url(#g1)"/>
+
+  <!-- ═══ DIVIDING LINE ═══ -->
+  <line x1="4" y1="116" x2="356" y2="116" stroke="url(#g1)" stroke-width="0.9" opacity="0.85"/>
+
+  <!-- ═══ TAGLINE ═══ -->
+  <text x="180" y="146"
+    font-family="'Montserrat','Futura','Century Gothic','Arial',sans-serif"
+    font-size="13.5" font-weight="300"
+    fill="url(#g1)"
+    text-anchor="middle"
+    letter-spacing="7"
+    opacity="0.95">FAST FINE DINING</text>
+</svg>
