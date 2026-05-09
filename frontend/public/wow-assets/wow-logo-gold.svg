@@ -1,44 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 170" width="360" height="170">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 175" width="380" height="175">
   <defs>
-    <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%"   stop-color="#F0D880"/>
-      <stop offset="35%"  stop-color="#D4A843"/>
-      <stop offset="75%"  stop-color="#B8892A"/>
-      <stop offset="100%" stop-color="#96711C"/>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#EDD06E"/>
+      <stop offset="30%"  stop-color="#D4A843"/>
+      <stop offset="70%"  stop-color="#C09030"/>
+      <stop offset="100%" stop-color="#9E7418"/>
     </linearGradient>
-    <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%"   stop-color="#F0D880"/>
-      <stop offset="50%"  stop-color="#C9A84C"/>
-      <stop offset="100%" stop-color="#A07828"/>
-    </linearGradient>
-    <!-- Mask to cut the inner ring gap from the O -->
-    <mask id="oMask">
-      <circle cx="180" cy="56" r="44" fill="white"/>
-      <circle cx="180" cy="56" r="29" fill="black"/>
-      <circle cx="180" cy="56" r="14" fill="white"/>
+    <!-- Mask: white=show, black=hide — creates the transparent ring gap -->
+    <mask id="ringMask">
+      <circle cx="190" cy="50" r="44" fill="white"/>
+      <circle cx="190" cy="50" r="28" fill="black"/>
+      <circle cx="190" cy="50" r="11" fill="white"/>
     </mask>
   </defs>
 
-  <!-- ═══ W LEFT ═══  spans x=4..128, y=8..104 -->
-  <path d="M 4,8 L 22,8 L 50,78 L 66,40 L 76,40 L 104,78 L 126,8 L 108,8 L 74,95 L 64,68 L 54,95 Z"
-    fill="url(#g1)"/>
+  <!-- ══ W LEFT ══  flat tops, sharp bottom points, spans x=6..128 -->
+  <path d="M 6,0 L 24,0 L 56,82 L 70,42 L 82,42 L 114,82 L 128,0 L 110,0 L 76,100 L 64,68 L 52,100 Z"
+    fill="url(#gold)"/>
 
-  <!-- ═══ O CENTER ═══  centered at 180,56  — uses mask for transparent inner ring -->
-  <circle cx="180" cy="56" r="44" fill="url(#g1)" mask="url(#oMask)"/>
+  <!-- ══ O CENTER ══  concentric bullseye, transparent ring gap, centered at 190,50 -->
+  <circle cx="190" cy="50" r="44" fill="url(#gold)" mask="url(#ringMask)"/>
 
-  <!-- ═══ W RIGHT ═══  mirror, spans x=232..356 -->
-  <path d="M 356,8 L 338,8 L 310,78 L 294,40 L 284,40 L 256,78 L 234,8 L 252,8 L 286,95 L 296,68 L 306,95 Z"
-    fill="url(#g1)"/>
+  <!-- ══ W RIGHT ══  mirror of left, spans x=252..374 -->
+  <path d="M 374,0 L 356,0 L 324,82 L 310,42 L 298,42 L 266,82 L 252,0 L 270,0 L 304,100 L 316,68 L 328,100 Z"
+    fill="url(#gold)"/>
 
-  <!-- ═══ DIVIDING LINE ═══ -->
-  <line x1="4" y1="116" x2="356" y2="116" stroke="url(#g1)" stroke-width="0.9" opacity="0.85"/>
+  <!-- ══ DIVIDING LINE ══ -->
+  <line x1="6" y1="115" x2="374" y2="115" stroke="url(#gold)" stroke-width="1.2" opacity="0.88"/>
 
-  <!-- ═══ TAGLINE ═══ -->
-  <text x="180" y="146"
+  <!-- ══ TAGLINE ══ -->
+  <text x="190" y="149"
     font-family="'Montserrat','Futura','Century Gothic','Arial',sans-serif"
-    font-size="13.5" font-weight="300"
-    fill="url(#g1)"
-    text-anchor="middle"
-    letter-spacing="7"
-    opacity="0.95">FAST FINE DINING</text>
+    font-size="14" font-weight="300"
+    fill="url(#gold)" text-anchor="middle"
+    letter-spacing="8" opacity="0.95">FAST FINE DINING</text>
 </svg>
