@@ -1,11 +1,15 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
 from database import Base, engine
 from models import email as _email_model  # noqa: F401 — registers EmailLog with Base
 from models import lead as _lead_model    # noqa: F401 — registers Lead with Base
+from models import content as _content_model  # noqa: F401 — registers ContentBlock with Base
 from routes.auth import router as auth_router
 from routes.chat import router as chat_router
 from routes.email import router as email_router
@@ -23,8 +27,15 @@ from models import freelance as _freelance_model  # noqa: F401 — registers Fre
 from routes.freelance import router as freelance_router
 from models import wow_reservation as _wow_reservation_model  # noqa: F401
 from routes.wow_reservations import router as wow_reservations_router
+from routes.content import router as content_router
+from routes.admin_auth import router as admin_auth_router
 
 app = FastAPI(title="Brightcone")
+
+# ── Static files (uploaded images) ──────────────────────────────────────────
+_static_dir = os.path.join(os.path.dirname(__file__), "static")
+os.makedirs(os.path.join(_static_dir, "uploads"), exist_ok=True)
+app.mount("/static", StaticFiles(directory=_static_dir), name="static")
 
 app.add_middleware(
     CORSMiddleware,
@@ -46,6 +57,8 @@ app.include_router(signup_router)
 app.include_router(careers_router)
 app.include_router(freelance_router)
 app.include_router(wow_reservations_router)
+app.include_router(content_router)
+app.include_router(admin_auth_router)
 
 
 @app.on_event("startup")
