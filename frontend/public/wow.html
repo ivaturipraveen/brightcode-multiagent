@@ -875,6 +875,607 @@
     const saved=localStorage.getItem('wow_lang');
     if(saved&&T[saved]&&saved!=='en')setLang(saved);
   });
+
+  // ══════════════════════════════════════════════════════════════
+  //  WOW INLINE CONTENT EDITOR
+  //  Admin login → click any text/image → edit in place → saves to DB
+  // ══════════════════════════════════════════════════════════════
+  (function WowCMS(){
+    const API = 'https://code-api.brightcone.ai';
+    const ADMIN_TOKEN_KEY = 'wow_admin_token';
+    const EDIT_MODE_KEY   = 'wow_edit_mode';
+
+    let editMode  = false;
+    let adminToken = null;
+
+    // ── Styles ─────────────────────────────────────────────────
+    const style = document.createElement('style');
+    style.textContent = `
+      /* Lock button */
+      #wow-edit-btn {
+        position:fixed; bottom:2rem; right:2rem; z-index:9990;
+        width:48px; height:48px; border-radius:50%;
+        background:rgba(201,168,76,0.15); border:1px solid rgba(201,168,76,0.4);
+        color:var(--gold); font-size:1.2rem; cursor:pointer;
+        display:flex; align-items:center; justify-content:center;
+        backdrop-filter:blur(12px); transition:all 0.3s;
+        box-shadow:0 4px 20px rgba(0,0,0,0.4);
+      }
+      #wow-edit-btn:hover { background:rgba(201,168,76,0.3); transform:scale(1.08); }
+      #wow-edit-btn.active { background:var(--gold); color:var(--black); border-color:var(--gold); }
+
+      /* Edit mode banner */
+      #wow-edit-banner {
+        position:fixed; bottom:2rem; left:50%; transform:translateX(-50%);
+        z-index:9990; display:none;
+        background:rgba(6,10,7,0.96); border:1px solid rgba(201,168,76,0.3);
+        backdrop-filter:blur(16px); border-radius:2rem;
+        padding:0.75rem 1.5rem; display:none; align-items:center; gap:1rem;
+        box-shadow:0 8px 40px rgba(0,0,0,0.5);
+      }
+      #wow-edit-banner.show { display:flex; }
+      #wow-edit-banner span {
+        font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase;
+        color:var(--gold);
+      }
+      .wow-banner-btn {
+        font-size:0.58rem; letter-spacing:0.18em; text-transform:uppercase;
+        padding:0.45rem 1.1rem; border-radius:2rem; cursor:pointer;
+        font-family:'Montserrat',sans-serif; transition:all 0.2s;
+      }
+      .wow-banner-btn.done {
+        background:var(--gold); color:var(--black); border:none; font-weight:600;
+      }
+      .wow-banner-btn.done:hover { background:var(--gold-light); }
+      .wow-banner-btn.reset {
+        background:transparent; color:rgba(201,168,76,0.6);
+        border:1px solid rgba(201,168,76,0.25);
+      }
+      .wow-banner-btn.reset:hover { color:var(--gold); border-color:var(--gold); }
+
+      /* Login modal */
+      #wow-login-modal {
+        position:fixed; inset:0; z-index:10000; display:none;
+        background:rgba(6,10,7,0.92); backdrop-filter:blur(20px);
+        align-items:center; justify-content:center;
+      }
+      #wow-login-modal.show { display:flex; }
+      .wow-login-box {
+        background:var(--green-mid); border:1px solid rgba(201,168,76,0.2);
+        padding:2.5rem; min-width:320px; max-width:380px; width:100%;
+        position:relative;
+      }
+      .wow-login-box::before {
+        content:''; position:absolute; top:0; left:0; right:0;
+        height:2px; background:linear-gradient(to right,var(--gold),var(--gold-dim));
+      }
+      .wow-login-title {
+        font-family:'Cormorant Garamond',serif;
+        font-size:1.5rem; color:var(--off-white); margin-bottom:0.4rem;
+      }
+      .wow-login-sub {
+        font-size:0.6rem; letter-spacing:0.2em; text-transform:uppercase;
+        color:var(--muted); margin-bottom:2rem;
+      }
+      .wow-login-label {
+        font-size:0.56rem; letter-spacing:0.32em; text-transform:uppercase;
+        color:var(--gold); display:block; margin-bottom:0.5rem;
+      }
+      .wow-login-input {
+        width:100%; background:rgba(245,240,232,0.04);
+        border:1px solid rgba(201,168,76,0.18); color:var(--off-white);
+        padding:0.75rem 1rem; font-family:'Montserrat',sans-serif;
+        font-size:0.82rem; outline:none; margin-bottom:1.2rem;
+        transition:border 0.3s;
+      }
+      .wow-login-input:focus { border-color:var(--gold); }
+      .wow-login-btn {
+        width:100%; background:var(--gold); color:var(--black); border:none;
+        padding:0.9rem; font-family:'Montserrat',sans-serif;
+        font-size:0.6rem; letter-spacing:0.28em; text-transform:uppercase;
+        font-weight:600; cursor:pointer; transition:background 0.3s;
+      }
+      .wow-login-btn:hover { background:var(--gold-light); }
+      .wow-login-btn:disabled { opacity:0.6; cursor:not-allowed; }
+      .wow-login-close {
+        position:absolute; top:1rem; right:1rem;
+        background:none; border:none; color:var(--muted);
+        font-size:1.2rem; cursor:pointer; line-height:1;
+      }
+      .wow-login-close:hover { color:var(--off-white); }
+      .wow-login-err {
+        font-size:0.72rem; color:#e57373; margin-bottom:1rem;
+        display:none; padding:0.5rem 0.75rem;
+        background:rgba(229,115,115,0.08); border:1px solid rgba(229,115,115,0.2);
+      }
+      .wow-login-err.show { display:block; }
+
+      /* Editable text in edit mode */
+      body.wow-editing [data-i18n]:not(input):not(select):not(button) {
+        outline:1px dashed rgba(201,168,76,0.35);
+        cursor:text !important;
+        border-radius:2px;
+        transition:outline 0.2s;
+        position:relative;
+      }
+      body.wow-editing [data-i18n]:not(input):not(select):not(button):hover {
+        outline:2px solid rgba(201,168,76,0.7);
+        background:rgba(201,168,76,0.04);
+      }
+
+      /* Inline textarea overlay */
+      .wow-inline-editor {
+        position:absolute; z-index:9980;
+        background:rgba(11,26,18,0.97); border:1px solid var(--gold);
+        box-shadow:0 8px 40px rgba(0,0,0,0.6);
+        padding:0.75rem; min-width:280px; max-width:480px;
+      }
+      .wow-inline-editor textarea {
+        width:100%; background:transparent; border:none;
+        color:var(--off-white); font-family:'Montserrat',sans-serif;
+        font-size:0.82rem; line-height:1.6; resize:vertical;
+        outline:none; min-height:60px;
+      }
+      .wow-inline-editor-actions {
+        display:flex; gap:0.5rem; margin-top:0.5rem; justify-content:flex-end;
+      }
+      .wow-ie-btn {
+        font-size:0.55rem; letter-spacing:0.18em; text-transform:uppercase;
+        padding:0.35rem 0.8rem; cursor:pointer;
+        font-family:'Montserrat',sans-serif; transition:all 0.2s; border-radius:2px;
+      }
+      .wow-ie-save {
+        background:var(--gold); color:var(--black); border:none; font-weight:600;
+      }
+      .wow-ie-save:hover { background:var(--gold-light); }
+      .wow-ie-save.saving { opacity:0.6; }
+      .wow-ie-cancel {
+        background:transparent; color:var(--muted);
+        border:1px solid rgba(201,168,76,0.2);
+      }
+      .wow-ie-cancel:hover { color:var(--off-white); border-color:rgba(201,168,76,0.5); }
+      .wow-ie-hint {
+        font-size:0.5rem; color:var(--muted); letter-spacing:0.12em;
+        margin-top:0.25rem; text-align:right;
+      }
+
+      /* Image edit overlay */
+      body.wow-editing .wow-img-wrap { position:relative !important; }
+      body.wow-editing .wow-img-overlay {
+        position:absolute; inset:0; z-index:20;
+        background:rgba(6,10,7,0.0); transition:background 0.3s;
+        display:flex; align-items:center; justify-content:center;
+        cursor:pointer;
+      }
+      body.wow-editing .wow-img-overlay:hover {
+        background:rgba(6,10,7,0.65);
+      }
+      body.wow-editing .wow-img-overlay .wow-img-hint {
+        opacity:0; transition:opacity 0.3s;
+        font-size:0.6rem; letter-spacing:0.28em; text-transform:uppercase;
+        color:var(--gold); text-align:center; padding:1rem;
+        pointer-events:none;
+      }
+      body.wow-editing .wow-img-overlay:hover .wow-img-hint { opacity:1; }
+
+      /* Toast */
+      #wow-toast {
+        position:fixed; bottom:6.5rem; right:2rem; z-index:9995;
+        background:var(--green-rich); border:1px solid rgba(201,168,76,0.3);
+        color:var(--gold); font-size:0.6rem; letter-spacing:0.2em;
+        text-transform:uppercase; padding:0.6rem 1.2rem;
+        opacity:0; transition:opacity 0.3s; pointer-events:none;
+      }
+      #wow-toast.show { opacity:1; }
+    `;
+    document.head.appendChild(style);
+
+    // ── DOM elements ────────────────────────────────────────────
+    // Lock/unlock button
+    const editBtn = document.createElement('button');
+    editBtn.id = 'wow-edit-btn';
+    editBtn.title = 'Admin: Edit page content';
+    editBtn.innerHTML = '🔒';
+    document.body.appendChild(editBtn);
+
+    // Banner
+    const banner = document.createElement('div');
+    banner.id = 'wow-edit-banner';
+    banner.innerHTML = `
+      <span>✏️ Edit Mode — click any text or image to edit</span>
+      <button class="wow-banner-btn reset" id="wow-reset-btn">Reset all</button>
+      <button class="wow-banner-btn done" id="wow-done-btn">Done editing</button>
+    `;
+    document.body.appendChild(banner);
+
+    // Login modal
+    const modal = document.createElement('div');
+    modal.id = 'wow-login-modal';
+    modal.innerHTML = `
+      <div class="wow-login-box">
+        <button class="wow-login-close" id="wow-modal-close">✕</button>
+        <div class="wow-login-title">Admin Access</div>
+        <div class="wow-login-sub">WoW Content Editor</div>
+        <div class="wow-login-err" id="wow-login-err"></div>
+        <label class="wow-login-label">Email</label>
+        <input class="wow-login-input" type="email" id="wow-admin-email" placeholder="admin@brightcone.ai" value="admin@brightcone.ai">
+        <label class="wow-login-label">Password</label>
+        <input class="wow-login-input" type="password" id="wow-admin-pw" placeholder="••••••••">
+        <button class="wow-login-btn" id="wow-login-submit">Sign In to Edit</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    // Toast
+    const toast = document.createElement('div');
+    toast.id = 'wow-toast';
+    document.body.appendChild(toast);
+
+    // Hidden file input for image uploads
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.style.display = 'none';
+    document.body.appendChild(fileInput);
+
+    // ── Utils ───────────────────────────────────────────────────
+    function showToast(msg, dur=2500){
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'), dur);
+    }
+
+    function getToken(){ return localStorage.getItem(ADMIN_TOKEN_KEY); }
+    function setToken(t){ localStorage.setItem(ADMIN_TOKEN_KEY, t); }
+    function clearToken(){ localStorage.removeItem(ADMIN_TOKEN_KEY); }
+
+    // ── Load content from API on page start ─────────────────────
+    async function loadContent(){
+      try {
+        const res = await fetch(`${API}/content`);
+        if(!res.ok) return;
+        const data = await res.json();
+        // Apply wow.* keys to their data-i18n elements
+        Object.entries(data).forEach(([key, value]) => {
+          if(!key.startsWith('wow.') || !value) return;
+          const i18nKey = key.replace('wow.', '');
+          document.querySelectorAll(`[data-i18n="${i18nKey}"]`).forEach(el => {
+            // Don't override if currently editing
+            if(el._wowEditing) return;
+            el.innerHTML = value;
+          });
+          // Handle images
+          if(key.includes('.img.') || key.includes('.image.')) {
+            const imgKey = key.replace('wow.', '');
+            document.querySelectorAll(`[data-wow-img="${imgKey}"]`).forEach(el => {
+              el.src = value.startsWith('/') ? `${API}${value}` : value;
+            });
+          }
+        });
+        // Apply image keys
+        Object.entries(data).forEach(([key, value]) => {
+          if(!key.startsWith('wow.img.') || !value) return;
+          const imgId = key.replace('wow.img.', '');
+          const el = document.querySelector(`[data-wow-img="${imgId}"]`);
+          if(el) el.src = value.startsWith('/') ? `${API}${value}` : value;
+        });
+      } catch(e) { /* offline — use defaults */ }
+    }
+
+    // ── Save text to API ────────────────────────────────────────
+    async function saveText(i18nKey, value){
+      const token = getToken();
+      if(!token) return false;
+      const contentKey = `wow.${i18nKey}`;
+      try {
+        const res = await fetch(`${API}/content/${encodeURIComponent(contentKey)}`, {
+          method: 'PUT',
+          headers: { 'Content-Type':'application/json', Authorization:`Bearer ${token}` },
+          body: JSON.stringify({ value })
+        });
+        if(res.status === 401 || res.status === 403){ clearToken(); disableEditMode(); return false; }
+        return res.ok;
+      } catch(e) { return false; }
+    }
+
+    // ── Save image to API ───────────────────────────────────────
+    async function saveImage(imgKey, file){
+      const token = getToken();
+      if(!token) return null;
+      const contentKey = `wow.img.${imgKey}`;
+      const form = new FormData();
+      form.append('file', file);
+      try {
+        const res = await fetch(`${API}/content/upload-image?key=${encodeURIComponent(contentKey)}`, {
+          method:'POST', headers:{ Authorization:`Bearer ${token}` }, body: form
+        });
+        if(!res.ok) return null;
+        const json = await res.json();
+        return json.value;
+      } catch(e) { return null; }
+    }
+
+    // ── Inline text editor ──────────────────────────────────────
+    let activeEditor = null;
+
+    function closeEditor(){
+      if(activeEditor){ activeEditor.remove(); activeEditor = null; }
+    }
+
+    function openEditor(el){
+      if(!editMode) return;
+      closeEditor();
+
+      const i18nKey = el.getAttribute('data-i18n');
+      if(!i18nKey) return;
+
+      // Don't edit form labels/buttons
+      if(el.closest('.booking-form, .bf-btn, .lang-btn, .nav-cta')) return;
+
+      el._wowEditing = true;
+      const originalHTML = el.innerHTML;
+
+      const box = document.createElement('div');
+      box.className = 'wow-inline-editor';
+
+      const ta = document.createElement('textarea');
+      // Strip HTML tags for plain text editing
+      ta.value = el.innerText || el.textContent || '';
+      ta.rows = Math.max(2, Math.ceil(ta.value.length / 50));
+
+      const actions = document.createElement('div');
+      actions.className = 'wow-inline-editor-actions';
+
+      const hint = document.createElement('div');
+      hint.className = 'wow-ie-hint';
+      hint.textContent = 'Enter to save · Esc to cancel';
+
+      const saveBtn = document.createElement('button');
+      saveBtn.className = 'wow-ie-btn wow-ie-save';
+      saveBtn.textContent = 'Save';
+
+      const cancelBtn = document.createElement('button');
+      cancelBtn.className = 'wow-ie-btn wow-ie-cancel';
+      cancelBtn.textContent = 'Cancel';
+
+      actions.appendChild(cancelBtn);
+      actions.appendChild(saveBtn);
+      box.appendChild(ta);
+      box.appendChild(hint);
+      box.appendChild(actions);
+
+      // Position near element
+      const rect = el.getBoundingClientRect();
+      box.style.top  = (window.scrollY + rect.bottom + 6) + 'px';
+      box.style.left = Math.min(rect.left, window.innerWidth - 500) + 'px';
+      document.body.appendChild(box);
+      activeEditor = box;
+      ta.focus();
+      ta.select();
+
+      const doSave = async () => {
+        const newVal = ta.value.trim();
+        if(!newVal){ cancelBtn.click(); return; }
+        saveBtn.classList.add('saving');
+        saveBtn.textContent = '…';
+        const ok = await saveText(i18nKey, newVal);
+        if(ok){
+          el.innerHTML = newVal;
+          showToast('✦ Saved — live on site');
+        } else {
+          showToast('⚠ Save failed');
+          el.innerHTML = originalHTML;
+        }
+        el._wowEditing = false;
+        closeEditor();
+      };
+
+      const doCancel = () => {
+        el.innerHTML = originalHTML;
+        el._wowEditing = false;
+        closeEditor();
+      };
+
+      saveBtn.addEventListener('click', doSave);
+      cancelBtn.addEventListener('click', doCancel);
+      ta.addEventListener('keydown', e => {
+        if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); doSave(); }
+        if(e.key === 'Escape'){ doCancel(); }
+      });
+
+      // Close if clicking outside
+      setTimeout(() => {
+        document.addEventListener('click', function outsideClick(ev){
+          if(!box.contains(ev.target) && ev.target !== el){
+            doCancel();
+            document.removeEventListener('click', outsideClick);
+          }
+        });
+      }, 100);
+    }
+
+    // ── Attach text click handlers ──────────────────────────────
+    function attachTextEditors(){
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        // Skip inputs, selects, buttons
+        if(['INPUT','SELECT','BUTTON'].includes(el.tagName)) return;
+        el.addEventListener('click', function(e){
+          if(!editMode) return;
+          e.stopPropagation();
+          openEditor(el);
+        });
+      });
+    }
+
+    // ── Image editing ───────────────────────────────────────────
+    const editableImages = [
+      { selector: '.stmt-img img',             key: 'philosophy' },
+      { selector: '.ft:nth-child(1) img',       key: 'exp_theatre' },
+      { selector: '.ft:nth-child(2) img',       key: 'exp_food' },
+      { selector: '.ft:nth-child(3) img',       key: 'exp_dessert' },
+      { selector: '.gi.tall img',               key: 'gal_interior' },
+      { selector: '.gi:nth-child(2) img',       key: 'gal_food1' },
+      { selector: '.gi:nth-child(3) img',       key: 'gal_tablesetting' },
+      { selector: '.gi:nth-child(4) img',       key: 'gal_dessert' },
+      { selector: '.gi:nth-child(5) img',       key: 'gal_food2' },
+      { selector: '.italy-img img',             key: 'italy' },
+    ];
+
+    let pendingImgKey = null;
+
+    function wrapImageForEdit(){
+      editableImages.forEach(({ selector, key }) => {
+        const img = document.querySelector(selector);
+        if(!img || img._wowWrapped) return;
+        img._wowWrapped = true;
+        img.setAttribute('data-wow-img', key);
+
+        // Wrap in a relative container if not already
+        const parent = img.parentElement;
+        if(getComputedStyle(parent).position === 'static'){
+          parent.style.position = 'relative';
+        }
+        parent.classList.add('wow-img-wrap');
+
+        const overlay = document.createElement('div');
+        overlay.className = 'wow-img-overlay';
+        overlay.innerHTML = `<div class="wow-img-hint">📷 Click to replace image<br><span style="font-size:0.48rem;opacity:0.6">Max 5MB · JPG, PNG, WebP</span></div>`;
+        parent.appendChild(overlay);
+
+        overlay.addEventListener('click', e => {
+          if(!editMode) return;
+          e.stopPropagation();
+          pendingImgKey = key;
+          fileInput.value = '';
+          fileInput.click();
+        });
+      });
+    }
+
+    fileInput.addEventListener('change', async () => {
+      const file = fileInput.files[0];
+      if(!file || !pendingImgKey) return;
+      showToast('⏳ Uploading image…', 10000);
+      const url = await saveImage(pendingImgKey, file);
+      if(url){
+        const fullUrl = url.startsWith('/') ? `${API}${url}` : url;
+        const img = document.querySelector(`[data-wow-img="${pendingImgKey}"]`);
+        if(img) img.src = fullUrl;
+        showToast('✦ Image updated — live on site');
+      } else {
+        showToast('⚠ Image upload failed');
+      }
+      pendingImgKey = null;
+    });
+
+    // ── Enable / disable edit mode ──────────────────────────────
+    function enableEditMode(){
+      editMode = true;
+      adminToken = getToken();
+      document.body.classList.add('wow-editing');
+      editBtn.innerHTML = '✏️';
+      editBtn.classList.add('active');
+      editBtn.title = 'Exit edit mode';
+      banner.classList.add('show');
+      wrapImageForEdit();
+      showToast('Edit mode on — click any text or image');
+    }
+
+    function disableEditMode(){
+      editMode = false;
+      closeEditor();
+      document.body.classList.remove('wow-editing');
+      editBtn.innerHTML = '🔒';
+      editBtn.classList.remove('active');
+      editBtn.title = 'Admin: Edit page content';
+      banner.classList.remove('show');
+    }
+
+    // ── Reset all ───────────────────────────────────────────────
+    async function resetAll(){
+      if(!confirm('Reset all WoW page content to defaults? This cannot be undone.')) return;
+      const token = getToken();
+      if(!token) return;
+      // Clear all wow.* content keys by refetching defaults from T.en
+      // We just reload the page — defaults will apply since DB is cleared server-side
+      // For simplicity: reload page with flag, defaults show
+      showToast('Resetting…', 5000);
+      // We re-apply defaults from T.en
+      const defaults = T['en'];
+      const saves = Object.entries(defaults).map(([k, v]) =>
+        fetch(`${API}/content/${encodeURIComponent('wow.'+k)}`, {
+          method:'PUT',
+          headers:{'Content-Type':'application/json',Authorization:`Bearer ${token}`},
+          body: JSON.stringify({ value: v })
+        }).catch(()=>{})
+      );
+      await Promise.allSettled(saves);
+      showToast('✦ All content reset to defaults');
+      setTimeout(()=>location.reload(), 1200);
+    }
+
+    // ── Login flow ──────────────────────────────────────────────
+    async function doLogin(){
+      const email = document.getElementById('wow-admin-email').value.trim();
+      const pw    = document.getElementById('wow-admin-pw').value;
+      const err   = document.getElementById('wow-login-err');
+      const btn   = document.getElementById('wow-login-submit');
+      err.classList.remove('show');
+      if(!email || !pw){ err.textContent='Please enter email and password.'; err.classList.add('show'); return; }
+      btn.disabled = true; btn.textContent = 'Signing in…';
+      try {
+        const res = await fetch(`${API}/admin/login`, {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ email, password: pw })
+        });
+        const data = await res.json();
+        if(!res.ok){ err.textContent = data.detail || 'Login failed'; err.classList.add('show'); return; }
+        setToken(data.access_token);
+        modal.classList.remove('show');
+        enableEditMode();
+      } catch(e){
+        err.textContent = 'Network error. Please try again.';
+        err.classList.add('show');
+      } finally {
+        btn.disabled = false; btn.textContent = 'Sign In to Edit';
+      }
+    }
+
+    // ── Event listeners ─────────────────────────────────────────
+    editBtn.addEventListener('click', () => {
+      if(editMode){
+        disableEditMode();
+      } else if(getToken()){
+        enableEditMode();
+      } else {
+        modal.classList.add('show');
+        setTimeout(()=>document.getElementById('wow-admin-pw').focus(), 100);
+      }
+    });
+
+    document.getElementById('wow-modal-close').addEventListener('click', ()=>modal.classList.remove('show'));
+    modal.addEventListener('click', e=>{ if(e.target===modal) modal.classList.remove('show'); });
+    document.getElementById('wow-login-submit').addEventListener('click', doLogin);
+    document.getElementById('wow-admin-pw').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+    document.getElementById('wow-done-btn').addEventListener('click', disableEditMode);
+    document.getElementById('wow-reset-btn').addEventListener('click', resetAll);
+
+    // Close editor on scroll
+    window.addEventListener('scroll', ()=>{ if(activeEditor) closeEditor(); }, { passive:true });
+
+    // ── Init ────────────────────────────────────────────────────
+    // Load saved content from DB
+    loadContent();
+    // Attach text click handlers
+    attachTextEditors();
+    // If token is still valid from a previous session, show unlock button hint
+    if(getToken()){
+      editBtn.title = 'Click to enter edit mode';
+      editBtn.style.background = 'rgba(201,168,76,0.22)';
+    }
+
+  })(); // end WowCMS
   </script>
 </body>
 </html>
