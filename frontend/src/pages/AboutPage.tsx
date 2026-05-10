@@ -1,72 +1,116 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { fetchAllContent } from '../lib/adminApi'
+import { apiUrl } from '../lib/api'
 
-const features = [
-  {
-    icon: '🤖',
-    title: 'Multi-Agent Orchestration',
-    description: 'Coordinate specialized agents — frontend, backend, QA — inside one focused workspace. Each agent knows its role and executes with precision.',
-    color: 'from-violet-500/10 to-purple-500/5',
-    border: 'border-violet-200/60',
-  },
-  {
-    icon: '💬',
-    title: 'Persistent Conversation History',
-    description: 'Every conversation is stored and searchable. Resume where you left off, review past decisions, and maintain full context across sessions.',
-    color: 'from-blue-500/10 to-cyan-500/5',
-    border: 'border-blue-200/60',
-  },
-  {
-    icon: '🔐',
-    title: 'Secure by Default',
-    description: 'JWT-based authentication, protected routes, and bcrypt password hashing. Enterprise-grade security built in from day one.',
-    color: 'from-emerald-500/10 to-green-500/5',
-    border: 'border-emerald-200/60',
-  },
-  {
-    icon: '⚡',
-    title: 'Real-Time Streaming',
-    description: 'Responses stream live via Server-Sent Events. No waiting for full responses — watch answers appear token by token, instantly.',
-    color: 'from-amber-500/10 to-yellow-500/5',
-    border: 'border-amber-200/60',
-  },
-  {
-    icon: '🎨',
-    title: 'Premium UI',
-    description: 'A clean, minimal interface with dark and light mode. Built with React, TypeScript, and Tailwind — fast, accessible, and beautiful.',
-    color: 'from-pink-500/10 to-rose-500/5',
-    border: 'border-pink-200/60',
-  },
-  {
-    icon: '🚀',
-    title: 'Production Ready',
-    description: 'From prototype to deployed product with automated testing, CI-friendly deployment scripts, and a codebase built for real teams.',
-    color: 'from-orange-500/10 to-red-500/5',
-    border: 'border-orange-200/60',
-  },
+// ── Fallback defaults (used while loading or if API has no value) ─────────────
+const DEFAULTS: Record<string, string> = {
+  'about.hero.badge':    'About Brightcone',
+  'about.hero.title1':   'Built for teams who take',
+  'about.hero.title2':   'AI seriously.',
+  'about.hero.subtitle': 'Brightcone is an enterprise AI platform that makes it easy to build, deploy, and manage intelligent agent workflows — with a premium interface teams actually want to use.',
+  'about.mission.heading': 'Make AI agents a production-grade reality.',
+  'about.mission.p1':      'Most AI tooling is built for demos. Brightcone is built for production — with the auth, history, streaming, and orchestration that real enterprise teams need.',
+  'about.mission.p2':      'We believe the next generation of enterprise software will be powered by coordinated AI agents. Our mission is to make that future accessible, reliable, and beautifully simple to operate.',
+  'about.features.heading':          'Everything you need. Nothing you don\'t.',
+  'about.feature.multi-agent.title': 'Multi-Agent Orchestration',
+  'about.feature.multi-agent.desc':  'Coordinate specialized agents — frontend, backend, QA — inside one focused workspace. Each agent knows its role and executes with precision.',
+  'about.feature.conversation.title':'Persistent Conversation History',
+  'about.feature.conversation.desc': 'Every conversation is stored and searchable. Resume where you left off, review past decisions, and maintain full context across sessions.',
+  'about.feature.secure.title':      'Secure by Default',
+  'about.feature.secure.desc':       'JWT-based authentication, protected routes, and bcrypt password hashing. Enterprise-grade security built in from day one.',
+  'about.feature.streaming.title':   'Real-Time Streaming',
+  'about.feature.streaming.desc':    'Responses stream live via Server-Sent Events. No waiting for full responses — watch answers appear token by token, instantly.',
+  'about.feature.ui.title':          'Premium UI',
+  'about.feature.ui.desc':           'A clean, minimal interface with dark and light mode. Built with React, TypeScript, and Tailwind — fast, accessible, and beautiful.',
+  'about.feature.production.title':  'Production Ready',
+  'about.feature.production.desc':   'From prototype to deployed product with automated testing, CI-friendly deployment scripts, and a codebase built for real teams.',
+  'about.team.subtitle':      'A small, focused team that moves fast, ships clean code, and cares deeply about the product.',
+  'about.team.sam.name':      'Sam',
+  'about.team.sam.desc':      'Visionary behind Brightcone. Builds the future, one agent at a time.',
+  'about.team.alex.name':     'Alex',
+  'about.team.alex.desc':     'Crafts every pixel. Obsessed with UX, performance, and clean design.',
+  'about.team.jordan.name':   'Jordan',
+  'about.team.jordan.desc':   'Keeps the engine running. APIs, databases, and everything beneath the surface.',
+  'about.team.riley.name':    'Riley',
+  'about.team.riley.desc':    "Nothing ships without Riley's sign-off. Quality is the baseline, not the goal.",
+  'about.timeline.idea.title':        'The Idea',
+  'about.timeline.idea.desc':         'Brightcone started as a question: why is enterprise AI tooling so painful to use?',
+  'about.timeline.first-build.title': 'First Build',
+  'about.timeline.first-build.desc':  'Core chat, auth, and multi-agent orchestration shipped. First internal users onboarded.',
+  'about.timeline.crm.title':         'CRM & Outreach',
+  'about.timeline.crm.desc':          'Lead management and email outreach capabilities added. Teams started replacing their CRMs.',
+  'about.timeline.enterprise.title':  'Enterprise Launch',
+  'about.timeline.enterprise.desc':   'Full enterprise platform launched — SSO, reporting, and custom deployments for large teams.',
+  'about.value.clarity.title': 'Clarity over complexity',
+  'about.value.clarity.desc':  'We strip away noise. Every feature must earn its place. Simple interfaces that do powerful things.',
+  'about.value.trust.title':   'Trust through transparency',
+  'about.value.trust.desc':    "No black boxes. You know what the agents are doing, why they're doing it, and what's next.",
+  'about.value.speed.title':   'Speed without shortcuts',
+  'about.value.speed.desc':    "Move fast but never at the cost of reliability. Good engineering is how we respect our users' time.",
+  'about.cta.heading':  'Join teams building the future with Brightcone.',
+  'about.cta.subtitle': 'Get access to the full platform — multi-agent orchestration, streaming chat, and enterprise-ready deployment.',
+}
+
+function useContent() {
+  const [content, setContent] = useState<Record<string, string>>(DEFAULTS)
+
+  useEffect(() => {
+    fetchAllContent()
+      .then((data) => setContent({ ...DEFAULTS, ...data }))
+      .catch(() => {/* silently use defaults */})
+  }, [])
+
+  const t = (key: string) => content[key] || DEFAULTS[key] || ''
+  const img = (key: string) => {
+    const v = content[key]
+    if (!v) return null
+    return v.startsWith('/') ? apiUrl(v) : v
+  }
+  return { t, img }
+}
+
+// ── Static data ──────────────────────────────────────────────────────────────
+const FEATURES = [
+  { key: 'multi-agent', icon: '🤖', color: 'from-violet-500/10 to-purple-500/5',  border: 'border-violet-200/60' },
+  { key: 'conversation', icon: '💬', color: 'from-blue-500/10 to-cyan-500/5',     border: 'border-blue-200/60' },
+  { key: 'secure',       icon: '🔐', color: 'from-emerald-500/10 to-green-500/5', border: 'border-emerald-200/60' },
+  { key: 'streaming',    icon: '⚡', color: 'from-amber-500/10 to-yellow-500/5',  border: 'border-amber-200/60' },
+  { key: 'ui',           icon: '🎨', color: 'from-pink-500/10 to-rose-500/5',     border: 'border-pink-200/60' },
+  { key: 'production',   icon: '🚀', color: 'from-orange-500/10 to-red-500/5',    border: 'border-orange-200/60' },
 ]
 
-const team = [
-  { name: 'Sam', role: 'Founder & CEO', initials: 'SA', color: 'from-violet-600 to-purple-700', desc: 'Visionary behind Brightcone. Builds the future, one agent at a time.' },
-  { name: 'Alex', role: 'Frontend Engineer', initials: 'AX', color: 'from-blue-600 to-cyan-700', desc: 'Crafts every pixel. Obsessed with UX, performance, and clean design.' },
-  { name: 'Jordan', role: 'Backend Engineer', initials: 'JO', color: 'from-emerald-600 to-teal-700', desc: 'Keeps the engine running. APIs, databases, and everything beneath the surface.' },
-  { name: 'Riley', role: 'QA Engineer', initials: 'RI', color: 'from-amber-600 to-orange-700', desc: 'Nothing ships without Riley\'s sign-off. Quality is the baseline, not the goal.' },
+const TEAM = [
+  { key: 'sam',    initials: 'SA', color: 'from-violet-600 to-purple-700' },
+  { key: 'alex',   initials: 'AX', color: 'from-blue-600 to-cyan-700' },
+  { key: 'jordan', initials: 'JO', color: 'from-emerald-600 to-teal-700' },
+  { key: 'riley',  initials: 'RI', color: 'from-amber-600 to-orange-700' },
 ]
 
-const timeline = [
-  { year: '2023', title: 'The Idea', desc: 'Brightcone started as a question: why is enterprise AI tooling so painful to use?' },
-  { year: 'Q1 2024', title: 'First Build', desc: 'Core chat, auth, and multi-agent orchestration shipped. First internal users onboarded.' },
-  { year: 'Q3 2024', title: 'CRM & Outreach', desc: 'Lead management and email outreach capabilities added. Teams started replacing their CRMs.' },
-  { year: '2025', title: 'Enterprise Launch', desc: 'Full enterprise platform launched — SSO, reporting, and custom deployments for large teams.' },
+const TIMELINE = [
+  { key: 'idea',        year: '2023' },
+  { key: 'first-build', year: 'Q1 2024' },
+  { key: 'crm',         year: 'Q3 2024' },
+  { key: 'enterprise',  year: '2025' },
 ]
 
-const stats = [
+const STATS = [
   { value: '18x', label: 'Faster task routing', icon: '⚡' },
-  { value: '92%', label: 'Conversation recall', icon: '🧠' },
-  { value: '24/7', label: 'Agent availability', icon: '🌐' },
+  { value: '92%', label: 'Conversation recall',  icon: '🧠' },
+  { value: '24/7', label: 'Agent availability',  icon: '🌐' },
   { value: '100%', label: 'TypeScript codebase', icon: '🛡️' },
 ]
 
+const VALUES = [
+  { key: 'clarity', icon: '🎯' },
+  { key: 'trust',   icon: '🤝' },
+  { key: 'speed',   icon: '⚡' },
+]
+
+// ────────────────────────────────────────────────────────────────────────────
 export function AboutPage() {
+  const { t, img } = useContent()
+
   return (
     <div className="min-h-screen bg-[#fbfbfd] text-slate-900">
       {/* Nav */}
@@ -88,9 +132,8 @@ export function AboutPage() {
       </header>
 
       <main>
-        {/* ── Hero ─────────────────────────────────────────────────── */}
+        {/* ── Hero ──────────────────────────────────────────────────────── */}
         <section className="relative overflow-hidden px-6 pb-20 pt-24 lg:px-8 lg:pb-32 lg:pt-32">
-          {/* background blobs */}
           <div className="pointer-events-none absolute inset-0 -z-10">
             <div className="absolute -left-40 -top-40 h-[600px] w-[600px] rounded-full bg-violet-100/60 blur-[120px]" />
             <div className="absolute -right-40 top-20 h-[500px] w-[500px] rounded-full bg-blue-100/50 blur-[100px]" />
@@ -100,17 +143,21 @@ export function AboutPage() {
           <div className="mx-auto max-w-4xl text-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-[#e7d7cf] bg-[#fff7f3] px-4 py-1.5 text-sm font-medium text-[#b85c3d]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#d97757]" />
-              About Brightcone
+              {t('about.hero.badge')}
             </div>
+
+            {img('about.hero.image') ? (
+              <img src={img('about.hero.image')!} alt="Hero" className="mx-auto mt-8 max-h-64 w-auto rounded-3xl object-cover shadow-lg" />
+            ) : null}
+
             <h1 className="mx-auto mt-8 text-5xl font-semibold tracking-tight text-slate-900 sm:text-6xl lg:text-7xl">
-              Built for teams who take
+              {t('about.hero.title1')}
               <span className="block bg-gradient-to-r from-violet-600 via-blue-600 to-cyan-500 bg-clip-text text-transparent">
-                AI seriously.
+                {t('about.hero.title2')}
               </span>
             </h1>
             <p className="mx-auto mt-8 max-w-2xl text-lg leading-8 text-slate-600">
-              Brightcone is an enterprise AI platform that makes it easy to build, deploy, and manage
-              intelligent agent workflows — with a premium interface teams actually want to use.
+              {t('about.hero.subtitle')}
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link to="/register" className="rounded-full bg-slate-900 px-7 py-3.5 text-sm font-medium text-white transition hover:bg-slate-800">
@@ -124,7 +171,7 @@ export function AboutPage() {
 
           {/* Stats strip */}
           <div className="mx-auto mt-20 grid max-w-4xl grid-cols-2 gap-4 lg:grid-cols-4">
-            {stats.map((s) => (
+            {STATS.map((s) => (
               <div key={s.value} className="flex flex-col items-center rounded-2xl border border-black/5 bg-white/80 px-6 py-6 shadow-sm backdrop-blur-sm">
                 <span className="text-2xl">{s.icon}</span>
                 <div className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">{s.value}</div>
@@ -134,28 +181,18 @@ export function AboutPage() {
           </div>
         </section>
 
-        {/* ── Mission ──────────────────────────────────────────────── */}
+        {/* ── Mission ───────────────────────────────────────────────────── */}
         <section className="px-6 py-20 lg:px-8">
           <div className="mx-auto max-w-6xl">
             <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-10 shadow-[0_30px_90px_rgba(15,23,42,0.2)] lg:p-16">
-              {/* decorative blobs inside card */}
               <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-violet-500/20 blur-[60px]" />
               <div className="pointer-events-none absolute -bottom-20 left-10 h-64 w-64 rounded-full bg-blue-500/20 blur-[60px]" />
-
               <div className="relative grid gap-12 lg:grid-cols-2 lg:items-center">
                 <div>
                   <p className="text-sm font-medium uppercase tracking-[0.24em] text-white/50">Our Mission</p>
-                  <h2 className="mt-4 text-4xl font-semibold tracking-tight text-white">
-                    Make AI agents a production-grade reality.
-                  </h2>
-                  <p className="mt-6 text-base leading-8 text-white/70">
-                    Most AI tooling is built for demos. Brightcone is built for production — with the auth, history,
-                    streaming, and orchestration that real enterprise teams need.
-                  </p>
-                  <p className="mt-4 text-base leading-8 text-white/70">
-                    We believe the next generation of enterprise software will be powered by coordinated AI agents.
-                    Our mission is to make that future accessible, reliable, and beautifully simple to operate.
-                  </p>
+                  <h2 className="mt-4 text-4xl font-semibold tracking-tight text-white">{t('about.mission.heading')}</h2>
+                  <p className="mt-6 text-base leading-8 text-white/70">{t('about.mission.p1')}</p>
+                  <p className="mt-4 text-base leading-8 text-white/70">{t('about.mission.p2')}</p>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   {[
@@ -176,7 +213,7 @@ export function AboutPage() {
           </div>
         </section>
 
-        {/* ── Timeline ─────────────────────────────────────────────── */}
+        {/* ── Timeline ──────────────────────────────────────────────────── */}
         <section className="px-6 py-20 lg:px-8">
           <div className="mx-auto max-w-6xl">
             <div className="max-w-2xl">
@@ -184,24 +221,20 @@ export function AboutPage() {
               <h2 className="mt-4 text-4xl font-semibold tracking-tight text-slate-900">How we got here.</h2>
             </div>
             <div className="mt-12 relative">
-              {/* vertical line */}
               <div className="absolute left-6 top-0 h-full w-px bg-gradient-to-b from-violet-300 via-blue-300 to-transparent lg:left-1/2" />
               <div className="space-y-10">
-                {timeline.map((item, i) => (
-                  <div key={item.year} className={`relative flex items-start gap-8 lg:gap-0 ${i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}>
-                    {/* dot */}
+                {TIMELINE.map((item, i) => (
+                  <div key={item.key} className={`relative flex items-start gap-8 lg:gap-0 ${i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}>
                     <div className="absolute left-6 top-5 z-10 h-3 w-3 -translate-x-1/2 rounded-full bg-gradient-to-br from-violet-500 to-blue-500 shadow-md ring-4 ring-white lg:left-1/2" />
-                    {/* content */}
                     <div className={`ml-14 w-full lg:ml-0 lg:w-5/12 ${i % 2 === 0 ? 'lg:pr-16' : 'lg:pl-16'}`}>
-                      <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-[0_8px_30px_rgba(15,23,42,0.06)] transition hover:shadow-[0_12px_40px_rgba(15,23,42,0.1)]">
+                      <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-[0_8px_30px_rgba(15,23,42,0.06)]">
                         <span className="inline-block rounded-full bg-gradient-to-r from-violet-100 to-blue-100 px-3 py-1 text-xs font-semibold text-violet-700">
                           {item.year}
                         </span>
-                        <h3 className="mt-3 text-lg font-semibold text-slate-900">{item.title}</h3>
-                        <p className="mt-2 text-sm leading-6 text-slate-600">{item.desc}</p>
+                        <h3 className="mt-3 text-lg font-semibold text-slate-900">{t(`about.timeline.${item.key}.title`)}</h3>
+                        <p className="mt-2 text-sm leading-6 text-slate-600">{t(`about.timeline.${item.key}.desc`)}</p>
                       </div>
                     </div>
-                    {/* spacer */}
                     <div className="hidden lg:block lg:w-5/12" />
                   </div>
                 ))}
@@ -210,63 +243,55 @@ export function AboutPage() {
           </div>
         </section>
 
-        {/* ── Features ─────────────────────────────────────────────── */}
+        {/* ── Features ──────────────────────────────────────────────────── */}
         <section className="px-6 py-20 lg:px-8">
           <div className="mx-auto max-w-6xl">
             <div className="max-w-2xl">
               <p className="text-sm font-medium uppercase tracking-[0.24em] text-slate-400">Key Features</p>
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight text-slate-900">
-                Everything you need. Nothing you don't.
-              </h2>
+              <h2 className="mt-4 text-4xl font-semibold tracking-tight text-slate-900">{t('about.features.heading')}</h2>
             </div>
             <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {features.map((f) => (
-                <div
-                  key={f.title}
-                  className={`group relative overflow-hidden rounded-[2rem] border bg-gradient-to-br p-8 transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.1)] ${f.color} ${f.border}`}
-                >
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white shadow-sm text-2xl">
-                    {f.icon}
-                  </div>
-                  <h3 className="text-lg font-semibold tracking-tight text-slate-900">{f.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">{f.description}</p>
+              {FEATURES.map((f) => (
+                <div key={f.key} className={`group relative overflow-hidden rounded-[2rem] border bg-gradient-to-br p-8 transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.1)] ${f.color} ${f.border}`}>
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white shadow-sm text-2xl">{f.icon}</div>
+                  <h3 className="text-lg font-semibold tracking-tight text-slate-900">{t(`about.feature.${f.key}.title`)}</h3>
+                  <p className="mt-3 text-sm leading-7 text-slate-600">{t(`about.feature.${f.key}.desc`)}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ── Team ─────────────────────────────────────────────────── */}
+        {/* ── Team ──────────────────────────────────────────────────────── */}
         <section className="px-6 py-20 lg:px-8">
           <div className="mx-auto max-w-6xl">
             <div className="max-w-2xl">
               <p className="text-sm font-medium uppercase tracking-[0.24em] text-slate-400">Team</p>
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight text-slate-900">
-                The people building Brightcone.
-              </h2>
-              <p className="mt-4 text-base leading-7 text-slate-600">
-                A small, focused team that moves fast, ships clean code, and cares deeply about the product.
-              </p>
+              <h2 className="mt-4 text-4xl font-semibold tracking-tight text-slate-900">The people building Brightcone.</h2>
+              <p className="mt-4 text-base leading-7 text-slate-600">{t('about.team.subtitle')}</p>
             </div>
             <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {team.map((member) => (
-                <div
-                  key={member.name}
-                  className="group relative overflow-hidden rounded-[2rem] border border-black/5 bg-white p-8 shadow-[0_16px_50px_rgba(15,23,42,0.05)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.1)]"
-                >
-                  <div className={`mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br text-2xl font-bold text-white shadow-md ${member.color}`}>
-                    {member.initials}
+              {TEAM.map((member) => {
+                const avatar = img(`about.team.${member.key}.avatar`)
+                return (
+                  <div key={member.key} className="group relative overflow-hidden rounded-[2rem] border border-black/5 bg-white p-8 shadow-[0_16px_50px_rgba(15,23,42,0.05)] transition hover:-translate-y-1">
+                    {avatar ? (
+                      <img src={avatar} alt={t(`about.team.${member.key}.name`)} className="mx-auto h-20 w-20 rounded-2xl object-cover shadow-md" />
+                    ) : (
+                      <div className={`mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br text-2xl font-bold text-white shadow-md ${member.color}`}>
+                        {member.initials}
+                      </div>
+                    )}
+                    <h3 className="mt-5 text-center text-base font-semibold text-slate-900">{t(`about.team.${member.key}.name`)}</h3>
+                    <p className="mt-3 text-center text-xs leading-5 text-slate-500">{t(`about.team.${member.key}.desc`)}</p>
                   </div>
-                  <h3 className="mt-5 text-center text-base font-semibold text-slate-900">{member.name}</h3>
-                  <p className="mt-1 text-center text-xs font-medium uppercase tracking-wide text-slate-400">{member.role}</p>
-                  <p className="mt-3 text-center text-xs leading-5 text-slate-500">{member.desc}</p>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
         </section>
 
-        {/* ── Values ───────────────────────────────────────────────── */}
+        {/* ── Values ────────────────────────────────────────────────────── */}
         <section className="px-6 py-20 lg:px-8">
           <div className="mx-auto max-w-6xl">
             <div className="max-w-2xl">
@@ -274,22 +299,18 @@ export function AboutPage() {
               <h2 className="mt-4 text-4xl font-semibold tracking-tight text-slate-900">What drives us.</h2>
             </div>
             <div className="mt-12 grid gap-5 sm:grid-cols-3">
-              {[
-                { icon: '🎯', title: 'Clarity over complexity', desc: 'We strip away noise. Every feature must earn its place. Simple interfaces that do powerful things.' },
-                { icon: '🤝', title: 'Trust through transparency', desc: 'No black boxes. You know what the agents are doing, why they\'re doing it, and what\'s next.' },
-                { icon: '⚡', title: 'Speed without shortcuts', desc: 'Move fast but never at the cost of reliability. Good engineering is how we respect our users\' time.' },
-              ].map((v) => (
-                <div key={v.title} className="rounded-[2rem] border border-black/5 bg-white p-8 shadow-[0_16px_50px_rgba(15,23,42,0.05)]">
+              {VALUES.map((v) => (
+                <div key={v.key} className="rounded-[2rem] border border-black/5 bg-white p-8 shadow-[0_16px_50px_rgba(15,23,42,0.05)]">
                   <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-2xl">{v.icon}</div>
-                  <h3 className="mt-5 text-lg font-semibold text-slate-900">{v.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">{v.desc}</p>
+                  <h3 className="mt-5 text-lg font-semibold text-slate-900">{t(`about.value.${v.key}.title`)}</h3>
+                  <p className="mt-3 text-sm leading-7 text-slate-600">{t(`about.value.${v.key}.desc`)}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ── CTA ──────────────────────────────────────────────────── */}
+        {/* ── CTA ───────────────────────────────────────────────────────── */}
         <section className="px-6 pb-24 pt-8 lg:px-8">
           <div className="mx-auto max-w-5xl">
             <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-slate-900 via-violet-950 to-slate-900 px-8 py-16 text-center text-white shadow-[0_30px_90px_rgba(15,23,42,0.25)] sm:px-12">
@@ -297,12 +318,8 @@ export function AboutPage() {
               <div className="pointer-events-none absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-blue-500/20 blur-[60px]" />
               <div className="relative">
                 <p className="text-sm font-medium uppercase tracking-[0.26em] text-white/50">Ready to start?</p>
-                <h2 className="mx-auto mt-5 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">
-                  Join teams building the future with Brightcone.
-                </h2>
-                <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/70">
-                  Get access to the full platform — multi-agent orchestration, streaming chat, and enterprise-ready deployment.
-                </p>
+                <h2 className="mx-auto mt-5 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">{t('about.cta.heading')}</h2>
+                <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/70">{t('about.cta.subtitle')}</p>
                 <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                   <Link to="/register" className="rounded-full bg-white px-7 py-3.5 text-sm font-medium text-slate-900 transition hover:bg-slate-100">
                     Create free account
