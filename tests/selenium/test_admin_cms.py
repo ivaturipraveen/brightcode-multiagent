@@ -129,10 +129,15 @@ def test_edit_text_field_and_save(driver):
 
     field = inputs[0]
     original = field.get_attribute("value")
-    new_value = original + " (edited)"
 
-    field.clear()
-    field.send_keys(new_value)
+    # Use JS to trigger React's onChange properly
+    driver.execute_script(
+        "var nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;"
+        "nativeInputValueSetter.call(arguments[0], arguments[1]);"
+        "arguments[0].dispatchEvent(new Event('input', { bubbles: true }));",
+        field, original + " (edited)"
+    )
+    time.sleep(0.3)
 
     # Click Save button
     save_btn = wait(driver).until(
@@ -181,8 +186,14 @@ def test_changes_reflect_on_about_page(driver):
         pytest.skip("No text fields found in Hero section")
 
     original = fields[0].get_attribute("value")
-    fields[0].clear()
-    fields[0].send_keys(marker_text)
+
+    driver.execute_script(
+        "var nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;"
+        "nativeInputValueSetter.call(arguments[0], arguments[1]);"
+        "arguments[0].dispatchEvent(new Event('input', { bubbles: true }));",
+        fields[0], marker_text
+    )
+    time.sleep(0.3)
 
     save_btn = wait(driver).until(
         EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Save')]"))
