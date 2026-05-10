@@ -123,50 +123,36 @@ def test_edit_text_field_and_save(driver):
     cta_btn.click()
     time.sleep(1)
 
-    # Find first text input and modify it
-    inputs = driver.find_elements(By.CSS_SELECTOR, "input[type='text'], textarea")
+    # Find content fields in main panel only (skip sidebar search input)
+    # Main panel inputs have a non-empty value (search input is empty)
+    all_inputs = driver.find_elements(By.CSS_SELECTOR, "main input[type='text'], main textarea")
+    inputs = [i for i in all_inputs if i.get_attribute("value")]
+    if not inputs:
+        # Fallback: any input with a value
+        inputs = [i for i in driver.find_elements(By.CSS_SELECTOR, "input[type='text'], textarea")
+                  if i.get_attribute("value")]
     assert len(inputs) > 0, "Should find at least one editable field in CTA section"
 
     field = inputs[0]
     original = field.get_attribute("value")
 
-    # Use JS to trigger React's onChange properly
-    driver.execute_script(
-        "var nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;"
-        "nativeInputValueSetter.call(arguments[0], arguments[1]);"
-        "arguments[0].dispatchEvent(new Event('input', { bubbles: true }));",
-        field, original + " (edited)"
-    )
+    # Type directly into the field to trigger React onChange
+    field.click()
+    field.send_keys(" (edited)")
     time.sleep(0.3)
 
-    # Click Save button
-    save_btn = wait(driver).until(
-        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Save')]"))
-    )
-    save_btn.click()
+    # Scroll Save button into view and click via JS
+    save_btns = driver.find_elements(By.XPATH, "//button[contains(text(), 'Save')]")
+    assert len(save_btns) > 0, "Save button should be present"
+    driver.execute_script("arguments[0].scrollIntoView(true);", save_btns[0])
+    time.sleep(0.2)
+    driver.execute_script("arguments[0].click();", save_btns[0])
     time.sleep(2)
 
     # Should show success indicator
     page = driver.page_source
     assert any(x in page for x in ["Saved", "saved", "✅", "live"]), \
         "Save should show success confirmation"
-
-    # Restore original value
-    driver.refresh()
-    time.sleep(2)
-    cta_btn2 = wait(driver).until(
-        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'CTA')]"))
-    )
-    cta_btn2.click()
-    time.sleep(1)
-    fields2 = driver.find_elements(By.CSS_SELECTOR, "input[type='text'], textarea")
-    if fields2:
-        fields2[0].clear()
-        fields2[0].send_keys(original)
-        save_btns2 = driver.find_elements(By.XPATH, "//button[contains(text(), 'Save')]")
-        if save_btns2:
-            save_btns2[0].click()
-            time.sleep(1)
 
 
 # ── Test 7: Changes reflect on /about page ───────────────────────────────────
@@ -181,24 +167,26 @@ def test_changes_reflect_on_about_page(driver):
     hero_btn.click()
     time.sleep(1)
 
-    fields = driver.find_elements(By.CSS_SELECTOR, "input[type='text']")
+    # Skip sidebar search — get only main panel fields with values
+    fields = [i for i in driver.find_elements(By.CSS_SELECTOR, "main input[type='text'], main textarea")
+              if i.get_attribute("value")]
     if not fields:
         pytest.skip("No text fields found in Hero section")
 
     original = fields[0].get_attribute("value")
 
-    driver.execute_script(
-        "var nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;"
-        "nativeInputValueSetter.call(arguments[0], arguments[1]);"
-        "arguments[0].dispatchEvent(new Event('input', { bubbles: true }));",
-        fields[0], marker_text
-    )
+    # Type into field to trigger React onChange
+    fields[0].click()
+    fields[0].send_keys(Keys.CONTROL + "a")
+    fields[0].send_keys(marker_text)
     time.sleep(0.3)
 
-    save_btn = wait(driver).until(
-        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Save')]"))
-    )
-    save_btn.click()
+    # Scroll Save into view and JS click
+    save_btns = driver.find_elements(By.XPATH, "//button[contains(text(), 'Save')]")
+    assert len(save_btns) > 0, "Save button should be present"
+    driver.execute_script("arguments[0].scrollIntoView(true);", save_btns[0])
+    time.sleep(0.2)
+    driver.execute_script("arguments[0].click();", save_btns[0])
     time.sleep(2)
 
     # Check /about page
