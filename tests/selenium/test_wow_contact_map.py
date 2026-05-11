@@ -127,7 +127,8 @@ def test_private_events_opens_contact_modal(driver):
     assert "show" in modal.get_attribute("class"), "Contact modal should open for Private Events"
     # Events context should be visible
     eyebrow = driver.find_element(By.ID, "cm-eyebrow")
-    assert "Private" in eyebrow.text or "Event" in eyebrow.text or "Privat" in eyebrow.text, \
+    ey_upper = eyebrow.text.upper()
+    assert "PRIVATE" in ey_upper or "EVENT" in ey_upper or "PRIVAT" in ey_upper or "PRIVÉ" in ey_upper, \
         f"Eyebrow should indicate private events context, got: '{eyebrow.text}'"
     # Guest count field should be visible for events
     guests_wrap = driver.find_element(By.ID, "cm-guests-wrap")
@@ -141,7 +142,8 @@ def test_press_enquiries_opens_contact_modal(driver):
     modal = driver.find_element(By.ID, "contactModal")
     assert "show" in modal.get_attribute("class"), "Contact modal should open for Press"
     eyebrow = driver.find_element(By.ID, "cm-eyebrow")
-    assert any(w in eyebrow.text for w in ["Press", "Presse", "Prensa", "Stampa", "媒体"]), \
+    ey_upper = eyebrow.text.upper()
+    assert any(w in ey_upper for w in ["PRESS", "PRESSE", "PRENSA", "STAMPA", "媒体"]), \
         f"Eyebrow should indicate press context, got: '{eyebrow.text}'"
     # Guests field should be HIDDEN for press
     guests_wrap = driver.find_element(By.ID, "cm-guests-wrap")
@@ -211,10 +213,11 @@ def test_map_modal_translates(driver):
     # Open map modal
     click_footer_link(driver, 'link-directions')
     eyebrow = driver.find_element(By.ID, "map-eyebrow")
-    assert any(w in eyebrow.text for w in ["Trouver", "Nous", "Find"]), \
-        f"Map eyebrow should be in French, got: '{eyebrow.text}'"
+    ey_upper = eyebrow.text.upper()
+    assert any(w in ey_upper for w in ["TROUVER", "NOUS", "FIND", "FINDEN"]), \
+        f"Map eyebrow should be in French or localized, got: '{eyebrow.text}'"
     google_link = driver.find_element(By.ID, "map-google-link")
-    assert "Google" in google_link.text, "Google Maps link text should appear"
+    assert "GOOGLE" in google_link.text.upper(), "Google Maps link text should appear"
 
 
 # ── Test 12: ESC key closes modals ───────────────────────────────────────────
