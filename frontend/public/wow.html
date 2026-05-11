@@ -22,11 +22,23 @@
     .nav-links a{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(245,240,232,0.5);text-decoration:none;transition:color 0.3s;}
     .nav-links a:hover{color:var(--gold);}
     .nav-right{display:flex;align-items:center;gap:1.2rem;}
-    .lang-switcher{display:flex;align-items:center;}
-    .lang-btn{font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(245,240,232,0.4);background:none;border:none;padding:0.3rem 0.5rem;cursor:pointer;font-family:'Montserrat',sans-serif;transition:color 0.3s;}
-    .lang-btn:not(:last-child){border-right:1px solid rgba(201,168,76,0.2);}
-    .lang-btn:hover{color:var(--gold);}
-    .lang-btn.active{color:var(--gold);font-weight:600;}
+    /* ── Language dropdown ─────────────────────────────────── */
+    .lang-switcher{position:relative;display:flex;align-items:center;}
+    .lang-selected{display:flex;align-items:center;gap:0.45rem;font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(245,240,232,0.55);background:none;border:1px solid rgba(201,168,76,0.18);padding:0.35rem 0.7rem;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all 0.25s;white-space:nowrap;}
+    .lang-selected:hover{color:var(--gold);border-color:rgba(201,168,76,0.5);}
+    .lang-selected .lang-arrow{font-size:0.45rem;opacity:0.5;transition:transform 0.25s;}
+    .lang-switcher.open .lang-selected{color:var(--gold);border-color:rgba(201,168,76,0.5);}
+    .lang-switcher.open .lang-arrow{transform:rotate(180deg);}
+    .lang-dropdown{position:absolute;top:calc(100% + 0.5rem);right:0;min-width:148px;background:rgba(6,10,7,0.97);border:1px solid rgba(201,168,76,0.22);backdrop-filter:blur(20px);z-index:300;opacity:0;visibility:hidden;transform:translateY(-6px);transition:all 0.2s;}
+    .lang-switcher.open .lang-dropdown{opacity:1;visibility:visible;transform:translateY(0);}
+    .lang-option{display:flex;align-items:center;gap:0.75rem;width:100%;padding:0.65rem 1rem;font-size:0.56rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(245,240,232,0.5);background:none;border:none;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all 0.2s;text-align:left;}
+    .lang-option:not(:last-child){border-bottom:1px solid rgba(201,168,76,0.07);}
+    .lang-option:hover{color:var(--gold);background:rgba(201,168,76,0.05);}
+    .lang-option.active{color:var(--gold);font-weight:600;}
+    .lang-option .lang-flag{font-size:0.85rem;line-height:1;}
+    .lang-option .lang-native{font-size:0.5rem;opacity:0.45;margin-left:auto;}
+    /* legacy .lang-btn kept for CMS editor compatibility */
+    .lang-btn{display:none;}
     .nav-cta{font-size:0.58rem;letter-spacing:0.28em;text-transform:uppercase;background:var(--gold);color:var(--black);padding:0.8rem 1.8rem;text-decoration:none;font-weight:600;transition:background 0.3s;white-space:nowrap;}
     .nav-cta:hover{background:var(--gold-light);}
     /* HERO */
@@ -235,7 +247,8 @@
       .nav-links{display:none;}
       .nav-right{gap:0.5rem;}
       .nav-cta{display:none;}
-      .lang-btn{font-size:0.6rem;padding:0.25rem 0.4rem;}
+      .lang-selected{font-size:0.52rem;padding:0.3rem 0.6rem;}
+      .lang-dropdown{right:auto;left:0;min-width:140px;}
       .logo-wow{height:36px;}
 
       /* Hero */
@@ -340,10 +353,20 @@
       <li><a href="#booking" data-i18n="nav_reserve">Reserve</a></li>
     </ul>
     <div class="nav-right">
-      <div class="lang-switcher">
-        <button class="lang-btn active" onclick="setLang('en')">EN</button>
-        <button class="lang-btn" onclick="setLang('it')">IT</button>
-        <button class="lang-btn" onclick="setLang('zh')">中文</button>
+      <div class="lang-switcher" id="langSwitcher">
+        <button class="lang-selected" id="langSelected" aria-haspopup="true" aria-expanded="false">
+          <span id="langFlag">🇬🇧</span>
+          <span id="langLabel">EN</span>
+          <span class="lang-arrow">▾</span>
+        </button>
+        <div class="lang-dropdown" role="listbox">
+          <button class="lang-option active" data-lang="en" role="option"><span class="lang-flag">🇬🇧</span>English<span class="lang-native">English</span></button>
+          <button class="lang-option" data-lang="it" role="option"><span class="lang-flag">🇮🇹</span>Italiano<span class="lang-native">Italian</span></button>
+          <button class="lang-option" data-lang="fr" role="option"><span class="lang-flag">🇫🇷</span>Français<span class="lang-native">French</span></button>
+          <button class="lang-option" data-lang="es" role="option"><span class="lang-flag">🇪🇸</span>Español<span class="lang-native">Spanish</span></button>
+          <button class="lang-option" data-lang="de" role="option"><span class="lang-flag">🇩🇪</span>Deutsch<span class="lang-native">German</span></button>
+          <button class="lang-option" data-lang="zh" role="option"><span class="lang-flag">🇨🇳</span>中文<span class="lang-native">Chinese</span></button>
+        </div>
       </div>
       <a href="#booking" class="nav-cta" data-i18n="nav_cta">Reserve Your Pod</a>
     </div>
@@ -887,11 +910,240 @@
     }
   };
 
+  // ── French translations ──────────────────────────────────────
+  T.fr={
+    nav_philosophy:'Philosophie',nav_experience:"L'Expérience",nav_italy:'Made in Italy',
+    nav_reserve:'Réserver',nav_cta:'Réserver Votre Pod',
+    hero_city:'Pérouse, Italie',
+    hero_tag:"Là où l'art de la gastronomie italienne rencontre<br>la précision d'une nouvelle discipline culinaire.",
+    hero_cta1:'Découvrir le Parcours',hero_cta2:'Réserver une Table',scroll_lbl:'Découvrir',
+    mq1:'Neuf Services',mq2:'Menus Conçus par Michelin',mq4:'Pérouse · Ouverture 2025',
+    mq5:'Tradition en Évolution',mq6:'Fine Dining Accessible',
+    phil_ey:'Notre Philosophie',
+    phil_title:'Un laboratoire<br>de <em>l\'émerveillement.</em>',
+    phil_quote:'"Nous ne répliquons pas les chefs. Nous répliquons les conditions dans lesquelles la grandeur devient inévitable."',
+    phil_body1:'Les plus grandes tables du monde partagent une vérité : elles transforment le repas en une rencontre entre la créativité humaine et les plus beaux produits de la terre. WoW est né de la révérence pour cette vérité — et d\'une question audacieuse : <em style="color:var(--off-white)">et si elle était accessible à tous ?</em>',
+    phil_body2:"Non pas en diminuant l'excellence. Mais en l'ingénierisant.",
+    stat1_lbl:'Services signés Michelin',stat2_lbl:"Minutes d'émerveillement",stat3_lbl:'En deçà de la gastronomie traditionnelle',
+    phil_img_label:'Le Moment WoW',phil_img_val:'Chaque visite. Chaque table. Chaque fois.',
+    manifesto_ey:'Notre Conviction',
+    manifesto_title:'La gastronomie n\'est pas<br>un privilège.<br><em>C\'est un droit.</em>',
+    manifesto_body1:"Depuis trop longtemps, les expériences culinaires les plus extraordinaires du monde se cachaient derrière des murs d'inaccessibilité. WoW abat ces murs. Non par imitation. Par ingénierie.",
+    manifesto_body2:"Nous avons pris la méthodologie des plus grandes cuisines du monde et l'avons reconstruite en un système qui ne dépend d'aucun chef unique, d'aucune table unique, d'aucune ville unique.",
+    pillar1_title:'Excellence Ingéniée',pillar1_text:"Chaque élément conçu avec la rigueur d'une discipline scientifique et l'âme d'une nonna italienne.",
+    pillar2_title:"Ancré dans l'Origine",pillar2_text:"Nous n'approximons pas l'Italie. Nous y commençons. Chaque ingrédient parle de la terre dont il est issu.",
+    pillar3_title:'Michelin par Conception',pillar3_text:"Notre Directeur Culinaire, élu Chef Émergent de l'Année par L'Espresso, dirige des chefs étoilés qui sont associés à la mission de WoW.",
+    exp_ey:"L'Expérience",exp_title:'Neuf actes.<br><em>Un seul récit.</em>',
+    exp_body:"Chaque menu WoW est conçu comme une histoire unique et cohérente — une progression à travers les saisons, les régions et la mémoire de la gastronomie italienne.",
+    c1:'Amuse-<br>Bouche',c2:'Antipasto<br>Froid',c3:'Entrée<br>Chaude',c4:'Pasta<br>Primo',c5:'Sorbet<br>& Palais',c6:'Plat<br>Principal',c7:'Sélection<br>Fromages',c8:'Mignardises',c9:'Dessert<br>Final',
+    ft1_tag:'Le Moment WoW',ft1_title:'Théâtre à Table',ft1_text:"Un moment de théâtre vivant en salle, unique à chaque visite, conçu pour suspendre le temps et commander une présence totale.",
+    ft2_tag:'Création Culinaire',ft2_title:'Signé par des Étoiles',ft2_text:"L'héritage italien réinterprété avec la précision et l'audace de la création gastronomique étoilée Michelin.",
+    ft3_tag:'L\'Accord Final',ft3_title:'Un Dessert Inoubliable',ft3_text:"Le dernier mouvement d'une symphonie qui a commencé dès votre premier souffle dans la salle.",
+    gal1:'L\'Intérieur · Pérouse',gal2:"L'Art du Dressage",gal3:'La Table',gal4:'Dessert Final',gal5:"L'Art du Service",
+    italy_ey:'Provenance & Âme',
+    italy_title:"L'Italie n'est pas<br>un ingrédient.<br><em>Elle est la recette.</em>",
+    italy_quote:'"Ingéniérisez ce qui était historiquement artisanal — et rendez scalable ce qui ne l\'a jamais été."',
+    italy_quote_attr:'WoW · Principe Fondateur',
+    italy_body:"Les plus grandes cuisines du monde partagent une discipline : une relation sans compromis avec l'origine.",
+    italy_p1t:"Maîtrisé à l'Origine",italy_p1b:"Chaque ingrédient sourcé auprès de producteurs italiens certifiés. Traçable, authentique, aligné sur la saison.",
+    italy_p2t:'Un Vocabulaire Viticole Exclusif',italy_p2b:"Étiquettes WoW en exclusivité. Sélectionnées pour accompagner chaque chapitre du menu.",
+    italy_p3t:'Authenticité Certifiée Mondialement',italy_p3b:"Une marque Made in Italy déposée dans plus de 50 pays.",
+    italy_p4t:'Soutenu au Plus Haut Niveau',italy_p4b:"Appuyé par des chefs Michelin et le Prix Nobel de la Paix Muhammad Yunus.",
+    book_ey:'Réservations',book_title:'Assurez votre<br><em>expérience.</em>',
+    book_body:"WoW Pérouse propose six pods privatifs — chacun un monde intime pour quatre convives.",
+    pod_ey:'Choisir Votre Pod',pod_avail:'4 places · Disponible',pod_reserved:'4 places · Réservé',
+    avail_msg:'pods disponibles · Pérouse · Ouverture 2025',
+    promise_title:'La Promesse WoW',
+    promise1:'Chaque pod bénéficie de son propre moment de finition en salle',
+    promise2:"Neuf services, tous sourcés et élaborés en Italie",
+    promise3:'Accord mets-vins disponible à la réservation',
+    promise4:"Exigences diététiques accommodées avec préavis",
+    form_title:'Réserver Votre Table',form_fname:'Prénom',form_lname:'Nom de Famille',
+    form_email:'Adresse Email',form_phone:'Numéro de Téléphone',form_date:'Date Souhaitée',
+    form_service:'Service',form_guests:'Couverts',form_wine:'Accord Mets-Vins',
+    form_pod:'Préférence de Pod',form_notes:'Régimes / Occasions Spéciales',
+    form_note:'Réservations confirmées sous 24 heures. Toute annulation dans les 48 heures peut entraîner des frais.',
+    form_submit:'Demander une Réservation',
+    confirm_title:'Votre demande a bien été reçue.',
+    confirm_text:'Merci. Notre équipe confirmera votre réservation sous 24 heures.<br><br><em style="color:var(--gold)">À très bientôt — nous vous attendons avec plaisir.</em>',
+    rcta_title:'Le repas le plus remarquable<br>de votre vie<br>est à <em>trente minutes.</em>',
+    rcta_sub:'"Une expérience à savourer, à raconter, et à ne jamais oublier."',
+    rcta_btn:'Réserver Votre Pod Maintenant',
+    footer_tag:'"Là où l\'art de la gastronomie italienne rencontre la précision d\'une nouvelle discipline culinaire."',
+    footer_col1:'Expérience',footer_col2:'Le Lieu',footer_col3:'Contact',
+    footer_directions:'Itinéraire',footer_events:'Événements Privés',footer_press:'Relations Presse',footer_investor:'Portail Investisseurs →',
+    svc_placeholder:'Choisir un service',svc1:'Déjeuner — 12h30',svc2:'Dîner — 19h30',svc3:'Dîner — 21h30',
+    wine0:'Sans accord',wine1:'Accord Classique — Sélection Italienne',wine2:'Accord Premium — Étiquettes Prestige',
+    guests_ph:'Couverts (max 4)',
+    err_msg:'Veuillez compléter tous les champs obligatoires.',
+    sending:'Envoi en cours…',
+  };
+
+  // ── Spanish translations ─────────────────────────────────────
+  T.es={
+    nav_philosophy:'Filosofía',nav_experience:'La Experiencia',nav_italy:'Made in Italy',
+    nav_reserve:'Reservar',nav_cta:'Reservar Su Pod',
+    hero_city:'Perugia, Italia',
+    hero_tag:'Donde el arte de la gastronomía italiana se encuentra<br>con la precisión de una nueva disciplina culinaria.',
+    hero_cta1:'Descubrir el Recorrido',hero_cta2:'Reservar una Mesa',scroll_lbl:'Descubrir',
+    mq1:'Nueve Platos',mq2:'Menús Diseñados por Michelin',mq4:'Perugia · Apertura 2025',
+    mq5:'Tradición en Evolución',mq6:'Alta Cocina Accesible',
+    phil_ey:'Nuestra Filosofía',
+    phil_title:'Un laboratorio<br>de <em>asombro.</em>',
+    phil_quote:'"No replicamos a los chefs. Replicamos las condiciones en las que la grandeza es inevitable."',
+    phil_body1:'Los grandes restaurantes del mundo comparten una verdad: transforman la comida en un encuentro entre la creatividad humana y los mejores ingredientes de la tierra. WoW nació del respeto por esa verdad — y de una pregunta audaz: <em style="color:var(--off-white)">¿y si pudiera llegar a todos?</em>',
+    phil_body2:'No reduciendo la excelencia. Sino ingeniándola.',
+    stat1_lbl:'Platos diseñados por Michelin',stat2_lbl:'Minutos de asombro',stat3_lbl:'Por debajo de la alta cocina tradicional',
+    phil_img_label:'El Momento WoW',phil_img_val:'Cada visita. Cada mesa. Cada vez.',
+    manifesto_ey:'Nuestra Convicción',
+    manifesto_title:'La alta cocina no es<br>un privilegio.<br><em>Es un derecho.</em>',
+    manifesto_body1:"Durante demasiado tiempo, las experiencias culinarias más extraordinarias del mundo han existido detrás de muros de inaccesibilidad. WoW derriba esos muros. No por imitación. Por ingeniería.",
+    manifesto_body2:"Hemos tomado la metodología de las mejores cocinas del mundo y la hemos reconstruido como un sistema que no depende de ningún chef, ninguna mesa ni ninguna ciudad en particular.",
+    pillar1_title:'Excelencia Ingeniada',pillar1_text:'Cada elemento diseñado con el rigor de una disciplina científica y el alma de una nonna italiana.',
+    pillar2_title:'Arraigado en el Origen',pillar2_text:'No aproximamos Italia. Comenzamos desde allí. Cada ingrediente habla de la tierra de la que proviene.',
+    pillar3_title:'Michelin por Diseño',pillar3_text:"Nuestro Director Culinario, nombrado Chef Emergente del Año por L'Espresso, lidera chefs con estrellas que son socios de la misión de WoW.",
+    exp_ey:'La Experiencia',exp_title:'Nueve actos.<br><em>Un solo relato.</em>',
+    exp_body:'Cada menú de WoW está concebido como una historia única y coherente — una progresión a través de las estaciones, las regiones y la memoria de la gastronomía italiana.',
+    c1:'Amuse-<br>Bouche',c2:'Antipasto<br>Frío',c3:'Entrante<br>Caliente',c4:'Pasta<br>Primo',c5:'Sorbete<br>& Paladar',c6:'Plato<br>Principal',c7:'Selección<br>de Quesos',c8:'Mignardises',c9:'Postre<br>Final',
+    ft1_tag:'El Momento WoW',ft1_title:'Teatro en la Mesa',ft1_text:'Un momento de teatro en vivo junto a la mesa, único en cada visita, diseñado para detener el tiempo y exigir presencia total.',
+    ft2_tag:'Autoría Culinaria',ft2_title:'Creado por Estrellas',ft2_text:'La herencia italiana reinterpretada con la precisión y la audacia de la autoría gastronómica con estrellas Michelin.',
+    ft3_tag:'El Acorde Final',ft3_title:'Un Postre Inolvidable',ft3_text:'El último movimiento de una sinfonía que comenzó con tu primer aliento en la sala.',
+    gal1:'El Interior · Perugia',gal2:'El Arte del Emplatado',gal3:'La Mesa',gal4:'El Postre Final',gal5:'El Arte del Plato',
+    italy_ey:'Procedencia & Alma',
+    italy_title:'Italia no es<br>un ingrediente.<br><em>Es la receta.</em>',
+    italy_quote:'"Ingenia lo que históricamente fue artesanal — y escala lo que históricamente fue inescalable."',
+    italy_quote_attr:'WoW · Principio Fundador',
+    italy_body:'Las mejores cocinas del mundo comparten una disciplina: una relación sin concesiones con el origen.',
+    italy_p1t:'Controlado en Origen',italy_p1b:'Cada ingrediente procedente de productores italianos verificados. Trazable, auténtico, alineado con la temporada.',
+    italy_p2t:'Un Vocabulario Vínico Propio',italy_p2b:'Etiquetas exclusivas WoW. Seleccionadas para complementar cada capítulo del menú.',
+    italy_p3t:'Autenticidad Certificada Globalmente',italy_p3b:'Una marca registrada Made in Italy en más de 50 países.',
+    italy_p4t:'Respaldado al Más Alto Nivel',italy_p4b:'Apoyado por chefs Michelin y el Premio Nobel de la Paz Muhammad Yunus.',
+    book_ey:'Reservas',book_title:'Asegure su<br><em>experiencia.</em>',
+    book_body:'WoW Perugia ofrece seis pods privados — cada uno un mundo íntimo para cuatro comensales.',
+    pod_ey:'Elegir Su Pod',pod_avail:'4 plazas · Disponible',pod_reserved:'4 plazas · Reservado',
+    avail_msg:'pods disponibles · Perugia · Apertura 2025',
+    promise_title:'La Promesa WoW',
+    promise1:'Cada pod recibe su propio momento de acabado en sala',
+    promise2:'Nueve platos, todos procedentes y elaborados en Italia',
+    promise3:'Maridaje de vinos disponible en el momento de la reserva',
+    promise4:'Requisitos dietéticos atendidos con aviso previo',
+    form_title:'Reservar Su Mesa',form_fname:'Nombre',form_lname:'Apellido',
+    form_email:'Correo Electrónico',form_phone:'Número de Teléfono',form_date:'Fecha Preferida',
+    form_service:'Servicio',form_guests:'Comensales',form_wine:'Maridaje de Vinos',
+    form_pod:'Preferencia de Pod',form_notes:'Dietas / Ocasiones Especiales',
+    form_note:'Reservas confirmadas en 24 horas. Las cancelaciones con menos de 48 horas de antelación pueden estar sujetas a cargo.',
+    form_submit:'Solicitar Reserva',
+    confirm_title:'Su solicitud ha sido recibida.',
+    confirm_text:'Gracias. Nuestro equipo confirmará su reserva en 24 horas.<br><br><em style="color:var(--gold)">Hasta pronto — le esperamos con placer.</em>',
+    rcta_title:'La comida más extraordinaria<br>de su vida<br>está a <em>treinta minutos.</em>',
+    rcta_sub:'"Una experiencia para saborear, para contar y para recordar siempre."',
+    rcta_btn:'Reservar Su Pod Ahora',
+    footer_tag:'"Donde el arte de la gastronomía italiana se encuentra con la precisión de una nueva disciplina culinaria."',
+    footer_col1:'Experiencia',footer_col2:'El Lugar',footer_col3:'Contacto',
+    footer_directions:'Cómo Llegar',footer_events:'Eventos Privados',footer_press:'Prensa',footer_investor:'Portal de Inversores →',
+    svc_placeholder:'Seleccionar servicio',svc1:'Almuerzo — 12:30',svc2:'Cena — 19:30',svc3:'Cena — 21:30',
+    wine0:'Sin maridaje',wine1:'Maridaje Clásico — Selección Italiana',wine2:'Maridaje Premium — Etiquetas de Prestigio',
+    guests_ph:'Comensales (máx. 4)',
+    err_msg:'Por favor, complete todos los campos obligatorios.',
+    sending:'Enviando…',
+  };
+
+  // ── German translations ──────────────────────────────────────
+  T.de={
+    nav_philosophy:'Philosophie',nav_experience:'Das Erlebnis',nav_italy:'Made in Italy',
+    nav_reserve:'Reservieren',nav_cta:'Ihren Pod Reservieren',
+    hero_city:'Perugia, Italien',
+    hero_tag:'Wo die Kunst der italienischen Gastronomie<br>auf die Präzision einer neuen kulinarischen Disziplin trifft.',
+    hero_cta1:'Die Reise Entdecken',hero_cta2:'Einen Tisch Reservieren',scroll_lbl:'Entdecken',
+    mq1:'Neun Gänge',mq2:'Von Michelin Gestaltete Menüs',mq4:'Perugia · Eröffnung 2025',
+    mq5:'Tradition im Wandel',mq6:'Fast Fine Dining',
+    phil_ey:'Unsere Philosophie',
+    phil_title:'Ein Labor<br>des <em>Staunens.</em>',
+    phil_quote:'"Wir replizieren keine Köche. Wir replizieren die Bedingungen, unter denen Großartigkeit unvermeidlich wird."',
+    phil_body1:'Die großen Restaurants der Welt teilen eine Wahrheit: Sie verwandeln das Speisen in eine Begegnung zwischen menschlicher Kreativität und den feinsten Zutaten der Erde. WoW entstand aus der Ehrfurcht vor dieser Wahrheit — und einer einzigen kühnen Frage: <em style="color:var(--off-white)">Was, wenn sie für alle erreichbar wäre?</em>',
+    phil_body2:'Nicht durch Minderung der Exzellenz. Sondern durch deren Ingenieurleistung.',
+    stat1_lbl:'Von Michelin gestaltete Gänge',stat2_lbl:'Minuten des Staunens',stat3_lbl:'Unter klassischer Haute Cuisine',
+    phil_img_label:'Der WoW-Moment',phil_img_val:'Jeder Besuch. Jeder Tisch. Jedes Mal.',
+    manifesto_ey:'Unsere Überzeugung',
+    manifesto_title:'Haute Cuisine ist kein<br>Privileg.<br><em>Es ist ein Recht.</em>',
+    manifesto_body1:"Zu lange existierten die außergewöhnlichsten kulinarischen Erlebnisse der Welt hinter Mauern der Unzugänglichkeit. WoW reißt diese Mauern nieder. Nicht durch Imitation. Durch Ingenieurkunst.",
+    manifesto_body2:"Wir haben die Methodik der besten Küchen der Welt übernommen und als System neu aufgebaut, das von keinem einzelnen Koch, keinem einzelnen Tisch, keiner einzelnen Stadt abhängt.",
+    pillar1_title:'Engineered Excellence',pillar1_text:'Jedes Element mit der Strenge einer wissenschaftlichen Disziplin und der Seele einer italienischen Nonna gestaltet.',
+    pillar2_title:'Verwurzelt im Ursprung',pillar2_text:'Wir approximieren Italien nicht. Wir beginnen dort. Jede Zutat spricht von der Erde, aus der sie gewachsen ist.',
+    pillar3_title:'Michelin by Design',pillar3_text:"Unser Culinary Director, vom L'Espresso zum aufstrebenden Koch des Jahres ernannt, führt Sterne-Köche, die als Anteilseigner an WoWs Mission beteiligt sind.",
+    exp_ey:'Das Erlebnis',exp_title:'Neun Akte.<br><em>Eine Erzählung.</em>',
+    exp_body:'Jedes WoW-Menü ist als eine einzige, kohärente Geschichte konzipiert — eine Progression durch die Jahreszeiten, Regionen und das Gedächtnis der italienischen Gastronomie.',
+    c1:'Amuse-<br>Gueule',c2:'Kalte<br>Vorspeise',c3:'Warme<br>Vorspeise',c4:'Pasta<br>Primo',c5:'Sorbet<br>& Gaumen',c6:'Haupt-<br>gericht',c7:'Käse-<br>Auswahl',c8:'Petits Fours',c9:'Dessert<br>Finale',
+    ft1_tag:'Der WoW-Moment',ft1_title:'Theater am Tisch',ft1_text:'Ein Moment lebendigen Tischtheaters, einmalig bei jedem Besuch, gestaltet um die Zeit anzuhalten und vollständige Präsenz zu gebieten.',
+    ft2_tag:'Kulinarische Autorschaft',ft2_title:'Von Sternen geschaffen',ft2_text:'Italienisches Erbe neu interpretiert mit der Präzision und Kühnheit der Michelin-Sterne-Gastronomie.',
+    ft3_tag:'Der Schlussakkord',ft3_title:'Ein unvergessliches Dessert',ft3_text:'Der letzte Satz einer Symphonie, die mit Ihrem ersten Atemzug im Raum begann.',
+    gal1:'Das Interieur · Perugia',gal2:'Die Kunst des Anrichtens',gal3:'Der Tisch',gal4:'Dessert Finale',gal5:'Die Kunst des Ganges',
+    italy_ey:'Herkunft & Seele',
+    italy_title:'Italien ist keine<br>Zutat.<br><em>Es ist das Rezept.</em>',
+    italy_quote:'"Ingenieurisieren Sie, was historisch handwerklich war — und skalieren Sie, was historisch nicht skalierbar war."',
+    italy_quote_attr:'WoW · Gründungsprinzip',
+    italy_body:'Die besten Küchen der Welt teilen eine Disziplin: eine kompromisslose Beziehung zur Herkunft.',
+    italy_p1t:'Kontrolle am Ursprung',italy_p1b:'Jede Zutat von verifizierten italienischen Erzeugern bezogen. Rückverfolgbar, authentisch, saisonal ausgerichtet.',
+    italy_p2t:'Ein eigenes Weinvokabular',italy_p2b:'Exklusive WoW-Etiketten. Sorgfältig ausgewählt, um jedes Kapitel des Menüs zu begleiten.',
+    italy_p3t:'Weltweit zertifizierte Authentizität',italy_p3b:'Eine eingetragene Made-in-Italy-Marke in über 50 Ländern.',
+    italy_p4t:'Auf höchstem Niveau empfohlen',italy_p4b:'Unterstützt von Michelin-Köchen und Friedensnobelpreisträger Muhammad Yunus.',
+    book_ey:'Reservierungen',book_title:'Sichern Sie Ihr<br><em>Erlebnis.</em>',
+    book_body:'WoW Perugia bietet sechs private Dining-Pods — jeder eine intime Welt für vier Personen.',
+    pod_ey:'Ihren Pod Wählen',pod_avail:'4 Plätze · Verfügbar',pod_reserved:'4 Plätze · Reserviert',
+    avail_msg:'Pods verfügbar · Perugia · Eröffnung 2025',
+    promise_title:'Das WoW-Versprechen',
+    promise1:'Jeder Pod erhält seinen eigenen Live-Tischmoment',
+    promise2:'Neun Gänge, alle in Italien bezogen und zubereitet',
+    promise3:'Weinbegleitung bei der Reservierung wählbar',
+    promise4:'Diätetische Anforderungen mit Vorankündigung berücksichtigt',
+    form_title:'Ihren Tisch Reservieren',form_fname:'Vorname',form_lname:'Nachname',
+    form_email:'E-Mail-Adresse',form_phone:'Telefonnummer',form_date:'Bevorzugtes Datum',
+    form_service:'Service',form_guests:'Gäste',form_wine:'Weinbegleitung',
+    form_pod:'Pod-Präferenz',form_notes:'Diät / Besondere Anlässe',
+    form_note:'Reservierungen werden innerhalb von 24 Stunden bestätigt. Stornierungen innerhalb von 48 Stunden können mit einer Gebühr verbunden sein.',
+    form_submit:'Reservierung Anfragen',
+    confirm_title:'Ihre Anfrage ist eingegangen.',
+    confirm_text:'Vielen Dank. Unser Team wird Ihre Reservierung innerhalb von 24 Stunden bestätigen.<br><br><em style="color:var(--gold)">Auf Wiedersehen — wir freuen uns auf Sie.</em>',
+    rcta_title:'Das außergewöhnlichste<br>Mahl Ihres Lebens<br>ist <em>dreißig Minuten entfernt.</em>',
+    rcta_sub:'"Ein Erlebnis zum Genießen, Erzählen und Erinnern."',
+    rcta_btn:'Jetzt Ihren Pod Reservieren',
+    footer_tag:'"Wo die Kunst der italienischen Gastronomie auf die Präzision einer neuen kulinarischen Disziplin trifft."',
+    footer_col1:'Erlebnis',footer_col2:'Der Ort',footer_col3:'Kontakt',
+    footer_directions:'Anfahrt',footer_events:'Private Veranstaltungen',footer_press:'Presseanfragen',footer_investor:'Investorenportal →',
+    svc_placeholder:'Service wählen',svc1:'Mittagessen — 12:30',svc2:'Abendessen — 19:30',svc3:'Abendessen — 21:30',
+    wine0:'Ohne Begleitung',wine1:'Klassische Begleitung — Italienische Auswahl',wine2:'Premium-Begleitung — Prestige-Etiketten',
+    guests_ph:'Gäste (max. 4)',
+    err_msg:'Bitte füllen Sie alle erforderlichen Felder aus.',
+    sending:'Wird gesendet…',
+  };
+
+  // ── Language metadata ────────────────────────────────────────
+  const LANG_META={
+    en:{flag:'🇬🇧',label:'EN',dir:'ltr',htmlLang:'en'},
+    it:{flag:'🇮🇹',label:'IT',dir:'ltr',htmlLang:'it'},
+    fr:{flag:'🇫🇷',label:'FR',dir:'ltr',htmlLang:'fr'},
+    es:{flag:'🇪🇸',label:'ES',dir:'ltr',htmlLang:'es'},
+    de:{flag:'🇩🇪',label:'DE',dir:'ltr',htmlLang:'de'},
+    zh:{flag:'🇨🇳',label:'中文',dir:'ltr',htmlLang:'zh-CN'},
+  };
+
+  // ── Form placeholder map ─────────────────────────────────────
+  const PLACEHOLDERS={
+    en:{fname:'Giovanni',lname:'Rossi',email:'giovanni@example.com',phone:'+39 075 000 0000',notes:'Allergies, celebrations, or any notes...'},
+    it:{fname:'Giovanni',lname:'Rossi',email:'giovanni@example.com',phone:'+39 075 000 0000',notes:'Allergie, celebrazioni o note per il team...'},
+    fr:{fname:'Jean-Pierre',lname:'Dupont',email:'jpdupont@example.com',phone:'+33 1 00 00 00 00',notes:'Allergies, célébrations ou toute remarque...'},
+    es:{fname:'Carlos',lname:'García',email:'cgarcia@example.com',phone:'+34 600 000 000',notes:'Alergias, celebraciones o cualquier nota...'},
+    de:{fname:'Thomas',lname:'Müller',email:'tmueller@example.com',phone:'+49 30 000 0000',notes:'Allergien, besondere Anlässe oder Anmerkungen...'},
+    zh:{fname:'张',lname:'伟',email:'zhang@example.com',phone:'+86 138 0000 0000',notes:'过敏信息、特殊庆典或任何备注...'},
+  };
+
   let lang='en';
 
   function setLang(l){
+    if(!T[l]) return;
     lang=l;
     const t=T[l];
+    const meta=LANG_META[l];
     // Translate all data-i18n elements
     document.querySelectorAll('[data-i18n]').forEach(el=>{
       const k=el.getAttribute('data-i18n');
@@ -912,22 +1164,43 @@
       wine.options[1].text=t.wine1;
       wine.options[2].text=t.wine2;
     }
-    // Guests select placeholder
+    // Guests placeholder
     const g=document.getElementById('bf-guests');
     if(g&&g.options[0])g.options[0].text=t.guests_ph;
-    // Placeholders
-    const pmap={'bf-fname':'Giovanni','bf-lname':l==='zh'?'伟':l==='it'?'Rossi':'Rossi','bf-email':l==='zh'?'zhang@example.com':'giovanni@example.com','bf-phone':l==='zh'?'+86 138 0000 0000':'+39 075 000 0000'};
-    if(l==='zh'){pmap['bf-fname']='张';}
-    Object.entries(pmap).forEach(([id,ph])=>{const el=document.getElementById(id);if(el)el.placeholder=ph;});
-    const notes=document.getElementById('bf-notes');
-    if(notes)notes.placeholder=l==='zh'?'过敏信息、特殊庆典或任何备注...':l==='it'?'Allergie, celebrazioni o note per il team...':'Allergies, celebrations, or any notes...';
-    // Active button
-    document.querySelectorAll('.lang-btn').forEach(b=>{
-      b.classList.toggle('active',(l==='en'&&b.textContent==='EN')||(l==='it'&&b.textContent==='IT')||(l==='zh'&&b.textContent==='中文'));
+    // Form placeholders
+    const ph=PLACEHOLDERS[l]||PLACEHOLDERS.en;
+    const pfn=document.getElementById('bf-fname');if(pfn)pfn.placeholder=ph.fname;
+    const pln=document.getElementById('bf-lname');if(pln)pln.placeholder=ph.lname;
+    const pem=document.getElementById('bf-email');if(pem)pem.placeholder=ph.email;
+    const pph=document.getElementById('bf-phone');if(pph)pph.placeholder=ph.phone;
+    const pno=document.getElementById('bf-notes');if(pno)pno.placeholder=ph.notes;
+    // Update dropdown UI
+    const flag=document.getElementById('langFlag');
+    const lbl=document.getElementById('langLabel');
+    if(flag)flag.textContent=meta.flag;
+    if(lbl)lbl.textContent=meta.label;
+    document.querySelectorAll('.lang-option').forEach(b=>{
+      b.classList.toggle('active',b.dataset.lang===l);
     });
-    document.documentElement.lang=l==='zh'?'zh-CN':l;
+    // HTML lang attribute
+    document.documentElement.lang=meta.htmlLang;
     localStorage.setItem('wow_lang',l);
+    // Close dropdown
+    const sw=document.getElementById('langSwitcher');
+    if(sw)sw.classList.remove('open');
   }
+
+  // ── Dropdown toggle ──────────────────────────────────────────
+  (function initLangDropdown(){
+    const sw=document.getElementById('langSwitcher');
+    const btn=document.getElementById('langSelected');
+    if(!sw||!btn)return;
+    btn.addEventListener('click',e=>{e.stopPropagation();sw.classList.toggle('open');});
+    document.querySelectorAll('.lang-option').forEach(opt=>{
+      opt.addEventListener('click',()=>setLang(opt.dataset.lang));
+    });
+    document.addEventListener('click',()=>sw.classList.remove('open'));
+  })();
 
   // ── BOOKING SUBMISSION ──────────────────────────────────────────
   const API='https://code-api.brightcone.ai';
@@ -974,6 +1247,10 @@
     const saved=localStorage.getItem('wow_lang');
     if(saved&&T[saved]&&saved!=='en')setLang(saved);
   });
+  // Also init dropdown after DOM ready (in case script runs before DOM)
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',()=>{if(typeof initLangDropdown==='function')initLangDropdown();});
+  }
 
   // ══════════════════════════════════════════════════════════════
   //  WOW INLINE CONTENT EDITOR
@@ -1310,7 +1587,7 @@
       if(!i18nKey) return;
 
       // Don't edit form labels/buttons
-      if(el.closest('.booking-form, .bf-btn, .lang-btn, .nav-cta')) return;
+      if(el.closest('.booking-form, .bf-btn, .lang-btn, .lang-option, .lang-selected, .nav-cta, #langSwitcher')) return;
 
       el._wowEditing = true;
       const originalHTML = el.innerHTML;
