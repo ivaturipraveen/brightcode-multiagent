@@ -577,65 +577,8 @@
             </div>
           </div>
         </div>
-        <div class="booking-form rv d2">
-          <div class="bf-title" data-i18n="form_title">Reserve Your Table</div>
-          <div id="formInner">
-            <div class="bf-row">
-              <div class="bf-field"><label class="bf-label" data-i18n="form_fname">First Name</label><input class="bf-input" type="text" id="bf-fname" placeholder="Giovanni"></div>
-              <div class="bf-field"><label class="bf-label" data-i18n="form_lname">Surname</label><input class="bf-input" type="text" id="bf-lname" placeholder="Rossi"></div>
-            </div>
-            <div class="bf-row">
-              <div class="bf-field"><label class="bf-label" data-i18n="form_email">Email Address</label><input class="bf-input" type="email" id="bf-email" placeholder="giovanni@example.com"></div>
-              <div class="bf-field"><label class="bf-label" data-i18n="form_phone">Phone Number</label><input class="bf-input" type="tel" id="bf-phone" placeholder="+39 075 000 0000"></div>
-            </div>
-            <div class="bf-row">
-              <div class="bf-field"><label class="bf-label" data-i18n="form_date">Preferred Date</label><input class="bf-input" type="date" id="bf-date"></div>
-              <div class="bf-field"><label class="bf-label" data-i18n="form_service">Service</label>
-                <select class="bf-select" id="bf-service">
-                  <option value="">Select service</option>
-                  <option>Lunch — 12:30</option>
-                  <option>Dinner — 19:30</option>
-                  <option>Dinner — 21:30</option>
-                </select>
-              </div>
-            </div>
-            <div class="bf-row">
-              <div class="bf-field"><label class="bf-label" data-i18n="form_guests">Guests</label>
-                <select class="bf-select" id="bf-guests">
-                  <option value="">Guests (max 4)</option>
-                  <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
-                </select>
-              </div>
-              <div class="bf-field"><label class="bf-label" data-i18n="form_wine">Wine Pairing</label>
-                <select class="bf-select" id="bf-wine">
-                  <option>No pairing</option>
-                  <option>Classic Pairing — Italian Selection</option>
-                  <option>Premium Pairing — Prestige Labels</option>
-                </select>
-              </div>
-            </div>
-            <div class="bf-row">
-              <div class="bf-field full"><label class="bf-label" data-i18n="form_pod">Pod Preference</label>
-                <select class="bf-select" id="bf-pod">
-                  <option value="1">Pod I — Tartufo</option>
-                  <option value="2">Pod II — Barolo</option>
-                  <option value="3">Pod III — Porcini</option>
-                  <option value="5">Pod V — Brunello</option>
-                  <option value="6">Pod VI — Nebbiolo</option>
-                </select>
-              </div>
-            </div>
-            <div class="bf-row">
-              <div class="bf-field full"><label class="bf-label" data-i18n="form_notes">Dietary / Special Occasions</label><input class="bf-input" type="text" id="bf-notes" placeholder="Allergies, celebrations, or any notes..."></div>
-            </div>
-            <p class="bf-note" data-i18n="form_note">Reservations confirmed within 24 hours. Cancellations within 48 hours may be subject to a fee.</p>
-            <button class="bf-btn" id="bf-submit" onclick="submitBooking()" data-i18n="form_submit">Request Reservation</button>
-          </div>
-          <div class="bf-confirm" id="bf-confirm">
-            <div class="bf-confirm-icon">✦</div>
-            <div class="bf-confirm-title" data-i18n="confirm_title">Your request has been received.</div>
-            <p class="bf-confirm-text" data-i18n="confirm_text">Thank you. Our team will confirm your reservation within 24 hours.<br><br><em style="color:var(--gold)">A presto — see you soon.</em></p>
-          </div>
+        <div class="booking-form rv d2" style="padding:0;background:transparent;border:none;">
+          <iframe src="https://app.tableo.com/r/u2JLAO5" width="100%" height="100%" style="border:none;min-height:700px" referrerpolicy="unsafe-url"></iframe>
         </div>
       </div>
     </div>
