@@ -58,8 +58,8 @@ def go_to_wow(driver, clear_token=True):
 
 
 def login_via_modal(driver):
-    """Click lock → fill modal → sign in."""
-    btn = wait(driver).until(EC.element_to_be_clickable((By.ID, "wow-edit-btn")))
+    """Click Admin footer link → fill modal → sign in."""
+    btn = wait(driver).until(EC.element_to_be_clickable((By.ID, "wow-admin-nav-link")))
     btn.click()
     time.sleep(0.5)
     # Fill email and password
@@ -74,19 +74,22 @@ def login_via_modal(driver):
     time.sleep(1)
 
 
-# ── Test 1: Page loads and lock button visible ────────────────────────────────
+# ── Test 1: Page loads and admin link visible in footer ──────────────────────
 def test_wow_page_loads_and_lock_visible(driver):
     go_to_wow(driver)
-    lock = wait(driver).until(EC.presence_of_element_located((By.ID, "wow-edit-btn")))
-    assert lock.is_displayed(), "Lock button should be visible on wow page"
+    admin_link = wait(driver).until(EC.presence_of_element_located((By.ID, "wow-admin-nav-link")))
+    # Scroll to footer to ensure it's in view
+    driver.execute_script("arguments[0].scrollIntoView(true);", admin_link)
+    assert admin_link.is_displayed(), "Admin link should be visible in the WoW footer"
     assert "WoW" in driver.title or "wow" in driver.current_url.lower()
 
 
-# ── Test 2: Lock without token shows login modal ──────────────────────────────
+# ── Test 2: Admin link without token shows login modal ───────────────────────
 def test_lock_click_shows_login_modal(driver):
     go_to_wow(driver, clear_token=True)
-    btn = wait(driver).until(EC.element_to_be_clickable((By.ID, "wow-edit-btn")))
-    btn.click()
+    btn = wait(driver).until(EC.element_to_be_clickable((By.ID, "wow-admin-nav-link")))
+    driver.execute_script("arguments[0].scrollIntoView(true);", btn)
+    driver.execute_script("arguments[0].click();", btn)
     time.sleep(0.5)
     modal = driver.find_element(By.ID, "wow-login-modal")
     assert "show" in modal.get_attribute("class"), "Login modal should appear when no token exists"
@@ -95,7 +98,9 @@ def test_lock_click_shows_login_modal(driver):
 # ── Test 3: Bad credentials show error ───────────────────────────────────────
 def test_bad_credentials_show_error(driver):
     go_to_wow(driver, clear_token=True)
-    driver.find_element(By.ID, "wow-edit-btn").click()
+    btn = driver.find_element(By.ID, "wow-admin-nav-link")
+    driver.execute_script("arguments[0].scrollIntoView(true);", btn)
+    driver.execute_script("arguments[0].click();", btn)
     time.sleep(0.5)
     email_f = driver.find_element(By.ID, "wow-admin-email")
     pw_f = driver.find_element(By.ID, "wow-admin-pw")
@@ -191,8 +196,9 @@ def test_changes_visible_on_page(driver):
 def test_image_overlay_in_edit_mode(driver):
     go_to_wow(driver, clear_token=False)  # keep token from earlier
     # Re-enable edit mode
-    btn = driver.find_element(By.ID, "wow-edit-btn")
+    btn = driver.find_element(By.ID, "wow-admin-nav-link")
     if "wow-editing" not in driver.find_element(By.TAG_NAME, "body").get_attribute("class"):
+        driver.execute_script("arguments[0].scrollIntoView(true);", btn)
         driver.execute_script("arguments[0].click();", btn)
         time.sleep(1)
     overlays = driver.find_elements(By.CLASS_NAME, "wow-img-overlay")
@@ -206,7 +212,9 @@ def test_done_editing_disables_mode(driver):
     # Ensure edit mode is on
     body = driver.find_element(By.TAG_NAME, "body")
     if "wow-editing" not in body.get_attribute("class"):
-        driver.find_element(By.ID, "wow-edit-btn").click()
+        btn = driver.find_element(By.ID, "wow-admin-nav-link")
+        driver.execute_script("arguments[0].scrollIntoView(true);", btn)
+        driver.execute_script("arguments[0].click();", btn)
         time.sleep(1)
     done_btn = wait(driver).until(
         EC.element_to_be_clickable((By.ID, "wow-done-btn"))
@@ -223,8 +231,9 @@ def test_token_persists_skip_login(driver):
     go_to_wow(driver, clear_token=False)  # keep token
     token = driver.execute_script("return localStorage.getItem('wow_admin_token')")
     assert token, "Admin token should be in localStorage"
-    # Click edit button — should go straight to edit mode, no modal
-    btn = wait(driver).until(EC.element_to_be_clickable((By.ID, "wow-edit-btn")))
+    # Click admin link — should go straight to edit mode, no modal
+    btn = wait(driver).until(EC.element_to_be_clickable((By.ID, "wow-admin-nav-link")))
+    driver.execute_script("arguments[0].scrollIntoView(true);", btn)
     driver.execute_script("arguments[0].click();", btn)
     time.sleep(0.5)
     modal = driver.find_element(By.ID, "wow-login-modal")

@@ -891,18 +891,18 @@
     // ── Styles ─────────────────────────────────────────────────
     const style = document.createElement('style');
     style.textContent = `
-      /* Lock button */
-      #wow-edit-btn {
-        position:fixed; bottom:2rem; right:2rem; z-index:9990;
-        width:48px; height:48px; border-radius:50%;
-        background:rgba(201,168,76,0.15); border:1px solid rgba(201,168,76,0.4);
-        color:var(--gold); font-size:1.2rem; cursor:pointer;
-        display:flex; align-items:center; justify-content:center;
-        backdrop-filter:blur(12px); transition:all 0.3s;
-        box-shadow:0 4px 20px rgba(0,0,0,0.4);
+      /* Admin nav link (replaces floating lock button) */
+      #wow-admin-nav-link {
+        font-size:0.52rem; letter-spacing:0.28em; text-transform:uppercase;
+        color:rgba(122,148,128,0.38); text-decoration:none;
+        transition:color 0.3s; cursor:pointer; background:none; border:none;
+        font-family:'Montserrat',sans-serif; padding:0;
       }
-      #wow-edit-btn:hover { background:rgba(201,168,76,0.3); transform:scale(1.08); }
-      #wow-edit-btn.active { background:var(--gold); color:var(--black); border-color:var(--gold); }
+      #wow-admin-nav-link:hover { color:var(--gold); }
+      #wow-admin-nav-link.active {
+        color:var(--gold);
+      }
+      /* Hidden — we repurpose the footer investor link area */
 
       /* Edit mode banner */
       #wow-edit-banner {
@@ -1060,7 +1060,7 @@
 
       /* Toast */
       #wow-toast {
-        position:fixed; bottom:6.5rem; right:2rem; z-index:9995;
+        position:fixed; bottom:2rem; right:2rem; z-index:9995;
         background:var(--green-rich); border:1px solid rgba(201,168,76,0.3);
         color:var(--gold); font-size:0.6rem; letter-spacing:0.2em;
         text-transform:uppercase; padding:0.6rem 1.2rem;
@@ -1071,12 +1071,13 @@
     document.head.appendChild(style);
 
     // ── DOM elements ────────────────────────────────────────────
-    // Lock/unlock button
+    // Admin entry point: inject into footer next to investor link
+    const footerBottom = document.querySelector('.f-bottom');
     const editBtn = document.createElement('button');
-    editBtn.id = 'wow-edit-btn';
-    editBtn.title = 'Admin: Edit page content';
-    editBtn.innerHTML = '🔒';
-    document.body.appendChild(editBtn);
+    editBtn.id = 'wow-admin-nav-link';
+    editBtn.textContent = editMode ? '✦ Editing' : 'Admin';
+    editBtn.title = 'Admin content editor';
+    if(footerBottom) footerBottom.appendChild(editBtn);
 
     // Banner
     const banner = document.createElement('div');
@@ -1253,24 +1254,30 @@
       ta.focus();
       ta.select();
 
+      let _saved = false;   // guard: prevents outsideClick from reverting after a save
+
       const doSave = async () => {
+        if(_saved) return;             // already saving
+        _saved = true;                 // mark immediately so outsideClick won't revert
         const newVal = ta.value.trim();
-        if(!newVal){ cancelBtn.click(); return; }
+        if(!newVal){ _saved = false; doCancel(); return; }
         saveBtn.classList.add('saving');
         saveBtn.textContent = '…';
+        // Update DOM immediately so the user sees the change right away
+        el.innerHTML = newVal;
+        closeEditor();
+        // Save to DB in the background
         const ok = await saveText(i18nKey, newVal);
         if(ok){
-          el.innerHTML = newVal;
           showToast('✦ Saved — live on site');
         } else {
-          showToast('⚠ Save failed');
-          el.innerHTML = originalHTML;
+          showToast('⚠ Save failed — changes shown locally only');
         }
         el._wowEditing = false;
-        closeEditor();
       };
 
       const doCancel = () => {
+        if(_saved) return;             // don't revert if already saved
         el.innerHTML = originalHTML;
         el._wowEditing = false;
         closeEditor();
@@ -1283,12 +1290,12 @@
         if(e.key === 'Escape'){ doCancel(); }
       });
 
-      // Close if clicking outside
+      // Close if clicking outside — only cancel if not already saved
       setTimeout(() => {
         document.addEventListener('click', function outsideClick(ev){
           if(!box.contains(ev.target) && ev.target !== el){
-            doCancel();
             document.removeEventListener('click', outsideClick);
+            if(!_saved) doCancel();
           }
         });
       }, 100);
@@ -1373,21 +1380,21 @@
       editMode = true;
       adminToken = getToken();
       document.body.classList.add('wow-editing');
-      editBtn.innerHTML = '✏️';
+      editBtn.textContent = '✦ Editing';
       editBtn.classList.add('active');
       editBtn.title = 'Exit edit mode';
       banner.classList.add('show');
       wrapImageForEdit();
-      showToast('Edit mode on — click any text or image');
+      showToast('Edit mode on — click any text or image to edit');
     }
 
     function disableEditMode(){
       editMode = false;
       closeEditor();
       document.body.classList.remove('wow-editing');
-      editBtn.innerHTML = '🔒';
+      editBtn.textContent = 'Admin';
       editBtn.classList.remove('active');
-      editBtn.title = 'Admin: Edit page content';
+      editBtn.title = 'Admin content editor';
       banner.classList.remove('show');
     }
 
@@ -1469,10 +1476,10 @@
     loadContent();
     // Attach text click handlers
     attachTextEditors();
-    // If token is still valid from a previous session, show unlock button hint
+    // If token still valid, tint admin link gold as a subtle hint
     if(getToken()){
+      editBtn.style.color = 'rgba(201,168,76,0.6)';
       editBtn.title = 'Click to enter edit mode';
-      editBtn.style.background = 'rgba(201,168,76,0.22)';
     }
 
   })(); // end WowCMS
