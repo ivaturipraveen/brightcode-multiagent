@@ -651,16 +651,15 @@
         </div>
         <div><div class="fc-title" data-i18n="footer_col2">The Place</div>
           <ul class="fc-links">
-            <li><a href="#">Perugia, Umbria</a></li>
-            <li><a href="#" data-i18n="footer_directions">Directions</a></li>
-            <li><a href="#" data-i18n="footer_events">Private Events</a></li>
+            <li><a href="#" id="link-directions" data-i18n="footer_directions">Directions</a></li>
+            <li><a href="#" id="link-events" data-i18n="footer_events">Private Events</a></li>
           </ul>
         </div>
         <div><div class="fc-title" data-i18n="footer_col3">Connect</div>
           <ul class="fc-links">
-            <li><a href="mailto:hello@wowfinedining.com">hello@wowfinedining.com</a></li>
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#" data-i18n="footer_press">Press Enquiries</a></li>
+            <li><a href="mailto:info@wowfinedining.com">info@wowfinedining.com</a></li>
+            <li><a href="https://www.instagram.com/wowfinedining?igsh=MmdmcnN4dW1weDlt" target="_blank" rel="noopener noreferrer" data-i18n="footer_instagram">Instagram</a></li>
+            <li><a href="#" id="link-press" data-i18n="footer_press">Press Enquiries</a></li>
           </ul>
         </div>
       </div>
@@ -670,6 +669,89 @@
       </div>
     </div>
   </footer>
+
+  <!-- ── Contact Modal ──────────────────────────────────────────────────── -->
+  <div class="wow-modal-overlay" id="contactModal" role="dialog" aria-modal="true">
+    <div class="wow-modal-box">
+      <button class="wow-modal-close" id="contactModalClose" aria-label="Close">✕</button>
+      <div class="wow-modal-inner">
+        <p class="wow-modal-eyebrow" id="cm-eyebrow">Get in Touch</p>
+        <h2 class="wow-modal-title" id="cm-title">We'd love to hear from you.</h2>
+        <p class="wow-modal-sub" id="cm-sub">Our team will respond within 24 hours.</p>
+        <div id="cm-form-inner">
+          <div class="wow-cf-row">
+            <div class="wow-cf-field">
+              <label class="wow-cf-label" id="cm-lbl-name">Full Name</label>
+              <input class="wow-cf-input" type="text" id="cm-name" placeholder="Your name">
+            </div>
+            <div class="wow-cf-field">
+              <label class="wow-cf-label" id="cm-lbl-email">Email</label>
+              <input class="wow-cf-input" type="email" id="cm-email" placeholder="you@example.com">
+            </div>
+          </div>
+          <div class="wow-cf-row">
+            <div class="wow-cf-field">
+              <label class="wow-cf-label" id="cm-lbl-phone">Phone (optional)</label>
+              <input class="wow-cf-input" type="tel" id="cm-phone" placeholder="+39 075 000 0000">
+            </div>
+            <div class="wow-cf-field" id="cm-guests-wrap">
+              <label class="wow-cf-label" id="cm-lbl-guests">Number of Guests</label>
+              <input class="wow-cf-input" type="number" id="cm-guests" min="1" max="500" placeholder="e.g. 20">
+            </div>
+          </div>
+          <div class="wow-cf-row" id="cm-date-row">
+            <div class="wow-cf-field">
+              <label class="wow-cf-label" id="cm-lbl-date">Preferred Event Date</label>
+              <input class="wow-cf-input" type="date" id="cm-event-date">
+            </div>
+            <div class="wow-cf-field">
+              <label class="wow-cf-label" id="cm-lbl-occasion">Occasion</label>
+              <input class="wow-cf-input" type="text" id="cm-occasion" placeholder="Birthday, corporate dinner…">
+            </div>
+          </div>
+          <div class="wow-cf-row full">
+            <div class="wow-cf-field">
+              <label class="wow-cf-label" id="cm-lbl-message">Message</label>
+              <textarea class="wow-cf-textarea" id="cm-message" placeholder="Tell us how we can help…"></textarea>
+            </div>
+          </div>
+          <button class="wow-cf-btn" id="cm-submit">Send Message</button>
+        </div>
+        <div class="wow-cf-confirm" id="cm-confirm">
+          <div class="wow-cf-confirm-icon">✦</div>
+          <div class="wow-cf-confirm-title" id="cm-confirm-title">Message received.</div>
+          <p class="wow-cf-confirm-text" id="cm-confirm-text">Thank you. Our team will be in touch within 24 hours.<br><br><em style="color:var(--gold)">A presto.</em></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Map / Directions Modal ──────────────────────────────────────────── -->
+  <div class="wow-modal-overlay" id="mapModal" role="dialog" aria-modal="true">
+    <div class="wow-modal-box wide">
+      <button class="wow-modal-close" id="mapModalClose" aria-label="Close">✕</button>
+      <div class="wow-modal-inner">
+        <p class="wow-modal-eyebrow" id="map-eyebrow">Find Us</p>
+        <h2 class="wow-modal-title" id="map-title">Getting to WoW</h2>
+        <div class="wow-map-address">
+          <strong>WoW Fast Fine Dining</strong>
+          Via XIV Settembre, 69<br>
+          06122 Perugia PG, Italy
+        </div>
+        <iframe
+          class="wow-map-frame"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2920.8!2d12.3916!3d43.1112!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132e2bb7e4f7b8b5%3A0x8d1e2f3a4b5c6d7e!2sVia%20XIV%20Settembre%2C%2069%2C%2006122%20Perugia%20PG%2C%20Italy!5e0!3m2!1sen!2sit!4v1715000000000!5m2!1sen!2sit"
+          allowfullscreen>
+        </iframe>
+        <div class="wow-map-links">
+          <a class="wow-map-link" href="https://maps.google.com/?q=Via+XIV+Settembre+69,+06122+Perugia+PG,+Italy" target="_blank" rel="noopener noreferrer" id="map-google-link">Open in Google Maps ↗</a>
+          <a class="wow-map-link" href="https://maps.apple.com/?address=Via+XIV+Settembre+69,+06122+Perugia+PG,+Italy" target="_blank" rel="noopener noreferrer" id="map-apple-link">Open in Apple Maps ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
   // ── CURSOR ──────────────────────────────────────────────────────
@@ -767,7 +849,17 @@
       rcta_btn:'Reserve Your Pod Now',
       footer_tag:'"Where the art of Italian gastronomy meets the precision of a new culinary discipline."',
       footer_col1:'Experience',footer_col2:'The Place',footer_col3:'Connect',
-      footer_directions:'Directions',footer_events:'Private Events',footer_press:'Press Enquiries',footer_investor:'Investor Portal →',
+      footer_instagram:'Instagram',footer_directions:'Directions',footer_events:'Private Events',footer_press:'Press Enquiries',footer_investor:'Investor Portal →',
+      contact_eyebrow:'Get in Touch',contact_title:"We'd love to hear from you.",contact_sub:'Our team will respond within 24 hours.',
+      contact_lbl_name:'Full Name',contact_lbl_email:'Email',contact_lbl_phone:'Phone (optional)',
+      contact_lbl_message:'Message',contact_btn:'Send Message',
+      contact_confirm_title:'Message received.',contact_confirm_text:'Thank you. Our team will be in touch within 24 hours.<br><br><em style="color:var(--gold)">A presto.</em>',
+      events_eyebrow:'Private Events',events_title:'An evening entirely your own.',events_sub:'WoW hosts exclusive private events for up to 24 guests. Tell us about your occasion and we will craft something extraordinary.',
+      events_lbl_guests:'Number of Guests',events_lbl_date:'Preferred Event Date',events_lbl_occasion:'Occasion',
+      press_eyebrow:'Press',press_title:'Media Enquiries.',press_sub:'For press packs, photography requests, or interview enquiries, please write to us below.',
+      map_eyebrow:'Find Us',map_title:'Getting to WoW',
+      map_google:'Open in Google Maps ↗',map_apple:'Open in Apple Maps ↗',
+      err_contact:'Please fill in your name, email and message.',
       svc_placeholder:'Select service',svc1:'Lunch — 12:30',svc2:'Dinner — 19:30',svc3:'Dinner — 21:30',
       wine0:'No pairing',wine1:'Classic Pairing — Italian Selection',wine2:'Premium Pairing — Prestige Labels',
       guests_ph:'Guests (max 4)',
@@ -834,7 +926,17 @@
       rcta_btn:'Prenota il Tuo Pod Ora',
       footer_tag:'"Dove l\'arte della gastronomia italiana incontra la precisione di una nuova disciplina culinaria."',
       footer_col1:'Esperienza',footer_col2:'Il Luogo',footer_col3:'Contatti',
-      footer_directions:'Indicazioni',footer_events:'Eventi Privati',footer_press:'Ufficio Stampa',footer_investor:'Portale Investitori →',
+      footer_instagram:'Instagram',footer_directions:'Indicazioni',footer_events:'Eventi Privati',footer_press:'Ufficio Stampa',footer_investor:'Portale Investitori →',
+      contact_eyebrow:'Contattaci',contact_title:'Siamo felici di sentirti.',contact_sub:'Il nostro team risponderà entro 24 ore.',
+      contact_lbl_name:'Nome Completo',contact_lbl_email:'Email',contact_lbl_phone:'Telefono (opzionale)',
+      contact_lbl_message:'Messaggio',contact_btn:'Invia Messaggio',
+      contact_confirm_title:'Messaggio ricevuto.',contact_confirm_text:'Grazie. Il nostro team ti risponderà entro 24 ore.<br><br><em style="color:var(--gold)">A presto.</em>',
+      events_eyebrow:'Eventi Privati',events_title:'Una serata interamente tua.',events_sub:'WoW ospita eventi privati esclusivi fino a 24 ospiti. Raccontaci la tua occasione e creeremo qualcosa di straordinario.',
+      events_lbl_guests:'Numero di Ospiti',events_lbl_date:'Data Preferita',events_lbl_occasion:'Occasione',
+      press_eyebrow:'Stampa',press_title:'Richieste Media.',press_sub:"Per kit stampa, richieste fotografiche o interviste, scrivici di seguito.",
+      map_eyebrow:'Trovaci',map_title:'Come Raggiungerci',
+      map_google:'Apri su Google Maps ↗',map_apple:'Apri su Apple Maps ↗',
+      err_contact:'Inserisci nome, email e messaggio.',
       svc_placeholder:'Seleziona servizio',svc1:'Pranzo — 12:30',svc2:'Cena — 19:30',svc3:'Cena — 21:30',
       wine0:'Senza abbinamento',wine1:'Abbinamento Classico — Selezione Italiana',wine2:'Abbinamento Premium — Etichette Prestigiose',
       guests_ph:'Ospiti (max 4)',
@@ -901,7 +1003,17 @@
       rcta_btn:'立即预订您的席位',
       footer_tag:'"意大利美食艺术与新烹饪精准工艺的完美融合。"',
       footer_col1:'体验',footer_col2:'地点',footer_col3:'联系',
-      footer_directions:'路线指引',footer_events:'私人活动',footer_press:'媒体询问',footer_investor:'投资者门户 →',
+      footer_instagram:'Instagram',footer_directions:'路线指引',footer_events:'私人活动',footer_press:'媒体询问',footer_investor:'投资者门户 →',
+      contact_eyebrow:'联系我们',contact_title:'我们很乐意听到您的声音。',contact_sub:'我们的团队将在24小时内回复。',
+      contact_lbl_name:'姓名',contact_lbl_email:'电子邮件',contact_lbl_phone:'电话（选填）',
+      contact_lbl_message:'留言',contact_btn:'发送消息',
+      contact_confirm_title:'消息已收到。',contact_confirm_text:'感谢您的留言。我们的团队将在24小时内与您联系。<br><br><em style="color:var(--gold)">期待与您相见。</em>',
+      events_eyebrow:'私人活动',events_title:'专属于您的一个夜晚。',events_sub:'WoW为最多24位宾客举办专属私人活动。告诉我们您的特殊场合，我们将为您打造非凡体验。',
+      events_lbl_guests:'宾客人数',events_lbl_date:'首选活动日期',events_lbl_occasion:'场合',
+      press_eyebrow:'媒体',press_title:'媒体咨询。',press_sub:'如需新闻资料包、摄影请求或采访咨询，请在下方留言。',
+      map_eyebrow:'找到我们',map_title:'前往WoW',
+      map_google:'在Google地图中打开 ↗',map_apple:'在Apple地图中打开 ↗',
+      err_contact:'请填写姓名、电子邮件和留言。',
       svc_placeholder:'选择时段',svc1:'午餐 — 12:30',svc2:'晚餐 — 19:30',svc3:'晚餐 — 21:30',
       wine0:'不需要搭配',wine1:'经典搭配 — 意大利精选',wine2:'臻品搭配 — 顶级名庄',
       guests_ph:'用餐人数（最多4位）',
@@ -971,7 +1083,17 @@
     rcta_btn:'Réserver Votre Pod Maintenant',
     footer_tag:'"Là où l\'art de la gastronomie italienne rencontre la précision d\'une nouvelle discipline culinaire."',
     footer_col1:'Expérience',footer_col2:'Le Lieu',footer_col3:'Contact',
-    footer_directions:'Itinéraire',footer_events:'Événements Privés',footer_press:'Relations Presse',footer_investor:'Portail Investisseurs →',
+    footer_instagram:'Instagram',footer_directions:'Itinéraire',footer_events:'Événements Privés',footer_press:'Relations Presse',footer_investor:'Portail Investisseurs →',
+    contact_eyebrow:'Nous Contacter',contact_title:'Nous serons ravis de vous lire.',contact_sub:'Notre équipe vous répondra dans les 24 heures.',
+    contact_lbl_name:'Nom Complet',contact_lbl_email:'Email',contact_lbl_phone:'Téléphone (optionnel)',
+    contact_lbl_message:'Message',contact_btn:'Envoyer le Message',
+    contact_confirm_title:'Message bien reçu.',contact_confirm_text:'Merci. Notre équipe vous répondra dans les 24 heures.<br><br><em style="color:var(--gold)">À très bientôt.</em>',
+    events_eyebrow:'Événements Privés',events_title:'Une soirée entièrement à vous.',events_sub:"WoW accueille des événements privés exclusifs jusqu'à 24 convives. Parlez-nous de votre occasion et nous créerons quelque chose d'extraordinaire.",
+    events_lbl_guests:'Nombre de Couverts',events_lbl_date:"Date Souhaitée",events_lbl_occasion:'Occasion',
+    press_eyebrow:'Presse',press_title:'Relations Presse.',press_sub:'Pour des dossiers de presse, demandes de photos ou interviews, écrivez-nous ci-dessous.',
+    map_eyebrow:'Nous Trouver',map_title:'Comment Venir chez WoW',
+    map_google:'Ouvrir dans Google Maps ↗',map_apple:'Ouvrir dans Apple Maps ↗',
+    err_contact:'Veuillez remplir votre nom, email et message.',
     svc_placeholder:'Choisir un service',svc1:'Déjeuner — 12h30',svc2:'Dîner — 19h30',svc3:'Dîner — 21h30',
     wine0:'Sans accord',wine1:'Accord Classique — Sélection Italienne',wine2:'Accord Premium — Étiquettes Prestige',
     guests_ph:'Couverts (max 4)',
@@ -1040,7 +1162,17 @@
     rcta_btn:'Reservar Su Pod Ahora',
     footer_tag:'"Donde el arte de la gastronomía italiana se encuentra con la precisión de una nueva disciplina culinaria."',
     footer_col1:'Experiencia',footer_col2:'El Lugar',footer_col3:'Contacto',
-    footer_directions:'Cómo Llegar',footer_events:'Eventos Privados',footer_press:'Prensa',footer_investor:'Portal de Inversores →',
+    footer_instagram:'Instagram',footer_directions:'Cómo Llegar',footer_events:'Eventos Privados',footer_press:'Prensa',footer_investor:'Portal de Inversores →',
+    contact_eyebrow:'Contáctenos',contact_title:'Nos encantará saber de usted.',contact_sub:'Nuestro equipo responderá en 24 horas.',
+    contact_lbl_name:'Nombre Completo',contact_lbl_email:'Correo Electrónico',contact_lbl_phone:'Teléfono (opcional)',
+    contact_lbl_message:'Mensaje',contact_btn:'Enviar Mensaje',
+    contact_confirm_title:'Mensaje recibido.',contact_confirm_text:'Gracias. Nuestro equipo se pondrá en contacto en 24 horas.<br><br><em style="color:var(--gold)">Hasta pronto.</em>',
+    events_eyebrow:'Eventos Privados',events_title:'Una velada enteramente suya.',events_sub:'WoW organiza eventos privados exclusivos para hasta 24 comensales. Cuéntenos su ocasión y crearemos algo extraordinario.',
+    events_lbl_guests:'Número de Comensales',events_lbl_date:'Fecha Preferida',events_lbl_occasion:'Ocasión',
+    press_eyebrow:'Prensa',press_title:'Consultas de Prensa.',press_sub:'Para dossieres de prensa, solicitudes de fotografía o entrevistas, escríbanos a continuación.',
+    map_eyebrow:'Encuéntrenos',map_title:'Cómo Llegar a WoW',
+    map_google:'Abrir en Google Maps ↗',map_apple:'Abrir en Apple Maps ↗',
+    err_contact:'Por favor, complete su nombre, correo y mensaje.',
     svc_placeholder:'Seleccionar servicio',svc1:'Almuerzo — 12:30',svc2:'Cena — 19:30',svc3:'Cena — 21:30',
     wine0:'Sin maridaje',wine1:'Maridaje Clásico — Selección Italiana',wine2:'Maridaje Premium — Etiquetas de Prestigio',
     guests_ph:'Comensales (máx. 4)',
@@ -1109,7 +1241,17 @@
     rcta_btn:'Jetzt Ihren Pod Reservieren',
     footer_tag:'"Wo die Kunst der italienischen Gastronomie auf die Präzision einer neuen kulinarischen Disziplin trifft."',
     footer_col1:'Erlebnis',footer_col2:'Der Ort',footer_col3:'Kontakt',
-    footer_directions:'Anfahrt',footer_events:'Private Veranstaltungen',footer_press:'Presseanfragen',footer_investor:'Investorenportal →',
+    footer_instagram:'Instagram',footer_directions:'Anfahrt',footer_events:'Private Veranstaltungen',footer_press:'Presseanfragen',footer_investor:'Investorenportal →',
+    contact_eyebrow:'Kontakt',contact_title:'Wir freuen uns von Ihnen zu hören.',contact_sub:'Unser Team antwortet innerhalb von 24 Stunden.',
+    contact_lbl_name:'Vollständiger Name',contact_lbl_email:'E-Mail',contact_lbl_phone:'Telefon (optional)',
+    contact_lbl_message:'Nachricht',contact_btn:'Nachricht Senden',
+    contact_confirm_title:'Nachricht eingegangen.',contact_confirm_text:'Vielen Dank. Unser Team wird sich innerhalb von 24 Stunden bei Ihnen melden.<br><br><em style="color:var(--gold)">Auf Wiedersehen.</em>',
+    events_eyebrow:'Private Veranstaltungen',events_title:'Ein Abend ganz für Sie.',events_sub:'WoW veranstaltet exklusive private Events für bis zu 24 Gäste. Erzählen Sie uns von Ihrem Anlass und wir gestalten etwas Außergewöhnliches.',
+    events_lbl_guests:'Anzahl der Gäste',events_lbl_date:'Bevorzugtes Veranstaltungsdatum',events_lbl_occasion:'Anlass',
+    press_eyebrow:'Presse',press_title:'Presseanfragen.',press_sub:'Für Pressemappen, Fotoanfragen oder Interviewwünsche schreiben Sie uns bitte unten.',
+    map_eyebrow:'Uns Finden',map_title:'So Erreichen Sie WoW',
+    map_google:'In Google Maps öffnen ↗',map_apple:'In Apple Maps öffnen ↗',
+    err_contact:'Bitte füllen Sie Name, E-Mail und Nachricht aus.',
     svc_placeholder:'Service wählen',svc1:'Mittagessen — 12:30',svc2:'Abendessen — 19:30',svc3:'Abendessen — 21:30',
     wine0:'Ohne Begleitung',wine1:'Klassische Begleitung — Italienische Auswahl',wine2:'Premium-Begleitung — Prestige-Etiketten',
     guests_ph:'Gäste (max. 4)',
@@ -1253,6 +1395,149 @@
   }
 
   // ══════════════════════════════════════════════════════════════
+  //  WOW CONTACT / MAP / MODALS
+  // ══════════════════════════════════════════════════════════════
+  (function WowModals(){
+    const API = 'https://code-api.brightcone.ai';
+
+    // ── Helper: open / close any overlay modal ──────────────────
+    function openModal(id){ document.getElementById(id).classList.add('show'); document.body.style.overflow='hidden'; }
+    function closeModal(id){ document.getElementById(id).classList.remove('show'); document.body.style.overflow=''; }
+
+    // Close on overlay click or close button
+    ['contactModal','mapModal'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(!el)return;
+      el.addEventListener('click',e=>{ if(e.target===el) closeModal(id); });
+    });
+    document.getElementById('contactModalClose')?.addEventListener('click',()=>closeModal('contactModal'));
+    document.getElementById('mapModalClose')?.addEventListener('click',()=>closeModal('mapModal'));
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal('contactModal'); closeModal('mapModal'); }});
+
+    // ── Wire footer links ───────────────────────────────────────
+    let contactType = 'contact'; // track which form context
+
+    function openContact(type){
+      contactType = type;
+      const t = typeof T!=='undefined' && T[lang] ? T[lang] : {};
+
+      // Reset form
+      document.getElementById('cm-form-inner').style.display='';
+      document.getElementById('cm-confirm').style.display='none';
+      ['cm-name','cm-email','cm-phone','cm-guests','cm-event-date','cm-occasion','cm-message'].forEach(id=>{
+        const el=document.getElementById(id); if(el) el.value='';
+      });
+      const btn=document.getElementById('cm-submit');
+      if(btn){btn.disabled=false; btn.textContent=t.contact_btn||'Send Message';}
+
+      // Adjust modal content per type
+      const eyebrow = document.getElementById('cm-eyebrow');
+      const title   = document.getElementById('cm-title');
+      const sub     = document.getElementById('cm-sub');
+      const gWrap   = document.getElementById('cm-guests-wrap');
+      const dateRow = document.getElementById('cm-date-row');
+
+      if(type==='private_events'){
+        if(eyebrow) eyebrow.innerHTML = t.events_eyebrow||'Private Events';
+        if(title)   title.innerHTML   = t.events_title||'An evening entirely your own.';
+        if(sub)     sub.innerHTML     = t.events_sub||'WoW hosts exclusive private events for up to 24 guests.';
+        if(gWrap)   gWrap.style.display='';
+        if(dateRow) dateRow.style.display='';
+      } else if(type==='press'){
+        if(eyebrow) eyebrow.innerHTML = t.press_eyebrow||'Press';
+        if(title)   title.innerHTML   = t.press_title||'Media Enquiries.';
+        if(sub)     sub.innerHTML     = t.press_sub||'For press packs and interview enquiries, write to us below.';
+        if(gWrap)   gWrap.style.display='none';
+        if(dateRow) dateRow.style.display='none';
+      } else {
+        if(eyebrow) eyebrow.innerHTML = t.contact_eyebrow||'Get in Touch';
+        if(title)   title.innerHTML   = t.contact_title||"We'd love to hear from you.";
+        if(sub)     sub.innerHTML     = t.contact_sub||'Our team will respond within 24 hours.';
+        if(gWrap)   gWrap.style.display='none';
+        if(dateRow) dateRow.style.display='none';
+      }
+
+      // Labels
+      const lmap = {
+        'cm-lbl-name':'contact_lbl_name','cm-lbl-email':'contact_lbl_email',
+        'cm-lbl-phone':'contact_lbl_phone','cm-lbl-message':'contact_lbl_message',
+        'cm-lbl-guests':'events_lbl_guests','cm-lbl-date':'events_lbl_date','cm-lbl-occasion':'events_lbl_occasion',
+      };
+      Object.entries(lmap).forEach(([elId,key])=>{
+        const el=document.getElementById(elId); if(el&&t[key]) el.textContent=t[key];
+      });
+
+      openModal('contactModal');
+    }
+
+    document.getElementById('link-events')?.addEventListener('click',e=>{ e.preventDefault(); openContact('private_events'); });
+    document.getElementById('link-press')?.addEventListener('click',e=>{ e.preventDefault(); openContact('press'); });
+
+    // "Contact" via email link — keep mailto for direct; wire any future contact link
+    // Also wire the nav CTA area if needed — for now just events + press
+
+    // ── Directions ─────────────────────────────────────────────
+    document.getElementById('link-directions')?.addEventListener('click',e=>{
+      e.preventDefault();
+      const t = typeof T!=='undefined' && T[lang] ? T[lang] : {};
+      const ey=document.getElementById('map-eyebrow');
+      const ti=document.getElementById('map-title');
+      const gl=document.getElementById('map-google-link');
+      const al=document.getElementById('map-apple-link');
+      if(ey) ey.textContent=t.map_eyebrow||'Find Us';
+      if(ti) ti.textContent=t.map_title||'Getting to WoW';
+      if(gl) gl.textContent=t.map_google||'Open in Google Maps ↗';
+      if(al) al.textContent=t.map_apple||'Open in Apple Maps ↗';
+      openModal('mapModal');
+    });
+
+    // ── Contact form submission ─────────────────────────────────
+    document.getElementById('cm-submit')?.addEventListener('click', async ()=>{
+      const t = typeof T!=='undefined' && T[lang] ? T[lang] : {};
+      const name    = (document.getElementById('cm-name')||{}).value?.trim();
+      const email   = (document.getElementById('cm-email')||{}).value?.trim();
+      const phone   = (document.getElementById('cm-phone')||{}).value?.trim();
+      const message = (document.getElementById('cm-message')||{}).value?.trim();
+      const guests  = (document.getElementById('cm-guests')||{}).value;
+      const evtDate = (document.getElementById('cm-event-date')||{}).value;
+
+      if(!name||!email||!message){
+        alert(t.err_contact||'Please fill in your name, email and message.');
+        return;
+      }
+
+      const btn = document.getElementById('cm-submit');
+      if(btn){btn.disabled=true; btn.textContent=t.sending||'Sending…';}
+
+      try{
+        await fetch(`${API}/wow/contact`,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({
+            name, email,
+            phone: phone||null,
+            enquiry_type: contactType,
+            message,
+            guests: guests?parseInt(guests):null,
+            event_date: evtDate||null,
+            language: lang,
+          }),
+        });
+      }catch(e){ console.warn('Contact API error:',e); }
+
+      // Show confirmation regardless
+      document.getElementById('cm-form-inner').style.display='none';
+      const conf = document.getElementById('cm-confirm');
+      const ct   = document.getElementById('cm-confirm-title');
+      const ctx  = document.getElementById('cm-confirm-text');
+      if(ct)  ct.innerHTML  = t.contact_confirm_title||'Message received.';
+      if(ctx) ctx.innerHTML = t.contact_confirm_text||'Thank you. Our team will be in touch within 24 hours.';
+      if(conf) conf.style.display='block';
+    });
+
+  })(); // end WowModals
+
+  // ══════════════════════════════════════════════════════════════
   //  WOW INLINE CONTENT EDITOR
   //  Admin login → click any text/image → edit in place → saves to DB
   // ══════════════════════════════════════════════════════════════
@@ -1267,6 +1552,102 @@
     // ── Styles ─────────────────────────────────────────────────
     const style = document.createElement('style');
     style.textContent = `
+      /* ── Contact / Map modals ──────────────────────────────── */
+      .wow-modal-overlay {
+        position:fixed; inset:0; z-index:9000; display:none;
+        background:rgba(6,10,7,0.92); backdrop-filter:blur(18px);
+        align-items:center; justify-content:center; padding:1.5rem;
+      }
+      .wow-modal-overlay.show { display:flex; }
+      .wow-modal-box {
+        background:var(--green-mid); border:1px solid rgba(201,168,76,0.2);
+        width:100%; max-width:520px; max-height:90vh; overflow-y:auto;
+        position:relative;
+      }
+      .wow-modal-box::before {
+        content:''; position:absolute; top:0; left:0; right:0;
+        height:2px; background:linear-gradient(to right,var(--gold),var(--gold-dim));
+      }
+      .wow-modal-box.wide { max-width:720px; }
+      .wow-modal-inner { padding:2.5rem; }
+      .wow-modal-close {
+        position:absolute; top:1rem; right:1rem;
+        background:none; border:none; color:var(--muted);
+        font-size:1.3rem; cursor:pointer; line-height:1; z-index:1;
+      }
+      .wow-modal-close:hover { color:var(--off-white); }
+      .wow-modal-eyebrow {
+        font-size:0.52rem; letter-spacing:0.4em; text-transform:uppercase;
+        color:var(--gold); margin-bottom:0.75rem;
+      }
+      .wow-modal-title {
+        font-family:'Cormorant Garamond',serif;
+        font-size:1.75rem; color:var(--off-white); font-weight:300;
+        margin-bottom:0.5rem; line-height:1.2;
+      }
+      .wow-modal-sub {
+        font-size:0.75rem; color:var(--muted); margin-bottom:2rem; line-height:1.6;
+      }
+      /* Contact form fields */
+      .wow-cf-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem; }
+      .wow-cf-row.full { grid-template-columns:1fr; }
+      .wow-cf-field { display:flex; flex-direction:column; gap:0.4rem; }
+      .wow-cf-label {
+        font-size:0.52rem; letter-spacing:0.32em; text-transform:uppercase; color:var(--gold);
+      }
+      .wow-cf-input, .wow-cf-textarea, .wow-cf-select {
+        background:rgba(245,240,232,0.04); border:1px solid rgba(201,168,76,0.18);
+        color:var(--off-white); padding:0.75rem 1rem;
+        font-family:'Montserrat',sans-serif; font-size:0.8rem;
+        outline:none; transition:border 0.3s; width:100%; appearance:none;
+      }
+      .wow-cf-input:focus, .wow-cf-textarea:focus, .wow-cf-select:focus { border-color:var(--gold); }
+      .wow-cf-input::placeholder, .wow-cf-textarea::placeholder { color:rgba(122,148,128,0.45); }
+      .wow-cf-select option { background:var(--green-mid); color:var(--off-white); }
+      .wow-cf-textarea { resize:vertical; min-height:110px; }
+      .wow-cf-btn {
+        width:100%; background:var(--gold); color:var(--black); border:none;
+        padding:1rem; font-family:'Montserrat',sans-serif;
+        font-size:0.58rem; letter-spacing:0.3em; text-transform:uppercase;
+        font-weight:600; cursor:pointer; transition:background 0.3s; margin-top:0.5rem;
+      }
+      .wow-cf-btn:hover { background:var(--gold-light); }
+      .wow-cf-btn:disabled { opacity:0.55; cursor:not-allowed; }
+      .wow-cf-confirm {
+        display:none; text-align:center; padding:2rem 0;
+      }
+      .wow-cf-confirm-icon { font-size:2.5rem; margin-bottom:1rem; }
+      .wow-cf-confirm-title {
+        font-family:'Cormorant Garamond',serif; font-size:1.5rem;
+        color:var(--gold); margin-bottom:0.75rem;
+      }
+      .wow-cf-confirm-text { font-size:0.8rem; color:var(--muted); line-height:1.75; }
+      /* Map box */
+      .wow-map-address {
+        font-size:0.82rem; color:var(--muted); line-height:1.7;
+        margin-bottom:1.5rem; padding-left:1rem;
+        border-left:2px solid rgba(201,168,76,0.3);
+      }
+      .wow-map-address strong { color:var(--off-white); display:block; margin-bottom:0.25rem; }
+      .wow-map-frame {
+        width:100%; height:320px; border:none;
+        filter:grayscale(0.3) brightness(0.9);
+      }
+      .wow-map-links {
+        display:flex; gap:1rem; margin-top:1rem; flex-wrap:wrap;
+      }
+      .wow-map-link {
+        font-size:0.55rem; letter-spacing:0.22em; text-transform:uppercase;
+        color:var(--gold); text-decoration:none; border:1px solid rgba(201,168,76,0.3);
+        padding:0.5rem 1rem; transition:all 0.2s;
+      }
+      .wow-map-link:hover { background:rgba(201,168,76,0.1); border-color:var(--gold); }
+      /* Mobile adjustments */
+      @media(max-width:640px){
+        .wow-modal-inner { padding:1.75rem 1.25rem; }
+        .wow-cf-row { grid-template-columns:1fr; }
+        .wow-map-frame { height:260px; }
+      }
       /* Admin nav link (replaces floating lock button) */
       #wow-admin-nav-link {
         font-size:0.52rem; letter-spacing:0.28em; text-transform:uppercase;
