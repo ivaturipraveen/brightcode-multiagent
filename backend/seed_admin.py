@@ -19,7 +19,7 @@ import models.user     # noqa
 Base.metadata.create_all(bind=engine)
 
 ADMIN_EMAIL    = "admin@brightcone.ai"
-ADMIN_PASSWORD = "BrightAdmin2026!"
+ADMIN_PASSWORD = "WowAdmin2026!"
 ADMIN_NAME     = "Admin"
 
 DEFAULT_CONTENT = [

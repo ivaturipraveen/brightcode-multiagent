@@ -29,7 +29,7 @@ from selenium.webdriver.common.keys import Keys
 BASE_URL    = "https://code-ui.brightcone.ai"
 WOW_URL     = f"{BASE_URL}/wow.html"
 ADMIN_EMAIL = "admin@brightcone.ai"
-ADMIN_PASS  = "BrightAdmin2026!"
+ADMIN_PASS  = "WowAdmin2026!"
 
 
 @pytest.fixture(scope="module")

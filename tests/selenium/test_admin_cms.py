@@ -26,7 +26,7 @@ from selenium.webdriver.chrome.options import Options
 
 BASE_URL    = "https://code-ui.brightcone.ai"
 ADMIN_EMAIL = "admin@brightcone.ai"
-ADMIN_PASS  = "BrightAdmin2026!"
+ADMIN_PASS  = "WowAdmin2026!"
 
 
 @pytest.fixture(scope="module")
