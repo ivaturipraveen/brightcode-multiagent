@@ -34,6 +34,9 @@ import { BartPage } from './pages/BartPage'
 import { BartCampaignPage } from './pages/BartCampaignPage'
 import { AdminLoginPage } from './pages/admin/AdminLoginPage'
 import { AdminContentPage } from './pages/admin/AdminContentPage'
+import { FicoLandingPage } from './pages/fico/FicoLandingPage'
+import { FicoLoginPage } from './pages/fico/FicoLoginPage'
+import { FicoSignupPage } from './pages/fico/FicoSignupPage'
 
 function HRProtectedRoute({ children }: { children: React.ReactNode }) {
   return getHRToken() ? <>{children}</> : <Navigate to="/hr" replace />
@@ -76,6 +79,9 @@ export default function App() {
 
       <Route path="/bart" element={<BartPage />} />
       <Route path="/bart/not-one-more-girl" element={<BartCampaignPage />} />
+      <Route path="/fico" element={<FicoLandingPage />} />
+      <Route path="/fico/login" element={<FicoLoginPage />} />
+      <Route path="/fico/signup" element={<FicoSignupPage />} />
 
       {/* ── Freelance Marketplace ── */}
       <Route path="/freelance" element={<FreelanceLandingPage />} />
