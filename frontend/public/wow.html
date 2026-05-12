@@ -636,12 +636,12 @@
         </div>
       </div>
       <div style="border-top:1px solid rgba(201,168,76,0.08);padding-top:1.8rem;margin-top:0.5rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;">
-        <span style="font-size:0.44rem;letter-spacing:0.38em;text-transform:uppercase;color:rgba(201,168,76,0.45);font-family:'Montserrat',sans-serif;">100ITA</span>
-        <span style="font-size:0.72rem;color:rgba(122,148,128,0.5);font-style:italic;">Supported by 100ITA — promoting authentic Italian culinary culture worldwide.</span>
-        <a href="https://www.100ita.com" target="_blank" rel="noopener noreferrer" style="font-size:0.44rem;letter-spacing:0.24em;text-transform:uppercase;color:rgba(201,168,76,0.4);text-decoration:none;margin-left:auto;">100ita.com ↗</a>
+        <span style="font-size:0.44rem;letter-spacing:0.38em;text-transform:uppercase;color:rgba(201,168,76,0.75);font-family:'Montserrat',sans-serif;">100ITA</span>
+        <span style="font-size:0.72rem;color:rgba(200,195,185,0.8);font-style:italic;">Supported by 100ITA — promoting authentic Italian culinary culture worldwide.</span>
+        <a href="https://www.100ita.com" target="_blank" rel="noopener noreferrer" style="font-size:0.44rem;letter-spacing:0.24em;text-transform:uppercase;color:rgba(201,168,76,0.7);text-decoration:none;margin-left:auto;">100ita.com ↗</a>
       </div>
       <div class="f-bottom">
-        <span>© 2025 WoW Fast Fine Dining · Perugia, Italia.</span>
+        <span>© 2026 WoW Fast Fine Dining · Perugia, Italia.</span>
         <a href="/wow-investor.html" class="inv-link" data-i18n="footer_investor">Investor Portal →</a>
       </div>
     </div>
@@ -1627,8 +1627,8 @@
       }
       /* Admin nav link (replaces floating lock button) */
       #wow-admin-nav-link {
-        font-size:0.52rem; letter-spacing:0.28em; text-transform:uppercase;
-        color:rgba(122,148,128,0.38); text-decoration:none;
+        font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase;
+        color:var(--gold-dim); text-decoration:none;
         transition:color 0.3s; cursor:pointer; background:none; border:none;
         font-family:'Montserrat',sans-serif; padding:0;
       }
@@ -1809,7 +1809,7 @@
     const footerBottom = document.querySelector('.f-bottom');
     const editBtn = document.createElement('button');
     editBtn.id = 'wow-admin-nav-link';
-    editBtn.textContent = editMode ? '✦ Editing' : 'Admin';
+    editBtn.textContent = editMode ? '✦ Editing' : 'Admin Portal →';
     editBtn.title = 'Admin content editor';
     if(footerBottom) footerBottom.appendChild(editBtn);
 
@@ -2126,7 +2126,7 @@
       editMode = false;
       closeEditor();
       document.body.classList.remove('wow-editing');
-      editBtn.textContent = 'Admin';
+      editBtn.textContent = 'Admin Portal →';
       editBtn.classList.remove('active');
       editBtn.title = 'Admin content editor';
       banner.classList.remove('show');
