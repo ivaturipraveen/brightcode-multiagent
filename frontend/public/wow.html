@@ -210,11 +210,13 @@
     .fc-links{list-style:none;display:flex;flex-direction:column;gap:0.7rem;}
     .fc-links a{font-size:0.78rem;color:var(--muted);text-decoration:none;transition:color 0.3s;}
     .fc-links a:hover{color:var(--off-white);}
-    .f-bottom{display:flex;justify-content:space-between;padding-top:2rem;border-top:1px solid rgba(201,168,76,0.07);font-size:0.62rem;color:rgba(122,148,128,0.38);flex-wrap:wrap;gap:1rem;}
-    .inv-link{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);text-decoration:none;transition:color 0.3s;}
+    .f-bottom{display:flex;justify-content:space-between;padding-top:2rem;border-top:1px solid rgba(201,168,76,0.07);font-size:0.62rem;color:rgba(122,148,128,0.38);flex-wrap:wrap;gap:1rem;overflow:hidden;}
+    .inv-link{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);text-decoration:none;transition:color 0.3s;white-space:nowrap;}
     .inv-link:hover{color:var(--gold);}
     /* RESPONSIVE */
     /* ── Tablet (≤1024px) ────────────────────────────────────── */
+    .hero-100ita-trust{margin-top:2rem;font-size:0.48rem;letter-spacing:0.28em;text-transform:uppercase;color:rgba(201,168,76,0.55);font-family:'Montserrat',sans-serif;padding:0 1rem;}
+    .italy-100ita-block{margin-top:2.5rem;padding:1.8rem 2rem;border:1px solid rgba(201,168,76,0.18);border-left:2px solid rgba(201,168,76,0.6);background:rgba(201,168,76,0.04);}
     @media(max-width:1024px){
       .c{padding:0 2rem;}
       nav{padding:1.5rem 2rem;}
@@ -249,7 +251,8 @@
       .nav-right{gap:0.5rem;}
       .nav-cta{display:none;}
       .lang-selected{font-size:0.52rem;padding:0.3rem 0.6rem;}
-      .lang-dropdown{right:auto;left:0;min-width:140px;}
+      .lang-dropdown{right:0;left:auto;min-width:130px;max-width:calc(100vw - 2.4rem);}
+      .lang-native{display:none;}
       .logo-wow{height:36px;}
 
       /* Hero */
@@ -325,10 +328,15 @@
       /* Reserve CTA */
       .reserve-cta{padding:7rem 0;}
 
+      /* Hero trust */
+      .hero-100ita-trust{font-size:0.44rem;letter-spacing:0.15em;padding:0 0.5rem;}
+      .italy-100ita-block{padding:1.4rem 1.2rem;margin-top:1.8rem;}
+
       /* Footer */
       footer{padding:3rem 0 2rem;}
       .fg{grid-template-columns:1fr;gap:2.5rem;}
-      .f-bottom{flex-direction:column;gap:0.8rem;font-size:0.58rem;}
+      .f-bottom{flex-direction:column;gap:0.8rem;font-size:0.58rem;align-items:flex-start;}
+      .f-bottom span{word-break:break-word;}
 
       /* Typography global */
       h2.st{font-size:clamp(2rem,8vw,3rem);}
@@ -397,7 +405,7 @@
         <a href="#experience" class="btn-g" data-i18n="hero_cta1">Discover the Journey</a>
         <a href="#booking" class="btn-o" data-i18n="hero_cta2">Reserve a Table</a>
       </div>
-      <p style="margin-top:2rem;font-size:0.48rem;letter-spacing:0.28em;text-transform:uppercase;color:rgba(201,168,76,0.55);font-family:'Montserrat',sans-serif;">Supported by <a href="https://www.100ita.com" target="_blank" rel="noopener noreferrer" style="color:rgba(201,168,76,0.55);text-decoration:none;border-bottom:1px solid rgba(201,168,76,0.25);">100ITA</a> — a global trust trademark for authentic Italian culinary culture</p>
+      <p class="hero-100ita-trust">Supported by <a href="https://www.100ita.com" target="_blank" rel="noopener noreferrer" style="color:rgba(201,168,76,0.55);text-decoration:none;border-bottom:1px solid rgba(201,168,76,0.25);">100ITA</a> — a global trust trademark for authentic Italian culinary culture</p>
     </div>
     <div class="h-scroll"><span data-i18n="scroll_lbl">Discover</span><div class="scroll-ln"></div></div>
   </section>
@@ -537,7 +545,7 @@
           <div class="ey rv" data-i18n="italy_ey">Provenance &amp; Soul</div>
           <h2 class="st rv d1" data-i18n="italy_title">The Italian soul<br>behind<br><em>WoW.</em></h2>
           <p class="sb rv d2" style="margin-top:1.5rem;max-width:500px" data-i18n="italy_body">Italy is not merely a source of ingredients — it is a philosophy of hospitality, a craftsmanship passed through generations, a savoir-faire that turns a meal into a memory. At WoW, we carry that soul forward: honouring Italian culinary culture, elegance, and creativity while embracing the finest of what each region and season offers.</p>
-          <div class="rv d2" style="margin-top:2.5rem;padding:1.8rem 2rem;border:1px solid rgba(201,168,76,0.18);border-left:2px solid rgba(201,168,76,0.6);background:rgba(201,168,76,0.04);">
+          <div class="rv d2 italy-100ita-block">
             <div style="font-size:0.46rem;letter-spacing:0.42em;text-transform:uppercase;color:rgba(201,168,76,0.7);margin-bottom:0.8rem;font-family:'Montserrat',sans-serif;">100ITA</div>
             <p style="font-size:0.82rem;color:rgba(245,240,232,0.7);line-height:1.8;font-style:italic;margin:0;">WoW is connected to the 100ITA ecosystem — a global initiative dedicated to preserve, protect and promote authentic Italian food, wine and culinary culture around the world.</p>
             <a href="https://www.100ita.com" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:1rem;font-size:0.46rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(201,168,76,0.6);text-decoration:none;border-bottom:1px solid rgba(201,168,76,0.25);">Discover 100ITA ↗</a>
@@ -635,10 +643,12 @@
           </ul>
         </div>
       </div>
-      <div style="border-top:1px solid rgba(201,168,76,0.08);padding-top:1.8rem;margin-top:0.5rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;">
-        <span style="font-size:0.44rem;letter-spacing:0.38em;text-transform:uppercase;color:rgba(201,168,76,0.75);font-family:'Montserrat',sans-serif;">100ITA</span>
-        <span style="font-size:0.72rem;color:rgba(200,195,185,0.8);font-style:italic;">Supported by 100ITA — promoting authentic Italian culinary culture worldwide.</span>
-        <a href="https://www.100ita.com" target="_blank" rel="noopener noreferrer" style="font-size:0.44rem;letter-spacing:0.24em;text-transform:uppercase;color:rgba(201,168,76,0.7);text-decoration:none;margin-left:auto;">100ita.com ↗</a>
+      <div style="border-top:1px solid rgba(201,168,76,0.08);padding-top:1.8rem;margin-top:0.5rem;">
+        <div style="display:flex;align-items:baseline;gap:0.8rem;flex-wrap:wrap;margin-bottom:0.5rem;">
+          <span style="font-size:0.44rem;letter-spacing:0.38em;text-transform:uppercase;color:rgba(201,168,76,0.75);font-family:'Montserrat',sans-serif;white-space:nowrap;">100ITA</span>
+          <span style="font-size:0.72rem;color:rgba(200,195,185,0.8);font-style:italic;line-height:1.6;">Supported by 100ITA — promoting authentic Italian culinary culture worldwide.</span>
+        </div>
+        <a href="https://www.100ita.com" target="_blank" rel="noopener noreferrer" style="font-size:0.44rem;letter-spacing:0.24em;text-transform:uppercase;color:rgba(201,168,76,0.7);text-decoration:none;">100ita.com ↗</a>
       </div>
       <div class="f-bottom">
         <span>© 2026 WoW Fast Fine Dining · Perugia, Italia.</span>
@@ -1630,7 +1640,7 @@
         font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase;
         color:var(--gold-dim); text-decoration:none;
         transition:color 0.3s; cursor:pointer; background:none; border:none;
-        font-family:'Montserrat',sans-serif; padding:0;
+        font-family:'Montserrat',sans-serif; padding:0; white-space:nowrap;
       }
       #wow-admin-nav-link:hover { color:var(--gold); }
       #wow-admin-nav-link.active {
