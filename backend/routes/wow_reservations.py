@@ -3,14 +3,40 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 import os
-import resend
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 from database import get_db
 from models.wow_reservation import WowReservation
 from schemas.wow_reservation import ReservationCreate, ReservationOut, ReservationListOut
 
-WOW_CONTACT_EMAIL = "info@wowfinedining.com"
-FROM_EMAIL        = "hello@brightcone.ai"
+WOW_CONTACT_EMAIL = os.getenv("WOW_CONTACT_EMAIL", "info@wowfinedining.com")
+
+
+def _send_smtp(from_addr: str, to_addr: str, subject: str, html: str) -> None:
+    """Send an email via SMTP. from_addr is the submitter's email (Reply-To)."""
+    host = os.getenv("SMTP_HOST", "smtp.gmail.com")
+    port = int(os.getenv("SMTP_PORT", "587"))
+    user = os.getenv("SMTP_USER", "")
+    password = os.getenv("SMTP_PASS", "")
+
+    if not user or not password:
+        print("SMTP not configured — skipping email send")
+        return
+
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"] = f"WoW Fine Dining <{user}>"
+    msg["To"] = to_addr
+    msg["Reply-To"] = from_addr
+    msg.attach(MIMEText(html, "html"))
+
+    with smtplib.SMTP(host, port) as smtp:
+        smtp.ehlo()
+        smtp.starttls()
+        smtp.login(user, password)
+        smtp.sendmail(user, to_addr, msg.as_string())
 
 router = APIRouter(prefix="/wow", tags=["WoW Reservations"])
 
@@ -37,8 +63,6 @@ class ContactRequest(BaseModel):
 
 @router.post("/contact", status_code=200)
 def send_contact(payload: ContactRequest):
-    api_key = os.getenv("RESEND_API_KEY")
-
     type_labels = {
         "contact": "General Enquiry",
         "private_events": "Private Events",
@@ -85,19 +109,15 @@ def send_contact(payload: ContactRequest):
     </div>
     """
 
-    if api_key:
-        resend.api_key = api_key
-        try:
-            resend.Emails.send({
-                "from": FROM_EMAIL,
-                "to": [WOW_CONTACT_EMAIL],
-                "reply_to": payload.email,
-                "subject": f"[WoW] {label} — {payload.name}",
-                "html": html,
-            })
-        except Exception as e:
-            # Log but don't fail — user already submitted
-            print(f"Resend error: {e}")
+    try:
+        _send_smtp(
+            from_addr=payload.email,
+            to_addr=WOW_CONTACT_EMAIL,
+            subject=f"[WoW] {label} — {payload.name}",
+            html=html,
+        )
+    except Exception as e:
+        print(f"SMTP error: {e}")
 
     return {"status": "received"}
 

@@ -9,6 +9,7 @@ import { ChatPage } from './pages/ChatPage'
 import { CRMPage } from './pages/CRMPage'
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage'
 import { HomePage } from './pages/HomePage'
+import { WowLandingPage } from './pages/WowLandingPage'
 import { LoginPage } from './pages/LoginPage'
 import { PricingPage } from './pages/PricingPage'
 import { RegisterPage } from './pages/RegisterPage'
@@ -43,7 +44,8 @@ export default function App() {
     <Routes>
       <Route path="/topsys" element={<TopsysPage />} />
       <Route path="/smartshop" element={<SmartShopPage />} />
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<WowLandingPage />} />
+      <Route path="/agent" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/careers" element={<CareersPage />} />
       <Route path="/crm" element={<ProtectedRoute><CRMPage /></ProtectedRoute>} />
