@@ -220,32 +220,7 @@
     /* ── Tablet (≤1024px) ────────────────────────────────────── */
 
 
-    /* ── Chef Video Section ──────────────────────────────────── */
-    .chef-video-section{padding:7rem 0 0;background:var(--black);}
-    .chef-video-eyebrow{font-size:0.56rem;letter-spacing:0.52em;text-transform:uppercase;
-      color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:1.2rem;}
-    .chef-video-eyebrow::before{content:'';width:40px;height:1px;background:rgba(201,168,76,0.5);}
-    .chef-video-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.5rem);
-      font-weight:300;color:var(--off-white);line-height:1.15;margin-bottom:1.2rem;}
-    .chef-video-title em{color:var(--gold);font-style:italic;}
-    .chef-video-sub{font-size:0.9rem;color:var(--muted);line-height:1.8;max-width:540px;
-      margin-bottom:3.5rem;}
-    .chef-video-wrap{margin-top:1rem;}
-    .chef-video-inner{position:relative;width:100%;max-width:960px;margin:0 auto;
-      background:var(--green-mid);border:1px solid rgba(201,168,76,0.12);}
-    .chef-video-inner::before{content:'';display:block;padding-top:56.25%;} /* 16:9 */
-    .chef-video-frame{position:absolute;inset:0;width:100%;height:100%;border:none;}
-    .chef-video-overlay-text{display:flex;align-items:center;gap:1rem;
-      padding:1.2rem 1.8rem;border-top:1px solid rgba(201,168,76,0.1);}
-    .chef-video-overlay-text span:first-child{color:var(--gold);font-size:0.8rem;}
-    .chef-video-caption{font-size:0.52rem;letter-spacing:0.32em;text-transform:uppercase;
-      color:rgba(245,240,232,0.4);font-family:'Montserrat',sans-serif;}
 
-    @media(max-width:640px){
-      .chef-video-section{padding:5rem 0 0;}
-      .chef-video-inner{max-width:100%;}
-      .chef-video-overlay-text{padding:0.9rem 1.2rem;}
-    }
 
     /* ── Mobile Reserve Button ─────────────────────────────── */
     .nav-reserve-mobile{display:none;}
@@ -447,7 +422,6 @@
     <ul class="nav-links">
       <li><a href="#philosophy" data-i18n="nav_philosophy">Philosophy</a></li>
       <li><a href="#experience" data-i18n="nav_experience">The Experience</a></li>
-      <li><a href="#chef" data-i18n="nav_chef">The Chef</a></li>
       <li><a href="#italy" data-i18n="nav_italy">Made in Italy</a></li>
       <li><a href="#booking" data-i18n="nav_reserve">Reserve</a></li>
     </ul>
@@ -481,7 +455,6 @@
     <nav class="mobile-menu-nav">
       <a href="#philosophy" class="mobile-menu-link" data-i18n="nav_philosophy">Philosophy</a>
       <a href="#experience" class="mobile-menu-link" data-i18n="nav_experience">The Experience</a>
-      <a href="#chef" class="mobile-menu-link" data-i18n="nav_chef">The Chef</a>
       <a href="#italy" class="mobile-menu-link" data-i18n="nav_italy">Made in Italy</a>
       <a href="#booking" class="mobile-menu-link" data-i18n="nav_reserve">Reserve</a>
     </nav>
@@ -619,31 +592,6 @@
     </div>
   </section>
 
-  <!-- CHEF VIDEO -->
-  <section class="chef-video-section" id="chef">
-    <div class="c">
-      <div class="chef-video-eyebrow rv">The Chef</div>
-      <h2 class="chef-video-title rv d1">The hands<br>behind <em>every dish.</em></h2>
-      <p class="chef-video-sub rv d2">This is not a performance. This is a lifetime of craft, passion, and Italian soul — brought to your table every single evening.</p>
-    </div>
-    <div class="chef-video-wrap rv d3">
-      <div class="chef-video-inner">
-        <iframe
-          src="https://drive.google.com/file/d/1L0YrmufWrkkebt5c782l8QyAtOhQrnuY/preview"
-          allow="autoplay"
-          allowfullscreen
-          loading="lazy"
-          class="chef-video-frame"
-          title="WoW Chef — The art behind every dish">
-        </iframe>
-        <div class="chef-video-overlay-text">
-          <span>✦</span>
-          <span class="chef-video-caption">Executive Chef · WoW Perugia</span>
-        </div>
-      </div>
-    </div>
-  </section>
-  <div class="sdiv"></div>
 
   <!-- GALLERY -->
   <section class="gallery" style="display:none;">
@@ -756,8 +704,7 @@
           <ul class="fc-links">
             <li><a href="#philosophy" data-i18n="nav_philosophy">Philosophy</a></li>
             <li><a href="#experience" data-i18n="nav_experience">The Experience</a></li>
-            <li><a href="#chef" data-i18n="nav_chef">The Chef</a></li>
-      <li><a href="#italy" data-i18n="nav_italy">Made in Italy</a></li>
+            <li><a href="#italy" data-i18n="nav_italy">Made in Italy</a></li>
             <li><a href="#booking" data-i18n="nav_reserve">Reserve</a></li>
           </ul>
         </div>
@@ -958,7 +905,7 @@
   const T={
     en:{
       nav_philosophy:'Philosophy',nav_experience:'The Experience',nav_italy:'Made in Italy',
-      nav_chef:'The Chef',nav_reserve:'Reserve',nav_cta:'Reserve Your Pod',
+      nav_reserve:'Reserve',nav_cta:'Reserve Your Pod',
       hero_city:'Perugia, Italia',
       hero_tag:'Where Italian artistry meets<br>the ritual of extraordinary dining.',
       hero_cta1:'Discover the Journey',hero_cta2:'Reserve Your Pod',scroll_lbl:'Discover',
@@ -1035,7 +982,7 @@
     },
     it:{
       nav_philosophy:'Filosofia',nav_experience:"L'Esperienza",nav_italy:'Fatto in Italia',
-      nav_chef:'Lo Chef',nav_reserve:'Prenota',nav_cta:'Prenota il Tuo Pod',
+      nav_reserve:'Prenota',nav_cta:'Prenota il Tuo Pod',
       hero_city:'Perugia, Italia',
       hero_tag:"Dove l'arte della gastronomia italiana incontra<br>la precisione di una nuova disciplina culinaria.",
       hero_cta1:'Scopri il Percorso',hero_cta2:'Prenota il Tuo Pod',scroll_lbl:'Scopri',
@@ -1112,7 +1059,7 @@
     },
     zh:{
       nav_philosophy:'品牌哲学',nav_experience:'用餐体验',nav_italy:'意大利原产',
-      nav_chef:'主厨',nav_reserve:'立即预订',nav_cta:'预订您的餐厅席位',
+      nav_reserve:'立即预订',nav_cta:'预订您的餐厅席位',
       hero_city:'佩鲁贾，意大利',
       hero_tag:'意大利美食艺术与新烹饪精准工艺<br>的完美融合。',
       hero_cta1:'探索味觉旅程',hero_cta2:'预订您的包厢',scroll_lbl:'探索',
@@ -1192,7 +1139,7 @@
   // ── French translations ──────────────────────────────────────
   T.fr={
     nav_philosophy:'Philosophie',nav_experience:"L'Expérience",nav_italy:'Made in Italy',
-    nav_chef:'Le Chef',nav_reserve:'Réserver',nav_cta:'Réserver Votre Pod',
+    nav_reserve:'Réserver',nav_cta:'Réserver Votre Pod',
     hero_city:'Pérouse, Italie',
     hero_tag:"Là où l'art de la gastronomie italienne rencontre<br>la précision d'une nouvelle discipline culinaire.",
     hero_cta1:'Découvrir le Parcours',hero_cta2:'Réserver Votre Pod',scroll_lbl:'Découvrir',
@@ -1271,7 +1218,7 @@
   // ── Spanish translations ─────────────────────────────────────
   T.es={
     nav_philosophy:'Filosofía',nav_experience:'La Experiencia',nav_italy:'Made in Italy',
-    nav_chef:'El Chef',nav_reserve:'Reservar',nav_cta:'Reservar Su Pod',
+    nav_reserve:'Reservar',nav_cta:'Reservar Su Pod',
     hero_city:'Perugia, Italia',
     hero_tag:'Donde el arte de la gastronomía italiana se encuentra<br>con la precisión de una nueva disciplina culinaria.',
     hero_cta1:'Descubrir el Recorrido',hero_cta2:'Reservar Su Pod',scroll_lbl:'Descubrir',
@@ -1350,7 +1297,7 @@
   // ── German translations ──────────────────────────────────────
   T.de={
     nav_philosophy:'Philosophie',nav_experience:'Das Erlebnis',nav_italy:'Made in Italy',
-    nav_chef:'Der Chef',nav_reserve:'Reservieren',nav_cta:'Ihren Pod Reservieren',
+    nav_reserve:'Reservieren',nav_cta:'Ihren Pod Reservieren',
     hero_city:'Perugia, Italien',
     hero_tag:'Wo die Kunst der italienischen Gastronomie<br>auf die Präzision einer neuen kulinarischen Disziplin trifft.',
     hero_cta1:'Die Reise Entdecken',hero_cta2:'Ihren Pod Reservieren',scroll_lbl:'Entdecken',
