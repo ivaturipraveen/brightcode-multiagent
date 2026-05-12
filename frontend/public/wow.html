@@ -67,10 +67,10 @@
     @keyframes sl{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
     @keyframes fu{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
     /* MARQUEE */
-    .mq{overflow:hidden;background:var(--gold);padding:0.85rem 0;display:flex;align-items:center;}
-    .mq-track{display:flex;width:max-content;animation:mq 32s linear infinite;}
-    .mq-item{font-size:0.58rem;letter-spacing:0.38em;text-transform:uppercase;color:var(--black);padding:0 2.8rem;white-space:nowrap;font-weight:600;}
-    .mq-dot{color:rgba(0,0,0,0.3);padding:0 0.5rem;}
+    .mq{overflow:hidden;background:var(--gold);padding:0.85rem 0;}
+    .mq-track{display:flex;align-items:center;width:max-content;animation:mq 32s linear infinite;}
+    .mq-item{font-size:0.58rem;letter-spacing:0.38em;text-transform:uppercase;color:var(--black);padding:0 2.8rem;white-space:nowrap;font-weight:600;display:inline-flex;align-items:center;}
+    .mq-dot{color:rgba(0,0,0,0.3);padding:0 0.5rem;display:inline-flex;align-items:center;}
     @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
     /* SHARED */
     .c{max-width:1260px;margin:0 auto;padding:0 5rem;}
@@ -172,11 +172,7 @@
     .pod-seats{font-size:0.68rem;color:rgba(201,168,76,0.5);margin-top:0.3rem;}
     .pod.unavail{opacity:0.35;cursor:not-allowed;}
     .pod.unavail:hover{background:var(--green);}
-    .avail-strip{display:flex;align-items:center;gap:1rem;margin-top:1.5rem;padding:1rem 1.2rem;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.12);}
-    .avail-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0;animation:pulse 2s infinite;}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-    .avail-text{font-size:0.7rem;color:var(--muted);}
-    .avail-text strong{color:var(--off-white);}
     .booking-form{background:var(--green-mid);border:1px solid rgba(201,168,76,0.12);padding:3.5rem;position:relative;}
     .booking-form::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold),var(--gold-dim));}
     .bf-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;margin-bottom:2rem;}
@@ -489,7 +485,7 @@
         <a href="#experience" class="btn-g" data-i18n="hero_cta1">Discover the Journey</a>
         <a href="#booking" class="btn-o" data-i18n="hero_cta2">Reserve Your Pod</a>
       </div>
-      <p class="hero-100ita-trust">Supported by <a href="https://www.100ita.com" target="_blank" rel="noopener noreferrer" style="color:rgba(201,168,76,0.55);text-decoration:none;border-bottom:1px solid rgba(201,168,76,0.25);">100ITA</a> — a global trust trademark for authentic Italian culinary culture</p>
+      <p class="hero-100ita-trust">Supported by <span style="color:rgba(201,168,76,0.55);">100ITA</span> — a global trust trademark for authentic Italian culinary culture</p>
     </div>
     <div class="h-scroll"><span data-i18n="scroll_lbl">Discover</span><div class="scroll-ln"></div></div>
   </section>
@@ -633,7 +629,6 @@
           <div class="rv d2 italy-100ita-block">
             <div style="font-size:0.46rem;letter-spacing:0.42em;text-transform:uppercase;color:rgba(201,168,76,0.7);margin-bottom:0.8rem;font-family:'Montserrat',sans-serif;">100ITA</div>
             <p style="font-size:0.82rem;color:rgba(245,240,232,0.7);line-height:1.8;font-style:italic;margin:0;">WoW is connected to the 100ITA ecosystem — a global initiative dedicated to preserve, protect and promote authentic Italian food, wine and culinary culture around the world.</p>
-            <a href="https://www.100ita.com" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:1rem;font-size:0.46rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(201,168,76,0.6);text-decoration:none;border-bottom:1px solid rgba(201,168,76,0.25);">Discover 100ITA →</a>
           </div>
           <div class="italy-pl rv d3">
             <div class="pl"><div class="pl-n">01</div><div><div class="pl-title" data-i18n="italy_p1t">Selected with Care</div><div class="pl-text" data-i18n="italy_p1b">Ingredients and wines chosen for their story — sourced from Italian producers with generations of passion behind every harvest.</div></div></div>
@@ -663,10 +658,6 @@
             <div class="pod unavail" data-pod="4"><div class="pod-num">IV</div><div class="pod-label">Sagrantino</div><div class="pod-seats" data-i18n="pod_reserved">4 seats · Reserved</div></div>
             <div class="pod" data-pod="5" onclick="selectPod(this)"><div class="pod-num">V</div><div class="pod-label">Brunello</div><div class="pod-seats" data-i18n="pod_avail">4 seats · Available</div></div>
             <div class="pod" data-pod="6" onclick="selectPod(this)"><div class="pod-num">VI</div><div class="pod-label">Nebbiolo</div><div class="pod-seats" data-i18n="pod_avail">4 seats · Available</div></div>
-          </div>
-          <div class="avail-strip rv d2">
-            <div class="avail-dot"></div>
-            <div class="avail-text"><strong>5</strong> <span data-i18n="avail_msg">pods available · Perugia · Opening 2026</span></div>
           </div>
           <div style="margin-top:3rem" class="rv d3">
             <div style="font-size:0.56rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem" data-i18n="promise_title">The WoW Promise</div>
@@ -733,7 +724,6 @@
           <span style="font-size:0.44rem;letter-spacing:0.38em;text-transform:uppercase;color:rgba(201,168,76,0.75);font-family:'Montserrat',sans-serif;white-space:nowrap;">100ITA</span>
           <span style="font-size:0.72rem;color:rgba(200,195,185,0.8);font-style:italic;line-height:1.6;">Supported by 100ITA — promoting authentic Italian culinary culture worldwide.</span>
         </div>
-        <a href="https://www.100ita.com" target="_blank" rel="noopener noreferrer" style="font-size:0.44rem;letter-spacing:0.24em;text-transform:uppercase;color:rgba(201,168,76,0.7);text-decoration:none;">100ita.com →</a>
       </div>
       <div class="f-bottom">
         <span>© 2026 WoW Fast Fine Dining · Perugia, Italia.</span>
