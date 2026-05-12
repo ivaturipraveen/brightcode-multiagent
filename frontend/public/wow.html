@@ -44,10 +44,13 @@
     /* HERO */
     .hero{position:relative;height:100vh;min-height:700px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
     .hero-img{position:absolute;inset:0;background-image:url('/wow-assets/wow-interior.png');background-size:cover;background-position:center;filter:brightness(0.38);transform:scale(1.06);transition:transform 10s ease;}
+    /* Hero video background */
+    .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;filter:brightness(0.52) saturate(1.1);z-index:0;}
+    .hero-gold-tint{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(201,168,76,0.07) 0%,transparent 70%);z-index:1;pointer-events:none;}
     .hero-img.loaded{transform:scale(1);}
-    .hero-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 20%,rgba(6,10,7,0.7) 100%);}
-    .hero-bottom{position:absolute;bottom:0;left:0;right:0;height:40%;background:linear-gradient(to top,var(--black),transparent);}
-    .hero-content{position:relative;z-index:2;text-align:center;padding:2rem;max-width:960px;}
+    .hero-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 20%,rgba(6,10,7,0.7) 100%);z-index:2;}
+    .hero-bottom{position:absolute;bottom:0;left:0;right:0;height:40%;background:linear-gradient(to top,var(--black),transparent);z-index:2;}
+    .hero-content{position:relative;z-index:3;text-align:center;padding:2rem;max-width:960px;}
     .h-city{font-size:0.58rem;letter-spacing:0.6em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;opacity:0;animation:fu 1s 0.3s forwards;display:flex;align-items:center;justify-content:center;gap:1.2rem;}
     .h-city::before,.h-city::after{content:'';width:40px;height:1px;background:rgba(201,168,76,0.5);}
     .h-logo{width:clamp(220px,38vw,560px);height:auto;opacity:0;animation:fu 1.3s 0.5s forwards;margin-bottom:1.5rem;filter:drop-shadow(0 0 50px rgba(201,168,76,0.35)) drop-shadow(0 2px 20px rgba(0,0,0,0.8));}
@@ -58,7 +61,7 @@
     .btn-g:hover{background:var(--gold-light);}
     .btn-o{font-size:0.58rem;letter-spacing:0.32em;text-transform:uppercase;border:1px solid rgba(201,168,76,0.4);color:var(--gold);padding:1.1rem 2.5rem;text-decoration:none;transition:all 0.3s;}
     .btn-o:hover{background:rgba(201,168,76,0.07);border-color:var(--gold);}
-    .h-scroll{position:absolute;bottom:2.5rem;left:0;right:0;margin:0 auto;width:fit-content;display:flex;flex-direction:column;align-items:center;gap:0.5rem;opacity:0;animation:fu 1s 2s forwards;}
+    .h-scroll{position:absolute;bottom:2.5rem;left:0;right:0;margin:0 auto;width:fit-content;display:flex;flex-direction:column;align-items:center;gap:0.5rem;opacity:0;animation:fu 1s 2s forwards;z-index:3;}
     .h-scroll span{font-size:0.48rem;letter-spacing:0.55em;text-transform:uppercase;color:var(--muted);}
     .scroll-ln{width:1px;height:52px;background:linear-gradient(to bottom,var(--gold),transparent);animation:sl 2s 2.5s infinite;}
     @keyframes sl{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
@@ -331,6 +334,7 @@
 
       /* Hero */
       .hero{min-height:100svh;}
+      .hero-video{object-position:center center;}
       .h-city{font-size:0.52rem;letter-spacing:0.35em;gap:0.8rem;}
       .h-city::before,.h-city::after{width:24px;}
       .h-logo{width:clamp(160px,72vw,320px);}
@@ -486,9 +490,17 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-img" id="heroImg"></div>
+    <!-- Video background — falls back to static image if video fails -->
+    <video class="hero-video" id="heroVideo"
+      src="/wow-assets/wow-hero-goldflakes.mp4"
+      autoplay muted loop playsinline preload="auto"
+      poster="/wow-assets/wow-interior.png">
+    </video>
+    <div class="hero-gold-tint"></div>
     <div class="hero-vignette"></div>
     <div class="hero-bottom"></div>
+    <!-- Fallback: keep hero-img hidden, shown only if video fails -->
+    <div class="hero-img hero-img-fallback" id="heroImg" style="display:none;"></div>
     <div class="hero-content">
       <div class="h-city" data-i18n="hero_city">Perugia, Italia</div>
       <img src="/wow-assets/wow-logo-v1.5.png" alt="WoW Fast Fine Dining" class="h-logo">
@@ -906,6 +918,24 @@
   const ro=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('v')),{threshold:0.08});
   document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
   // ── HERO ────────────────────────────────────────────────────────
+  // Video hero — show fallback image if video can't play (e.g. data-saver mode)
+  (function(){
+    const vid = document.getElementById('heroVideo');
+    const fallback = document.getElementById('heroImg');
+    if(!vid) return;
+    vid.addEventListener('error', ()=>{
+      if(fallback){ fallback.style.display=''; }
+      if(vid){ vid.style.display='none'; }
+    });
+    // Also handle iOS low-power mode which blocks autoplay
+    const playPromise = vid.play();
+    if(playPromise !== undefined){
+      playPromise.catch(()=>{
+        if(fallback){ fallback.style.display=''; }
+        if(vid){ vid.style.display='none'; }
+      });
+    }
+  })();
   setTimeout(()=>{const hi=document.getElementById('heroImg');if(hi)hi.classList.add('loaded');},200);
   window.addEventListener('scroll',()=>{const hc=document.querySelector('.hero-content');if(hc)hc.style.transform=`translateY(${scrollY*0.22}px)`;});
   // ── DATE ────────────────────────────────────────────────────────
