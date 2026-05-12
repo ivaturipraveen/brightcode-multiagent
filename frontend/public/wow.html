@@ -1936,19 +1936,19 @@
       /* Image edit overlay */
       body.wow-editing .wow-img-wrap { position:relative !important; }
       body.wow-editing .wow-img-overlay {
-        position:absolute; inset:0; z-index:20;
-        background:rgba(6,10,7,0.0); transition:background 0.3s;
+        position:absolute; inset:0; background:rgba(6,10,7,0.55);
         display:flex; align-items:center; justify-content:center;
-        cursor:pointer;
+        cursor:pointer; opacity:0; transition:opacity 0.25s;
+        border:1px solid rgba(201,168,76,0.35); z-index:10;
       }
       body.wow-editing .wow-img-overlay:hover {
         background:rgba(6,10,7,0.65);
       }
       body.wow-editing .wow-img-overlay .wow-img-hint {
-        opacity:0; transition:opacity 0.3s;
-        font-size:0.6rem; letter-spacing:0.28em; text-transform:uppercase;
-        color:var(--gold); text-align:center; padding:1rem;
-        pointer-events:none;
+        text-align:center; color:var(--gold); font-family:'Montserrat',sans-serif;
+        font-size:0.52rem; letter-spacing:0.28em; text-transform:uppercase;
+        line-height:1.9; padding:1rem;
+        border:1px solid rgba(201,168,76,0.3); background:rgba(6,10,7,0.7);
       }
       body.wow-editing .wow-img-overlay:hover .wow-img-hint { opacity:1; }
 
@@ -2210,16 +2210,15 @@
 
     // ── Image editing ───────────────────────────────────────────
     const editableImages = [
-      { selector: '.stmt-img img',             key: 'philosophy' },
-      { selector: '.ft:nth-child(1) img',       key: 'exp_theatre' },
-      { selector: '.ft:nth-child(2) img',       key: 'exp_food' },
-      { selector: '.ft:nth-child(3) img',       key: 'exp_dessert' },
-      { selector: '.gi.tall img',               key: 'gal_interior' },
-      { selector: '.gi:nth-child(2) img',       key: 'gal_food1' },
-      { selector: '.gi:nth-child(3) img',       key: 'gal_tablesetting' },
-      { selector: '.gi:nth-child(4) img',       key: 'gal_dessert' },
-      { selector: '.gi:nth-child(5) img',       key: 'gal_food2' },
-      { selector: '.italy-img img',             key: 'italy' },
+      // Philosophy section
+      { selector: '.stmt-img img',                 key: 'philosophy' },
+      // Experience — feature trio
+      { selector: '.ft:nth-child(1) img',           key: 'exp_cheers' },
+      { selector: '.ft:nth-child(2) img',           key: 'exp_chef' },
+      { selector: '.ft:nth-child(3) img',           key: 'exp_dessert' },
+      // Made in Italy
+      { selector: '.italy-img img',                 key: 'italy' },
+      // Hero background (CSS background — handled via bg swap below)
     ];
 
     let pendingImgKey = null;
@@ -2240,7 +2239,7 @@
 
         const overlay = document.createElement('div');
         overlay.className = 'wow-img-overlay';
-        overlay.innerHTML = `<div class="wow-img-hint">📷 Click to replace image<br><span style="font-size:0.48rem;opacity:0.6">Max 5MB · JPG, PNG, WebP</span></div>`;
+        overlay.innerHTML = `<div class="wow-img-hint"><span style="font-size:1.1rem;">✦</span><br>Replace Image<br><span style="font-size:0.48rem;opacity:0.65;letter-spacing:0.08em;">JPG · PNG · WebP · Max 5MB</span></div>`;
         parent.appendChild(overlay);
 
         overlay.addEventListener('click', e => {
