@@ -18,7 +18,7 @@
     .logo{text-decoration:none;display:flex;flex-direction:column;}
     .logo-wow{display:block;height:48px;width:auto;}
     .logo-sub{font-size:0.48rem;letter-spacing:0.48em;text-transform:uppercase;color:var(--muted);margin-top:2px;}
-    .nav-links{display:flex;gap:2.5rem;list-style:none;}
+    .nav-links{display:flex;gap:2rem;list-style:none;}
     .nav-links a{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(245,240,232,0.5);text-decoration:none;transition:color 0.3s;}
     .nav-links a:hover{color:var(--gold);}
     .nav-right{display:flex;align-items:center;gap:1.2rem;}
@@ -67,7 +67,7 @@
     @keyframes sl{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
     @keyframes fu{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
     /* MARQUEE */
-    .mq{overflow:hidden;background:var(--gold);padding:0.85rem 0;}
+    .mq{overflow:hidden;background:var(--gold);padding:0.85rem 0;display:flex;align-items:center;}
     .mq-track{display:flex;width:max-content;animation:mq 32s linear infinite;}
     .mq-item{font-size:0.58rem;letter-spacing:0.38em;text-transform:uppercase;color:var(--black);padding:0 2.8rem;white-space:nowrap;font-weight:600;}
     .mq-dot{color:rgba(0,0,0,0.3);padding:0 0.5rem;}
@@ -267,7 +267,8 @@
         text-transform:uppercase;background:var(--gold);color:var(--black);
         padding:0.6rem 1.2rem;text-decoration:none;font-weight:600;
         font-family:'Montserrat',sans-serif;white-space:nowrap;}
-      nav{padding:1.5rem 2rem;}
+      nav{padding:1.2rem 2rem;}
+      .nav-links a{font-size:0.58rem;letter-spacing:0.16em;}
       nav.s{padding:1rem 2rem;}
       .nav-links{display:none;}
       .stmt-grid,.italy-layout,.booking-layout{grid-template-columns:1fr;gap:4rem;}
@@ -300,8 +301,9 @@
       nav{padding:1rem 1.2rem;}
       nav.s{padding:0.85rem 1.2rem;}
       .nav-links{display:none;}
-      .nav-right{gap:0.5rem;}
+      .nav-right{gap:0.6rem;align-items:center;}
       .nav-cta{display:none;}
+      .nav-reserve-mobile{display:none !important;}
       .lang-selected{font-size:0.52rem;padding:0.3rem 0.6rem;}
       .lang-dropdown{right:0;left:auto;min-width:130px;max-width:calc(100vw - 2.4rem);}
       .lang-native{display:none;}
@@ -385,6 +387,10 @@
       /* Hero trust */
       .hero-100ita-trust{font-size:0.44rem;letter-spacing:0.15em;padding:0 0.5rem;}
       .italy-100ita-block{padding:1.4rem 1.2rem;margin-top:1.8rem;}
+
+      /* Marquee — centre on mobile */
+      .mq-track{animation-duration:40s;}
+      .mq-item{padding:0 1.8rem;}
 
       /* Footer */
       footer{padding:3rem 0 2rem;}
