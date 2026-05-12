@@ -166,6 +166,8 @@
     .pl-text{font-size:0.78rem;color:var(--muted);line-height:1.75;}
     /* BOOKING */
     .booking{padding:10rem 0;background:var(--black);}
+    .book-body-mobile{display:none;}
+    .book-body-desktop{display:block;}
     .booking-layout{display:grid;grid-template-columns:1fr 1.1fr;gap:7rem;align-items:start;}
     .pod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2.5rem;background:rgba(201,168,76,0.08);}
     .pod{background:var(--green);padding:2rem 1.5rem;text-align:center;position:relative;transition:background 0.3s;cursor:pointer;border:2px solid transparent;}
@@ -378,6 +380,8 @@
       .pod-grid{grid-template-columns:repeat(2,1fr);}
       .booking-layout > div:first-child{order:2;}
       .booking-form{order:1;}
+      .book-body-mobile{display:block;margin-bottom:1.5rem;font-style:italic;color:rgba(245,240,232,0.65);font-size:0.82rem;line-height:1.8;}
+      .book-body-desktop{display:none;}
       .pod{padding:1.4rem 0.8rem;}
       .pod-num{font-size:1.7rem;}
       .pod-label{font-size:0.5rem;}
@@ -585,7 +589,7 @@
     <div class="c">
       <div class="exp-hdr">
         <div class="ey rv" style="justify-content:center" data-i18n="exp_ey">The Experience</div>
-        <h2 class="st rv d1" style="text-align:center" data-i18n="exp_title">Close your eyes.<br><em>You are already there.</em></h2>
+        <h2 class="st rv d1" style="text-align:center" data-i18n="exp_title">Close your eyes.<br><em>One Narrative. Nine Courses.</em></h2>
         <p class="sb rv d2" style="text-align:center;margin:1.8rem auto 0;max-width:620px" data-i18n="exp_body">Nine courses. Nine moments. Each one crafted to make time slow, conversation deepen, and the world outside disappear. This is not just dinner. This is the evening you will still be talking about.</p>
       </div>
       <div class="course-strip rv">
@@ -666,9 +670,10 @@
     <div class="c">
       <div class="ey rv" data-i18n="book_ey">Reservations</div>
       <h2 class="st rv d1" style="margin-bottom:0.8rem" data-i18n="book_title">Tonight could be the evening<br>you <em>never forget.</em></h2>
-      <p class="sb rv d2" style="margin-bottom:5rem;max-width:580px" data-i18n="book_body">Six private dining pods, each a world of its own — intimate, warm, and entirely yours for the evening.</p>
+      <p class="sb rv d2 book-body-desktop" style="margin-bottom:5rem;max-width:580px" data-i18n="book_body">Six private dining pods, each a world of its own — intimate, warm, and entirely yours for the evening.</p>
       <div class="booking-layout">
         <div>
+          <p class="sb book-body-mobile" data-i18n="book_body">Six private dining pods, each a world of its own — intimate, warm, and entirely yours for the evening.</p>
           <div class="ey rv" data-i18n="pod_ey">Select Your Pod</div>
           <div class="pod-grid rv d1" id="podGrid">
             <div class="pod selected" data-pod="1" onclick="selectPod(this)"><div class="pod-num">I</div><div class="pod-label">Tartufo</div><div class="pod-seats" data-i18n="pod_avail">4 seats · Available</div></div>
@@ -928,7 +933,7 @@
       pillar1_title:'Crafted with Purpose',pillar1_text:'Every element shaped by the artistry of a Michelin kitchen and the warmth of an Italian grandmother — because beauty and soul are never in opposition.',
       pillar2_title:'Rooted in Italian Soul',pillar2_text:'We do not approximate Italy. We embody it — its hospitality, its craftsmanship, its emotional depth — and select every ingredient and technique with that same reverence.',
       pillar3_title:'Michelin by Design',pillar3_text:'Our CCO, named Emerging Chef of the Year by L\'Espresso, leads starred chefs who are equity partners in WoW\'s mission.',
-      exp_ey:'The Experience',exp_title:'Close your eyes.<br><em>You are already there.</em>',
+      exp_ey:'The Experience',exp_title:'Close your eyes.<br><em>One Narrative. Nine Courses.</em>',
       exp_body:'Nine courses. Nine moments. Each one crafted to make time slow, conversation deepen, and the world outside disappear. This is not just dinner. This is the evening you will still be talking about.',
       c1:'Amuse<br>Bouche',c2:'Cold<br>Antipasto',c3:'Warm<br>Starter',c4:'Pasta<br>Primo',c5:'Sorbet<br>& Palate',c6:'Main<br>Secondo',c7:'Formaggi<br>Selection',c8:'Mignardise',c9:'Dessert<br>Finale',
       ft1_tag:'The WoW Moment',ft1_title:'Theatre at the Table',ft1_text:'A live moment, unique to your table, your evening, your company. The kind that makes someone lean in, catch their breath, and smile.',
