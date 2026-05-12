@@ -294,6 +294,9 @@
       .nav-links{display:none;}
       .stmt-grid,.italy-layout,.booking-layout{grid-template-columns:1fr;gap:4rem;}
       .italy-img-sticky{position:static;align-self:auto;}
+      .italy-layout{display:flex;flex-direction:column;}
+      .italy-col-text{order:1;}
+      .italy-col-img{order:2;}
       .stmt-img{height:380px;}
       .italy-img{height:440px;min-height:440px;}
       .course-strip{grid-template-columns:repeat(3,1fr);}
@@ -644,7 +647,7 @@
   <section class="italy" id="italy">
     <div class="c">
       <div class="italy-layout">
-        <div class="rv italy-img-sticky">
+        <div class="rv italy-img-sticky italy-col-img">
           <div class="italy-img">
             <img src="/wow-assets/wow-italy.png" alt="Italy">
             <div class="italy-img-ovl"></div>
@@ -654,7 +657,7 @@
             </div>
           </div>
         </div>
-        <div>
+        <div class="italy-col-text">
           <div class="ey rv" data-i18n="italy_ey">Provenance &amp; Soul</div>
           <h2 class="st rv d1" data-i18n="italy_title">The Italian soul<br>behind<br><em>WoW.</em></h2>
           <p class="sb rv d2" style="margin-top:1.5rem;max-width:500px" data-i18n="italy_body">Italy is not merely a source of ingredients — it is a philosophy of hospitality, a craftsmanship passed through generations, a savoir-faire that turns a meal into a memory. At WoW, we carry that soul forward: honouring Italian culinary culture, elegance, and creativity while embracing the finest of what each region and season offers.</p>
