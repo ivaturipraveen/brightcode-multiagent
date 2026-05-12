@@ -64,6 +64,12 @@ app.include_router(admin_auth_router)
 @app.on_event("startup")
 def create_tables() -> None:
     Base.metadata.create_all(bind=engine)
+    # Seed admin user and default content on every startup (idempotent)
+    try:
+        import seed_admin
+        seed_admin.run()
+    except Exception as e:
+        print(f"[seed] Warning: {e}")
 
 
 @app.get("/health")
