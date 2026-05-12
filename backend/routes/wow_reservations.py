@@ -15,11 +15,17 @@ WOW_CONTACT_EMAIL = os.getenv("WOW_CONTACT_EMAIL", "info@wowfinedining.com")
 
 
 def _send_smtp(from_addr: str, to_addr: str, subject: str, html: str) -> None:
-    """Send an email via SMTP. from_addr is the submitter's email (Reply-To)."""
+    """Send an email via SMTP. from_addr is the submitter's email (Reply-To).
+
+    Use SMTP_SSL (implicit TLS) when port is 465 or SMTP_SSL=1 — typical for Aruba.
+    Use STARTTLS when port is 587 (Gmail, many others).
+    """
     host = os.getenv("SMTP_HOST", "smtp.gmail.com")
     port = int(os.getenv("SMTP_PORT", "587"))
     user = os.getenv("SMTP_USER", "")
     password = os.getenv("SMTP_PASS", "")
+    ssl_flag = (os.getenv("SMTP_SSL", "") or "").lower() in ("1", "true", "yes")
+    use_ssl = ssl_flag or port == 465
 
     if not user or not password:
         print("SMTP not configured — skipping email send")
@@ -31,12 +37,19 @@ def _send_smtp(from_addr: str, to_addr: str, subject: str, html: str) -> None:
     msg["To"] = to_addr
     msg["Reply-To"] = from_addr
     msg.attach(MIMEText(html, "html"))
+    payload = msg.as_string()
 
-    with smtplib.SMTP(host, port) as smtp:
-        smtp.ehlo()
-        smtp.starttls()
-        smtp.login(user, password)
-        smtp.sendmail(user, to_addr, msg.as_string())
+    if use_ssl:
+        with smtplib.SMTP_SSL(host, port) as smtp:
+            smtp.login(user, password)
+            smtp.sendmail(user, to_addr, payload)
+    else:
+        with smtplib.SMTP(host, port) as smtp:
+            smtp.ehlo()
+            smtp.starttls()
+            smtp.ehlo()
+            smtp.login(user, password)
+            smtp.sendmail(user, to_addr, payload)
 
 router = APIRouter(prefix="/wow", tags=["WoW Reservations"])
 
