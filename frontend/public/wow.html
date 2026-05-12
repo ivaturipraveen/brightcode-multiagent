@@ -121,6 +121,10 @@
     .course-strip::before{content:'';position:absolute;top:calc(50% - 18px);left:4%;right:4%;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,0.22),transparent);pointer-events:none;}
     .ci{display:flex;flex-direction:column;align-items:center;gap:1rem;padding:2.5rem 0.3rem;cursor:default;transition:transform 0.35s;}
     .ci:hover{transform:translateY(-12px);}
+    .ci-img-wrap{width:64px;height:64px;border-radius:50%;overflow:hidden;border:1px solid rgba(201,168,76,0.25);flex-shrink:0;transition:border-color 0.35s,box-shadow 0.35s;}
+    .ci:hover .ci-img-wrap{border-color:var(--gold);box-shadow:0 0 18px rgba(201,168,76,0.35);}
+    .ci-img{width:100%;height:100%;object-fit:cover;filter:brightness(0.78) saturate(0.85);transition:filter 0.35s,transform 0.5s;}
+    .ci:hover .ci-img{filter:brightness(0.92) saturate(1);transform:scale(1.08);}
     .ci-n{font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:rgba(201,168,76,0.13);line-height:1;transition:color 0.35s;}
     .ci:hover .ci-n{color:var(--gold);}
     .ci-dot{width:10px;height:10px;border-radius:50%;border:1px solid rgba(201,168,76,0.28);background:var(--black);transition:all 0.35s;position:relative;z-index:1;}
@@ -339,6 +343,7 @@
       .exp-hdr{margin-bottom:3rem;}
       .course-strip{grid-template-columns:repeat(3,1fr);margin-bottom:3rem;}
       .ci{padding:1.5rem 0.2rem;gap:0.6rem;}
+      .ci-img-wrap{width:44px;height:44px;}
       .ci-n{font-size:1.2rem;}
       .ci-lbl{font-size:0.63rem;}
       .feat-trio{grid-template-columns:1fr;gap:2px;margin-left:-1.2rem;margin-right:-1.2rem;}
@@ -593,15 +598,15 @@
         <p class="sb rv d2" style="text-align:center;margin:1.8rem auto 0;max-width:620px" data-i18n="exp_body">Nine courses. Nine moments. Each one crafted to make time slow, conversation deepen, and the world outside disappear. This is not just dinner. This is the evening you will still be talking about.</p>
       </div>
       <div class="course-strip rv">
-        <div class="ci"><div class="ci-n">I</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c1">Amuse<br>Bouche</div></div>
-        <div class="ci"><div class="ci-n">II</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c2">Cold<br>Antipasto</div></div>
-        <div class="ci"><div class="ci-n">III</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c3">Warm<br>Starter</div></div>
-        <div class="ci"><div class="ci-n">IV</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c4">Pasta<br>Primo</div></div>
-        <div class="ci"><div class="ci-n">V</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c5">Sorbet<br>&amp; Palate</div></div>
-        <div class="ci"><div class="ci-n">VI</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c6">Main<br>Secondo</div></div>
-        <div class="ci"><div class="ci-n">VII</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c7">Formaggi<br>Selection</div></div>
-        <div class="ci"><div class="ci-n">VIII</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c8">Mignardise</div></div>
-        <div class="ci"><div class="ci-n">IX</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c9">Dessert<br>Finale</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img class="ci-img" src="/wow-assets/wow-food1.png" alt="Amuse Bouche" data-wow-img="course_1"></div><div class="ci-n">I</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c1">Amuse<br>Bouche</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img class="ci-img" src="/wow-assets/wow-tablesetting.png" alt="Cold Antipasto" data-wow-img="course_2"></div><div class="ci-n">II</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c2">Cold<br>Antipasto</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img class="ci-img" src="/wow-assets/wow-theatre.png" alt="Warm Starter" data-wow-img="course_3"></div><div class="ci-n">III</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c3">Warm<br>Starter</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img class="ci-img" src="/wow-assets/wow-pasta-course.png" alt="Pasta Primo" data-wow-img="course_4"></div><div class="ci-n">IV</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c4">Pasta<br>Primo</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img class="ci-img" src="/wow-assets/wow-food2.png" alt="Sorbet & Palate" data-wow-img="course_5"></div><div class="ci-n">V</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c5">Sorbet<br>&amp; Palate</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img class="ci-img" src="/wow-assets/wow-chef-moment.png" alt="Main Secondo" data-wow-img="course_6"></div><div class="ci-n">VI</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c6">Main<br>Secondo</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img class="ci-img" src="/wow-assets/wow-italy.png" alt="Formaggi" data-wow-img="course_7"></div><div class="ci-n">VII</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c7">Formaggi<br>Selection</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img class="ci-img" src="/wow-assets/wow-wine-pour.png" alt="Mignardise" data-wow-img="course_8"></div><div class="ci-n">VIII</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c8">Mignardise</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img class="ci-img" src="/wow-assets/wow-dessert.png" alt="Dessert Finale" data-wow-img="course_9"></div><div class="ci-n">IX</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c9">Dessert<br>Finale</div></div>
       </div>
       <div class="feat-trio rv">
         <div class="ft"><div class="ft-line"></div><img src="/wow-assets/wow-guests-cheers.png" alt="Guests celebrating"><div class="ft-content"><div class="ft-num">I</div><div class="ft-tag" data-i18n="ft1_tag">The WoW Moment</div><div class="ft-title" data-i18n="ft1_title">Theatre at the Table</div><p class="ft-text" data-i18n="ft1_text">A live moment, unique to your table, your evening, your company. The kind that makes someone lean in, catch their breath, and smile.</p></div></div>
@@ -2203,7 +2208,16 @@
       { selector: '.ft:nth-child(3) img',           key: 'exp_dessert' },
       // Made in Italy
       { selector: '.italy-img img',                 key: 'italy' },
-      // Hero background (CSS background — handled via bg swap below)
+      // 9 Course ingredient images
+      { selector: '[data-wow-img="course_1"]',      key: 'course_1' },
+      { selector: '[data-wow-img="course_2"]',      key: 'course_2' },
+      { selector: '[data-wow-img="course_3"]',      key: 'course_3' },
+      { selector: '[data-wow-img="course_4"]',      key: 'course_4' },
+      { selector: '[data-wow-img="course_5"]',      key: 'course_5' },
+      { selector: '[data-wow-img="course_6"]',      key: 'course_6' },
+      { selector: '[data-wow-img="course_7"]',      key: 'course_7' },
+      { selector: '[data-wow-img="course_8"]',      key: 'course_8' },
+      { selector: '[data-wow-img="course_9"]',      key: 'course_9' },
     ];
 
     let pendingImgKey = null;
