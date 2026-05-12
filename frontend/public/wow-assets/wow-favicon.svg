@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#EDD06E"/>
+      <stop offset="30%"  stop-color="#D4A843"/>
+      <stop offset="70%"  stop-color="#C09030"/>
+      <stop offset="100%" stop-color="#9E7418"/>
+    </linearGradient>
+    <!-- Transparent ring gap: outer ring + center dot, like the WOW logo O -->
+    <mask id="ringMask">
+      <circle cx="50" cy="50" r="47" fill="white"/>
+      <circle cx="50" cy="50" r="30" fill="black"/>
+      <circle cx="50" cy="50" r="12" fill="white"/>
+    </mask>
+  </defs>
+
+  <!-- Dark background circle for contrast -->
+  <circle cx="50" cy="50" r="50" fill="#1a1008"/>
+
+  <!-- The "O" — outer ring + center dot with gold gradient -->
+  <circle cx="50" cy="50" r="47" fill="url(#gold)" mask="url(#ringMask)"/>
+</svg>
