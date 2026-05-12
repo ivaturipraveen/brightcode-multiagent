@@ -121,6 +121,16 @@
     .course-strip::before{content:'';position:absolute;top:calc(50% - 18px);left:4%;right:4%;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,0.22),transparent);pointer-events:none;}
     .ci{display:flex;flex-direction:column;align-items:center;gap:1rem;padding:2.5rem 0.3rem;cursor:default;transition:transform 0.35s;}
     .ci:hover{transform:translateY(-12px);}
+    /* Hero ingredient */
+    .ci-hero{display:flex;flex-direction:column;align-items:center;gap:1.2rem;margin:3rem auto 0;max-width:220px;}
+    .ci-hero-img-wrap{width:160px;height:160px;border-radius:50%;overflow:hidden;border:1px solid rgba(201,168,76,0.4);box-shadow:0 0 40px rgba(201,168,76,0.15);transition:box-shadow 0.4s;}
+    .ci-hero-img-wrap:hover{box-shadow:0 0 60px rgba(201,168,76,0.35);}
+    .ci-hero-img{width:100%;height:100%;object-fit:cover;filter:brightness(0.85) saturate(0.9);transition:transform 0.6s,filter 0.4s;}
+    .ci-hero-img-wrap:hover .ci-hero-img{transform:scale(1.06);filter:brightness(0.95) saturate(1.05);}
+    .ci-hero-label{display:flex;flex-direction:column;align-items:center;gap:0.3rem;text-align:center;}
+    .ci-hero-eyebrow{font-size:0.44rem;letter-spacing:0.42em;text-transform:uppercase;color:rgba(201,168,76,0.55);font-family:'Montserrat',sans-serif;}
+    .ci-hero-name{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--off-white);font-style:italic;font-weight:300;}
+    /* Course images */
     .ci-img-wrap{width:64px;height:64px;border-radius:50%;overflow:hidden;border:1px solid rgba(201,168,76,0.25);flex-shrink:0;transition:border-color 0.35s,box-shadow 0.35s;}
     .ci:hover .ci-img-wrap{border-color:var(--gold);box-shadow:0 0 18px rgba(201,168,76,0.35);}
     .ci-img{width:100%;height:100%;object-fit:cover;filter:brightness(0.78) saturate(0.85);transition:filter 0.35s,transform 0.5s;}
@@ -596,6 +606,16 @@
         <div class="ey rv" style="justify-content:center" data-i18n="exp_ey">The Experience</div>
         <h2 class="st rv d1" style="text-align:center" data-i18n="exp_title">Close your eyes.<br><em>One Narrative. Nine Courses.</em></h2>
         <p class="sb rv d2" style="text-align:center;margin:1.8rem auto 0;max-width:620px" data-i18n="exp_body">Nine courses. Nine moments. Each one crafted to make time slow, conversation deepen, and the world outside disappear. This is not just dinner. This is the evening you will still be talking about.</p>
+        <!-- Hero ingredient image -->
+        <div class="ci-hero rv d3">
+          <div class="ci-hero-img-wrap">
+            <img class="ci-hero-img" src="/wow-assets/wow-pasta-course.png" alt="The Main Ingredient" data-wow-img="course_hero">
+          </div>
+          <div class="ci-hero-label">
+            <span class="ci-hero-eyebrow">One Narrative</span>
+            <span class="ci-hero-name" data-i18n="course_hero_name">Truffle &amp; Pasta</span>
+          </div>
+        </div>
       </div>
       <div class="course-strip rv">
         <div class="ci"><div class="ci-img-wrap"><img class="ci-img" src="/wow-assets/wow-food1.png" alt="Amuse Bouche" data-wow-img="course_1"></div><div class="ci-n">I</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c1">Amuse<br>Bouche</div></div>
@@ -940,6 +960,7 @@
       pillar3_title:'Michelin by Design',pillar3_text:'Our CCO, named Emerging Chef of the Year by L\'Espresso, leads starred chefs who are equity partners in WoW\'s mission.',
       exp_ey:'The Experience',exp_title:'Close your eyes.<br><em>One Narrative. Nine Courses.</em>',
       exp_body:'Nine courses. Nine moments. Each one crafted to make time slow, conversation deepen, and the world outside disappear. This is not just dinner. This is the evening you will still be talking about.',
+      course_hero_name:'Truffle &amp; Pasta',
       c1:'Amuse<br>Bouche',c2:'Cold<br>Antipasto',c3:'Warm<br>Starter',c4:'Pasta<br>Primo',c5:'Sorbet<br>& Palate',c6:'Main<br>Secondo',c7:'Formaggi<br>Selection',c8:'Mignardise',c9:'Dessert<br>Finale',
       ft1_tag:'The WoW Moment',ft1_title:'Theatre at the Table',ft1_text:'A live moment, unique to your table, your evening, your company. The kind that makes someone lean in, catch their breath, and smile.',
       ft2_tag:'Italian Artistry',ft2_title:'Made with Soul',ft2_text:'Italian heritage carried forward not as a museum piece, but as a living, breathing act of culinary love — interpreted by Michelin-starred hands.',
@@ -2208,6 +2229,8 @@
       { selector: '.ft:nth-child(3) img',           key: 'exp_dessert' },
       // Made in Italy
       { selector: '.italy-img img',                 key: 'italy' },
+      // Hero narrative ingredient
+      { selector: '[data-wow-img="course_hero"]',   key: 'course_hero' },
       // 9 Course ingredient images
       { selector: '[data-wow-img="course_1"]',      key: 'course_1' },
       { selector: '[data-wow-img="course_2"]',      key: 'course_2' },
