@@ -29,8 +29,8 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
-BASE_URL = os.getenv('BASE_URL', 'https://code-ui.brightcone.ai').rstrip('/')
-API_BASE_URL = os.getenv('API_BASE_URL', 'https://code-api.brightcone.ai').rstrip('/')
+BASE_URL = os.getenv('BASE_URL', 'https://www.wowfinedining.com').rstrip('/')
+API_BASE_URL = os.getenv('API_BASE_URL', 'https://openclaw-multiagent.onrender.com').rstrip('/')
 CHROME_BIN = os.getenv('CHROME_BIN', os.path.expanduser('~/.cache/ms-playwright/chromium-1217/chrome-linux64/chrome'))
 CHROMEDRIVER_BIN = os.getenv('CHROMEDRIVER_BIN', '').strip()
 HEADLESS = os.getenv('HEADLESS', '1') != '0'

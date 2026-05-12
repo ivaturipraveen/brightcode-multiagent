@@ -1,6 +1,6 @@
 /** Hosted WoW marketing page as the app root (`/`). Other routes stay on this Vite app. */
 const WOW_URL =
-  import.meta.env.VITE_WOW_URL ?? 'https://openclaw-multiagent-1.onrender.com/wow.html'
+  import.meta.env.VITE_WOW_URL ?? 'https://www.wowfinedining.com/wow.html'
 
 export function WowLandingPage() {
   return (

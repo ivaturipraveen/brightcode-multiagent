@@ -1,6 +1,6 @@
 """
 RILEY 🧪 — Selenium tests for WoW inline content editor
-Target: https://code-ui.brightcone.ai/wow.html
+Target: https://www.wowfinedining.com/wow.html
 
 Tests:
 1. WoW page loads and lock button is visible
@@ -26,9 +26,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 
-BASE_URL    = "https://code-ui.brightcone.ai"
+BASE_URL    = "https://www.wowfinedining.com"
 WOW_URL     = f"{BASE_URL}/wow.html"
-ADMIN_EMAIL = "admin@brightcone.ai"
+ADMIN_EMAIL = "admin@wowfinedining.com"
 ADMIN_PASS  = "WowAdmin2026!"
 
 

@@ -13,7 +13,7 @@ from security import create_access_token, get_jwt_secret, hash_password, verify_
 
 RESET_TOKEN_EXPIRE_MINUTES = 30
 RESET_ALGORITHM = "HS256"
-FRONTEND_URL = os.getenv("FRONTEND_URL", "https://code-ui.brightcone.ai")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "https://www.wowfinedining.com")
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -76,7 +76,7 @@ def forgot_password(payload: ForgotPasswordRequest, db: Session = Depends(get_db
         resend.api_key = api_key
         try:
             resend.Emails.send({
-                "from": "hello@brightcone.ai",
+                "from": "info@wowfinedining.com",
                 "to": user.email,
                 "subject": "Reset your Brightcone password",
                 "html": f"""

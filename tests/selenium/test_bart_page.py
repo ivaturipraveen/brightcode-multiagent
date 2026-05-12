@@ -1,6 +1,6 @@
 """
 Selenium integration tests for the BART Transit Portal (/bart)
-Target: https://code-ui.brightcone.ai/bart
+Target: https://www.wowfinedining.com/bart
 Run:    pytest tests/selenium/test_bart_page.py -v
 Requires: pip install selenium pytest
           ChromeDriver installed and in PATH
@@ -14,7 +14,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 
-BASE_URL = "https://code-ui.brightcone.ai/bart"
+BASE_URL = "https://www.wowfinedining.com/bart"
 WAIT = 10  # seconds
 
 

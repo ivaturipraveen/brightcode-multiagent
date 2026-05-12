@@ -3,8 +3,8 @@
 ## Production Environment
 
 - **Repo:** git@github.com:ivaturipraveen/brightcode-multiagent.git
-- **Backend API:** https://code-api.brightcone.ai
-- **Frontend UI:** https://code-ui.brightcone.ai
+- **Backend API:** https://openclaw-multiagent.onrender.com
+- **Frontend UI:** https://www.wowfinedining.com
 - **Render backend service:** code-api.brightcone.ai (srv-d752eteuk2gs73adrh3g)
 - **Render frontend service:** code-ui.brightcone.ai (srv-d752ffkhg0os73abfj8g)
 

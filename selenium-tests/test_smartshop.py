@@ -1,6 +1,6 @@
 """
 RILEY 🧪 — Selenium Test Suite: SmartShop Page
-Target: https://code-ui.brightcone.ai/smartshop
+Target: https://www.wowfinedining.com/smartshop
 Author: RILEY (QA Agent)
 Coverage:
   - Page load & navigation elements
@@ -23,7 +23,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
-BASE_URL = "https://code-ui.brightcone.ai"
+BASE_URL = "https://www.wowfinedining.com"
 SMARTSHOP_URL = f"{BASE_URL}/smartshop"
 TIMEOUT = 15
 

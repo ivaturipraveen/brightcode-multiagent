@@ -1,7 +1,7 @@
 """Selenium tests for deployed Brightcone public and access-control routes.
 
 Target:
-- https://code-ui.brightcone.ai
+- https://www.wowfinedining.com
 
 Note:
 - This suite is written for real browser execution.
@@ -19,7 +19,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-BASE_URL = os.getenv('BASE_URL', 'https://code-ui.brightcone.ai')
+BASE_URL = os.getenv('BASE_URL', 'https://www.wowfinedining.com')
 CHROME_BIN = os.getenv('CHROME_BIN', os.path.expanduser('~/.cache/ms-playwright/chromium-1217/chrome-linux64/chrome'))
 
 

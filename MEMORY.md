@@ -86,8 +86,8 @@ Every task response MUST follow this exact format — no exceptions:
 ## 📌 Project Info
 
 - **Repo:** git@github.com:ivaturipraveen/brightcode-multiagent.git
-- **Frontend UI:** https://code-ui.brightcone.ai
-- **Backend API:** https://code-api.brightcone.ai
+- **Frontend UI:** https://www.wowfinedining.com
+- **Backend API:** https://openclaw-multiagent.onrender.com
 - **Working dir:** /home/ubuntu/openclaw-multiagent
 - **Tests:** `python3 -m pytest tests/backend/ -v`
 - **Deploy:** `bash deploy/deploy.sh`

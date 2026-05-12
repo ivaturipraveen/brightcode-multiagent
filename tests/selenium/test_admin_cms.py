@@ -1,6 +1,6 @@
 """
 RILEY 🧪 — Selenium tests for Admin CMS
-Target: https://code-ui.brightcone.ai
+Target: https://www.wowfinedining.com
 
 Tests:
 1. Admin login page loads
@@ -24,8 +24,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 
-BASE_URL    = "https://code-ui.brightcone.ai"
-ADMIN_EMAIL = "admin@brightcone.ai"
+BASE_URL    = "https://www.wowfinedining.com"
+ADMIN_EMAIL = "admin@wowfinedining.com"
 ADMIN_PASS  = "WowAdmin2026!"
 
 

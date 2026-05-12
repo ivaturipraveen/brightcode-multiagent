@@ -7,6 +7,6 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5173,
     open: true,
-    allowedHosts: ['code.brightcone.ai', 'all'],
+    allowedHosts: ['www.wowfinedining.com', 'wowfinedining.com', 'all'],
   },
 })

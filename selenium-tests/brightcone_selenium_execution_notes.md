@@ -1,8 +1,8 @@
 # Brightcone Selenium Execution Notes
 
 ## Target
-- Deployed UI: `https://code-ui.brightcone.ai`
-- Deployed API: `https://code-api.brightcone.ai`
+- Deployed UI: `https://www.wowfinedining.com`
+- Deployed API: `https://openclaw-multiagent.onrender.com`
 
 ## Included Selenium Coverage (safe first slice)
 - Homepage render

@@ -1,6 +1,6 @@
 """
 RILEY 🧪 — Selenium tests for WoW language dropdown (FR, ES, DE + existing EN/IT/ZH)
-Target: https://code-ui.brightcone.ai/wow.html
+Target: https://www.wowfinedining.com/wow.html
 
 Tests:
 1. Language dropdown button visible in nav
@@ -25,7 +25,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 
-BASE_URL = "https://code-ui.brightcone.ai"
+BASE_URL = "https://www.wowfinedining.com"
 WOW_URL  = f"{BASE_URL}/wow.html"
 
 # Expected nav translations per language

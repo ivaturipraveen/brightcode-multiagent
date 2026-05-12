@@ -1,6 +1,6 @@
 """
 RILEY 🧪 — Selenium tests for WoW contact form, map modal, and Instagram link
-Target: https://code-ui.brightcone.ai/wow.html
+Target: https://www.wowfinedining.com/wow.html
 
 Tests:
 1. Directions link opens map modal
@@ -26,7 +26,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 
-BASE_URL = "https://code-ui.brightcone.ai"
+BASE_URL = "https://www.wowfinedining.com"
 WOW_URL  = f"{BASE_URL}/wow.html"
 
 

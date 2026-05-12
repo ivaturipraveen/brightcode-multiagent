@@ -77,18 +77,18 @@ check_url() {
   fi
 }
 
-check_url "Frontend"  "https://code-ui.brightcone.ai"
-check_url "Backend"   "https://code-api.brightcone.ai/health"
-check_url "HR Portal" "https://code-ui.brightcone.ai/hr"
+check_url "Frontend"  "https://www.wowfinedining.com"
+check_url "Backend"   "https://openclaw-multiagent.onrender.com/health"
+check_url "HR Portal" "https://www.wowfinedining.com/hr"
 
 printf "${BCYAN}║${RESET}                                                                      ${BCYAN}║${RESET}\n"
 printf "${BCYAN}╠══════════════════════════════════════════════════════════════════════╣${RESET}\n"
 
 # ── Quick Links ──────────────────────────────────────────────
 printf "${BCYAN}║${RESET}  ${BYELLOW}🔗  Quick Links${RESET}                                                       ${BCYAN}║${RESET}\n"
-printf "${BCYAN}║${RESET}  ${DIM}  UI  →${RESET}  ${CYAN}https://code-ui.brightcone.ai${RESET}                               ${BCYAN}║${RESET}\n"
-printf "${BCYAN}║${RESET}  ${DIM}  API →${RESET}  ${CYAN}https://code-api.brightcone.ai/docs${RESET}                         ${BCYAN}║${RESET}\n"
-printf "${BCYAN}║${RESET}  ${DIM}  HR  →${RESET}  ${CYAN}https://code-ui.brightcone.ai/hr${RESET}                            ${BCYAN}║${RESET}\n"
+printf "${BCYAN}║${RESET}  ${DIM}  UI  →${RESET}  ${CYAN}https://www.wowfinedining.com${RESET}                               ${BCYAN}║${RESET}\n"
+printf "${BCYAN}║${RESET}  ${DIM}  API →${RESET}  ${CYAN}https://openclaw-multiagent.onrender.com/docs${RESET}                         ${BCYAN}║${RESET}\n"
+printf "${BCYAN}║${RESET}  ${DIM}  HR  →${RESET}  ${CYAN}https://www.wowfinedining.com/hr${RESET}                            ${BCYAN}║${RESET}\n"
 printf "${BCYAN}║${RESET}  ${DIM}  Git →${RESET}  ${CYAN}git@github.com:ivaturipraveen/brightcode-multiagent.git${RESET}     ${BCYAN}║${RESET}\n"
 printf "${BCYAN}║${RESET}                                                                      ${BCYAN}║${RESET}\n"
 printf "${BCYAN}╠══════════════════════════════════════════════════════════════════════╣${RESET}\n"

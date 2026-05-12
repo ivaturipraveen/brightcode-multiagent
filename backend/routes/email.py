@@ -12,7 +12,7 @@ from security import get_current_user
 
 router = APIRouter(prefix="/email", tags=["email"])
 
-FROM_EMAIL = "hello@brightcone.ai"
+FROM_EMAIL = "info@wowfinedining.com"
 CC_EMAIL = "tulasi.chintha@gmail.com"
 
 
