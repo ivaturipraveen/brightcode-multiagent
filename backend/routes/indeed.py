@@ -207,14 +207,9 @@ def update_application_status(
 def get_stats(db: Session = Depends(get_db)):
     total_jobs = db.query(IndeedJob).filter(IndeedJob.is_active == "active").count()
     total_applications = db.query(IndeedApplication).count()
-    companies = db.query(IndeedJob.company).distinct().count()
-    categories = (
-        db.query(IndeedJob.category, db.query(IndeedJob).filter(IndeedJob.category == IndeedJob.category).count())
-        .distinct()
-        .all()
-    )
+    total_companies = db.query(IndeedJob.company).distinct().count()
     return {
         "total_jobs": total_jobs,
         "total_applications": total_applications,
-        "total_companies": companies,
+        "total_companies": total_companies,
     }
