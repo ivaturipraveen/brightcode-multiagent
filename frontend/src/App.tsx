@@ -37,6 +37,7 @@ import { AdminContentPage } from './pages/admin/AdminContentPage'
 import { FicoLandingPage } from './pages/fico/FicoLandingPage'
 import { FicoLoginPage } from './pages/fico/FicoLoginPage'
 import { FicoSignupPage } from './pages/fico/FicoSignupPage'
+import IndeedPage from './pages/IndeedPage'
 
 function HRProtectedRoute({ children }: { children: React.ReactNode }) {
   return getHRToken() ? <>{children}</> : <Navigate to="/hr" replace />
@@ -82,6 +83,9 @@ export default function App() {
       <Route path="/fico" element={<FicoLandingPage />} />
       <Route path="/fico/login" element={<FicoLoginPage />} />
       <Route path="/fico/signup" element={<FicoSignupPage />} />
+
+      {/* ── Indeed Job Portal ── */}
+      <Route path="/indeed" element={<IndeedPage />} />
 
       {/* ── Freelance Marketplace ── */}
       <Route path="/freelance" element={<FreelanceLandingPage />} />
