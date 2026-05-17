@@ -59,7 +59,7 @@ export default function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
-      <Route path="/report" element={<ProtectedRoute><ReportPage /></ProtectedRoute>} />
+      <Route path="/report" element={<ReportPage />} />
 
       {/* ── HR Portal ── */}
       <Route path="/hr" element={<HRLoginPage />} />
