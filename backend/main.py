@@ -29,8 +29,6 @@ from models import wow_reservation as _wow_reservation_model  # noqa: F401
 from routes.wow_reservations import router as wow_reservations_router
 from routes.content import router as content_router
 from routes.admin_auth import router as admin_auth_router
-from models import status_report as _status_report_model  # noqa: F401
-from routes.status_report import router as status_report_router
 
 app = FastAPI(title="Brightcone")
 
@@ -61,7 +59,6 @@ app.include_router(freelance_router)
 app.include_router(wow_reservations_router)
 app.include_router(content_router)
 app.include_router(admin_auth_router)
-app.include_router(status_report_router)
 
 
 @app.on_event("startup")
