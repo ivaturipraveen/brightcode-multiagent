@@ -16,6 +16,18 @@ services:
     staticPublishPath: dist
     routes:
       - type: rewrite
+        source: /turmeric
+        destination: /turmeric.html
+      - type: rewrite
+        source: /wow
+        destination: /wow.html
+      - type: rewrite
+        source: /wow-investor
+        destination: /wow-investor.html
+      - type: rewrite
+        source: /competitor-analysis-italy
+        destination: /competitor-analysis-italy.html
+      - type: rewrite
         source: /*
         destination: /index.html
     envVars:
