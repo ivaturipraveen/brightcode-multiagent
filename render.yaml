@@ -16,6 +16,9 @@ services:
     staticPublishPath: dist
     routes:
       - type: rewrite
+        source: /equivest
+        destination: /equivest.html
+      - type: rewrite
         source: /turmeric
         destination: /turmeric.html
       - type: rewrite
