@@ -225,7 +225,8 @@
     .qc-content .who strong { color: var(--gray1); }
 
     /* ─── PAGE BODY ─────────────────────────────────────────────────────── */
-    .page { padding: 20px 12px 60px; max-width: 680px; margin: 0 auto; }
+    .page { padding: 20px 12px 100px; max-width: 680px; margin: 0 auto; }
+    @media(min-width:641px){ .page { padding-bottom: 60px; } }
 
     /* ─── URGENT DATES ──────────────────────────────────────────────────── */
     /* Research: visual calendar-style dates are processed faster than text */
@@ -572,6 +573,83 @@
     }
 
     /* ─── FOOTER ────────────────────────────────────────────────────────── */
+    /* ─── FLOATING MOBILE CTA ───────────────────────────────────────────── */
+    /* Research: primary action must be reachable with one thumb at all times */
+    .float-cta {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 300;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid var(--gray4);
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.12);
+    }
+    @media(max-width:640px){ .float-cta { display: flex; gap: 10px; } }
+    .float-btn {
+      flex: 1; padding: 13px 10px; border-radius: 10px;
+      font-size: 0.88rem; font-weight: 800; text-align: center;
+      text-decoration: none; display: flex; align-items: center;
+      justify-content: center; gap: 6px; font-family: inherit;
+      border: none; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: opacity 0.15s;
+    }
+    .float-btn:active { opacity: 0.85; transform: scale(0.98); }
+    .float-btn.call  { background: var(--blue); color: var(--white); }
+    .float-btn.share { background: #25d366; color: var(--white); }
+    .float-btn.print { background: var(--gray5); color: var(--gray2); border: 1px solid var(--gray4); }
+
+    /* ─── SHARE BAR ─────────────────────────────────────────────────────── */
+    /* Research: peer sharing via WhatsApp/SMS is PRIMARY distribution channel */
+    .share-bar {
+      background: var(--blue-lt);
+      border: 1px solid #bfdbfe;
+      border-radius: var(--r-sm);
+      padding: 14px 16px;
+      margin: 20px 0;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .share-bar p { font-size: 0.88rem; color: var(--blue-dk); font-weight: 600; flex: 1; min-width: 160px; }
+    .share-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+    .share-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 14px; border-radius: 100px;
+      font-size: 0.82rem; font-weight: 700; text-decoration: none;
+      -webkit-tap-highlight-color: transparent; font-family: inherit;
+      border: none; cursor: pointer; transition: opacity 0.15s;
+    }
+    .share-btn:active { opacity: 0.85; }
+    .share-btn.wa  { background: #25d366; color: var(--white); }
+    .share-btn.sms { background: var(--blue); color: var(--white); }
+    .share-btn.copy{ background: var(--gray5); color: var(--gray2); border: 1px solid var(--gray4); }
+
+    /* ─── URGENCY PILL ──────────────────────────────────────────────────── */
+    .urgent-pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: var(--red); color: var(--white);
+      padding: 3px 10px; border-radius: 100px;
+      font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.06em; margin-left: 8px; vertical-align: middle;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    /* ─── PRINT STYLES ──────────────────────────────────────────────────── */
+    @media print {
+      #lang-bar, .float-cta, .share-bar, .advocate-card { display: none !important; }
+      body { background: white; font-size: 12pt; }
+      .topic-card .tc-body { display: block !important; }
+      .quick-check { margin: 0; border-radius: 0; box-shadow: none; }
+    }
+
     footer {
       background: var(--gray1);
       padding: 28px 16px;
@@ -713,6 +791,7 @@
           <span data-lang="so">Khatar — Hadda tallaabo qaado</span>
           <span data-lang="tl">Nasa panganib — Kumilos na ngayon</span>
           <span data-lang="es">En riesgo — Actúe ahora</span>
+          <span class="urgent-pill">🚨 Urgent</span>
         </div>
         <div class="who">
           <span data-lang="en">DACA · TPS · Work or family visa · Parolee · Other lawful status — <strong>Losing federal Medicaid. Call 877-501-2233 today.</strong></span>
@@ -726,6 +805,13 @@
     </div>
 
   </div>
+</div>
+
+<!-- ══ FLOATING MOBILE CTA — always reachable with one thumb ═════════════ -->
+<div class="float-cta">
+  <a class="float-btn call" href="tel:8775012233">📞 877-501-2233</a>
+  <a class="float-btn share" id="wa-float" href="#" onclick="shareWA(); return false;">💬 <span data-lang="en">Share</span><span data-lang="vi">Chia sẻ</span><span data-lang="zh">分享</span><span data-lang="so">Wadaag</span><span data-lang="tl">Ibahagi</span><span data-lang="es">Compartir</span></a>
+  <button class="float-btn print" onclick="window.print()">🖨️</button>
 </div>
 
 <!-- ══ MAIN PAGE ══════════════════════════════════════════════════════════ -->
@@ -748,6 +834,23 @@
       <span data-lang="tl"> Ang gabay na ito ay mula sa mga organisasyon ng komunidad. Ang pagsusuri ng iyong mga benepisyo o pagtawag sa help line ay hindi nakakaapekto sa iyong kaso sa immigration.</span>
       <span data-lang="es"> Esta guía es de organizaciones comunitarias. Verificar sus beneficios o llamar a una línea de ayuda no afecta su caso de inmigración.</span>
     </p>
+  </div>
+
+  <!-- SHARE BAR — peer sharing is primary distribution channel for immigrants -->
+  <div class="share-bar">
+    <p>
+      <span data-lang="en">📲 Know someone who needs this? Share it with your community.</span>
+      <span data-lang="vi">📲 Biết ai cần thông tin này? Chia sẻ với cộng đồng của bạn.</span>
+      <span data-lang="zh">📲 认识需要这些信息的人吗？与您的社区分享。</span>
+      <span data-lang="so">📲 Ma taqaanaa qof u baahan macluumaadkan? La wadaag bulshadaada.</span>
+      <span data-lang="tl">📲 May kilala kang nangangailangan nito? Ibahagi sa iyong komunidad.</span>
+      <span data-lang="es">📲 ¿Conoce a alguien que necesite esto? Compártalo con su comunidad.</span>
+    </p>
+    <div class="share-btns">
+      <a class="share-btn wa" href="#" onclick="shareWA(); return false;">💬 WhatsApp</a>
+      <a class="share-btn sms" href="#" onclick="shareSMS(); return false;">💬 SMS</a>
+      <button class="share-btn copy" onclick="copyLink()">🔗 <span data-lang="en">Copy Link</span><span data-lang="vi">Sao chép</span><span data-lang="zh">复制链接</span><span data-lang="so">Nuqul</span><span data-lang="tl">Kopyahin</span><span data-lang="es">Copiar enlace</span></button>
+    </div>
   </div>
 
   <!-- URGENT DATES -->
@@ -1130,6 +1233,26 @@
 </footer>
 
 <script>
+  const PAGE_URL = window.location.href;
+  const PAGE_TITLE = "H.R. 1 Guide — Washington State immigrant communities";
+
+  function shareWA() {
+    const msg = encodeURIComponent("Are your SNAP or Medicaid benefits changing? Check this free guide for immigrant communities in Washington State: " + PAGE_URL);
+    window.open("https://wa.me/?text=" + msg, "_blank");
+  }
+  function shareSMS() {
+    const msg = encodeURIComponent("Free guide: Is your SNAP or health insurance changing? " + PAGE_URL);
+    window.location.href = "sms:?body=" + msg;
+  }
+  function copyLink() {
+    navigator.clipboard.writeText(PAGE_URL).then(() => {
+      const btn = event.target.closest('.share-btn') || event.target;
+      const orig = btn.innerHTML;
+      btn.innerHTML = '✅ Copied!';
+      setTimeout(() => btn.innerHTML = orig, 2000);
+    });
+  }
+
   function setLang(lang, btn) {
     document.querySelectorAll('[data-lang]').forEach(el => {
       const inline = ['SPAN','A','STRONG','B','EM','SMALL','LI'].includes(el.tagName);
