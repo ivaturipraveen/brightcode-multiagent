@@ -1,985 +1,1152 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>H.R. 1 Impact Guide | Washington State Community Resource</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <meta name="theme-color" content="#1a56a0"/>
+  <title>Am I Affected by H.R. 1? | Washington State</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;800&family=Noto+Sans+SC:wght@400;700&family=Noto+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* ══ TOKENS — DSHS-INSPIRED PALETTE ══════════════════════════════════════ */
+    /* ─── RESEARCH-DRIVEN DESIGN PRINCIPLES ─────────────────────────────────
+       1. FEAR REDUCTION: Warm, human, non-governmental feel
+       2. MOBILE-FIRST: All primary content works on 375px screens
+       3. TASK-FIRST: "Am I affected?" answered in 3 seconds
+       4. PLAIN LANGUAGE: No jargon, short sentences, active voice
+       5. VISUAL-FIRST: Large icons, color-coded status, minimal text blocks
+       6. COMMUNITY TRUST: Real org names, hotlines, human photos/faces
+       7. LINEAR READING: No complex nav patterns, clear top-to-bottom flow
+       8. ACTION-ORIENTED: Every section ends with a clear next step
+    ─────────────────────────────────────────────────────────────────────── */
+
     :root {
-      --wa-blue:      #00538a;
-      --wa-blue-dk:   #003d66;
-      --wa-blue-lt:   #e8f4fb;
-      --wa-blue-mid:  #1a7abd;
-      --wa-green:     #2e7d32;
-      --wa-green-lt:  #e8f5e9;
-      --wa-red:       #c62828;
-      --wa-red-lt:    #fdecea;
-      --wa-orange:    #e65100;
-      --wa-orange-lt: #fff3e0;
-      --wa-yellow:    #f9a825;
-      --wa-yellow-lt: #fffde7;
-      --wa-gray1:     #1a1a1a;
-      --wa-gray2:     #333333;
-      --wa-gray3:     #555555;
-      --wa-gray4:     #767676;
-      --wa-gray5:     #e0e0e0;
-      --wa-gray6:     #f5f5f5;
-      --wa-white:     #ffffff;
-      --wa-border:    #d0d0d0;
-      --wa-shadow:    0 2px 8px rgba(0,0,0,0.10);
-      --wa-shadow-md: 0 4px 16px rgba(0,0,0,0.12);
-      --r:            6px;
-      --max-w:        1100px;
+      --blue:     #1a56a0;
+      --blue-dk:  #0f3870;
+      --blue-lt:  #e8f1fb;
+      --blue-mid: #2563b0;
+      --green:    #15803d;
+      --green-lt: #dcfce7;
+      --red:      #b91c1c;
+      --red-lt:   #fee2e2;
+      --orange:   #c2410c;
+      --orange-lt:#ffedd5;
+      --yellow:   #92400e;
+      --yellow-lt:#fef3c7;
+      --gray1:    #111827;
+      --gray2:    #374151;
+      --gray3:    #6b7280;
+      --gray4:    #d1d5db;
+      --gray5:    #f3f4f6;
+      --white:    #ffffff;
+      --r:        12px;
+      --r-sm:     8px;
+      --shadow:   0 1px 4px rgba(0,0,0,0.10), 0 4px 16px rgba(0,0,0,0.06);
     }
 
-    /* ══ RESET ════════════════════════════════════════════════════════════════ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; font-size: 16px; }
+    html { font-size: 16px; scroll-behavior: smooth; }
     body {
-      font-family: 'Source Sans 3', 'Open Sans', Arial, sans-serif;
-      background: var(--wa-white); color: var(--wa-gray1);
-      line-height: 1.65; -webkit-font-smoothing: antialiased;
+      font-family: 'Noto Sans', system-ui, -apple-system, sans-serif;
+      background: #f8fafc;
+      color: var(--gray1);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
-    a { color: var(--wa-blue); }
-    a:hover { color: var(--wa-blue-dk); text-decoration: underline; }
-    ul { padding-left: 1.4em; }
-    li { margin-bottom: 0.35em; }
 
-    /* ══ TOP UTILITY BAR ══════════════════════════════════════════════════════ */
-    .utility-bar {
-      background: var(--wa-blue-dk);
-      padding: 6px 0;
+    /* ─── LANGUAGE SELECTOR ─────────────────────────────────────────────── */
+    /* Research: language selector must be FIRST thing seen, before any content */
+    #lang-bar {
+      background: var(--blue-dk);
+      padding: 0;
+      position: sticky;
+      top: 0;
+      z-index: 200;
     }
-    .utility-inner {
-      max-width: var(--max-w); margin: 0 auto; padding: 0 20px;
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    .lang-scroller {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
-    .utility-bar .wa-label {
-      font-size: 0.78rem; color: rgba(255,255,255,0.85); font-weight: 600;
-      display: flex; align-items: center; gap: 6px;
+    .lang-scroller::-webkit-scrollbar { display: none; }
+    .lang-label {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.6);
+      white-space: nowrap;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      flex-shrink: 0;
+      margin-right: 2px;
     }
-    .lang-row { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
-    .lang-row span { font-size: 0.72rem; color: rgba(255,255,255,0.6); margin-right: 4px; }
     .lang-btn {
-      background: transparent; border: 1px solid rgba(255,255,255,0.35);
-      color: rgba(255,255,255,0.9); padding: 3px 10px; border-radius: 3px;
-      font-size: 0.75rem; font-weight: 600; cursor: pointer;
-      font-family: inherit; transition: all 0.15s; white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,0.1);
+      border: 1.5px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.9);
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-family: inherit;
+      transition: all 0.15s;
+      -webkit-tap-highlight-color: transparent;
     }
-    .lang-btn:hover { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.6); }
-    .lang-btn.active { background: var(--wa-white); color: var(--wa-blue-dk); border-color: var(--wa-white); }
+    .lang-btn:active { transform: scale(0.96); }
+    .lang-btn.active {
+      background: var(--white);
+      color: var(--blue-dk);
+      border-color: var(--white);
+    }
 
-    /* ══ SITE HEADER ══════════════════════════════════════════════════════════ */
-    .site-header {
-      background: var(--wa-blue);
-      padding: 0;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.18);
-      position: sticky; top: 0; z-index: 100;
-    }
-    .site-header-inner {
-      max-width: var(--max-w); margin: 0 auto; padding: 14px 20px;
-      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-    }
-    .wa-seal {
-      width: 48px; height: 48px; border-radius: 50%;
-      background: var(--wa-white); display: flex; align-items: center;
-      justify-content: center; font-size: 1.5rem; flex-shrink: 0;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    }
-    .header-text h1 {
-      font-family: 'Source Serif 4', Georgia, serif;
-      font-size: 1.15rem; font-weight: 700; color: var(--wa-white); line-height: 1.2;
-    }
-    .header-text p { font-size: 0.82rem; color: rgba(255,255,255,0.8); margin-top: 2px; }
-    .header-flags { margin-left: auto; font-size: 1.3rem; letter-spacing: 4px; }
-
-    /* ══ HERO BANNER ══════════════════════════════════════════════════════════ */
+    /* ─── HERO — "AM I AFFECTED?" ───────────────────────────────────────── */
+    /* Research: task-first. Answer the ONE question they came with. */
     .hero {
-      background: linear-gradient(135deg, var(--wa-blue) 0%, var(--wa-blue-mid) 100%);
-      color: var(--wa-white);
-      padding: 48px 20px 52px;
-    }
-    .hero-inner { max-width: var(--max-w); margin: 0 auto; }
-    .hero-eyebrow {
-      display: inline-block;
-      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
-      padding: 4px 14px; border-radius: 3px;
-      font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.08em; margin-bottom: 16px; color: rgba(255,255,255,0.95);
-    }
-    .hero h2 {
-      font-family: 'Source Serif 4', Georgia, serif;
-      font-size: clamp(1.7rem, 4vw, 2.6rem);
-      font-weight: 700; line-height: 1.2; margin-bottom: 14px;
-      color: var(--wa-white);
-    }
-    .hero-sub { font-size: 1.05rem; color: rgba(255,255,255,0.9); max-width: 680px; line-height: 1.6; margin-bottom: 24px; }
-    .hero-meta { display: flex; flex-wrap: wrap; gap: 10px; }
-    .hero-tag {
-      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
-      padding: 5px 14px; border-radius: 3px;
-      font-size: 0.82rem; font-weight: 600; color: var(--wa-white);
-    }
-    .hero-tag.warn { background: rgba(230,81,0,0.3); border-color: rgba(255,160,0,0.5); }
-
-    /* ══ ALERT BANNER ═════════════════════════════════════════════════════════ */
-    .alert-bar {
-      background: var(--wa-orange-lt);
-      border-left: 5px solid var(--wa-orange);
-      padding: 0;
-    }
-    .alert-bar-inner {
-      max-width: var(--max-w); margin: 0 auto; padding: 14px 20px;
-      display: flex; gap: 14px; align-items: flex-start;
-    }
-    .alert-bar-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
-    .alert-bar p { font-size: 0.92rem; color: #3e2000; line-height: 1.6; }
-    .alert-bar strong { color: var(--wa-orange); }
-
-    /* ══ MAIN LAYOUT ══════════════════════════════════════════════════════════ */
-    .page-wrap { max-width: var(--max-w); margin: 0 auto; padding: 36px 20px 64px; }
-
-    /* ══ STAT BAND ════════════════════════════════════════════════════════════ */
-    .stat-band {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
-      margin-bottom: 36px;
-    }
-    @media(max-width:700px){ .stat-band{ grid-template-columns: 1fr 1fr; } }
-    @media(max-width:420px){ .stat-band{ grid-template-columns: 1fr; } }
-    .stat-box {
-      background: var(--wa-white);
-      border: 1px solid var(--wa-border);
-      border-top: 4px solid var(--wa-blue);
-      border-radius: var(--r);
-      padding: 18px 16px;
-      box-shadow: var(--wa-shadow);
-    }
-    .stat-box.green { border-top-color: var(--wa-green); }
-    .stat-box.orange { border-top-color: var(--wa-orange); }
-    .stat-box.red { border-top-color: var(--wa-red); }
-    .stat-num {
-      font-size: 1.9rem; font-weight: 700; line-height: 1;
-      color: var(--wa-blue); margin-bottom: 4px;
-    }
-    .stat-box.green .stat-num { color: var(--wa-green); }
-    .stat-box.orange .stat-num { color: var(--wa-orange); }
-    .stat-box.red .stat-num { color: var(--wa-red); }
-    .stat-lbl { font-size: 0.8rem; color: var(--wa-gray3); font-weight: 600; line-height: 1.3; }
-
-    /* ══ SECTION BLOCKS ═══════════════════════════════════════════════════════ */
-    .section {
-      background: var(--wa-white);
-      border: 1px solid var(--wa-border);
-      border-radius: var(--r);
-      margin-bottom: 20px;
-      box-shadow: var(--wa-shadow);
+      background: linear-gradient(160deg, var(--blue) 0%, var(--blue-mid) 100%);
+      padding: 32px 16px 28px;
+      color: var(--white);
+      position: relative;
       overflow: hidden;
     }
-    .section-head {
-      display: flex; align-items: center; gap: 14px;
-      padding: 18px 22px; cursor: pointer;
-      background: var(--wa-white);
-      border-bottom: 1px solid transparent;
+    .hero::after {
+      content: "";
+      position: absolute;
+      bottom: -40px; right: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 100px;
+      padding: 4px 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .hero h1 {
+      font-size: clamp(1.6rem, 5vw, 2.4rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .hero-sub {
+      font-size: 1rem;
+      opacity: 0.92;
+      max-width: 600px;
+      margin-bottom: 22px;
+      line-height: 1.6;
+    }
+    /* Research: community flags as instant visual trust signal */
+    .community-flags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .community-flag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 100px;
+      padding: 5px 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    /* ─── "AM I AFFECTED?" QUICK CHECK ─────────────────────────────────── */
+    /* Research: answer the primary question in 3 seconds with visual cues */
+    .quick-check {
+      background: var(--white);
+      margin: 0 12px;
+      margin-top: -16px;
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+      z-index: 10;
+    }
+    .quick-check-header {
+      background: var(--gray1);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .quick-check-header h2 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--white);
+    }
+    .qc-row {
+      display: flex;
+      align-items: stretch;
+      border-bottom: 1px solid var(--gray4);
+    }
+    .qc-row:last-child { border-bottom: none; }
+    .qc-status {
+      width: 60px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+    .qc-status.green { background: var(--green-lt); }
+    .qc-status.red   { background: var(--red-lt); }
+    .qc-status.orange{ background: var(--orange-lt); }
+    .qc-content { padding: 12px 14px; flex: 1; }
+    .qc-content .label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 4px;
+    }
+    .qc-status.green ~ .qc-content .label { color: var(--green); }
+    .qc-status.red   ~ .qc-content .label { color: var(--red); }
+    .qc-status.orange~ .qc-content .label { color: var(--orange); }
+    .qc-content .who { font-size: 0.88rem; color: var(--gray2); line-height: 1.5; }
+    .qc-content .who strong { color: var(--gray1); }
+
+    /* ─── PAGE BODY ─────────────────────────────────────────────────────── */
+    .page { padding: 20px 12px 60px; max-width: 680px; margin: 0 auto; }
+
+    /* ─── URGENT DATES ──────────────────────────────────────────────────── */
+    /* Research: visual calendar-style dates are processed faster than text */
+    .dates-strip {
+      margin-bottom: 20px;
+    }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray3);
+      margin-bottom: 10px;
+      padding-left: 4px;
+    }
+    .dates-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media(max-width:400px){ .dates-row{ grid-template-columns:1fr; } }
+    .date-card {
+      background: var(--white);
+      border-radius: var(--r-sm);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .date-top {
+      padding: 8px 12px 6px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .date-top.orange { background: var(--orange-lt); color: var(--orange); }
+    .date-top.red    { background: var(--red-lt);    color: var(--red); }
+    .date-top.blue   { background: var(--blue-lt);   color: var(--blue); }
+    .date-top.green  { background: var(--green-lt);  color: var(--green); }
+    .date-body { padding: 10px 12px; }
+    .date-body .date { font-size: 1.05rem; font-weight: 800; color: var(--gray1); line-height: 1.1; margin-bottom: 4px; }
+    .date-body .desc { font-size: 0.82rem; color: var(--gray2); line-height: 1.4; }
+
+    /* ─── TOPIC CARDS ───────────────────────────────────────────────────── */
+    /* Research: one card per topic, visual icon, plain headline, then detail */
+    .topic-card {
+      background: var(--white);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+    .tc-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
       transition: background 0.15s;
-      user-select: none;
     }
-    .section.open .section-head { border-bottom-color: var(--wa-border); background: var(--wa-gray6); }
-    .section-head:hover { background: var(--wa-gray6); }
-    .section-icon-wrap {
-      width: 42px; height: 42px; border-radius: var(--r);
-      background: var(--wa-blue-lt); display: flex; align-items: center;
-      justify-content: center; font-size: 1.25rem; flex-shrink: 0;
+    .tc-head:active { background: var(--gray5); }
+    .tc-icon {
+      font-size: 1.8rem;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      flex-shrink: 0;
+      background: var(--blue-lt);
     }
-    .section.open .section-icon-wrap { background: var(--wa-blue); }
-    .section-head-text { flex: 1; }
-    .section-head-text h3 {
-      font-size: 1.05rem; font-weight: 700; color: var(--wa-gray1);
+    .topic-card.open .tc-icon {
+      background: var(--blue);
+      font-size: 1.5rem;
+    }
+    .tc-head-text { flex: 1; min-width: 0; }
+    .tc-head-text h3 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--gray1);
       line-height: 1.2;
+      margin-bottom: 2px;
     }
-    .section-head-text p { font-size: 0.8rem; color: var(--wa-gray4); margin-top: 2px; }
-    .section-toggle {
-      width: 28px; height: 28px; border-radius: 50%;
-      border: 2px solid var(--wa-border); background: var(--wa-white);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.85rem; color: var(--wa-gray4); flex-shrink: 0;
+    .tc-head-text p {
+      font-size: 0.78rem;
+      color: var(--gray3);
+    }
+    .tc-chevron {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid var(--gray4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: var(--gray3);
+      flex-shrink: 0;
       transition: transform 0.25s, border-color 0.15s;
     }
-    .section.open .section-toggle { transform: rotate(180deg); border-color: var(--wa-blue); color: var(--wa-blue); }
-    .section-body { display: none; padding: 24px 22px; }
-    .section.open .section-body { display: block; }
+    .topic-card.open .tc-chevron { transform: rotate(180deg); border-color: var(--blue); color: var(--blue); }
+    .tc-divider { height: 1px; background: var(--gray4); margin: 0 18px; }
+    .tc-body { display: none; padding: 18px; }
+    .topic-card.open .tc-body { display: block; }
 
-    /* ══ INFO PANELS ══════════════════════════════════════════════════════════ */
-    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-    @media(max-width:600px){ .grid2 { grid-template-columns: 1fr; } }
-    .panel {
-      border-radius: var(--r); padding: 18px 20px;
-      border: 1px solid var(--wa-border);
+    /* ─── STATUS BLOCKS ─────────────────────────────────────────────────── */
+    /* Research: color + icon communiates faster than reading text */
+    .status-block {
+      border-radius: var(--r-sm);
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
     }
-    .panel.green { background: var(--wa-green-lt); border-color: #a5d6a7; }
-    .panel.red   { background: var(--wa-red-lt);   border-color: #ef9a9a; }
-    .panel.orange{ background: var(--wa-orange-lt); border-color: #ffcc80; }
-    .panel.blue  { background: var(--wa-blue-lt);   border-color: #90caf9; }
-    .panel.yellow{ background: var(--wa-yellow-lt); border-color: #fff176; }
-    .panel.gray  { background: var(--wa-gray6);     border-color: var(--wa-border); }
-    .panel h4 {
-      font-size: 0.82rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.06em; margin-bottom: 10px;
-      display: flex; align-items: center; gap: 6px;
+    .status-block.green  { background: var(--green-lt);  border-left: 4px solid var(--green); }
+    .status-block.red    { background: var(--red-lt);    border-left: 4px solid var(--red); }
+    .status-block.orange { background: var(--orange-lt); border-left: 4px solid var(--orange); }
+    .status-block.yellow { background: var(--yellow-lt); border-left: 4px solid var(--yellow); }
+    .status-block.blue   { background: var(--blue-lt);   border-left: 4px solid var(--blue); }
+    .sb-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; line-height: 1; }
+    .sb-content h4 {
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 5px;
     }
-    .panel.green  h4 { color: var(--wa-green); }
-    .panel.red    h4 { color: var(--wa-red); }
-    .panel.orange h4 { color: var(--wa-orange); }
-    .panel.blue   h4 { color: var(--wa-blue); }
-    .panel.yellow h4 { color: #7b6000; }
-    .panel p { font-size: 0.9rem; line-height: 1.65; }
-    .panel ul { font-size: 0.9rem; }
-    .panel ul li { margin-bottom: 5px; }
+    .status-block.green  .sb-content h4 { color: var(--green); }
+    .status-block.red    .sb-content h4 { color: var(--red); }
+    .status-block.orange .sb-content h4 { color: var(--orange); }
+    .status-block.yellow .sb-content h4 { color: var(--yellow); }
+    .status-block.blue   .sb-content h4 { color: var(--blue); }
+    .sb-content p, .sb-content ul { font-size: 0.88rem; color: var(--gray2); line-height: 1.6; }
+    .sb-content ul { padding-left: 1.2em; }
+    .sb-content ul li { margin-bottom: 3px; }
 
-    /* ══ NOTE BOX ═════════════════════════════════════════════════════════════ */
-    .note {
-      border-left: 4px solid var(--wa-blue);
-      background: var(--wa-blue-lt); border-radius: 0 var(--r) var(--r) 0;
-      padding: 14px 18px; margin: 16px 0; font-size: 0.9rem;
+    /* ─── COMMUNITY SELECTOR ────────────────────────────────────────────── */
+    /* Research: people trust info about "people like me" — community-specific framing */
+    .community-selector {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      margin-bottom: 16px;
+      padding-bottom: 4px;
     }
-    .note.green { border-color: var(--wa-green); background: var(--wa-green-lt); }
-    .note.orange { border-color: var(--wa-orange); background: var(--wa-orange-lt); }
-    .note.red { border-color: var(--wa-red); background: var(--wa-red-lt); }
-    .note strong { font-weight: 700; }
+    .community-selector::-webkit-scrollbar { display: none; }
+    .cs-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      background: var(--white);
+      border: 2px solid var(--gray4);
+      border-radius: var(--r-sm);
+      padding: 10px 14px;
+      cursor: pointer;
+      flex-shrink: 0;
+      font-family: inherit;
+      transition: all 0.15s;
+      -webkit-tap-highlight-color: transparent;
+      min-width: 72px;
+    }
+    .cs-btn:active { transform: scale(0.96); }
+    .cs-btn.active { border-color: var(--blue); background: var(--blue-lt); }
+    .cs-flag { font-size: 1.6rem; line-height: 1; }
+    .cs-name { font-size: 0.68rem; font-weight: 700; color: var(--gray3); text-align: center; line-height: 1.1; }
+    .cs-btn.active .cs-name { color: var(--blue); }
+    .community-pane { display: none; }
+    .community-pane.active { display: block; }
 
-    /* ══ TIMELINE ═════════════════════════════════════════════════════════════ */
-    .timeline { border-left: 3px solid var(--wa-blue); margin: 4px 0 4px 8px; padding-left: 24px; }
-    .tl { position: relative; margin-bottom: 20px; }
-    .tl::before {
-      content: ""; position: absolute; left: -31px; top: 5px;
-      width: 14px; height: 14px; border-radius: 50%;
-      background: var(--wa-blue); border: 3px solid var(--wa-white);
-      box-shadow: 0 0 0 2px var(--wa-blue);
+    /* ─── PERSON STORY ──────────────────────────────────────────────────── */
+    /* Research: relatable scenarios ("someone like you") build trust */
+    .person-story {
+      background: var(--blue-lt);
+      border-radius: var(--r-sm);
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      border-left: 4px solid var(--blue);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
     }
-    .tl.past::before  { background: var(--wa-gray4); box-shadow: 0 0 0 2px var(--wa-gray4); }
-    .tl.soon::before  { background: var(--wa-orange); box-shadow: 0 0 0 2px var(--wa-orange); }
-    .tl.danger::before{ background: var(--wa-red); box-shadow: 0 0 0 2px var(--wa-red); }
-    .tl-date {
-      font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.07em; margin-bottom: 3px; color: var(--wa-blue);
-      display: flex; align-items: center; gap: 8px;
+    .person-avatar {
+      font-size: 2rem;
+      width: 44px;
+      height: 44px;
+      background: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
-    .tl.past .tl-date  { color: var(--wa-gray4); }
-    .tl.soon .tl-date  { color: var(--wa-orange); }
-    .tl.danger .tl-date{ color: var(--wa-red); }
-    .tl-label {
-      display: inline-block; font-size: 0.68rem; font-weight: 700;
-      padding: 1px 7px; border-radius: 2px;
-    }
-    .lbl-past   { background: #e0e0e0; color: var(--wa-gray3); }
-    .lbl-soon   { background: #fff3e0; color: var(--wa-orange); border: 1px solid #ffcc80; }
-    .lbl-active { background: var(--wa-blue-lt); color: var(--wa-blue); border: 1px solid #90caf9; }
-    .lbl-danger { background: var(--wa-red-lt); color: var(--wa-red); border: 1px solid #ef9a9a; }
-    .tl-text { font-size: 0.92rem; color: var(--wa-gray2); line-height: 1.55; }
+    .person-text { font-size: 0.88rem; color: var(--gray2); line-height: 1.6; }
+    .person-text strong { color: var(--blue); font-size: 0.92rem; }
 
-    /* ══ COMMUNITY TABS ═══════════════════════════════════════════════════════ */
-    .ctab-list {
-      display: flex; gap: 0; border-bottom: 2px solid var(--wa-blue);
-      margin-bottom: 20px; flex-wrap: wrap;
-    }
-    .ctab {
-      background: var(--wa-gray6); border: 1px solid var(--wa-border);
-      border-bottom: none; color: var(--wa-gray2);
-      padding: 9px 18px; cursor: pointer; font-size: 0.88rem; font-weight: 600;
-      font-family: inherit; margin-right: 2px; margin-bottom: -2px;
-      border-radius: var(--r) var(--r) 0 0;
-      transition: background 0.15s; display: flex; align-items: center; gap: 6px;
-    }
-    .ctab:hover { background: var(--wa-blue-lt); color: var(--wa-blue); }
-    .ctab.active {
-      background: var(--wa-white); color: var(--wa-blue);
-      border-color: var(--wa-blue); border-bottom-color: var(--wa-white);
-      font-weight: 700;
-    }
-    .ctab-pane { display: none; }
-    .ctab-pane.active { display: block; }
-
-    .comm-section { margin-bottom: 0; }
-    .comm-item {
-      display: flex; gap: 10px; padding: 10px 0;
-      border-bottom: 1px solid var(--wa-gray5); font-size: 0.9rem; line-height: 1.6;
-      color: var(--wa-gray2);
-    }
-    .comm-item:last-child { border-bottom: none; padding-bottom: 0; }
-    .comm-bullet {
-      width: 8px; height: 8px; border-radius: 50%;
-      flex-shrink: 0; margin-top: 8px;
-    }
-    .cb-blue   { background: var(--wa-blue); }
-    .cb-green  { background: var(--wa-green); }
-    .cb-orange { background: var(--wa-orange); }
-    .cb-red    { background: var(--wa-red); }
-
-    /* ══ ACTION STEPS ═════════════════════════════════════════════════════════ */
-    .steps-list { display: flex; flex-direction: column; gap: 14px; }
-    .step-item {
-      display: flex; gap: 16px;
-      background: var(--wa-white); border: 1px solid var(--wa-border);
-      border-radius: var(--r); padding: 18px;
-      box-shadow: var(--wa-shadow);
-      transition: box-shadow 0.2s, border-color 0.2s;
-    }
-    .step-item:hover { border-color: var(--wa-blue); box-shadow: var(--wa-shadow-md); }
-    .step-num {
-      width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
-      background: var(--wa-blue); color: var(--wa-white);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; font-weight: 700;
-    }
-    .step-content h5 { font-size: 0.98rem; font-weight: 700; margin-bottom: 5px; color: var(--wa-gray1); }
-    .step-content p { font-size: 0.88rem; color: var(--wa-gray3); line-height: 1.6; }
-    .step-content a { color: var(--wa-blue); font-weight: 600; }
-
-    /* ══ ADVOCATE BANNER ══════════════════════════════════════════════════════ */
-    .advocate {
-      background: var(--wa-blue);
-      border-radius: var(--r); padding: 28px 28px;
-      display: flex; gap: 20px; align-items: center;
-      flex-wrap: wrap; margin-top: 20px;
-      color: var(--wa-white);
-    }
-    .advocate-icon { font-size: 2.2rem; flex-shrink: 0; }
-    .advocate h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
-    .advocate p { font-size: 0.88rem; opacity: 0.9; line-height: 1.6; max-width: 500px; }
-    .advocate p a { color: #90caf9; }
-    .advocate-cta {
-      margin-left: auto; background: var(--wa-white); color: var(--wa-blue);
-      padding: 10px 22px; border-radius: 3px; font-weight: 700; font-size: 0.9rem;
-      text-decoration: none; white-space: nowrap; flex-shrink: 0;
-      transition: opacity 0.15s;
-    }
-    .advocate-cta:hover { opacity: 0.9; text-decoration: none; }
-
-    /* ══ RESOURCES ════════════════════════════════════════════════════════════ */
-    .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    @media(max-width:600px){ .res-grid { grid-template-columns: 1fr; } }
-    .res-card {
-      background: var(--wa-white); border: 1px solid var(--wa-border);
-      border-radius: var(--r); padding: 18px;
-      box-shadow: var(--wa-shadow);
+    /* ─── ACTION STEPS ──────────────────────────────────────────────────── */
+    /* Research: "what do I do?" is THE question — make steps impossible to miss */
+    .action-step {
+      background: var(--white);
+      border: 2px solid var(--gray4);
+      border-radius: var(--r-sm);
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      text-decoration: none;
+      color: inherit;
       transition: border-color 0.15s, box-shadow 0.15s;
+      -webkit-tap-highlight-color: transparent;
     }
-    .res-card:hover { border-color: var(--wa-blue); box-shadow: var(--wa-shadow-md); }
-    .res-card-top { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-    .res-icon-sq {
-      width: 38px; height: 38px; border-radius: var(--r);
-      background: var(--wa-blue-lt); display: flex; align-items: center;
-      justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+    .action-step:active { transform: scale(0.99); }
+    .action-step.primary {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: var(--white);
     }
-    .res-card h5 { font-size: 0.92rem; font-weight: 700; color: var(--wa-gray1); }
-    .res-card p { font-size: 0.82rem; color: var(--wa-gray3); line-height: 1.5; margin-bottom: 8px; }
-    .res-links { display: flex; gap: 12px; flex-wrap: wrap; }
-    .res-link { font-size: 0.82rem; color: var(--wa-blue); font-weight: 600; text-decoration: none; }
-    .res-link:hover { text-decoration: underline; }
-    .res-phone { font-size: 0.85rem; font-weight: 700; color: var(--wa-green); }
+    .action-step.primary .as-num { background: rgba(255,255,255,0.2); color: var(--white); }
+    .action-step.primary .as-title { color: var(--white); }
+    .action-step.primary .as-sub { color: rgba(255,255,255,0.85); }
+    .as-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--blue-lt);
+      color: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .as-title { font-size: 0.92rem; font-weight: 700; margin-bottom: 3px; color: var(--gray1); }
+    .as-sub { font-size: 0.82rem; color: var(--gray3); line-height: 1.5; }
+    .as-sub a { color: var(--blue); font-weight: 600; text-decoration: none; }
+    .as-arrow { margin-left: auto; font-size: 1.1rem; align-self: center; opacity: 0.5; flex-shrink: 0; }
 
-    /* ══ FAQ ══════════════════════════════════════════════════════════════════ */
-    .faq-list { border: 1px solid var(--wa-border); border-radius: var(--r); overflow: hidden; }
-    .faq-item { border-bottom: 1px solid var(--wa-border); }
-    .faq-item:last-child { border-bottom: none; }
-    .faq-q {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 16px 20px; cursor: pointer; gap: 12px;
-      background: var(--wa-white); transition: background 0.15s;
-      font-size: 0.93rem; font-weight: 600; color: var(--wa-gray1);
+    /* ─── HOTLINE CARDS ─────────────────────────────────────────────────── */
+    /* Research: phone number must be large and tap-to-call on mobile */
+    .hotline-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
     }
-    .faq-q:hover { background: var(--wa-gray6); }
-    .faq-item.open .faq-q { background: var(--wa-blue-lt); color: var(--wa-blue); }
-    .faq-toggle {
-      width: 24px; height: 24px; border-radius: 50%;
-      border: 2px solid var(--wa-border); background: var(--wa-white);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem; color: var(--wa-gray4); flex-shrink: 0;
-      transition: all 0.25s;
+    @media(max-width:380px){ .hotline-grid{ grid-template-columns:1fr; } }
+    .hotline-card {
+      background: var(--white);
+      border-radius: var(--r-sm);
+      padding: 14px 14px;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      display: block;
+      -webkit-tap-highlight-color: transparent;
+      transition: box-shadow 0.15s;
     }
-    .faq-item.open .faq-toggle { background: var(--wa-blue); border-color: var(--wa-blue); color: var(--wa-white); transform: rotate(45deg); }
-    .faq-a {
-      max-height: 0; overflow: hidden;
-      font-size: 0.9rem; color: var(--wa-gray2); line-height: 1.7;
-      background: var(--wa-gray6); border-top: 1px solid transparent;
-      padding: 0 20px; transition: max-height 0.35s ease, padding 0.25s;
+    .hotline-card:active { box-shadow: none; }
+    .hotline-icon { font-size: 1.5rem; margin-bottom: 6px; }
+    .hotline-org { font-size: 0.78rem; font-weight: 700; color: var(--gray3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .hotline-num { font-size: 1.05rem; font-weight: 800; color: var(--blue); }
+    .hotline-desc { font-size: 0.75rem; color: var(--gray3); margin-top: 3px; line-height: 1.3; }
+    .hotline-card .hotline-link {
+      font-size: 0.75rem;
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 600;
     }
-    .faq-item.open .faq-a { max-height: 500px; padding: 16px 20px; border-top-color: var(--wa-border); }
 
-    /* ══ FOOTER ═══════════════════════════════════════════════════════════════ */
+    /* ─── FEAR REDUCER ──────────────────────────────────────────────────── */
+    /* Research: explicitly address the "is this safe?" fear at every opportunity */
+    .safe-banner {
+      background: var(--green-lt);
+      border: 1.5px solid #86efac;
+      border-radius: var(--r-sm);
+      padding: 14px 16px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .safe-banner .icon { font-size: 1.3rem; flex-shrink: 0; }
+    .safe-banner p { font-size: 0.85rem; color: #14532d; line-height: 1.6; }
+    .safe-banner strong { font-weight: 800; }
+
+    /* ─── TIMELINE ──────────────────────────────────────────────────────── */
+    .tl-list { border-left: 3px solid var(--blue); margin-left: 8px; padding-left: 20px; }
+    .tl-item { position: relative; margin-bottom: 18px; }
+    .tl-item::before {
+      content:""; position:absolute; left:-27px; top:4px;
+      width:12px; height:12px; border-radius:50%;
+      background:var(--blue); border:2px solid #f8fafc;
+      box-shadow: 0 0 0 2px var(--blue);
+    }
+    .tl-item.done::before { background:var(--gray3); box-shadow:0 0 0 2px var(--gray3); }
+    .tl-item.warn::before { background:var(--orange); box-shadow:0 0 0 2px var(--orange); }
+    .tl-item.danger::before { background:var(--red); box-shadow:0 0 0 2px var(--red); }
+    .tl-date {
+      font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:0.07em;
+      margin-bottom:3px; color:var(--blue);
+      display:flex; align-items:center; gap:8px;
+    }
+    .tl-item.done .tl-date  { color:var(--gray3); }
+    .tl-item.warn .tl-date  { color:var(--orange); }
+    .tl-item.danger .tl-date{ color:var(--red); }
+    .tl-tag {
+      display:inline-block; font-size:0.65rem; font-weight:700;
+      padding:1px 7px; border-radius:3px;
+    }
+    .tag-done   { background:#e5e7eb; color:var(--gray3); }
+    .tag-soon   { background:var(--orange-lt); color:var(--orange); }
+    .tag-action { background:var(--blue-lt); color:var(--blue); }
+    .tl-text { font-size:0.88rem; color:var(--gray2); line-height:1.55; }
+    .tl-text strong { color:var(--gray1); }
+
+    /* ─── ADVOCATE ──────────────────────────────────────────────────────── */
+    .advocate-card {
+      background: linear-gradient(135deg, var(--blue), var(--blue-mid));
+      border-radius: var(--r);
+      padding: 20px 18px;
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+    .advocate-card h3 { font-size: 1rem; font-weight: 800; margin-bottom: 8px; }
+    .advocate-card p { font-size: 0.88rem; opacity: 0.9; line-height: 1.6; margin-bottom: 14px; }
+    .advocate-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--white);
+      color: var(--blue);
+      padding: 10px 20px;
+      border-radius: 100px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ─── FOOTER ────────────────────────────────────────────────────────── */
     footer {
-      background: var(--wa-blue-dk); color: rgba(255,255,255,0.85);
-      padding: 36px 20px;
+      background: var(--gray1);
+      padding: 28px 16px;
+      color: rgba(255,255,255,0.7);
     }
-    .footer-inner { max-width: var(--max-w); margin: 0 auto; }
-    .footer-top {
-      display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;
-      padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.15);
-      margin-bottom: 18px;
-    }
-    .footer-seal {
-      width: 56px; height: 56px; border-radius: 50%;
-      background: rgba(255,255,255,0.12); display: flex; align-items: center;
-      justify-content: center; font-size: 1.7rem; flex-shrink: 0;
-    }
-    .footer-title { font-size: 1rem; font-weight: 700; color: var(--wa-white); margin-bottom: 4px; }
-    .footer-sub { font-size: 0.82rem; opacity: 0.75; line-height: 1.5; }
-    .footer-sources { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-bottom: 12px; }
-    .footer-sources a { font-size: 0.78rem; color: rgba(255,255,255,0.7); text-decoration: none; }
-    .footer-sources a:hover { color: var(--wa-white); text-decoration: underline; }
-    .footer-disclaimer { font-size: 0.78rem; opacity: 0.65; line-height: 1.6; }
+    footer .ft-title { font-size: 0.9rem; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+    footer .ft-sources { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-bottom: 12px; }
+    footer .ft-sources a { font-size: 0.75rem; color: rgba(255,255,255,0.6); text-decoration: none; }
+    footer .ft-disclaimer { font-size: 0.75rem; line-height: 1.6; }
+    footer a { color: #93c5fd; }
 
-    /* ══ LANG VISIBILITY ══════════════════════════════════════════════════════ */
-    [data-lang]        { display: none; }
-    [data-lang="en"]   { display: revert; }
-    span[data-lang]    { display: none; }
-    span[data-lang="en"] { display: inline; }
-
-    /* ══ UTILS ════════════════════════════════════════════════════════════════ */
-    .divider { height: 1px; background: var(--wa-gray5); margin: 18px 0; }
+    /* ─── UTILS ─────────────────────────────────────────────────────────── */
+    .mb12 { margin-bottom: 12px; }
     .mb16 { margin-bottom: 16px; }
-    .page-section-label {
-      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.1em; color: var(--wa-gray4); margin-bottom: 12px;
-      padding-bottom: 6px; border-bottom: 2px solid var(--wa-gray5);
-    }
-    @media(max-width:640px){ .hero h2 { font-size: 1.5rem; } .header-flags { display: none; } }
+    .mt12 { margin-top: 12px; }
+
+    /* ─── LANGUAGE CONTENT ──────────────────────────────────────────────── */
+    [data-lang]         { display: none; }
+    [data-lang="en"]    { display: revert; }
+    span[data-lang]     { display: none; }
+    span[data-lang="en"]{ display: inline; }
+
+    /* ─── RTL (Somali uses LTR, all 5 langs are LTR — keeping standard) ─── */
   </style>
 </head>
 <body>
 
-<!-- UTILITY BAR -->
-<div class="utility-bar">
-  <div class="utility-inner">
-    <span class="wa-label">🏛️ Washington State Community Resource</span>
-    <div class="lang-row">
-      <span>Select Language:</span>
-      <button class="lang-btn active" onclick="setLang('en',this)">🇺🇸 English</button>
-      <button class="lang-btn" onclick="setLang('vi',this)">🇻🇳 Tiếng Việt</button>
-      <button class="lang-btn" onclick="setLang('zh',this)">🇨🇳 中文</button>
-      <button class="lang-btn" onclick="setLang('so',this)">🇸🇴 Soomaali</button>
-      <button class="lang-btn" onclick="setLang('tl',this)">🇵🇭 Filipino</button>
-      <button class="lang-btn" onclick="setLang('es',this)">🇲🇽 Español</button>
-    </div>
+<!-- ══ 1. LANGUAGE FIRST — research shows this is the #1 barrier ══════════ -->
+<div id="lang-bar">
+  <div class="lang-scroller">
+    <span class="lang-label">🌐</span>
+    <button class="lang-btn active" onclick="setLang('en',this)">🇺🇸 English</button>
+    <button class="lang-btn" onclick="setLang('vi',this)">🇻🇳 Tiếng Việt</button>
+    <button class="lang-btn" onclick="setLang('zh',this)">🇨🇳 中文</button>
+    <button class="lang-btn" onclick="setLang('so',this)">🇸🇴 Soomaali</button>
+    <button class="lang-btn" onclick="setLang('tl',this)">🇵🇭 Filipino</button>
+    <button class="lang-btn" onclick="setLang('es',this)">🇲🇽 Español</button>
   </div>
 </div>
 
-<!-- SITE HEADER -->
-<header class="site-header">
-  <div class="site-header-inner">
-    <div class="wa-seal">🏛️</div>
-    <div class="header-text">
-      <h1>
-        <span data-lang="en">H.R. 1 Impact Guide — Washington State</span>
-        <span data-lang="vi">Hướng Dẫn Tác Động H.R. 1 — Washington State</span>
-        <span data-lang="zh">H.R. 1 影响指南 — 华盛顿州</span>
-        <span data-lang="so">Hagaha Saamaynta H.R. 1 — Washington State</span>
-        <span data-lang="tl">Gabay sa Epekto ng H.R. 1 — Washington State</span>
-        <span data-lang="es">Guía de Impacto H.R. 1 — Estado de Washington</span>
-      </h1>
-      <p>
-        <span data-lang="en">Resources for immigrant & refugee communities · Vietnamese · Chinese · Somali · Filipino · Latino</span>
-        <span data-lang="vi">Tài nguyên cho cộng đồng người nhập cư và tị nạn</span>
-        <span data-lang="zh">为移民和难民社区提供的资源</span>
-        <span data-lang="so">Kheyraadka bulshooyinka soo galootiga iyo qaxootiga</span>
-        <span data-lang="tl">Mga mapagkukunan para sa mga komunidad ng imigrante at refugee</span>
-        <span data-lang="es">Recursos para comunidades inmigrantes y refugiadas</span>
-      </p>
+<!-- ══ 2. HERO — answer the primary question immediately ═════════════════ -->
+<div class="hero">
+  <div style="max-width:680px; margin:0 auto; position:relative; z-index:1;">
+    <div class="hero-eyebrow">
+      ⚖️ Washington State · H.R. 1 · Signed July 4, 2025
     </div>
-    <div class="header-flags">🇻🇳 🇨🇳 🇸🇴 🇵🇭 🇲🇽</div>
-  </div>
-</header>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">Federal Law · Signed July 4, 2025 · "One Big Beautiful Bill Act"</div>
-    <h2>
-      <span data-lang="en">Understanding H.R. 1 and What It Means for You</span>
-      <span data-lang="vi">Hiểu H.R. 1 và Ý Nghĩa Đối Với Bạn</span>
-      <span data-lang="zh">了解H.R. 1及其对您的意义</span>
-      <span data-lang="so">Fahanka H.R. 1 iyo Waxa Kugu Saameynaysa</span>
-      <span data-lang="tl">Pag-unawa sa H.R. 1 at Kung Ano ang Ibig Sabihin Nito para sa Iyo</span>
-      <span data-lang="es">Entendiendo H.R. 1 y Lo Que Significa para Usted</span>
-    </h2>
+    <h1>
+      <span data-lang="en">Are your benefits changing?</span>
+      <span data-lang="vi">Quyền lợi của bạn có thay đổi không?</span>
+      <span data-lang="zh">您的福利会变化吗？</span>
+      <span data-lang="so">Ma beddelayaan dheefshiidkaaga?</span>
+      <span data-lang="tl">Nagbabago ba ang iyong mga benepisyo?</span>
+      <span data-lang="es">¿Están cambiando sus beneficios?</span>
+    </h1>
     <p class="hero-sub">
-      <span data-lang="en">A plain-language guide to federal changes affecting SNAP food benefits, Medicaid (Apple Health), and work requirements — with specific information for Washington State's Vietnamese, Chinese, Somali, Filipino, and Latino communities.</span>
-      <span data-lang="vi">Hướng dẫn ngôn ngữ đơn giản về những thay đổi liên bang ảnh hưởng đến trợ cấp thực phẩm SNAP, Medicaid (Apple Health) và yêu cầu làm việc — dành cho cộng đồng người Việt, Trung Quốc, Somali, Philippines và Latino ở Washington State.</span>
-      <span data-lang="zh">关于影响SNAP食品福利、Medicaid（Apple Health）和工作要求的联邦变化的简明指南——专为华盛顿州越南、中国、索马里、菲律宾和拉丁裔社区提供具体信息。</span>
-      <span data-lang="so">Hagaha luqadda fudud ee ku saabsan isbedelada federaalka ee ku saameynaya dheefshiidka cuntada SNAP, Medicaid (Apple Health), iyo shuruudaha shaqada — oo leh macluumaad gaar ah bulshooyinka Washington State.</span>
-      <span data-lang="tl">Isang simpleng gabay sa mga pagbabago sa federal na nakakaapekto sa mga benepisyo ng pagkain ng SNAP, Medicaid (Apple Health), at mga kinakailangan sa trabaho — na may partikular na impormasyon para sa mga komunidad ng Washington State.</span>
-      <span data-lang="es">Una guía en lenguaje sencillo sobre los cambios federales que afectan los beneficios de alimentos SNAP, Medicaid (Apple Health) y los requisitos de trabajo — con información específica para las comunidades vietnamita, china, somalí, filipina y latina de Washington State.</span>
+      <span data-lang="en">A new federal law (H.R. 1) changes SNAP food benefits and health insurance for many people in Washington State. Find out what this means for you — in plain language.</span>
+      <span data-lang="vi">Một luật liên bang mới (H.R. 1) thay đổi trợ cấp thực phẩm SNAP và bảo hiểm y tế cho nhiều người ở Washington State. Tìm hiểu điều này có nghĩa gì với bạn.</span>
+      <span data-lang="zh">一项新的联邦法律（H.R. 1）改变了华盛顿州许多人的SNAP食品福利和健康保险。了解这对您意味着什么。</span>
+      <span data-lang="so">Sharciga federaalka cusub (H.R. 1) wuxuu beddelayaa dheefshiidka cuntada SNAP iyo caymiska caafimaadka ee dadka badan ee Washington State. Ogow waxa kuu macnaheeya.</span>
+      <span data-lang="tl">Isang bagong batas federal (H.R. 1) ang nagbabago ng mga benepisyo sa pagkain ng SNAP at health insurance para sa maraming tao sa Washington State. Alamin kung ano ang ibig sabihin nito para sa iyo.</span>
+      <span data-lang="es">Una nueva ley federal (H.R. 1) cambia los beneficios de alimentos SNAP y el seguro de salud para muchas personas en Washington State. Descubra qué significa esto para usted.</span>
     </p>
-    <div class="hero-meta">
-      <span class="hero-tag">📋 Based on official DSHS & HCA guidance</span>
-      <span class="hero-tag warn">⚠️ ~1 million Washingtonians affected</span>
-      <span class="hero-tag">📅 Updated May 2026</span>
+    <div class="community-flags">
+      <div class="community-flag">🇻🇳 <span data-lang="en">Vietnamese</span><span data-lang="vi">Người Việt</span><span data-lang="zh">越南裔</span><span data-lang="so">Fiitnaamiga</span><span data-lang="tl">Vietnamese</span><span data-lang="es">Vietnamita</span></div>
+      <div class="community-flag">🇨🇳 <span data-lang="en">Chinese</span><span data-lang="vi">Người Trung Quốc</span><span data-lang="zh">华人</span><span data-lang="so">Shiine</span><span data-lang="tl">Chinese</span><span data-lang="es">Chino</span></div>
+      <div class="community-flag">🇸🇴 <span data-lang="en">Somali</span><span data-lang="vi">Người Somali</span><span data-lang="zh">索马里裔</span><span data-lang="so">Soomaali</span><span data-lang="tl">Somali</span><span data-lang="es">Somalí</span></div>
+      <div class="community-flag">🇵🇭 <span data-lang="en">Filipino</span><span data-lang="vi">Người Philippines</span><span data-lang="zh">菲律宾裔</span><span data-lang="so">Filibiin</span><span data-lang="tl">Pilipino</span><span data-lang="es">Filipino</span></div>
+      <div class="community-flag">🇲🇽 <span data-lang="en">Latino</span><span data-lang="vi">Người Latino</span><span data-lang="zh">拉丁裔</span><span data-lang="so">Latino</span><span data-lang="tl">Latino</span><span data-lang="es">Latino</span></div>
     </div>
-  </div>
-</section>
-
-<!-- ALERT BAR -->
-<div class="alert-bar">
-  <div class="alert-bar-inner">
-    <div class="alert-bar-icon">⚠️</div>
-    <p>
-      <strong>
-        <span data-lang="en">Important Upcoming Dates: </span>
-        <span data-lang="vi">Ngày quan trọng sắp tới: </span>
-        <span data-lang="zh">即将到来的重要日期：</span>
-        <span data-lang="so">Taariikhaha muhiimka ah ee soo socda: </span>
-        <span data-lang="tl">Mga Mahalagang Petsa sa Darating: </span>
-        <span data-lang="es">Fechas Importantes Próximas: </span>
-      </strong>
-      <span data-lang="en">Refugees & asylees automatically move to state-funded SNAP in <strong>May 2026</strong> — no action needed. SNAP work requirements start <strong>June 1, 2026</strong>. Medicaid eligibility checks change to every <strong>6 months</strong> starting December 2026.</span>
-      <span data-lang="vi">Người tị nạn và xin tị nạn tự động chuyển sang SNAP do tiểu bang tài trợ vào <strong>tháng 5/2026</strong> — không cần hành động. Yêu cầu làm việc SNAP bắt đầu <strong>1/6/2026</strong>. Kiểm tra điều kiện Medicaid thay đổi thành mỗi <strong>6 tháng</strong> từ tháng 12/2026.</span>
-      <span data-lang="zh">难民和庇护申请者于<strong>2026年5月</strong>自动转为州资助SNAP——无需行动。SNAP工作要求从<strong>2026年6月1日</strong>开始。Medicaid资格核查从2026年12月起改为每<strong>6个月</strong>一次。</span>
-      <span data-lang="so">Qaxootiga iyo asiilaayaasha si toos ah ayaa loogu wareejiyaa SNAP gobolka <strong>May 2026</strong> — tallaabo ma loo baahna. Shuruudaha shaqada SNAP waxay bilaabmayaan <strong>Juun 1, 2026</strong>. Hubinta u-qalmitaanka Medicaid waxay u beddeshaa <strong>6 bilood</strong> kasta.</span>
-      <span data-lang="tl">Ang mga refugee at asylee ay awtomatikong ililipat sa state-funded SNAP sa <strong>Mayo 2026</strong> — hindi kailangang gumawa ng aksyon. Ang mga work requirements ng SNAP ay magsisimula sa <strong>Hunyo 1, 2026</strong>. Ang Medicaid eligibility checks ay magbabago sa bawat <strong>6 na buwan</strong>.</span>
-      <span data-lang="es">Los refugiados y asilados se transfieren automáticamente al SNAP estatal en <strong>mayo de 2026</strong> — no se necesita acción. Los requisitos de trabajo de SNAP comienzan el <strong>1 de junio de 2026</strong>. Las verificaciones de elegibilidad de Medicaid cambian a cada <strong>6 meses</strong>.</span>
-    </p>
   </div>
 </div>
 
-<!-- PAGE BODY -->
-<div class="page-wrap">
+<!-- ══ 3. "AM I AFFECTED?" — task-first, above fold ══════════════════════ -->
+<div style="max-width:680px; margin:0 auto; padding:0 12px;">
+  <div class="quick-check">
+    <div class="quick-check-header">
+      <span style="font-size:1.2rem;">🔍</span>
+      <h2>
+        <span data-lang="en">Am I affected?</span>
+        <span data-lang="vi">Tôi có bị ảnh hưởng không?</span>
+        <span data-lang="zh">我受影响吗？</span>
+        <span data-lang="so">Ma saameynaysaa?</span>
+        <span data-lang="tl">Apektado ba ako?</span>
+        <span data-lang="es">¿Me afecta?</span>
+      </h2>
+    </div>
 
-  <!-- STAT BAND -->
-  <div class="stat-band">
-    <div class="stat-box"><div class="stat-num">~1M</div><div class="stat-lbl">Washingtonians receiving SNAP food benefits</div></div>
-    <div class="stat-box orange"><div class="stat-num">130K</div><div class="stat-lbl">At risk of losing benefits entirely</div></div>
-    <div class="stat-box red"><div class="stat-num">$360M</div><div class="stat-lbl">Pulled from WA economy annually</div></div>
-    <div class="stat-box green"><div class="stat-num">$56</div><div class="stat-lbl">Avg SNAP drop per household/month</div></div>
+    <div class="qc-row">
+      <div class="qc-status green">✅</div>
+      <div class="qc-content">
+        <div class="label">
+          <span data-lang="en">Safe — No major changes</span>
+          <span data-lang="vi">An toàn — Không thay đổi lớn</span>
+          <span data-lang="zh">安全 — 无重大变化</span>
+          <span data-lang="so">Nabadgalyo — Isbedel weyn ma jiro</span>
+          <span data-lang="tl">Ligtas — Walang malaking pagbabago</span>
+          <span data-lang="es">Seguro/a — Sin cambios importantes</span>
+        </div>
+        <div class="who">
+          <span data-lang="en">U.S. citizen · Green card holder · COFA migrant · Cuban/Haitian entrant</span>
+          <span data-lang="vi">Công dân Mỹ · Có thẻ xanh · Di dân COFA · Người vào từ Cuba/Haiti</span>
+          <span data-lang="zh">美国公民 · 绿卡持有者 · COFA移民 · 古巴/海地入境者</span>
+          <span data-lang="so">Muwaadin US · Kaadhka cagaaran · COFA · Cuba/Haiti</span>
+          <span data-lang="tl">Mamamayan ng US · May green card · COFA · Cuban/Haitian</span>
+          <span data-lang="es">Ciudadano de EE.UU. · Tarjeta verde · Migrante COFA · Cubano/Haitiano</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="qc-row">
+      <div class="qc-status orange">🔄</div>
+      <div class="qc-content">
+        <div class="label">
+          <span data-lang="en">Changing — But still OK</span>
+          <span data-lang="vi">Thay đổi — Nhưng vẫn ổn</span>
+          <span data-lang="zh">变化中 — 但仍然没问题</span>
+          <span data-lang="so">Beddelaysa — Laakiin weli wanaagsan</span>
+          <span data-lang="tl">Nagbabago — Ngunit OK pa rin</span>
+          <span data-lang="es">Cambiando — Pero todavía bien</span>
+        </div>
+        <div class="who">
+          <span data-lang="en">Refugee · Asylee · Humanitarian protection — <strong>SNAP moves to state funding in May 2026. Same amount. No action needed.</strong></span>
+          <span data-lang="vi">Người tị nạn · Xin tị nạn · Bảo hộ nhân đạo — <strong>SNAP chuyển sang tiểu bang tháng 5/2026. Cùng số tiền. Không cần làm gì.</strong></span>
+          <span data-lang="zh">难民 · 庇护申请者 · 人道主义保护 — <strong>SNAP于2026年5月转为州资助。金额不变。无需行动。</strong></span>
+          <span data-lang="so">Qaxooti · Asiilo · Ilaalinta bani'aadannimada — <strong>SNAP waxay u wareegaysaa gobolka May 2026. Xaddiga isku mid. Tallaabo ma loo baahna.</strong></span>
+          <span data-lang="tl">Refugee · Asylee · Humanitarian protection — <strong>Ang SNAP ay lilipat sa state funding sa Mayo 2026. Parehong halaga. Hindi kailangang gumawa ng aksyon.</strong></span>
+          <span data-lang="es">Refugiado/a · Asilado/a · Protección humanitaria — <strong>SNAP pasa a fondos estatales en mayo 2026. Mismo monto. No se necesita acción.</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="qc-row">
+      <div class="qc-status red">⚠️</div>
+      <div class="qc-content">
+        <div class="label">
+          <span data-lang="en">At risk — Act now</span>
+          <span data-lang="vi">Có nguy cơ — Hành động ngay</span>
+          <span data-lang="zh">有风险 — 立即行动</span>
+          <span data-lang="so">Khatar — Hadda tallaabo qaado</span>
+          <span data-lang="tl">Nasa panganib — Kumilos na ngayon</span>
+          <span data-lang="es">En riesgo — Actúe ahora</span>
+        </div>
+        <div class="who">
+          <span data-lang="en">DACA · TPS · Work or family visa · Parolee · Other lawful status — <strong>Losing federal Medicaid. Call 877-501-2233 today.</strong></span>
+          <span data-lang="vi">DACA · TPS · Visa việc làm hoặc gia đình · Người được tạm tha — <strong>Mất Medicaid liên bang. Gọi 877-501-2233 hôm nay.</strong></span>
+          <span data-lang="zh">DACA · TPS · 工作或家庭签证 · 假释者 — <strong>失去联邦Medicaid。今天致电877-501-2233。</strong></span>
+          <span data-lang="so">DACA · TPS · Fiisaha shaqada ama qoyska · Xabsiga ka sii daayay — <strong>Lumaya Medicaid federaalka. Maanta wac 877-501-2233.</strong></span>
+          <span data-lang="tl">DACA · TPS · Work o family visa · Parolee — <strong>Mawawalan ng federal Medicaid. Tumawag ngayon sa 877-501-2233.</strong></span>
+          <span data-lang="es">DACA · TPS · Visa laboral o familiar · Liberado/a bajo fianza — <strong>Pierde Medicaid federal. Llame hoy al 877-501-2233.</strong></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ MAIN PAGE ══════════════════════════════════════════════════════════ -->
+<div class="page">
+
+  <!-- FEAR REDUCER — research shows this significantly increases engagement -->
+  <div class="safe-banner mt12">
+    <div class="icon">🔒</div>
+    <p>
+      <strong data-lang="en">Your information is safe.</strong>
+      <strong data-lang="vi">Thông tin của bạn an toàn.</strong>
+      <strong data-lang="zh">您的信息是安全的。</strong>
+      <strong data-lang="so">Macluumaadkaagu waa nabadgalyo.</strong>
+      <strong data-lang="tl">Ligtas ang iyong impormasyon.</strong>
+      <strong data-lang="es">Su información está segura.</strong>
+      <span data-lang="en"> This guide is from community organizations. Checking your benefits or calling a help line does not affect your immigration case.</span>
+      <span data-lang="vi"> Hướng dẫn này từ các tổ chức cộng đồng. Kiểm tra quyền lợi hoặc gọi đường dây trợ giúp không ảnh hưởng đến hồ sơ nhập cư của bạn.</span>
+      <span data-lang="zh"> 本指南来自社区组织。查看您的福利或致电帮助热线不会影响您的移民案例。</span>
+      <span data-lang="so"> Hagahan wuxuu ka socday hay'adaha bulshada. Hubinta dheefshiidkaaga ama wacida khadka caawimaadda kuma saameynayso dacwadaada socdaalka.</span>
+      <span data-lang="tl"> Ang gabay na ito ay mula sa mga organisasyon ng komunidad. Ang pagsusuri ng iyong mga benepisyo o pagtawag sa help line ay hindi nakakaapekto sa iyong kaso sa immigration.</span>
+      <span data-lang="es"> Esta guía es de organizaciones comunitarias. Verificar sus beneficios o llamar a una línea de ayuda no afecta su caso de inmigración.</span>
+    </p>
   </div>
 
-  <!-- ─── SNAP ─────────────────────────────────────────────────────────── -->
-  <div class="section open" id="s1">
-    <div class="section-head" onclick="toggleSec('s1')">
-      <div class="section-icon-wrap">🍎</div>
-      <div class="section-head-text">
-        <h3><span data-lang="en">SNAP Food Benefits — What Changed</span><span data-lang="vi">Trợ Cấp Thực Phẩm SNAP — Những Thay Đổi</span><span data-lang="zh">SNAP食品福利 — 发生了什么变化</span><span data-lang="so">Dheefshiidka Cuntada SNAP — Waxa Is Beddelay</span><span data-lang="tl">Mga Benepisyo sa Pagkain ng SNAP — Ano ang Nagbago</span><span data-lang="es">Beneficios de Alimentos SNAP — Qué Cambió</span></h3>
-        <p><span data-lang="en">Eligibility, work requirements, and transition timelines</span><span data-lang="vi">Điều kiện, yêu cầu làm việc và lịch chuyển đổi</span><span data-lang="zh">资格、工作要求和过渡时间表</span><span data-lang="so">U-qalmitaanka, shuruudaha shaqada iyo jadwalka wareejinta</span><span data-lang="tl">Eligibility, work requirements, at mga timeline ng transisyon</span><span data-lang="es">Elegibilidad, requisitos de trabajo y plazos de transición</span></p>
-      </div>
-      <div class="section-toggle">▼</div>
+  <!-- URGENT DATES -->
+  <div class="dates-strip">
+    <div class="section-label">
+      <span data-lang="en">📅 Key Dates — Mark Your Calendar</span>
+      <span data-lang="vi">📅 Ngày quan trọng</span>
+      <span data-lang="zh">📅 关键日期</span>
+      <span data-lang="so">📅 Taariikhaha Muhiimka ah</span>
+      <span data-lang="tl">📅 Mga Pangunahing Petsa</span>
+      <span data-lang="es">📅 Fechas Clave</span>
     </div>
-    <div class="section-body">
-
-      <div class="page-section-label">Eligibility by Immigration Status</div>
-      <div class="grid2">
-        <div class="panel green">
-          <h4>✅ Still Eligible — Federal SNAP</h4>
-          <ul>
-            <li><span data-lang="en">U.S. citizens and nationals</span><span data-lang="vi">Công dân và quốc dân Mỹ</span><span data-lang="zh">美国公民和国民</span><span data-lang="so">Muwaadiniinta Maraykanka</span><span data-lang="tl">Mga mamamayan ng US</span><span data-lang="es">Ciudadanos y nacionales de EE.UU.</span></li>
-            <li><span data-lang="en">Lawful Permanent Residents (green card holders)</span><span data-lang="vi">Thường trú nhân hợp pháp (thẻ xanh)</span><span data-lang="zh">合法永久居民（绿卡持有者）</span><span data-lang="so">Deganaanshaha sharci ah (kaadhka cagaaran)</span><span data-lang="tl">Mga legal na permanenteng residente (green card)</span><span data-lang="es">Residentes Permanentes Legales (tarjeta verde)</span></li>
-            <li><span data-lang="en">COFA migrants (Micronesia, Marshall Islands, Palau)</span><span data-lang="vi">Di dân COFA</span><span data-lang="zh">COFA移民</span><span data-lang="so">Socdaalayaasha COFA</span><span data-lang="tl">Mga migranteng COFA</span><span data-lang="es">Migrantes COFA</span></li>
-            <li><span data-lang="en">Cuban and Haitian entrants</span><span data-lang="vi">Người vào từ Cuba và Haiti</span><span data-lang="zh">古巴和海地入境者</span><span data-lang="so">Kuwa Cuba iyo Haiti gelaya</span><span data-lang="tl">Mga pumapasok na Cuban at Haitian</span><span data-lang="es">Entrantes cubanos y haitianos</span></li>
-          </ul>
-        </div>
-        <div class="panel yellow">
-          <h4>🔄 Shifting to State-Funded Benefits — May 2026</h4>
-          <ul>
-            <li><span data-lang="en">Refugees</span><span data-lang="vi">Người tị nạn</span><span data-lang="zh">难民</span><span data-lang="so">Qaxootiga</span><span data-lang="tl">Mga refugee</span><span data-lang="es">Refugiados</span></li>
-            <li><span data-lang="en">Asylees</span><span data-lang="vi">Người xin tị nạn</span><span data-lang="zh">庇护申请者</span><span data-lang="so">Asiilaayaasha</span><span data-lang="tl">Mga asylee</span><span data-lang="es">Asilados</span></li>
-            <li><span data-lang="en">Immigrants with humanitarian protections</span><span data-lang="vi">Người nhập cư có bảo hộ nhân đạo</span><span data-lang="zh">受人道主义保护的移民</span><span data-lang="so">Socdaalayaasha ilaashada bani'aadannimada leh</span><span data-lang="tl">Mga imigrante na may humanitarian protections</span><span data-lang="es">Inmigrantes con protecciones humanitarias</span></li>
-          </ul>
-          <div class="note green" style="margin-top:12px; margin-bottom:0;">
-            <strong><span data-lang="en">✓ No action needed.</span><span data-lang="vi">✓ Không cần hành động.</span><span data-lang="zh">✓ 无需行动。</span><span data-lang="so">✓ Tallaabo ma loo baahna.</span><span data-lang="tl">✓ Hindi kailangang gumawa ng aksyon.</span><span data-lang="es">✓ No se necesita acción.</span></strong>
-            <span data-lang="en"> DSHS will automatically move you. Benefit amount stays the same.</span>
-            <span data-lang="vi"> DSHS sẽ tự động chuyển bạn. Số tiền trợ cấp giữ nguyên.</span>
-            <span data-lang="zh"> DSHS将自动转换。福利金额保持不变。</span>
-            <span data-lang="so"> DSHS si toos ah ayaa kugu wareeji doona. Xaddiga dheefshiidka isku mid ah.</span>
-            <span data-lang="tl"> Awtomatiko ang paglilipat ng DSHS. Mananatiling pareho ang halaga ng benepisyo.</span>
-            <span data-lang="es"> DSHS lo trasladará automáticamente. El monto del beneficio sigue igual.</span>
-          </div>
+    <div class="dates-row">
+      <div class="date-card">
+        <div class="date-top orange">⚠️ <span data-lang="en">Coming soon</span><span data-lang="vi">Sắp đến</span><span data-lang="zh">即将到来</span><span data-lang="so">Soo socda</span><span data-lang="tl">Malapit na</span><span data-lang="es">Pronto</span></div>
+        <div class="date-body">
+          <div class="date"><span data-lang="en">May 2026</span><span data-lang="vi">Tháng 5/2026</span><span data-lang="zh">2026年5月</span><span data-lang="so">Maay 2026</span><span data-lang="tl">Mayo 2026</span><span data-lang="es">Mayo 2026</span></div>
+          <div class="desc"><span data-lang="en">Refugees shift to state SNAP — no action needed</span><span data-lang="vi">Người tị nạn chuyển sang SNAP tiểu bang</span><span data-lang="zh">难民转为州资助SNAP</span><span data-lang="so">Qaxootiga SNAP gobolka</span><span data-lang="tl">Mga refugee sa state SNAP</span><span data-lang="es">Refugiados pasan al SNAP estatal</span></div>
         </div>
       </div>
-
-      <div class="divider"></div>
-      <div class="page-section-label">New Work Requirements — Effective June 1, 2026</div>
-      <div class="note orange mb16">
-        <strong><span data-lang="en">Adults age 18–65</span><span data-lang="vi">Người lớn 18–65 tuổi</span><span data-lang="zh">18-65岁成年人</span><span data-lang="so">Dadka waaweyn 18–65 jir</span><span data-lang="tl">Mga matatanda na 18–65 taong gulang</span><span data-lang="es">Adultos de 18 a 65 años</span></strong>
-        <span data-lang="en"> must work, volunteer, or attend school/training for at least <strong>80 hours per month</strong>. Those who do not meet requirements and are not exempt can only receive SNAP for <strong>3 months in a 36-month period</strong>.</span>
-        <span data-lang="vi"> phải làm việc, tình nguyện hoặc đi học/đào tạo ít nhất <strong>80 giờ mỗi tháng</strong>. Người không đáp ứng yêu cầu và không được miễn trừ chỉ có thể nhận SNAP trong <strong>3 tháng trong 36 tháng</strong>.</span>
-        <span data-lang="zh"> 每月必须工作、义工或上学/培训至少<strong>80小时</strong>。不符合要求且不豁免的人在<strong>36个月内只能获得3个月</strong>的SNAP。</span>
-        <span data-lang="so"> waa inay shaqeeyaan, khibrad siiyaan, ama waxbarashada/tababarka u tagaan ugu yaraan <strong>80 saacadood bishiiba</strong>. Kuwa shuruudaha buuxin waaya oo aan xumaasiyadda lahayn kaliya <strong>3 bilood gudahood 36 bilood</strong> ayay SNAP heli karaan.</span>
-        <span data-lang="tl"> ay dapat magtrabaho, mag-volunteer, o pumunta sa paaralan/pagsasanay ng hindi bababa sa <strong>80 oras bawat buwan</strong>. Ang mga hindi nakakatugon at hindi exempt ay makatatanggap lamang ng SNAP ng <strong>3 buwan sa loob ng 36 buwan</strong>.</span>
-        <span data-lang="es"> deben trabajar, hacer voluntariado o asistir a la escuela/capacitación al menos <strong>80 horas por mes</strong>. Los que no cumplan y no estén exentos solo pueden recibir SNAP durante <strong>3 meses en un período de 36 meses</strong>.</span>
-      </div>
-      <div class="grid2">
-        <div class="panel green">
-          <h4>✅ Exempt — No Work Requirement</h4>
-          <ul>
-            <li><span data-lang="en">Under age 18 or over age 65</span><span data-lang="vi">Dưới 18 hoặc trên 65 tuổi</span><span data-lang="zh">18岁以下或65岁以上</span><span data-lang="so">Hoostaan 18 ama ka sarreeya 65</span><span data-lang="tl">Wala pang 18 o higit sa 65</span><span data-lang="es">Menor de 18 o mayor de 65</span></li>
-            <li><span data-lang="en">Pregnant</span><span data-lang="vi">Có thai</span><span data-lang="zh">怀孕</span><span data-lang="so">Uur leh</span><span data-lang="tl">Buntis</span><span data-lang="es">Embarazada</span></li>
-            <li><span data-lang="en">Disabled</span><span data-lang="vi">Khuyết tật</span><span data-lang="zh">残疾</span><span data-lang="so">Naafada</span><span data-lang="tl">May kapansanan</span><span data-lang="es">Discapacitado/a</span></li>
-            <li><span data-lang="en">Have a child under age 14 in your home</span><span data-lang="vi">Có con dưới 14 tuổi tại nhà</span><span data-lang="zh">家中有14岁以下子女</span><span data-lang="so">Carruur hoostaan 14 guriga ku jira</span><span data-lang="tl">May batang wala pang 14 sa bahay</span><span data-lang="es">Hijo/a menor de 14 en casa</span></li>
-            <li><span data-lang="en">American Indian or Alaska Native</span><span data-lang="vi">Người Mỹ bản địa / Alaska</span><span data-lang="zh">美洲印第安人/阿拉斯加原住民</span><span data-lang="so">Hindida Ameerikanka/Alaska</span><span data-lang="tl">American Indian o Alaska Native</span><span data-lang="es">Indígena Americano/Nativo de Alaska</span></li>
-          </ul>
-        </div>
-        <div class="panel red">
-          <h4>⚠️ Must Meet Work Requirements</h4>
-          <ul>
-            <li><span data-lang="en">Veterans (ages 18–65)</span><span data-lang="vi">Cựu chiến binh (18–65 tuổi)</span><span data-lang="zh">退伍军人（18-65岁）</span><span data-lang="so">Askarta hore (18–65 jir)</span><span data-lang="tl">Mga beterano (18–65 taong gulang)</span><span data-lang="es">Veteranos (18–65 años)</span></li>
-            <li><span data-lang="en">People experiencing homelessness</span><span data-lang="vi">Người vô gia cư</span><span data-lang="zh">无家可归者</span><span data-lang="so">Dadka guryo la'aanta ku jira</span><span data-lang="tl">Mga walang tirahan</span><span data-lang="es">Personas sin hogar</span></li>
-            <li><span data-lang="en">Age 18–64, no dependent child under 14, not disabled, not pregnant</span><span data-lang="vi">18–64 tuổi, không có con dưới 14, không khuyết tật</span><span data-lang="zh">18-64岁，无14岁以下子女，非残疾，非孕妇</span><span data-lang="so">18–64 jir, aan lahayn carruur hoostaan 14, naaf maaha, uur lahayn</span><span data-lang="tl">18–64 taong gulang, walang batang wala pang 14, hindi may kapansanan</span><span data-lang="es">18–64 años, sin hijos dependientes menores de 14, no discapacitado/a, no embarazada</span></li>
-            <li><span data-lang="en">Youth (under 24) who aged out of foster care</span><span data-lang="vi">Người trẻ dưới 24 tuổi từng ở nhà nuôi dưỡng</span><span data-lang="zh">曾处于寄养的24岁以下青年</span><span data-lang="so">Dhalinyarada (hoostaan 24) ee daryeelka ka soo baxay</span><span data-lang="tl">Mga kabataang (wala pang 24) lumabas sa foster care</span><span data-lang="es">Jóvenes (menores de 24) que salieron de tutela</span></li>
-          </ul>
+      <div class="date-card">
+        <div class="date-top red">🚨 <span data-lang="en">Work rules start</span><span data-lang="vi">Quy tắc làm việc</span><span data-lang="zh">工作规则开始</span><span data-lang="so">Shuruudaha shaqada</span><span data-lang="tl">Work rules nagsisimula</span><span data-lang="es">Reglas de trabajo</span></div>
+        <div class="date-body">
+          <div class="date"><span data-lang="en">June 1, 2026</span><span data-lang="vi">1/6/2026</span><span data-lang="zh">2026年6月1日</span><span data-lang="so">Juun 1, 2026</span><span data-lang="tl">Hunyo 1, 2026</span><span data-lang="es">1 de junio de 2026</span></div>
+          <div class="desc"><span data-lang="en">SNAP work requirement: 80 hrs/month (age 18–65)</span><span data-lang="vi">SNAP 80 giờ/tháng (18–65 tuổi)</span><span data-lang="zh">SNAP工作要求：80小时/月</span><span data-lang="so">SNAP 80 saacadood/bil (18–65 jir)</span><span data-lang="tl">SNAP 80 oras/buwan (18–65)</span><span data-lang="es">SNAP 80 hrs/mes (18–65 años)</span></div>
         </div>
       </div>
-
-      <div class="note" style="margin-top:8px;">
-        <strong><span data-lang="en">Important:</span><span data-lang="vi">Quan trọng:</span><span data-lang="zh">重要：</span><span data-lang="so">Muhiim:</span><span data-lang="tl">Mahalaga:</span><span data-lang="es">Importante:</span></strong>
-        <span data-lang="en"> If one person in a household loses eligibility, <strong>other household members can still receive food benefits</strong>. You will not lose benefits before your eligibility review and screening.</span>
-        <span data-lang="vi"> Nếu một người trong hộ gia đình mất điều kiện, <strong>các thành viên khác vẫn có thể nhận trợ cấp thực phẩm</strong>. Bạn sẽ không mất trợ cấp trước kỳ xem xét điều kiện của bạn.</span>
-        <span data-lang="zh"> 如果家庭中一人失去资格，<strong>其他家庭成员仍可获得食品福利</strong>。在您的资格审查前，您不会失去福利。</span>
-        <span data-lang="so"> Haddii qof guri ku jira uu waayo u-qalmitaanka, <strong>xubnahayaasha guriga ee kale wali waxay heli karaan dheefshiidka cuntada</strong>. Dheefshiidkaaga ma waayid ka hor hubintaada u-qalmitaanka.</span>
-        <span data-lang="tl"> Kung ang isang miyembro ng sambahayan ay mawawalan ng eligibility, <strong>ang ibang miyembro ng sambahayan ay maaari pa ring makatanggap ng mga benepisyo sa pagkain</strong>. Hindi ka mawawalan ng benepisyo bago ang iyong eligibility review.</span>
-        <span data-lang="es"> Si un miembro del hogar pierde elegibilidad, <strong>los demás miembros del hogar aún pueden recibir beneficios de alimentos</strong>. No perderá beneficios antes de su revisión de elegibilidad.</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ─── MEDICAID ────────────────────────────────────────────────────── -->
-  <div class="section" id="s2">
-    <div class="section-head" onclick="toggleSec('s2')">
-      <div class="section-icon-wrap">🏥</div>
-      <div class="section-head-text">
-        <h3><span data-lang="en">Medicaid / Apple Health — What Changed</span><span data-lang="vi">Medicaid / Apple Health — Những Thay Đổi</span><span data-lang="zh">Medicaid / Apple Health — 发生了什么变化</span><span data-lang="so">Medicaid / Apple Health — Waxa Is Beddelay</span><span data-lang="tl">Medicaid / Apple Health — Ano ang Nagbago</span><span data-lang="es">Medicaid / Apple Health — Qué Cambió</span></h3>
-        <p><span data-lang="en">Coverage changes, immigrant restrictions, work requirements</span><span data-lang="vi">Thay đổi bảo hiểm, hạn chế người nhập cư, yêu cầu làm việc</span><span data-lang="zh">保险变化、移民限制、工作要求</span><span data-lang="so">Isbedelada daahfurka, xaddidaadda socdaalayaasha, shuruudaha shaqada</span><span data-lang="tl">Mga pagbabago sa coverage, mga paghihigpit sa imigrante, work requirements</span><span data-lang="es">Cambios de cobertura, restricciones para inmigrantes, requisitos de trabajo</span></p>
-      </div>
-      <div class="section-toggle">▼</div>
-    </div>
-    <div class="section-body">
-      <div class="grid2 mb16">
-        <div class="panel red">
-          <h4>🔴 Key Federal Cuts</h4>
-          <ul>
-            <li><span data-lang="en"><strong>20%</strong> cut in federal Medicaid funding to states</span><span data-lang="vi">Cắt giảm <strong>20%</strong> quỹ Medicaid liên bang</span><span data-lang="zh">联邦Medicaid拨款削减<strong>20%</strong></span><span data-lang="so"><strong>20%</strong> goyn maalgelinta Medicaid federaalka</span><span data-lang="tl"><strong>20%</strong> pagbawas sa federal Medicaid funding</span><span data-lang="es">Recorte del <strong>20%</strong> en financiamiento federal</span></li>
-            <li><span data-lang="en">17 million Americans projected to lose coverage by 2034</span><span data-lang="vi">17 triệu người Mỹ có thể mất bảo hiểm trước 2034</span><span data-lang="zh">预计到2034年1700万美国人失去保险</span><span data-lang="so">17 milyan oo Mareykan ah ayaa waayaa daahfurka 2034</span><span data-lang="tl">17 milyong Americano ang mawawalan ng coverage bago 2034</span><span data-lang="es">17 millones de estadounidenses perderán cobertura para 2034</span></li>
-            <li><span data-lang="en">Eligibility re-check every <strong>6 months</strong> (previously every 12)</span><span data-lang="vi">Kiểm tra điều kiện mỗi <strong>6 tháng</strong> (trước đây 12)</span><span data-lang="zh">资格核查每<strong>6个月</strong>一次（之前每12个月）</span><span data-lang="so">Hubinta u-qalmitaanka <strong>6 bilood</strong> kasta (hore 12 bilood)</span><span data-lang="tl">Re-check ng eligibility bawat <strong>6 na buwan</strong> (dati ay 12)</span><span data-lang="es">Verificación de elegibilidad cada <strong>6 meses</strong> (antes cada 12)</span></li>
-            <li><span data-lang="en">Work requirement: 80 hrs/month for ages 19–64 (December 2026)</span><span data-lang="vi">Yêu cầu làm việc: 80 giờ/tháng cho 19–64 tuổi (12/2026)</span><span data-lang="zh">工作要求：19-64岁每月80小时（2026年12月）</span><span data-lang="so">Shuruudaha shaqada: 80 saac/bil 19–64 jir (Dec 2026)</span><span data-lang="tl">Work requirement: 80 oras/buwan para sa 19–64 (Dis 2026)</span><span data-lang="es">Requisito de trabajo: 80 hrs/mes para 19–64 (dic 2026)</span></li>
-            <li><span data-lang="en">End of retroactive coverage (January 1, 2027)</span><span data-lang="vi">Kết thúc bảo hiểm hồi tố (1/1/2027)</span><span data-lang="zh">追溯性保险终止（2027年1月1日）</span><span data-lang="so">Dhamaadka daahfurka dib-u-habaynta (Jan 1, 2027)</span><span data-lang="tl">Pagtatapos ng retroactive coverage (Enero 1, 2027)</span><span data-lang="es">Fin de cobertura retroactiva (1 enero 2027)</span></li>
-          </ul>
-        </div>
-        <div class="panel green">
-          <h4>✅ Exempt From Work Requirements</h4>
-          <ul>
-            <li><span data-lang="en">Under age 19 or over age 64</span><span data-lang="vi">Dưới 19 hoặc trên 64 tuổi</span><span data-lang="zh">19岁以下或64岁以上</span><span data-lang="so">Hoostaan 19 ama ka sarreeya 64</span><span data-lang="tl">Wala pang 19 o higit sa 64</span><span data-lang="es">Menor de 19 o mayor de 64</span></li>
-            <li><span data-lang="en">Pregnant or postpartum</span><span data-lang="vi">Có thai hoặc sau sinh</span><span data-lang="zh">怀孕或产后</span><span data-lang="so">Uur leh ama dhasho dhow</span><span data-lang="tl">Buntis o postpartum</span><span data-lang="es">Embarazada o posparto</span></li>
-            <li><span data-lang="en">SSI recipients or Medicaid waiver holders</span><span data-lang="vi">Người nhận SSI hoặc miễn trừ Medicaid</span><span data-lang="zh">SSI受益人或Medicaid豁免持有者</span><span data-lang="so">Kuwa SSI ama fasaxa Medicaid leh</span><span data-lang="tl">Mga may SSI o Medicaid waivers</span><span data-lang="es">Beneficiarios de SSI o titulares de exención</span></li>
-            <li><span data-lang="en">Medically certified as disabled</span><span data-lang="vi">Người khuyết tật được chứng nhận y tế</span><span data-lang="zh">经医疗认证的残疾人</span><span data-lang="so">Naafada caafimaadka xaqiijiyay</span><span data-lang="tl">Medikal na sertipikadong may kapansanan</span><span data-lang="es">Discapacitados certificados médicamente</span></li>
-          </ul>
+      <div class="date-card">
+        <div class="date-top blue">📋 <span data-lang="en">Enroll in health plan</span><span data-lang="vi">Đăng ký bảo hiểm</span><span data-lang="zh">注册健康保险</span><span data-lang="so">Geli kaydka caafimaadka</span><span data-lang="tl">Mag-enroll sa health plan</span><span data-lang="es">Inscribirse al seguro</span></div>
+        <div class="date-body">
+          <div class="date"><span data-lang="en">Nov 1, 2026</span><span data-lang="vi">1/11/2026</span><span data-lang="zh">2026年11月1日</span><span data-lang="so">Noofambar 1, 2026</span><span data-lang="tl">Nobyembre 1, 2026</span><span data-lang="es">1 de nov de 2026</span></div>
+          <div class="desc"><span data-lang="en">Open enrollment — Healthplanfinder</span><span data-lang="vi">Đăng ký mở — wahbexchange.org</span><span data-lang="zh">公开注册 — wahbexchange.org</span><span data-lang="so">Diiwaan-gelinta furan</span><span data-lang="tl">Open enrollment — wahbexchange.org</span><span data-lang="es">Inscripción abierta — wahbexchange.org</span></div>
         </div>
       </div>
-
-      <div class="page-section-label">Immigration Status & Medicaid Eligibility</div>
-      <div class="grid2">
-        <div class="panel green">
-          <h4>✅ Keeps Federal Medicaid</h4>
-          <ul>
-            <li><span data-lang="en">U.S. citizens</span><span data-lang="vi">Công dân Mỹ</span><span data-lang="zh">美国公民</span><span data-lang="so">Muwaadiniinta US</span><span data-lang="tl">Mga mamamayan ng US</span><span data-lang="es">Ciudadanos de EE.UU.</span></li>
-            <li><span data-lang="en">Green card holders (LPR)</span><span data-lang="vi">Người có thẻ xanh</span><span data-lang="zh">绿卡持有者</span><span data-lang="so">Kuwa kaadhka cagaaran leh</span><span data-lang="tl">Mga may green card (LPR)</span><span data-lang="es">Titulares de tarjeta verde (LPR)</span></li>
-            <li><span data-lang="en">Refugees and asylees (first 7 years)</span><span data-lang="vi">Người tị nạn và xin tị nạn (7 năm đầu)</span><span data-lang="zh">难民和庇护申请者（前7年）</span><span data-lang="so">Qaxootiga iyo asiilaayaasha (7 sano ugu horeeyey)</span><span data-lang="tl">Mga refugee at asylee (unang 7 taon)</span><span data-lang="es">Refugiados y asilados (primeros 7 años)</span></li>
-          </ul>
-        </div>
-        <div class="panel red">
-          <h4>❌ Loses Federal Medicaid Coverage</h4>
-          <ul>
-            <li><span data-lang="en">DACA recipients</span><span data-lang="vi">Người có DACA</span><span data-lang="zh">DACA持有者</span><span data-lang="so">Kuwa DACA leh</span><span data-lang="tl">Mga may DACA</span><span data-lang="es">Beneficiarios de DACA</span></li>
-            <li><span data-lang="en">TPS (Temporary Protected Status) holders</span><span data-lang="vi">Người có TPS</span><span data-lang="zh">TPS持有者</span><span data-lang="so">Kuwa TPS leh</span><span data-lang="tl">Mga may TPS</span><span data-lang="es">Titulares de TPS</span></li>
-            <li><span data-lang="en">Visa holders (work, family, student)</span><span data-lang="vi">Người có visa (việc làm, gia đình, sinh viên)</span><span data-lang="zh">签证持有者（工作、家庭、学生）</span><span data-lang="so">Kuwa fiisaha leh (shaqo, qoys, arday)</span><span data-lang="tl">Mga may visa (trabaho, pamilya, estudyante)</span><span data-lang="es">Titulares de visa (trabajo, familia, estudiante)</span></li>
-            <li><span data-lang="en">Parolees and others lawfully present</span><span data-lang="vi">Người được tạm tha và người hợp pháp khác</span><span data-lang="zh">假释者及其他合法居留者</span><span data-lang="so">Kuwa xabsiga ka sii daayay iyo kuwa kale</span><span data-lang="tl">Mga parolee at iba pang legal na naroroon</span><span data-lang="es">Liberados bajo fianza y otros presentes legalmente</span></li>
-          </ul>
-        </div>
-      </div>
-      <div class="note blue" style="margin-top:8px;">
-        <span data-lang="en"><strong>Note for those losing federal Medicaid:</strong> Washington State may offer state-funded coverage alternatives. Contact the Washington Health Benefit Exchange at <a href="https://wahbexchange.org">wahbexchange.org</a> or call <strong>1-855-923-4633</strong> before your coverage ends.</span>
-        <span data-lang="vi"><strong>Lưu ý cho người mất Medicaid liên bang:</strong> Washington State có thể cung cấp bảo hiểm thay thế. Liên hệ <a href="https://wahbexchange.org">wahbexchange.org</a> hoặc gọi <strong>1-855-923-4633</strong>.</span>
-        <span data-lang="zh"><strong>关于失去联邦Medicaid者的说明：</strong>华盛顿州可能提供州资助替代方案。请联系 <a href="https://wahbexchange.org">wahbexchange.org</a> 或致电 <strong>1-855-923-4633</strong>。</span>
-        <span data-lang="so"><strong>Xusuusin kuwa lumiya Medicaid federaalka:</strong> Washington State waxay bixin kartaa beddelka ay gobolku maalgaliyo. La xiriir <a href="https://wahbexchange.org">wahbexchange.org</a> ama wac <strong>1-855-923-4633</strong>.</span>
-        <span data-lang="tl"><strong>Paunawa para sa mga mawawalan ng federal Medicaid:</strong> Maaaring mag-alok ang Washington State ng mga alternatibong coverage. Makipag-ugnayan sa <a href="https://wahbexchange.org">wahbexchange.org</a> o tumawag sa <strong>1-855-923-4633</strong>.</span>
-        <span data-lang="es"><strong>Nota para quienes pierden Medicaid federal:</strong> Washington State puede ofrecer alternativas de cobertura estatal. Contacte <a href="https://wahbexchange.org">wahbexchange.org</a> o llame al <strong>1-855-923-4633</strong>.</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ─── TIMELINE ──────────────────────────────────────────────────── -->
-  <div class="section" id="s3">
-    <div class="section-head" onclick="toggleSec('s3')">
-      <div class="section-icon-wrap">📅</div>
-      <div class="section-head-text">
-        <h3><span data-lang="en">Implementation Timeline — Key Dates</span><span data-lang="vi">Lịch Triển Khai — Các Ngày Quan Trọng</span><span data-lang="zh">实施时间表 — 关键日期</span><span data-lang="so">Jadwalka Hirgelinta — Taariikhaha Muhiimka ah</span><span data-lang="tl">Timeline ng Pagpapatupad — Mga Pangunahing Petsa</span><span data-lang="es">Cronograma de Implementación — Fechas Clave</span></h3>
-        <p><span data-lang="en">When do changes take effect?</span><span data-lang="vi">Khi nào các thay đổi có hiệu lực?</span><span data-lang="zh">变化何时生效？</span><span data-lang="so">Goorma isbedelada bilaabmayaan?</span><span data-lang="tl">Kailan magkakabisa ang mga pagbabago?</span><span data-lang="es">¿Cuándo entran en vigor los cambios?</span></p>
-      </div>
-      <div class="section-toggle">▼</div>
-    </div>
-    <div class="section-body">
-      <div class="timeline">
-        <div class="tl past"><div class="tl-date">July 4, 2025 <span class="tl-label lbl-past">Passed</span></div><div class="tl-text">H.R. 1 "One Big Beautiful Bill Act" signed into law by President Trump.</div></div>
-        <div class="tl past"><div class="tl-date">January 31, 2026 <span class="tl-label lbl-past">Passed</span></div><div class="tl-text">SNAP Education program officially ended after 30 years of service.</div></div>
-        <div class="tl soon"><div class="tl-date">May 2026 <span class="tl-label lbl-soon">Coming Soon</span></div><div class="tl-text"><strong>Refugees & asylees automatically shift to state-funded SNAP.</strong> Same benefit amount, no reapplication needed. LIHEAP utility deduction changes also begin — some households may see SNAP amounts decrease.</div></div>
-        <div class="tl soon"><div class="tl-date">June 1, 2026 <span class="tl-label lbl-soon">Coming Soon</span></div><div class="tl-text"><strong>SNAP work requirements begin</strong> for adults age 18–65 — 80 hours per month required. Exemptions apply (see above).</div></div>
-        <div class="tl"><div class="tl-date">November 1, 2026 <span class="tl-label lbl-active">Mark Calendar</span></div><div class="tl-text"><strong>Open enrollment begins</strong> for health insurance on Washington Healthplanfinder. Critical for anyone losing Medicaid — visit <a href="https://wahbexchange.org">wahbexchange.org</a>.</div></div>
-        <div class="tl danger"><div class="tl-date">December 31, 2026</div><div class="tl-text"><strong>Medicaid work requirements begin</strong> (age 19–64) · Eligibility re-checks every 6 months start · ACA premium tax credits end.</div></div>
-        <div class="tl danger"><div class="tl-date">January 1, 2027</div><div class="tl-text"><strong>End of Medicaid retroactive coverage.</strong> Medicaid will no longer cover medical bills from the 3 months before enrollment.</div></div>
-        <div class="tl"><div class="tl-date">2028</div><div class="tl-text">Further reduction in State Directed Payments — additional pressure on Washington State's health and social services budget.</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ─── COMMUNITY ─────────────────────────────────────────────────── -->
-  <div class="section" id="s4">
-    <div class="section-head" onclick="toggleSec('s4')">
-      <div class="section-icon-wrap">👥</div>
-      <div class="section-head-text">
-        <h3><span data-lang="en">Your Community — Specific Impacts</span><span data-lang="vi">Cộng đồng của bạn — Tác động cụ thể</span><span data-lang="zh">您的社区 — 具体影响</span><span data-lang="so">Bulshadaada — Saamaynta Gaar ah</span><span data-lang="tl">Ang Inyong Komunidad — Mga Tiyak na Epekto</span><span data-lang="es">Su Comunidad — Impactos Específicos</span></h3>
-        <p><span data-lang="en">Vietnamese · Chinese · Somali · Filipino · Latino communities in Washington State</span><span data-lang="vi">Cộng đồng người Việt, Trung Quốc, Somali, Philippines và Latino</span><span data-lang="zh">越南、中国、索马里、菲律宾和拉丁裔社区</span><span data-lang="so">Bulshada Fiitnaamiga, Shiiniiska, Soomaalida, Filibiin, Latino</span><span data-lang="tl">Mga komunidad ng Vietnamese, Chinese, Somali, Filipino at Latino</span><span data-lang="es">Comunidades vietnamita, china, somalí, filipina y latina</span></p>
-      </div>
-      <div class="section-toggle">▼</div>
-    </div>
-    <div class="section-body">
-      <div class="ctab-list">
-        <button class="ctab active" onclick="setCTab('viet',this)">🇻🇳 Vietnamese</button>
-        <button class="ctab" onclick="setCTab('chinese',this)">🇨🇳 Chinese</button>
-        <button class="ctab" onclick="setCTab('somali',this)">🇸🇴 Somali</button>
-        <button class="ctab" onclick="setCTab('filipino',this)">🇵🇭 Filipino</button>
-        <button class="ctab" onclick="setCTab('latino',this)">🇲🇽 Latino</button>
-      </div>
-
-      <div class="ctab-pane active" id="cp-viet">
-        <div class="comm-section">
-          <div class="comm-item"><div class="comm-bullet cb-blue"></div><span data-lang="en">Large Vietnamese-American community in Seattle, Federal Way, Kent, and Tacoma. Many are LPRs or citizens from post-1975 refugee resettlement — still fully eligible for federal SNAP and Apple Health.</span><span data-lang="vi">Cộng đồng người Mỹ gốc Việt lớn ở Seattle, Federal Way, Kent, Tacoma. Nhiều người là thường trú nhân hoặc công dân từ chương trình tái định cư sau 1975 — vẫn đủ điều kiện đầy đủ.</span><span data-lang="zh">西雅图、联邦路、肯特、塔科马有大量越裔美国人社区。许多人是1975年后难民安置的LPR或公民——仍完全有资格。</span><span data-lang="so">Bulshada weyn ee Vietnamese-American ee Seattle, Federal Way, Kent, iyo Tacoma. Intooda badan waxay yihiin LPRs ama muwaadino ka yimid dib-u-dejinta qaxootiga 1975 ka dib.</span><span data-lang="tl">Malaking komunidad ng Vietnamese-American sa Seattle, Federal Way, Kent, at Tacoma. Marami ang LPR o mamamayan mula sa post-1975 refugee resettlement.</span><span data-lang="es">Gran comunidad vietnamita-americana en Seattle, Federal Way, Kent y Tacoma. Muchos son LPR o ciudadanos del reasentamiento post-1975.</span></div>
-          <div class="comm-item"><div class="comm-bullet cb-orange"></div><span data-lang="en">Recent arrivals or those with TPS/parole status may lose federal Medicaid. Verify your immigration status immediately — contact Vietnamese Friendship Association or ICHS (International Community Health Services) for free help.</span><span data-lang="vi">Người mới đến hoặc có TPS/parole có thể mất Medicaid liên bang. Xác minh tình trạng ngay — liên hệ Hội Hữu Nghị Người Việt hoặc ICHS để được giúp đỡ miễn phí.</span><span data-lang="zh">近期抵达或持TPS/假释身份者可能失去联邦Medicaid。立即核实移民身份——联系越南友好协会或ICHS获取免费帮助。</span><span data-lang="so">Kuwa dhawaan yimid ama TPS/parole leh waxay lumin karaan Medicaid federaalka. Si deg deg ah xaaladda socdaalka la xaqiiji.</span><span data-lang="tl">Ang mga bagong dating o may TPS/parole ay maaaring mawalan ng federal Medicaid. Agad na i-verify ang immigration status.</span><span data-lang="es">Los recién llegados o con TPS/libertad condicional pueden perder Medicaid federal. Verifique su estatus migratorio inmediatamente.</span></div>
-          <div class="comm-item"><div class="comm-bullet cb-green"></div><span data-lang="en">Vietnamese elders (65+) and persons with disabilities are exempt from all work requirements.</span><span data-lang="vi">Người Việt cao tuổi (65+) và người khuyết tật được miễn tất cả yêu cầu làm việc.</span><span data-lang="zh">越裔老年人（65+）和残疾人免于所有工作要求。</span><span data-lang="so">Xubnahayaasha Fiitnaamiyiinta ee da'da ah (65+) iyo naafada waxay ka maamuusan yihiin dhammaan shuruudaha shaqada.</span><span data-lang="tl">Ang mga matatandang Vietnamese (65+) at may kapansanan ay exempt sa lahat ng work requirements.</span><span data-lang="es">Los vietnamitas mayores (65+) y personas con discapacidad están exentos de todos los requisitos de trabajo.</span></div>
-          <div class="comm-item"><div class="comm-bullet cb-blue"></div><span data-lang="en">Key resources: Vietnamese Friendship Association (Seattle) · International Community Health Services (ICHS) · Northwest Justice Project</span><span data-lang="vi">Tài nguyên: Hội Hữu Nghị Người Việt (Seattle) · ICHS · Dự án Công lý Tây Bắc</span><span data-lang="zh">重要资源：越南友好协会（西雅图）· ICHS · 西北司法项目</span><span data-lang="so">Kheyraadka muhiimka ah: Vietnamese Friendship Association · ICHS · Northwest Justice Project</span><span data-lang="tl">Mga pangunahing mapagkukunan: Vietnamese Friendship Association · ICHS · Northwest Justice Project</span><span data-lang="es">Recursos clave: Vietnamese Friendship Association · ICHS · Northwest Justice Project</span></div>
-        </div>
-      </div>
-
-      <div class="ctab-pane" id="cp-chinese">
-        <div class="comm-section">
-          <div class="comm-item"><div class="comm-bullet cb-blue"></div><span data-lang="en">Seattle's Chinatown-International District is home to a large Chinese-speaking population. International Community Health Services (ICHS) serves the area in 70+ languages and has formally flagged H.R. 1 as a major threat to community health.</span><span data-lang="vi">Khu Chinatown-International District của Seattle là nơi có cộng đồng nói tiếng Trung lớn. ICHS phục vụ khu vực với 70+ ngôn ngữ và đã chính thức cảnh báo H.R. 1 là mối đe dọa lớn đối với sức khỏe cộng đồng.</span><span data-lang="zh">西雅图的唐人街-国际区是大量华语人口的家园。ICHS以70多种语言服务该地区，并正式将H.R. 1列为社区健康的重大威胁。</span><span data-lang="so">Chinatown-International District ee Seattle waxay guri u tahay dad badan oo Shiinees ku hadla. ICHS 70+ luqadood ayay ku adeysaa.</span><span data-lang="tl">Ang Seattle's Chinatown-International District ay tahanan ng malaking Chinese-speaking na populasyon. Ang ICHS ay naglilingkod sa 70+ wika.</span><span data-lang="es">El Barrio Chino-Distrito Internacional de Seattle alberga una gran comunidad de habla china. ICHS sirve en más de 70 idiomas.</span></div>
-          <div class="comm-item"><div class="comm-bullet cb-green"></div><span data-lang="en">Chinese elders (65+) and SSI recipients are exempt from all work requirements for both SNAP and Medicaid.</span><span data-lang="vi">Người Trung Quốc cao tuổi (65+) và người nhận SSI được miễn tất cả yêu cầu làm việc.</span><span data-lang="zh">中国老年人（65+）和SSI受益人免于SNAP和Medicaid的所有工作要求。</span><span data-lang="so">Shiiniisyiinta da'da ah (65+) iyo kuwa SSI waxay ka maamuusan yihiin dhammaan shuruudaha shaqada.</span><span data-lang="tl">Ang matatandang Chinese (65+) at mga may SSI ay exempt sa lahat ng work requirements.</span><span data-lang="es">Los chinos mayores (65+) y beneficiarios de SSI están exentos de todos los requisitos de trabajo.</span></div>
-          <div class="comm-item"><div class="comm-bullet cb-red"></div><span data-lang="en">Chinese immigrants on employment or family visas lose federal Medicaid. Washington State's $16 billion budget deficit also puts pressure on state-funded alternatives. Act now — explore options at HCA.wa.gov.</span><span data-lang="vi">Người nhập cư Trung Quốc có visa việc làm hoặc gia đình mất Medicaid liên bang. Thâm hụt ngân sách $16 tỷ cũng gây áp lực lên các giải pháp thay thế. Hành động ngay — xem tại HCA.wa.gov.</span><span data-lang="zh">持工作或家庭签证的中国移民失去联邦Medicaid。华盛顿州160亿美元的预算赤字也给州资助替代方案带来压力。立即行动——在HCA.wa.gov探索选项。</span><span data-lang="so">Socdaalayaasha Shiiniiska ee fiisaha shaqada ama qoyska leh waxay lumiyaan Medicaid federaalka. Si deg deg ah tallaabo qaado — ka eeg HCA.wa.gov.</span><span data-lang="tl">Ang mga Chinese na imigrante na may employment o family visas ay mawawalan ng federal Medicaid. Kumilos na ngayon — tuklasin sa HCA.wa.gov.</span><span data-lang="es">Los inmigrantes chinos con visas laborales o familiares pierden Medicaid federal. Actúe ahora — explore en HCA.wa.gov.</span></div>
-        </div>
-      </div>
-
-      <div class="ctab-pane" id="cp-somali">
-        <div class="comm-section">
-          <div class="comm-item"><div class="comm-bullet cb-blue"></div><span data-lang="en">Washington State — especially Seattle, Tukwila, and SeaTac — has one of the largest Somali refugee populations in the US. Most arrived through official resettlement and hold LPR status or citizenship.</span><span data-lang="vi">Washington State có một trong những cộng đồng tị nạn Somali lớn nhất ở Mỹ, đặc biệt ở Seattle, Tukwila và SeaTac.</span><span data-lang="zh">华盛顿州，尤其是西雅图、图克维拉和西塔克，拥有美国最大的索马里难民社区之一。</span><span data-lang="so">Washington State — gaar ahaan Seattle, Tukwila, iyo SeaTac — waxay leedahay mid ka mid ah bulshooyinka qaxootiga Soomaalida ugu weyn ee Maraykanka.</span><span data-lang="tl">Ang Washington State ay may isa sa mga pinakamalaking Somali refugee community sa US, lalo na sa Seattle, Tukwila, at SeaTac.</span><span data-lang="es">Washington State tiene una de las mayores comunidades de refugiados somalíes de EE.UU., especialmente en Seattle, Tukwila y SeaTac.</span></div>
-          <div class="comm-item"><div class="comm-bullet cb-orange"></div><span data-lang="en">REWA (Refugee & Immigrant Service Centers) reports that H.R. 1 will pull $360 million annually from Washington's economy — disproportionately affecting Somali neighborhoods and refugee families who rely on SNAP during their first years in the US.</span><span data-lang="vi">REWA báo cáo H.R. 1 sẽ rút $360 triệu mỗi năm khỏi nền kinh tế Washington, ảnh hưởng không cân xứng đến các khu phố Somali.</span><span data-lang="zh">REWA报告称H.R. 1每年将从华盛顿经济中抽走3.6亿美元，对索马里社区造成不成比例的影响。</span><span data-lang="so">REWA waxay soo sheegtay in H.R. 1 sanadkiiba $360 milyan ka saari doonto dhaqaalaha Washington, si aan siman u saamaynaysa xaafadaha Soomaalida.</span><span data-lang="tl">Iniulat ng REWA na ang H.R. 1 ay mag-aalis ng $360 milyon bawat taon sa ekonomiya ng Washington, na hindi proporsyonal na nakakaapekto sa mga komunidad ng Somali.</span><span data-lang="es">REWA informa que H.R. 1 extraerá $360 millones anuales de la economía de Washington, afectando desproporcionadamente a las comunidades somalíes.</span></div>
-          <div class="comm-item"><div class="comm-bullet cb-green"></div><span data-lang="en">For refugees transitioning to state-funded SNAP in May 2026: No reapplication needed. Keep your DSHS contact information current. Your benefit amount stays the same. Questions? Call DSHS at 877-501-2233.</span><span data-lang="vi">Người tị nạn chuyển sang SNAP tiểu bang vào tháng 5/2026: Không cần đăng ký lại. Cập nhật thông tin liên hệ với DSHS. Số tiền giữ nguyên. Câu hỏi? Gọi 877-501-2233.</span><span data-lang="zh">2026年5月过渡到州资助SNAP的难民：无需重新申请。保持DSHS联系信息更新。福利金额不变。问题？致电877-501-2233。</span><span data-lang="so">Qaxootiga u wareegaya SNAP gobolka May 2026: Codsasho cusub ma loo baahna. Macluumaadkaaga DSHS ku cusboonsii. Xaddiga dheefshiidka isku mid ah. Su'aalo? Wac 877-501-2233.</span><span data-lang="tl">Para sa mga refugee na lilipat sa state-funded SNAP sa Mayo 2026: Hindi kailangang mag-reapply. Panatilihing updated ang contact info sa DSHS. Mananatiling pareho ang halaga. Mga tanong? Tumawag sa 877-501-2233.</span><span data-lang="es">Para refugiados que pasan al SNAP estatal en mayo de 2026: No se necesita nueva solicitud. Mantenga su información de contacto con DSHS actualizada. El monto sigue igual. ¿Preguntas? Llame al 877-501-2233.</span></div>
-          <div class="comm-item"><div class="comm-bullet cb-blue"></div><span data-lang="en">Key resource: REWA (Refugee & Immigrant Service Centers) — language support, benefits navigation, community advocacy. rewa.org</span><span data-lang="vi">Tài nguyên: REWA — hỗ trợ ngôn ngữ, điều hướng phúc lợi, vận động cộng đồng. rewa.org</span><span data-lang="zh">重要资源：REWA（难民和移民服务中心）——语言支持、福利导航、社区倡导。rewa.org</span><span data-lang="so">Kheyraadka muhiimka ah: REWA — taageero luqadeed, caawimaada dheefshiidka, dooda bulshada. rewa.org</span><span data-lang="tl">Pangunahing mapagkukunan: REWA — language support, benefits navigation, community advocacy. rewa.org</span><span data-lang="es">Recurso clave: REWA — apoyo lingüístico, navegación de beneficios, defensa comunitaria. rewa.org</span></div>
-        </div>
-      </div>
-
-      <div class="ctab-pane" id="cp-filipino">
-        <div class="comm-section">
-          <div class="comm-item"><div class="comm-bullet cb-blue"></div><span data-lang="en">Washington has one of the largest Filipino populations in the US, concentrated in Seattle, Tacoma, Bremerton, and surrounding areas. Strong U.S. military history means many hold citizenship or LPR status and remain fully eligible.</span><span data-lang="vi">Washington có một trong những cộng đồng Philippines lớn nhất ở Mỹ, tập trung ở Seattle, Tacoma, Bremerton. Nhiều người có quốc tịch hoặc thẻ xanh và vẫn đủ điều kiện đầy đủ.</span><span data-lang="zh">华盛顿州拥有美国最大的菲律宾裔人口之一，集中在西雅图、塔科马、布雷默顿。许多人持有公民身份或绿卡，完全有资格。</span><span data-lang="so">Washington waxay leedahay mid ka mid ah dadka Filipino ugu badan ee Maraykanka, oo ugu badan Seattle, Tacoma, Bremerton. Intooda badan waxay leeyihiin muwaadinnimo ama kaadhka cagaaran.</span><span data-lang="tl">Ang Washington ay may isa sa mga pinakamalaking populasyon ng Pilipino sa US, nakakonsentra sa Seattle, Tacoma, Bremerton. Marami ang may citizenship o LPR at nananatiling karapat-dapat.</span><span data-lang="es">Washington tiene una de las mayores poblaciones filipinas de EE.UU., concentradas en Seattle, Tacoma, Bremerton. Muchos tienen ciudadanía o tarjeta verde y siguen siendo elegibles.</span></div>
-          <div class="comm-item"><div class="comm-bullet cb-green"></div><span data-lang="en">Filipino elders (65+) and persons with disabilities are fully exempt from SNAP and Medicaid work requirements.</span><span data-lang="vi">Người Philippines cao tuổi (65+) và người khuyết tật hoàn toàn được miễn yêu cầu làm việc.</span><span data-lang="zh">菲律宾老年人（65+）和残疾人完全免于SNAP和Medicaid工作要求。</span><span data-lang="so">Kuwa da'da ah ee Filipino (65+) iyo naafada si buuxda ayay uga maamuusan yihiin shuruudaha shaqada.</span><span data-lang="tl">Ang mga matatandang Pilipino (65+) at may kapansanan ay ganap na exempt sa SNAP at Medicaid work requirements.</span><span data-lang="es">Los filipinos mayores (65+) y personas con discapacidad están totalmente exentos de los requisitos de trabajo.</span></div>
-          <div class="comm-item"><div class="comm-bullet cb-orange"></div><span data-lang="en">Recent arrivals on work or family visas are at risk of losing federal Medicaid. Check your eligibility immediately at Benefits.wa.gov or call DSHS at 877-501-2233.</span><span data-lang="vi">Người mới đến có visa việc làm hoặc gia đình có nguy cơ mất Medicaid liên bang. Kiểm tra điều kiện ngay tại Benefits.wa.gov hoặc gọi 877-501-2233.</span><span data-lang="zh">持工作或家庭签证的近期抵达者有失去联邦Medicaid的风险。立即在Benefits.wa.gov查看资格或致电877-501-2233。</span><span data-lang="so">Kuwa dhawaan yimid fiisaha shaqada ama qoyska waxay ku halis yihiin lumidda Medicaid federaalka. Hubi u-qalmitaankaaga Benefits.wa.gov ama wac 877-501-2233.</span><span data-lang="tl">Ang mga bagong dating na may trabaho o family visas ay nasa panganib na mawalan ng federal Medicaid. Agad na suriin ang eligibility sa Benefits.wa.gov o tumawag sa 877-501-2233.</span><span data-lang="es">Los recién llegados con visas laborales o familiares están en riesgo de perder Medicaid federal. Verifique su elegibilidad en Benefits.wa.gov o llame al 877-501-2233.</span></div>
-        </div>
-      </div>
-
-      <div class="ctab-pane" id="cp-latino">
-        <div class="comm-section">
-          <div class="comm-item"><div class="comm-bullet cb-blue"></div><span data-lang="en">Washington's Latino community — concentrated in Eastern WA (Yakima Valley, Tri-Cities, Wenatchee) and Seattle/King County — is among the most impacted. H.R. 1 affects agricultural workers who form the backbone of Eastern WA's economy.</span><span data-lang="vi">Cộng đồng Latino ở Washington, đặc biệt ở Eastern WA và Seattle/King County, là một trong những cộng đồng bị ảnh hưởng nhiều nhất.</span><span data-lang="zh">华盛顿州的拉丁裔社区——主要在东部（雅基马谷、三城、韦纳奇）和西雅图/金郡——受影响最大，农业工人是东部经济的支柱。</span><span data-lang="so">Bulshada Latino ee Washington — oo ugu badan Eastern WA iyo Seattle/King County — waxay ku jirtaa kuwa ugu saamaynta badan. H.R. 1 waxay saamaynaysaa shaqaalaha beeraha.</span><span data-lang="tl">Ang komunidad na Latino ng Washington — nakakonsentra sa Eastern WA at Seattle/King County — ay kabilang sa mga pinakaapektado. Nakakaapekto ang H.R. 1 sa mga manggagawang pangsakahan.</span><span data-lang="es">La comunidad latina de Washington — concentrada en el este de WA y Seattle/King County — está entre las más afectadas. H.R. 1 afecta a los trabajadores agrícolas que son la columna vertebral de la economía del este de WA.</span></div>
-          <div class="comm-item"><div class="comm-bullet cb-red"></div><span data-lang="en">DACA recipients lose federal Medicaid immediately. TPS holders (El Salvador, Honduras, Guatemala, Nicaragua, Venezuela) also lose federal coverage. Contact Northwest Justice Project for legal options — nwjustice.org</span><span data-lang="vi">Người có DACA mất Medicaid liên bang ngay. Người có TPS cũng mất bảo hiểm liên bang. Liên hệ Northwest Justice Project — nwjustice.org</span><span data-lang="zh">DACA受益人立即失去联邦Medicaid。TPS持有者也失去联邦保险。联系西北司法项目——nwjustice.org</span><span data-lang="so">Kuwa DACA waxay si deg deg ah u lumiyaan Medicaid federaalka. Kuwa TPS waxay sidoo kale lumiyaan daahfurka federaalka. La xiriir Northwest Justice Project — nwjustice.org</span><span data-lang="tl">Ang mga may DACA ay agad na mawawalan ng federal Medicaid. Ang mga may TPS ay mawawalan din ng federal coverage. Makipag-ugnayan sa Northwest Justice Project — nwjustice.org</span><span data-lang="es">Los beneficiarios de DACA pierden Medicaid federal inmediatamente. Los titulares de TPS también pierden cobertura federal. Contacte al Northwest Justice Project — nwjustice.org</span></div>
-          <div class="comm-item"><div class="comm-bullet cb-green"></div><span data-lang="en">U.S. citizen children of undocumented parents are fully eligible for SNAP and Medicaid. If one person in a household loses eligibility, other household members can still receive benefits — do not avoid applying for your children out of fear.</span><span data-lang="vi">Con của cha mẹ không có giấy tờ nhưng là công dân Mỹ hoàn toàn đủ điều kiện. Đừng sợ mà bỏ lỡ phúc lợi cho con bạn.</span><span data-lang="zh">无证件父母的美国公民子女完全有资格。不要因为恐惧而不为孩子申请——他们的权益受到完全保护。</span><span data-lang="so">Carruurta muwaadiniinta ah ee waalidka dokumentigiis la'aanta ah si buuxda ayay u-qalmaan. Ha cabsin — xaaladooda waa la ilaashaa.</span><span data-lang="tl">Ang mga anak na mamamayan ng US ng mga undocumented parents ay ganap na karapat-dapat. Huwag matakot na mag-apply para sa inyong mga anak.</span><span data-lang="es">Los hijos ciudadanos de EE.UU. de padres indocumentados son totalmente elegibles. No tema solicitar beneficios para sus hijos — sus derechos están protegidos.</span></div>
-          <div class="comm-item"><div class="comm-bullet cb-orange"></div><span data-lang="en">Seasonal agricultural workers: Exemptions may apply based on seasonal employment — documentation may be required at eligibility review. Contact DSHS or a legal aid provider early.</span><span data-lang="vi">Công nhân nông nghiệp theo mùa: Có thể áp dụng miễn trừ — cần tài liệu tại kỳ xem xét điều kiện. Liên hệ DSHS sớm.</span><span data-lang="zh">季节性农业工人：可能适用豁免——资格审查时可能需要文件。尽早联系DSHS或法律援助机构。</span><span data-lang="so">Shaqaalaha beeraha ee xilliga: Xumaasiyadda waxay khusayn kartaa — warqadaha laga yaabo in loo baahdo. Si deg deg ah la xiriir DSHS.</span><span data-lang="tl">Mga seasonal agricultural workers: Maaaring applicable ang mga exemption — maaaring kailangan ng dokumentasyon. Agad na makipag-ugnayan sa DSHS.</span><span data-lang="es">Trabajadores agrícolas de temporada: Pueden aplicar exenciones — puede requerirse documentación. Contacte a DSHS o un proveedor de ayuda legal con anticipación.</span></div>
+      <div class="date-card">
+        <div class="date-top red">🏥 <span data-lang="en">Medicaid changes</span><span data-lang="vi">Medicaid thay đổi</span><span data-lang="zh">Medicaid变化</span><span data-lang="so">Medicaid waa la beddelay</span><span data-lang="tl">Medicaid nagbabago</span><span data-lang="es">Medicaid cambia</span></div>
+        <div class="date-body">
+          <div class="date"><span data-lang="en">Dec 2026</span><span data-lang="vi">12/2026</span><span data-lang="zh">2026年12月</span><span data-lang="so">Dis 2026</span><span data-lang="tl">Dis 2026</span><span data-lang="es">Dic 2026</span></div>
+          <div class="desc"><span data-lang="en">Work requirements + 6-month eligibility checks</span><span data-lang="vi">Yêu cầu làm việc + kiểm tra 6 tháng</span><span data-lang="zh">工作要求 + 6个月资格核查</span><span data-lang="so">Shuruudaha shaqada + hubinta 6 bilood</span><span data-lang="tl">Work requirements + 6-buwan checks</span><span data-lang="es">Requisitos de trabajo + verificaciones de 6 meses</span></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ─── ACTION ────────────────────────────────────────────────────── -->
-  <div class="section" id="s5">
-    <div class="section-head" onclick="toggleSec('s5')">
-      <div class="section-icon-wrap">✅</div>
-      <div class="section-head-text">
-        <h3><span data-lang="en">What You Should Do Right Now</span><span data-lang="vi">Bạn Nên Làm Gì Ngay Bây Giờ</span><span data-lang="zh">您现在应该做什么</span><span data-lang="so">Waxa Aad Hadda Sameyn Lahayd</span><span data-lang="tl">Ano ang Dapat Mong Gawin Ngayon</span><span data-lang="es">Qué Debe Hacer Ahora Mismo</span></h3>
-        <p><span data-lang="en">Steps to protect your benefits and your family</span><span data-lang="vi">Các bước để bảo vệ quyền lợi của bạn và gia đình</span><span data-lang="zh">保护您的福利和家人的步骤</span><span data-lang="so">Tallaaboyinka si aad u ilaalinayso dheefshiidkaaga iyo qoyskaaga</span><span data-lang="tl">Mga hakbang upang maprotektahan ang iyong mga benepisyo at pamilya</span><span data-lang="es">Pasos para proteger sus beneficios y su familia</span></p>
+  <!-- ─── TOPIC CARDS ────────────────────────────────────────────────── -->
+
+  <!-- SNAP -->
+  <div class="topic-card open" id="tc1">
+    <div class="tc-head" onclick="toggleCard('tc1')">
+      <div class="tc-icon">🍎</div>
+      <div class="tc-head-text">
+        <h3><span data-lang="en">Food Benefits (SNAP)</span><span data-lang="vi">Trợ Cấp Thực Phẩm (SNAP)</span><span data-lang="zh">食品福利（SNAP）</span><span data-lang="so">Dheefshiidka Cuntada (SNAP)</span><span data-lang="tl">Mga Benepisyo sa Pagkain (SNAP)</span><span data-lang="es">Beneficios de Alimentos (SNAP)</span></h3>
+        <p><span data-lang="en">Who still gets benefits? What are the new rules?</span><span data-lang="vi">Ai vẫn được trợ cấp? Quy tắc mới là gì?</span><span data-lang="zh">谁还能获得福利？新规则是什么？</span><span data-lang="so">Cidda weli dheefshiidka helaysa? Xeerarka cusub maxay yihiin?</span><span data-lang="tl">Sino pa rin ang makatatanggap ng benepisyo? Ano ang mga bagong tuntunin?</span><span data-lang="es">¿Quién sigue recibiendo beneficios? ¿Cuáles son las nuevas reglas?</span></p>
       </div>
-      <div class="section-toggle">▼</div>
+      <div class="tc-chevron">▼</div>
     </div>
-    <div class="section-body">
-      <div class="steps-list">
-        <div class="step-item">
-          <div class="step-num">1</div>
-          <div class="step-content">
-            <h5><span data-lang="en">Know Your Immigration Status</span><span data-lang="vi">Biết tình trạng nhập cư của bạn</span><span data-lang="zh">了解您的移民身份</span><span data-lang="so">Ogow xaaladaada socdaalka</span><span data-lang="tl">Alamin ang iyong immigration status</span><span data-lang="es">Conozca su estatus migratorio</span></h5>
-            <p><span data-lang="en">Your eligibility depends on whether you are a citizen, LPR, refugee, asylee, DACA, TPS, or visa holder. For a free eligibility review contact <a href="https://nwjustice.org">Northwest Justice Project</a> or visit <a href="https://washingtonlawhelp.org">washingtonlawhelp.org</a>.</span><span data-lang="vi">Điều kiện của bạn phụ thuộc vào việc bạn là công dân, LPR, người tị nạn, xin tị nạn, DACA, TPS hay người có visa. Liên hệ <a href="https://nwjustice.org">Northwest Justice Project</a> để được tư vấn miễn phí.</span><span data-lang="zh">您的资格取决于您是公民、LPR、难民、庇护申请者、DACA、TPS还是签证持有者。联系 <a href="https://nwjustice.org">Northwest Justice Project</a> 进行免费资格审查。</span><span data-lang="so">U-qalmitaankaagu wuxuu ku xidanyahay in aad tahay muwaadin, LPR, qaxooti, asiilo, DACA, TPS, ama fiisaha. Dib-u-eegis bilaash ah uga codsado <a href="https://nwjustice.org">Northwest Justice Project</a>.</span><span data-lang="tl">Ang iyong eligibility ay nakasalalay kung ikaw ay isang mamamayan, LPR, refugee, asylee, DACA, TPS, o visa holder. Para sa libreng eligibility review, makipag-ugnayan sa <a href="https://nwjustice.org">Northwest Justice Project</a>.</span><span data-lang="es">Su elegibilidad depende de si es ciudadano, LPR, refugiado, asilado, DACA, TPS o titular de visa. Para revisión gratuita contacte al <a href="https://nwjustice.org">Northwest Justice Project</a>.</span></p>
-          </div>
-        </div>
-        <div class="step-item">
-          <div class="step-num">2</div>
-          <div class="step-content">
-            <h5><span data-lang="en">Check Your Current SNAP & Apple Health Status</span><span data-lang="vi">Kiểm tra tình trạng SNAP và Apple Health hiện tại</span><span data-lang="zh">检查您当前的SNAP和Apple Health状态</span><span data-lang="so">Hubi xaaladaada SNAP & Apple Health hadda</span><span data-lang="tl">Suriin ang Iyong Kasalukuyang SNAP at Apple Health Status</span><span data-lang="es">Verifique Su Estado Actual de SNAP y Apple Health</span></h5>
-            <p><span data-lang="en">Log into <a href="https://benefits.wa.gov">Benefits.wa.gov</a> to review your SNAP eligibility. For Apple Health (Medicaid) visit <a href="https://wahbexchange.org">wahbexchange.org</a>. Or call DSHS at <strong>877-501-2233</strong>. Translation services are available.</span><span data-lang="vi">Đăng nhập vào <a href="https://benefits.wa.gov">Benefits.wa.gov</a> để xem điều kiện SNAP của bạn. Cho Apple Health, truy cập <a href="https://wahbexchange.org">wahbexchange.org</a> hoặc gọi <strong>877-501-2233</strong>.</span><span data-lang="zh">登录 <a href="https://benefits.wa.gov">Benefits.wa.gov</a> 查看SNAP资格。Apple Health请访问 <a href="https://wahbexchange.org">wahbexchange.org</a>。或致电DSHS：<strong>877-501-2233</strong>（提供翻译服务）。</span><span data-lang="so">Gali <a href="https://benefits.wa.gov">Benefits.wa.gov</a> si aad u hubiso u-qalmitaankaaga SNAP. Apple Health wac DSHS: <strong>877-501-2233</strong>. Adeegyada turjumaanku waa la heli karaa.</span><span data-lang="tl">Mag-log in sa <a href="https://benefits.wa.gov">Benefits.wa.gov</a>. Para sa Apple Health bisitahin ang <a href="https://wahbexchange.org">wahbexchange.org</a>. O tumawag sa DSHS: <strong>877-501-2233</strong>.</span><span data-lang="es">Inicie sesión en <a href="https://benefits.wa.gov">Benefits.wa.gov</a>. Para Apple Health visite <a href="https://wahbexchange.org">wahbexchange.org</a>. O llame a DSHS: <strong>877-501-2233</strong> (servicios de traducción disponibles).</span></p>
-          </div>
-        </div>
-        <div class="step-item">
-          <div class="step-num">3</div>
-          <div class="step-content">
-            <h5><span data-lang="en">Update Your Contact Information with DSHS</span><span data-lang="vi">Cập nhật thông tin liên hệ với DSHS</span><span data-lang="zh">更新您在DSHS的联系信息</span><span data-lang="so">Macluumaadkaaga Xiriirka DSHS ku Cusboonsii</span><span data-lang="tl">I-update ang Iyong Contact Information sa DSHS</span><span data-lang="es">Actualice Su Información de Contacto con DSHS</span></h5>
-            <p><span data-lang="en">DSHS will mail critical notices about eligibility changes. If they cannot reach you, you may lose benefits without warning. Update your current address and phone number at <a href="https://benefitscap.dshs.wa.gov">benefitscap.dshs.wa.gov</a> or call 877-501-2233.</span><span data-lang="vi">DSHS sẽ gửi thông báo quan trọng về thay đổi điều kiện. Cập nhật địa chỉ và số điện thoại tại <a href="https://benefitscap.dshs.wa.gov">benefitscap.dshs.wa.gov</a> hoặc gọi 877-501-2233.</span><span data-lang="zh">DSHS将邮寄资格变更的重要通知。在 <a href="https://benefitscap.dshs.wa.gov">benefitscap.dshs.wa.gov</a> 更新您的地址和电话号码，或致电877-501-2233。</span><span data-lang="so">DSHS waxay boostada u diri doontaa ogeysiisyada muhiimka ah. Cinwaankaaga iyo lambarka telefoonkaaga ku cusboonsii <a href="https://benefitscap.dshs.wa.gov">benefitscap.dshs.wa.gov</a> ama wac 877-501-2233.</span><span data-lang="tl">Magpapadala ng mahahalagang abiso ang DSHS. I-update ang iyong address at numero ng telepono sa <a href="https://benefitscap.dshs.wa.gov">benefitscap.dshs.wa.gov</a> o tumawag sa 877-501-2233.</span><span data-lang="es">DSHS enviará avisos importantes. Actualice su dirección y número de teléfono en <a href="https://benefitscap.dshs.wa.gov">benefitscap.dshs.wa.gov</a> o llame al 877-501-2233.</span></p>
-          </div>
-        </div>
-        <div class="step-item">
-          <div class="step-num">4</div>
-          <div class="step-content">
-            <h5><span data-lang="en">Complete Your Eligibility Review On Time</span><span data-lang="vi">Hoàn thành kỳ xem xét điều kiện đúng hạn</span><span data-lang="zh">按时完成资格审查</span><span data-lang="so">Hubinta U-qalmitaankaaga Waqtiga ka Dhamee</span><span data-lang="tl">Kumpletuhin ang Iyong Eligibility Review sa Tamang Oras</span><span data-lang="es">Complete Su Revisión de Elegibilidad a Tiempo</span></h5>
-            <p><span data-lang="en">Eligibility reviews for Medicaid will now occur every 6 months. Missing your review can result in loss of coverage. When you receive a notice, respond promptly and ensure all information is accurate. Ask questions — call DSHS at <strong>877-501-2233</strong> or visit your local Community Services Office.</span><span data-lang="vi">Xem xét điều kiện Medicaid bây giờ sẽ diễn ra mỗi 6 tháng. Bỏ lỡ kỳ xem xét có thể dẫn đến mất bảo hiểm. Gọi DSHS <strong>877-501-2233</strong> nếu có câu hỏi.</span><span data-lang="zh">Medicaid资格审查现在每6个月进行一次。错过审查可能导致失去保险。收到通知后，迅速回应并确保所有信息准确。致电DSHS：<strong>877-501-2233</strong>。</span><span data-lang="so">Hubinta u-qalmitaanka Medicaid hadda waxay dhacaysaa 6 bilood kasta. Haddaad maamusid hubintaada, waxaad lumin kartaa daahfurkaaga. Wac DSHS: <strong>877-501-2233</strong>.</span><span data-lang="tl">Ang Medicaid eligibility reviews ay gaganapin na bawat 6 na buwan. Ang pagliban sa iyong review ay maaaring magresulta sa pagkawala ng coverage. Tumawag sa DSHS: <strong>877-501-2233</strong>.</span><span data-lang="es">Las revisiones de elegibilidad de Medicaid ahora ocurrirán cada 6 meses. No realizar la revisión puede resultar en pérdida de cobertura. Llame a DSHS: <strong>877-501-2233</strong>.</span></p>
-          </div>
+    <div class="tc-divider"></div>
+    <div class="tc-body">
+
+      <div class="status-block green">
+        <div class="sb-icon">✅</div>
+        <div class="sb-content">
+          <h4><span data-lang="en">You KEEP federal SNAP if you are:</span><span data-lang="vi">Bạn GIỮ SNAP liên bang nếu:</span><span data-lang="zh">如果您是以下情况，您保留联邦SNAP：</span><span data-lang="so">Waxaad HAYSA SNAP federaalka haddaad tahay:</span><span data-lang="tl">Pinapanatili mo ang federal SNAP kung ikaw ay:</span><span data-lang="es">CONSERVA el SNAP federal si es:</span></h4>
+          <ul>
+            <li><span data-lang="en">U.S. citizen or national</span><span data-lang="vi">Công dân hoặc quốc dân Mỹ</span><span data-lang="zh">美国公民或国民</span><span data-lang="so">Muwaadin Maraykanka ah</span><span data-lang="tl">Mamamayan o pambansang tao ng US</span><span data-lang="es">Ciudadano o nacional de EE.UU.</span></li>
+            <li><span data-lang="en">Lawful Permanent Resident (green card)</span><span data-lang="vi">Thường trú nhân hợp pháp (thẻ xanh)</span><span data-lang="zh">合法永久居民（绿卡）</span><span data-lang="so">Deganaanshaha sharci ah (kaadhka cagaaran)</span><span data-lang="tl">Lawful Permanent Resident (green card)</span><span data-lang="es">Residente Permanente Legal (tarjeta verde)</span></li>
+            <li><span data-lang="en">COFA migrant (Micronesia, Marshall Islands, Palau)</span><span data-lang="vi">Di dân COFA</span><span data-lang="zh">COFA移民</span><span data-lang="so">Socdaalaha COFA</span><span data-lang="tl">Migranteng COFA</span><span data-lang="es">Migrante COFA</span></li>
+          </ul>
         </div>
       </div>
 
-      <div class="advocate">
-        <div class="advocate-icon">🗳️</div>
+      <div class="status-block orange">
+        <div class="sb-icon">🔄</div>
+        <div class="sb-content">
+          <h4><span data-lang="en">Refugees &amp; asylees — shifting to state SNAP (May 2026)</span><span data-lang="vi">Người tị nạn &amp; xin tị nạn — chuyển sang SNAP tiểu bang (5/2026)</span><span data-lang="zh">难民和庇护申请者 — 转为州SNAP（2026年5月）</span><span data-lang="so">Qaxootiga &amp; asiilaayaasha — SNAP gobolka (Maay 2026)</span><span data-lang="tl">Mga refugee &amp; asylee — lilipat sa state SNAP (Mayo 2026)</span><span data-lang="es">Refugiados y asilados — pasan al SNAP estatal (mayo 2026)</span></h4>
+          <p><span data-lang="en">✓ Same benefit amount &nbsp; ✓ No reapplication &nbsp; ✓ DSHS does it automatically</span><span data-lang="vi">✓ Cùng số tiền &nbsp; ✓ Không cần đăng ký lại &nbsp; ✓ DSHS tự làm</span><span data-lang="zh">✓ 金额不变 &nbsp; ✓ 无需重新申请 &nbsp; ✓ DSHS自动处理</span><span data-lang="so">✓ Xaddiga isku mid &nbsp; ✓ Codsasho cusub ma loo baahna &nbsp; ✓ DSHS si toos ah</span><span data-lang="tl">✓ Parehong halaga &nbsp; ✓ Hindi kailangang mag-reapply &nbsp; ✓ Awtomatiko ng DSHS</span><span data-lang="es">✓ Mismo monto &nbsp; ✓ Sin nueva solicitud &nbsp; ✓ DSHS lo hace automáticamente</span></p>
+        </div>
+      </div>
+
+      <div class="status-block yellow">
+        <div class="sb-icon">💼</div>
+        <div class="sb-content">
+          <h4><span data-lang="en">New work rule — starts June 1, 2026 (ages 18–65)</span><span data-lang="vi">Quy tắc làm việc mới — bắt đầu 1/6/2026 (18–65 tuổi)</span><span data-lang="zh">新工作规则 — 2026年6月1日起（18-65岁）</span><span data-lang="so">Xeerka shaqada cusub — bilaabmaya Juun 1, 2026 (18–65 jir)</span><span data-lang="tl">Bagong work rule — nagsisimula Hunyo 1, 2026 (18–65 taong gulang)</span><span data-lang="es">Nueva regla de trabajo — comienza 1 junio 2026 (18–65 años)</span></h4>
+          <p style="margin-bottom:8px;"><span data-lang="en">Must work, volunteer, or attend school/training for <strong>80 hours per month</strong>. If you don't — and you're not exempt — you can only get SNAP for 3 months out of every 36 months.</span><span data-lang="vi">Phải làm việc, tình nguyện hoặc đi học/đào tạo <strong>80 giờ mỗi tháng</strong>. Nếu không — và không được miễn — bạn chỉ nhận SNAP được 3 tháng trong 36 tháng.</span><span data-lang="zh">必须每月工作、义工或上学/培训<strong>80小时</strong>。如不符合——且不豁免——每36个月只能领3个月SNAP。</span><span data-lang="so">Waa inay shaqeeyaan, khibrad siiyaan, ama waxbarashada/tababarka u tagaan <strong>80 saacadood bishiiba</strong>. Haddaadan samayn — oo aan xumaasiyadda lahayn — waxaad heli kartaa SNAP 3 bilood oo keliya 36 bilood gudahood.</span><span data-lang="tl">Dapat magtrabaho, mag-volunteer, o pumunta sa paaralan/pagsasanay ng <strong>80 oras bawat buwan</strong>. Kung hindi — at hindi ka exempt — makatatanggap ka lang ng SNAP ng 3 buwan sa bawat 36 buwan.</span><span data-lang="es">Debe trabajar, hacer voluntariado o asistir a la escuela/capacitación <strong>80 horas al mes</strong>. Si no lo hace — y no está exento/a — solo puede recibir SNAP durante 3 meses de cada 36.</span></p>
+          <p style="font-size:0.82rem;"><strong><span data-lang="en">You are EXEMPT if:</span><span data-lang="vi">Bạn ĐƯỢC MIỄN nếu:</span><span data-lang="zh">您豁免如果：</span><span data-lang="so">WAXAAD KA MAAMUUSANTAHAY haddaad tahay:</span><span data-lang="tl">Ikaw ay EXEMPT kung:</span><span data-lang="es">Está EXENTO/A si:</span></strong>
+          <span data-lang="en"> under 18 · over 65 · pregnant · disabled · have a child under 14 at home · American Indian/Alaska Native</span>
+          <span data-lang="vi"> Dưới 18 · Trên 65 · Có thai · Khuyết tật · Có con dưới 14 tuổi · Người Mỹ bản địa</span>
+          <span data-lang="zh"> 18岁以下 · 65岁以上 · 怀孕 · 残疾 · 家中有14岁以下子女 · 美洲印第安人/阿拉斯加原住民</span>
+          <span data-lang="so"> Hoostaan 18 · Ka sarreeya 65 · Uur leh · Naafada · Carruur hoostaan 14 guriga · Hindida Ameerikanka</span>
+          <span data-lang="tl"> Wala pang 18 · Higit sa 65 · Buntis · May kapansanan · May batang wala pang 14 · American Indian/Alaska Native</span>
+          <span data-lang="es"> Menor de 18 · Mayor de 65 · Embarazada · Discapacitado/a · Hijo/a menor de 14 en casa · Indígena americano</span></p>
+        </div>
+      </div>
+
+      <div class="status-block blue">
+        <div class="sb-icon">💡</div>
+        <div class="sb-content">
+          <h4><span data-lang="en">Important: family households</span><span data-lang="vi">Quan trọng: hộ gia đình</span><span data-lang="zh">重要：家庭住户</span><span data-lang="so">Muhiim: qoysaska</span><span data-lang="tl">Mahalaga: mga pamilya</span><span data-lang="es">Importante: hogares familiares</span></h4>
+          <p><span data-lang="en">If one person in your household loses eligibility, the rest of your family can still get their food benefits. You will not lose benefits before your eligibility review.</span><span data-lang="vi">Nếu một người trong gia đình mất điều kiện, những người còn lại vẫn nhận được trợ cấp. Bạn sẽ không mất trợ cấp trước kỳ xem xét điều kiện.</span><span data-lang="zh">如果家中一人失去资格，其他家庭成员仍可获得食品福利。在资格审查前，您不会失去福利。</span><span data-lang="so">Haddii qof gurigaaga ku jira uu waayo u-qalmitaanka, xubnaha kale ee qoyskaagu wali waxay heli karaan dheefshiidka cuntada. Dheefshiidkaaga ma waayid ka hor hubintaada.</span><span data-lang="tl">Kung ang isang miyembro ng iyong sambahayan ay mawawalan ng eligibility, ang natitirang pamilya ay maaari pa ring makakuha ng kanilang mga benepisyo sa pagkain. Hindi ka mawawalan ng benepisyo bago ang eligibility review.</span><span data-lang="es">Si una persona de su hogar pierde la elegibilidad, el resto de su familia aún puede recibir beneficios de alimentos. No perderá beneficios antes de su revisión de elegibilidad.</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEDICAID -->
+  <div class="topic-card" id="tc2">
+    <div class="tc-head" onclick="toggleCard('tc2')">
+      <div class="tc-icon">🏥</div>
+      <div class="tc-head-text">
+        <h3><span data-lang="en">Health Insurance (Medicaid / Apple Health)</span><span data-lang="vi">Bảo Hiểm Y Tế (Medicaid / Apple Health)</span><span data-lang="zh">健康保险（Medicaid / Apple Health）</span><span data-lang="so">Caymiska Caafimaadka (Medicaid / Apple Health)</span><span data-lang="tl">Health Insurance (Medicaid / Apple Health)</span><span data-lang="es">Seguro de Salud (Medicaid / Apple Health)</span></h3>
+        <p><span data-lang="en">Who loses coverage? Who is exempt?</span><span data-lang="vi">Ai mất bảo hiểm? Ai được miễn?</span><span data-lang="zh">谁会失去保险？谁免于影响？</span><span data-lang="so">Cidda lumisa daahfurka? Cidda ka maamuusan?</span><span data-lang="tl">Sino ang mawawalan ng coverage? Sino ang exempt?</span><span data-lang="es">¿Quién pierde cobertura? ¿Quién está exento?</span></p>
+      </div>
+      <div class="tc-chevron">▼</div>
+    </div>
+    <div class="tc-divider"></div>
+    <div class="tc-body">
+
+      <div class="status-block green">
+        <div class="sb-icon">✅</div>
+        <div class="sb-content">
+          <h4><span data-lang="en">Keeps federal Medicaid</span><span data-lang="vi">Giữ Medicaid liên bang</span><span data-lang="zh">保留联邦Medicaid</span><span data-lang="so">Haysa Medicaid federaalka</span><span data-lang="tl">Pinapanatili ang federal Medicaid</span><span data-lang="es">Conserva Medicaid federal</span></h4>
+          <ul>
+            <li><span data-lang="en">U.S. citizens · Green card holders · Refugees &amp; asylees (first 7 years)</span><span data-lang="vi">Công dân Mỹ · Thẻ xanh · Người tị nạn/xin tị nạn (7 năm đầu)</span><span data-lang="zh">美国公民 · 绿卡持有者 · 难民/庇护申请者（前7年）</span><span data-lang="so">Muwaadiniinta · Kaadhka cagaaran · Qaxootiga/asiilaayaasha (7 sano)</span><span data-lang="tl">Mga mamamayan ng US · Green card · Mga refugee/asylee (unang 7 taon)</span><span data-lang="es">Ciudadanos · Residentes permanentes · Refugiados/asilados (primeros 7 años)</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="status-block red">
+        <div class="sb-icon">❌</div>
+        <div class="sb-content">
+          <h4><span data-lang="en">Loses federal Medicaid — act now</span><span data-lang="vi">Mất Medicaid liên bang — hành động ngay</span><span data-lang="zh">失去联邦Medicaid — 立即行动</span><span data-lang="so">Lumaya Medicaid federaalka — hadda tallaabo qaado</span><span data-lang="tl">Mawawalan ng federal Medicaid — kumilos na</span><span data-lang="es">Pierde Medicaid federal — actúe ahora</span></h4>
+          <p><span data-lang="en">DACA · TPS · Work/family/student visa holders · Parolees · Others lawfully present</span><span data-lang="vi">DACA · TPS · Người có visa việc làm/gia đình/sinh viên · Người được tạm tha</span><span data-lang="zh">DACA · TPS · 工作/家庭/学生签证持有者 · 假释者</span><span data-lang="so">DACA · TPS · Kuwa fiisaha shaqada/qoyska/ardayda leh · Xabsiga ka sii daayay</span><span data-lang="tl">DACA · TPS · Work/family/student visa holders · Parolee</span><span data-lang="es">DACA · TPS · Titulares de visa laboral/familiar/estudiantil · Liberados bajo fianza</span></p>
+          <p style="margin-top:8px;font-size:0.82rem;"><span data-lang="en">Washington State may offer state-funded alternatives. Call <strong>1-855-923-4633</strong> now or visit <a href="https://wahbexchange.org">wahbexchange.org</a>.</span><span data-lang="vi">Washington State có thể cung cấp giải pháp thay thế. Gọi <strong>1-855-923-4633</strong> ngay hoặc truy cập <a href="https://wahbexchange.org">wahbexchange.org</a>.</span><span data-lang="zh">华盛顿州可能提供州资助替代方案。立即致电<strong>1-855-923-4633</strong>或访问 <a href="https://wahbexchange.org">wahbexchange.org</a>。</span><span data-lang="so">Washington State waxay bixin kartaa beddelka. Hadda wac <strong>1-855-923-4633</strong> ama booqo <a href="https://wahbexchange.org">wahbexchange.org</a>.</span><span data-lang="tl">Maaaring mag-alok ang Washington State ng mga alternatibo. Tumawag ngayon sa <strong>1-855-923-4633</strong> o bisitahin ang <a href="https://wahbexchange.org">wahbexchange.org</a>.</span><span data-lang="es">Washington State puede ofrecer alternativas. Llame ahora al <strong>1-855-923-4633</strong> o visite <a href="https://wahbexchange.org">wahbexchange.org</a>.</span></p>
+        </div>
+      </div>
+
+      <div class="status-block orange">
+        <div class="sb-icon">⏰</div>
+        <div class="sb-content">
+          <h4><span data-lang="en">New: check-in every 6 months (December 2026)</span><span data-lang="vi">Mới: kiểm tra mỗi 6 tháng (12/2026)</span><span data-lang="zh">新规定：每6个月核查一次（2026年12月）</span><span data-lang="so">Cusub: hubinta 6 bilood kasta (Dis 2026)</span><span data-lang="tl">Bago: pag-check bawat 6 na buwan (Dis 2026)</span><span data-lang="es">Nuevo: verificación cada 6 meses (dic 2026)</span></h4>
+          <p><span data-lang="en">Medicaid will require eligibility re-verification every 6 months (was once a year). Keep your address and phone updated with DSHS so you don't miss a notice. Call DSHS: <strong>877-501-2233</strong>.</span><span data-lang="vi">Medicaid sẽ yêu cầu xác minh điều kiện mỗi 6 tháng (trước đây là một năm). Cập nhật địa chỉ và số điện thoại với DSHS. Gọi: <strong>877-501-2233</strong>.</span><span data-lang="zh">Medicaid将每6个月进行资格重新核查（之前每年一次）。请更新DSHS的地址和电话。致电：<strong>877-501-2233</strong>。</span><span data-lang="so">Medicaid waxay u baahan doontaa hubinta u-qalmitaanka 6 bilood kasta (hore sannad). Cinwaankaaga iyo telefoonkaaga DSHS la cusboonsii. Wac: <strong>877-501-2233</strong>.</span><span data-lang="tl">Ang Medicaid ay mangangailangan ng re-verification ng eligibility bawat 6 na buwan (dati ay isang taon). Panatilihing updated ang address at telepono sa DSHS. Tumawag: <strong>877-501-2233</strong>.</span><span data-lang="es">Medicaid requerirá re-verificación de elegibilidad cada 6 meses (antes era una vez al año). Mantenga actualizada su dirección y teléfono con DSHS. Llame: <strong>877-501-2233</strong>.</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- YOUR COMMUNITY -->
+  <div class="topic-card" id="tc3">
+    <div class="tc-head" onclick="toggleCard('tc3')">
+      <div class="tc-icon">👥</div>
+      <div class="tc-head-text">
+        <h3><span data-lang="en">People Like You — Your Community</span><span data-lang="vi">Người như bạn — Cộng đồng của bạn</span><span data-lang="zh">像您一样的人 — 您的社区</span><span data-lang="so">Dad kaa eg — Bulshadaada</span><span data-lang="tl">Mga Taong Katulad Mo — Ang Iyong Komunidad</span><span data-lang="es">Personas Como Usted — Su Comunidad</span></h3>
+        <p><span data-lang="en">Specific situations for your community</span><span data-lang="vi">Tình huống cụ thể cho cộng đồng của bạn</span><span data-lang="zh">您社区的具体情况</span><span data-lang="so">Xaaladaha gaarka ah ee bulshadaada</span><span data-lang="tl">Mga tiyak na sitwasyon para sa iyong komunidad</span><span data-lang="es">Situaciones específicas para su comunidad</span></p>
+      </div>
+      <div class="tc-chevron">▼</div>
+    </div>
+    <div class="tc-divider"></div>
+    <div class="tc-body">
+
+      <div class="community-selector" id="cs">
+        <button class="cs-btn active" onclick="setCom('viet',this)"><span class="cs-flag">🇻🇳</span><span class="cs-name">Việt Nam</span></button>
+        <button class="cs-btn" onclick="setCom('chinese',this)"><span class="cs-flag">🇨🇳</span><span class="cs-name">中文</span></button>
+        <button class="cs-btn" onclick="setCom('somali',this)"><span class="cs-flag">🇸🇴</span><span class="cs-name">Soomaali</span></button>
+        <button class="cs-btn" onclick="setCom('filipino',this)"><span class="cs-flag">🇵🇭</span><span class="cs-name">Filipino</span></button>
+        <button class="cs-btn" onclick="setCom('latino',this)"><span class="cs-flag">🇲🇽</span><span class="cs-name">Latino</span></button>
+      </div>
+
+      <!-- Vietnamese -->
+      <div class="community-pane active" id="com-viet">
+        <div class="person-story">
+          <div class="person-avatar">👩</div>
+          <div class="person-text">
+            <strong><span data-lang="en">Lan, from Seattle's Federal Way community</span><span data-lang="vi">Lan, từ cộng đồng Federal Way, Seattle</span><span data-lang="zh">兰，来自西雅图联邦路社区</span><span data-lang="so">Lan, ka timid bulshada Federal Way ee Seattle</span><span data-lang="tl">Si Lan, mula sa komunidad ng Federal Way, Seattle</span><span data-lang="es">Lan, de la comunidad de Federal Way, Seattle</span></strong><br>
+            <span data-lang="en">"My family arrived in 1982. My parents are US citizens and still get all their benefits. My cousin came in 2022 on a work visa — she needs to find out about state health coverage before her Medicaid ends."</span>
+            <span data-lang="vi">"Gia đình tôi đến năm 1982. Bố mẹ tôi là công dân Mỹ và vẫn nhận đủ quyền lợi. Người anh họ đến năm 2022 bằng visa làm việc — anh ấy cần tìm hiểu về bảo hiểm y tế tiểu bang."</span>
+            <span data-lang="zh">"我家1982年来到美国。父母是美国公民，仍可获得所有福利。我表妹2022年以工签来美——她需要在Medicaid结束前了解州医疗保险。"</span>
+            <span data-lang="so">"Qoyskeygii waxay yimid 1982. Waalidiinteydu waxay yihiin muwaadino Maraykanka ah oo weli dhammaan dheefshiidkooda helaya. Xigaalkay waxay timi 2022 fiis shaqo — waxay u baahan tahay inay ogaato caymiska caafimaadka gobolka."</span>
+            <span data-lang="tl">"Ang aking pamilya ay dumating noong 1982. Ang aking mga magulang ay mga mamamayan ng US at nakatatanggap pa rin ng lahat ng kanilang mga benepisyo. Ang aking pinsan ay dumating noong 2022 sa work visa — kailangan niyang malaman ang tungkol sa state health coverage."</span>
+            <span data-lang="es">"Mi familia llegó en 1982. Mis padres son ciudadanos estadounidenses y todavía reciben todos sus beneficios. Mi primo llegó en 2022 con visa de trabajo — necesita informarse sobre la cobertura de salud estatal."</span>
+          </div>
+        </div>
+        <div class="status-block green"><div class="sb-icon">✅</div><div class="sb-content"><h4><span data-lang="en">Most Vietnamese-Americans are safe</span><span data-lang="vi">Hầu hết người Mỹ gốc Việt vẫn an toàn</span><span data-lang="zh">大多数越裔美国人是安全的</span><span data-lang="so">Intooda badan ee Vietnamese-Americans waxay amaan yihiin</span><span data-lang="tl">Karamihan sa Vietnamese-American ay ligtas</span><span data-lang="es">La mayoría de los vietnamitas-americanos están seguros</span></h4><p><span data-lang="en">Those who arrived after 1975 and have LPR or citizenship remain fully eligible for SNAP and Apple Health. Elders (65+) and disabled are exempt from work requirements.</span><span data-lang="vi">Người đến sau 1975 có thẻ xanh hoặc quốc tịch vẫn đủ điều kiện đầy đủ. Người cao tuổi (65+) và khuyết tật được miễn yêu cầu làm việc.</span><span data-lang="zh">1975年后持绿卡或公民身份来到美国者仍完全有资格。老年人（65+）和残疾人免于工作要求。</span><span data-lang="so">Kuwa ka yimid 1975 ka dib oo LPR ama muwaadinnimo leh waxay si buuxda u-qalmaan. Waayeelada (65+) iyo naafada waxay ka maamuusan yihiin shuruudaha shaqada.</span><span data-lang="tl">Ang mga dumating pagkatapos ng 1975 na may LPR o citizenship ay nananatiling ganap na karapat-dapat. Ang mga matatanda (65+) at may kapansanan ay exempt sa work requirements.</span><span data-lang="es">Los que llegaron después de 1975 con LPR o ciudadanía siguen siendo completamente elegibles. Los mayores (65+) y discapacitados están exentos.</span></p></div></div>
+        <div class="status-block orange"><div class="sb-icon">⚠️</div><div class="sb-content"><h4><span data-lang="en">Recent arrivals on visas — check now</span><span data-lang="vi">Người mới đến bằng visa — kiểm tra ngay</span><span data-lang="zh">持签证的近期抵达者 — 立即查询</span><span data-lang="so">Kuwa dhawaan yimid fiisaha — hadda hubi</span><span data-lang="tl">Mga bagong dating na may visa — suriin ngayon</span><span data-lang="es">Recién llegados con visa — verifique ahora</span></h4><p><span data-lang="en">If you came on a work or family visa, you may lose federal Medicaid. Call ICHS (International Community Health Services) for help — they speak Vietnamese and serve the community.</span><span data-lang="vi">Nếu bạn đến bằng visa làm việc hoặc gia đình, bạn có thể mất Medicaid liên bang. Gọi ICHS — họ nói tiếng Việt và phục vụ cộng đồng.</span><span data-lang="zh">如果您持工作或家庭签证来美，可能失去联邦Medicaid。联系ICHS（国际社区卫生服务）寻求帮助——他们讲越南语。</span><span data-lang="so">Haddaad timid fiis shaqo ama qoyska, waxaa laga yaabaa inaad lumeyso Medicaid federaalka. Wac ICHS — waxay ku hadlaan Fiitnaamiga.</span><span data-lang="tl">Kung dumating ka sa work o family visa, maaaring mawalan ng federal Medicaid. Tumawag sa ICHS — nagsasalita sila ng Vietnamese at naglilingkod sa komunidad.</span><span data-lang="es">Si llegó con visa laboral o familiar, puede perder Medicaid federal. Llame a ICHS — hablan vietnamita y sirven a la comunidad.</span></p></div></div>
+      </div>
+
+      <!-- Chinese -->
+      <div class="community-pane" id="com-chinese">
+        <div class="person-story">
+          <div class="person-avatar">👨</div>
+          <div class="person-text">
+            <strong><span data-lang="en">Wei, from Seattle's Chinatown-International District</span><span data-lang="vi">Wei, từ khu Chinatown-International District của Seattle</span><span data-lang="zh">魏，来自西雅图唐人街国际区</span><span data-lang="so">Wei, ka timid Chinatown-International District ee Seattle</span><span data-lang="tl">Si Wei, mula sa Chinatown-International District ng Seattle</span><span data-lang="es">Wei, del Barrio Chino-Distrito Internacional de Seattle</span></strong><br>
+            <span data-lang="en">"My mother is 72 and on Medicare and SSI. She's exempt from all work requirements. I'm on a work visa — my Medicaid may be ending. ICHS helped me find state health options."</span>
+            <span data-lang="vi">"Mẹ tôi 72 tuổi và nhận Medicare và SSI. Bà được miễn tất cả yêu cầu làm việc. Tôi có visa làm việc — Medicaid của tôi có thể hết. ICHS đã giúp tôi tìm các lựa chọn y tế tiểu bang."</span>
+            <span data-lang="zh">"我母亲72岁，享受Medicare和SSI，免于所有工作要求。我持工作签证——我的Medicaid可能要结束了。ICHS帮我找到了州医疗保险选项。"</span>
+            <span data-lang="so">"Hooyadey waxay jirtaa 72 jir oo ka faa'iidaysanaysa Medicare iyo SSI. Waxay ka maamuusantahay dhammaan shuruudaha shaqada. Aniga waxaan leeyahay fiis shaqo — Medicaid-keygii waa dhammaanayaa. ICHS ayaa ii caawisay inaan helo xulashada caafimaadka gobolka."</span>
+            <span data-lang="tl">"Ang aking ina ay 72 at nasa Medicare at SSI. Siya ay exempt sa lahat ng work requirements. Nasa work visa ako — ang aking Medicaid ay maaaring magtatapos. Tinulungan ako ng ICHS na mahanap ang mga pagpipilian sa state health."</span>
+            <span data-lang="es">"Mi madre tiene 72 años y recibe Medicare y SSI. Está exenta de todos los requisitos de trabajo. Yo tengo visa laboral — mi Medicaid puede estar terminando. ICHS me ayudó a encontrar opciones de salud estatal."</span>
+          </div>
+        </div>
+        <div class="status-block green"><div class="sb-icon">✅</div><div class="sb-content"><h4><span data-lang="en">Elders (65+) and SSI recipients are protected</span><span data-lang="vi">Người cao tuổi (65+) và người nhận SSI được bảo vệ</span><span data-lang="zh">老年人（65+）和SSI受益人受到保护</span><span data-lang="so">Waayeelada (65+) iyo kuwa SSI waxaa la difaacaa</span><span data-lang="tl">Ang mga matatanda (65+) at mga may SSI ay protektado</span><span data-lang="es">Los mayores (65+) y beneficiarios de SSI están protegidos</span></h4><p><span data-lang="en">Fully exempt from all work requirements. Benefits continue unchanged.</span><span data-lang="vi">Hoàn toàn được miễn tất cả yêu cầu làm việc. Quyền lợi tiếp tục không đổi.</span><span data-lang="zh">完全免于所有工作要求。福利继续不变。</span><span data-lang="so">Si buuxda waxay ka maamuusan yihiin dhammaan shuruudaha shaqada. Dheefshiidka wuxuu ahaan doonaa isku mid.</span><span data-lang="tl">Ganap na exempt sa lahat ng work requirements. Ang mga benepisyo ay magpapatuloy nang hindi nagbabago.</span><span data-lang="es">Completamente exentos de todos los requisitos de trabajo. Los beneficios continúan sin cambios.</span></p></div></div>
+        <div class="status-block red"><div class="sb-icon">❌</div><div class="sb-content"><h4><span data-lang="en">Work or family visa holders — losing Medicaid</span><span data-lang="vi">Người có visa làm việc hoặc gia đình — mất Medicaid</span><span data-lang="zh">工作或家庭签证持有者 — 失去Medicaid</span><span data-lang="so">Kuwa fiisaha shaqada ama qoyska leh — lumaya Medicaid</span><span data-lang="tl">Mga may work o family visa — mawawalan ng Medicaid</span><span data-lang="es">Titulares de visa laboral o familiar — perdiendo Medicaid</span></h4><p><span data-lang="en">Contact ICHS (International Community Health Services) for free help in Chinese. They serve over 70 languages and can help you navigate state options. <a href="https://www.ichs.com">ichs.com</a></span><span data-lang="vi">Liên hệ ICHS để được trợ giúp miễn phí bằng tiếng Trung. Họ phục vụ hơn 70 ngôn ngữ. <a href="https://www.ichs.com">ichs.com</a></span><span data-lang="zh">联系ICHS（国际社区卫生服务）获得中文免费帮助。他们提供70多种语言服务，可帮助您了解州级选项。 <a href="https://www.ichs.com">ichs.com</a></span><span data-lang="so">La xiriir ICHS si aad u hesho caawimaad bilaash ah Shiineeska. Waxay adeysaan 70+ luqadood. <a href="https://www.ichs.com">ichs.com</a></span><span data-lang="tl">Makipag-ugnayan sa ICHS para sa libreng tulong sa Chinese. Naglilingkod sila sa 70+ wika. <a href="https://www.ichs.com">ichs.com</a></span><span data-lang="es">Contacte a ICHS para ayuda gratuita en chino. Sirven a más de 70 idiomas. <a href="https://www.ichs.com">ichs.com</a></span></p></div></div>
+      </div>
+
+      <!-- Somali -->
+      <div class="community-pane" id="com-somali">
+        <div class="person-story">
+          <div class="person-avatar">👩</div>
+          <div class="person-text">
+            <strong><span data-lang="en">Hodan, from Tukwila</span><span data-lang="vi">Hodan, từ Tukwila</span><span data-lang="zh">霍丹，来自图克维拉</span><span data-lang="so">Hodan, ka timid Tukwila</span><span data-lang="tl">Si Hodan, mula sa Tukwila</span><span data-lang="es">Hodan, de Tukwila</span></strong><br>
+            <span data-lang="en">"I came through official resettlement in 2019. In May 2026, my SNAP moves to state funding — same amount, no action needed. I just need to make sure DSHS has my current address."</span>
+            <span data-lang="vi">"Tôi đến qua chương trình tái định cư chính thức năm 2019. Vào tháng 5/2026, SNAP của tôi chuyển sang tiểu bang — cùng số tiền, không cần làm gì. Tôi chỉ cần đảm bảo DSHS có địa chỉ hiện tại của tôi."</span>
+            <span data-lang="zh">"我2019年通过官方安置项目来到美国。2026年5月，我的SNAP转为州资助——金额相同，无需行动。我只需确保DSHS有我的最新地址。"</span>
+            <span data-lang="so">"Waxaan imid dib-u-dejinta rasmiga ah 2019. Maayo 2026, SNAP-keygii wuxuu u wareegi doonaa gobolka — xaddiga isku mid, tallaabo ma loo baahna. Waxaan u baahan ahay oo kaliya in aan hubsado in DSHS-ku hayo cinwaankeyga hadda jira."</span>
+            <span data-lang="tl">"Dumating ako sa pamamagitan ng opisyal na resettlement noong 2019. Sa Mayo 2026, ang aking SNAP ay lilipat sa state funding — parehong halaga, walang kailangang gawin. Kailangan ko lang tiyakin na ang DSHS ay may aking kasalukuyang address."</span>
+            <span data-lang="es">"Llegué a través del reasentamiento oficial en 2019. En mayo de 2026, mi SNAP pasa a fondos estatales — mismo monto, no necesito hacer nada. Solo necesito asegurarme de que DSHS tenga mi dirección actual."</span>
+          </div>
+        </div>
+        <div class="status-block orange"><div class="sb-icon">🔄</div><div class="sb-content"><h4><span data-lang="en">Somali refugees — automatic SNAP transition May 2026</span><span data-lang="vi">Người tị nạn Somali — chuyển SNAP tự động tháng 5/2026</span><span data-lang="zh">索马里难民 — 2026年5月自动SNAP过渡</span><span data-lang="so">Qaxootiga Soomaalida — wareejinta SNAP toos ah Maayo 2026</span><span data-lang="tl">Mga Somali refugee — awtomatikong SNAP transition Mayo 2026</span><span data-lang="es">Refugiados somalíes — transición automática de SNAP mayo 2026</span></h4><p><span data-lang="en">Washington has one of the largest Somali refugee communities in the US. Most came through official resettlement — you keep the same benefit amount. Just keep your DSHS contact info updated. Call REWA for help: <a href="https://www.rewa.org">rewa.org</a></span><span data-lang="vi">Washington có một trong những cộng đồng tị nạn Somali lớn nhất ở Mỹ. Hầu hết đến qua tái định cư chính thức — bạn giữ cùng số tiền trợ cấp. Chỉ cần cập nhật thông tin DSHS. Gọi REWA: <a href="https://www.rewa.org">rewa.org</a></span><span data-lang="zh">华盛顿拥有美国最大的索马里难民社区之一。大多数通过官方安置——保持相同福利金额。只需更新DSHS联系信息。联系REWA: <a href="https://www.rewa.org">rewa.org</a></span><span data-lang="so">Washington waxay leedahay mid ka mid ah bulshooyinka qaxootiga Soomaalida ugu weyn ee Maraykanka. Intooda badan waxay imid dib-u-dejinta rasmiga ah — xaddiga dheefshiidka isku mid ah ayaad haysaa. Macluumaadkaaga DSHS ku cusboonsii. REWA la xiriir: <a href="https://www.rewa.org">rewa.org</a></span><span data-lang="tl">Ang Washington ay may isa sa mga pinakamalaking komunidad ng Somali refugee sa US. Karamihan ay dumating sa opisyal na resettlement — mananatili kang may parehong halaga ng benepisyo. I-update lang ang iyong DSHS contact info. Tumawag sa REWA: <a href="https://www.rewa.org">rewa.org</a></span><span data-lang="es">Washington tiene una de las mayores comunidades de refugiados somalíes de EE.UU. La mayoría llegó a través del reasentamiento oficial — mantiene el mismo monto. Solo actualice su info de contacto en DSHS. Llame a REWA: <a href="https://www.rewa.org">rewa.org</a></span></p></div></div>
+        <div class="status-block red"><div class="sb-icon">💰</div><div class="sb-content"><h4><span data-lang="en">$360M less flowing into WA communities annually</span><span data-lang="vi">$360 triệu ít hơn chảy vào cộng đồng WA mỗi năm</span><span data-lang="zh">每年减少3.6亿美元流入华盛顿社区</span><span data-lang="so">$360 milyan oo ka yar oo sanadkiiba Washington ka socda</span><span data-lang="tl">$360M na mas kaunti ang pumasok sa mga komunidad ng WA taon-taon</span><span data-lang="es">$360M menos fluyendo a las comunidades de WA anualmente</span></h4><p><span data-lang="en">REWA reports H.R. 1 pulls $360 million annually from Washington's economy — hitting refugee and immigrant neighborhoods hardest. Advocate with your state legislators.</span><span data-lang="vi">REWA báo cáo H.R. 1 rút $360 triệu mỗi năm khỏi nền kinh tế Washington — ảnh hưởng nặng nhất đến các khu phố người tị nạn và nhập cư.</span><span data-lang="zh">REWA报告H.R. 1每年从华盛顿经济中抽走3.6亿美元，对难民和移民社区影响最大。</span><span data-lang="so">REWA waxay soo sheegtay in H.R. 1 sanadkiiba $360 milyan ka saarto dhaqaalaha Washington — si xooggan u saamaynaysa xaafadaha qaxootiga iyo socdaalayaasha.</span><span data-lang="tl">Iniulat ng REWA na ang H.R. 1 ay kumukuha ng $360 milyon bawat taon mula sa ekonomiya ng Washington — pinakamalakas na nakakaapekto sa mga neighborhood ng refugee at imigrante.</span><span data-lang="es">REWA informa que H.R. 1 extrae $360 millones anualmente de la economía de Washington — golpeando más fuerte a los vecindarios de refugiados e inmigrantes.</span></p></div></div>
+      </div>
+
+      <!-- Filipino -->
+      <div class="community-pane" id="com-filipino">
+        <div class="person-story">
+          <div class="person-avatar">👨</div>
+          <div class="person-text">
+            <strong><span data-lang="en">Eddie, from Tacoma</span><span data-lang="vi">Eddie, từ Tacoma</span><span data-lang="zh">埃迪，来自塔科马</span><span data-lang="so">Eddie, ka timid Tacoma</span><span data-lang="tl">Si Eddie, mula sa Tacoma</span><span data-lang="es">Eddie, de Tacoma</span></strong><br>
+            <span data-lang="en">"My family served in the US Navy. We're citizens — our benefits don't change. My sister came on a family visa 2 years ago — she needs to call about her Medicaid before it's cut."</span>
+            <span data-lang="vi">"Gia đình tôi phục vụ trong Hải quân Mỹ. Chúng tôi là công dân — quyền lợi không thay đổi. Em gái tôi đến bằng visa gia đình 2 năm trước — cô ấy cần gọi điện về Medicaid trước khi bị cắt."</span>
+            <span data-lang="zh">"我家在美国海军服役。我们是公民——福利不变。我妹妹2年前持家庭签证来美——她需要在Medicaid被削减前打电话咨询。"</span>
+            <span data-lang="so">"Qoyskeygii waxay adeegeen Ciidanka Badda Maraykanka. Waxaan nahay muwaadino — dheefshiidkeennu ma beddelin. Walaashey waxay timid fiis qoys 2 sano ka hor — waxay u baahan tahay inay wacdo Medicaid ka hor intaadan la goyn."</span>
+            <span data-lang="tl">"Ang aking pamilya ay nagsilbi sa US Navy. Mga mamamayan kami — ang aming mga benepisyo ay hindi nagbabago. Ang aking kapatid na babae ay dumating sa family visa 2 taon na ang nakalipas — kailangan niyang tumawag tungkol sa kanyang Medicaid bago ito gupitin."</span>
+            <span data-lang="es">"Mi familia sirvió en la Marina de EE.UU. Somos ciudadanos — nuestros beneficios no cambian. Mi hermana llegó con visa familiar hace 2 años — necesita llamar sobre su Medicaid antes de que lo corten."</span>
+          </div>
+        </div>
+        <div class="status-block green"><div class="sb-icon">✅</div><div class="sb-content"><h4><span data-lang="en">US citizens &amp; LPRs are protected</span><span data-lang="vi">Công dân Mỹ &amp; thường trú nhân được bảo vệ</span><span data-lang="zh">美国公民和LPR受到保护</span><span data-lang="so">Muwaadiniinta US &amp; LPRs waxaa la difaacaa</span><span data-lang="tl">Ang mga mamamayan ng US at LPR ay protektado</span><span data-lang="es">Ciudadanos de EE.UU. y LPR están protegidos</span></h4><p><span data-lang="en">Many Filipino-Americans — especially those connected to the US military — hold citizenship or LPR status and remain fully eligible. Elders (65+) are exempt from work requirements.</span><span data-lang="vi">Nhiều người Mỹ gốc Philippines — đặc biệt những người có liên hệ với quân đội Mỹ — có quốc tịch hoặc thẻ xanh và vẫn đủ điều kiện đầy đủ. Người cao tuổi (65+) được miễn yêu cầu làm việc.</span><span data-lang="zh">许多菲律宾裔美国人——尤其是与美国军队有关联的——持有公民身份或绿卡，完全有资格。老年人（65+）免于工作要求。</span><span data-lang="so">Dadka Filipino-Americans ah intooda badan — gaar ahaan kuwa xiriirka militariga Maraykanka la leh — waxay leeyihiin muwaadinnimo ama LPR, oo si buuxda u-qalmaan. Waayeelada (65+) waxay ka maamuusan yihiin shuruudaha shaqada.</span><span data-lang="tl">Maraming Filipino-American — lalo na ang mga may koneksyon sa US military — ay may hawak na citizenship o LPR at nananatiling ganap na karapat-dapat. Ang mga matatanda (65+) ay exempt sa work requirements.</span><span data-lang="es">Muchos filipinos-americanos — especialmente los relacionados con las fuerzas militares de EE.UU. — tienen ciudadanía o LPR y siguen siendo elegibles. Los mayores (65+) están exentos.</span></p></div></div>
+        <div class="status-block orange"><div class="sb-icon">⚠️</div><div class="sb-content"><h4><span data-lang="en">Recent arrivals on family/work visas — check now</span><span data-lang="vi">Người mới đến bằng visa gia đình/làm việc — kiểm tra ngay</span><span data-lang="zh">持家庭/工作签证的近期抵达者 — 立即查询</span><span data-lang="so">Kuwa dhawaan yimid fiisaha qoyska/shaqada — hadda hubi</span><span data-lang="tl">Mga bagong dating sa family/work visa — suriin ngayon</span><span data-lang="es">Recién llegados con visa familiar/laboral — verifique ahora</span></h4><p><span data-lang="en">Check your eligibility at <a href="https://benefits.wa.gov">benefits.wa.gov</a> or call DSHS at <strong>877-501-2233</strong>. Translation available in Filipino/Tagalog.</span><span data-lang="vi">Kiểm tra điều kiện tại <a href="https://benefits.wa.gov">benefits.wa.gov</a> hoặc gọi DSHS: <strong>877-501-2233</strong>. Có phiên dịch tiếng Filipino/Tagalog.</span><span data-lang="zh">在 <a href="https://benefits.wa.gov">benefits.wa.gov</a> 查询资格或致电DSHS：<strong>877-501-2233</strong>。提供菲律宾语/他加禄语翻译。</span><span data-lang="so">U-qalmitaankaaga ka hubi <a href="https://benefits.wa.gov">benefits.wa.gov</a> ama wac DSHS: <strong>877-501-2233</strong>. Turjumaan Filipino/Tagalog ayaa la heli karaa.</span><span data-lang="tl">Suriin ang eligibility sa <a href="https://benefits.wa.gov">benefits.wa.gov</a> o tumawag sa DSHS: <strong>877-501-2233</strong>. Available ang pagsasalin sa Filipino/Tagalog.</span><span data-lang="es">Verifique su elegibilidad en <a href="https://benefits.wa.gov">benefits.wa.gov</a> o llame a DSHS: <strong>877-501-2233</strong>. Traducción disponible en filipino/tagalo.</span></p></div></div>
+      </div>
+
+      <!-- Latino -->
+      <div class="community-pane" id="com-latino">
+        <div class="person-story">
+          <div class="person-avatar">👩</div>
+          <div class="person-text">
+            <strong><span data-lang="en">María, from Yakima</span><span data-lang="vi">María, từ Yakima</span><span data-lang="zh">玛丽亚，来自雅基马</span><span data-lang="so">María, ka timid Yakima</span><span data-lang="tl">Si María, mula sa Yakima</span><span data-lang="es">María, de Yakima</span></strong><br>
+            <span data-lang="en">"I have DACA. My Medicaid is being cut. But my three kids are US citizens — their benefits are safe. I'm calling Northwest Justice Project to understand my state options."</span>
+            <span data-lang="vi">"Tôi có DACA. Medicaid của tôi bị cắt. Nhưng ba đứa con của tôi là công dân Mỹ — quyền lợi của chúng vẫn an toàn. Tôi đang gọi cho Northwest Justice Project để hiểu các lựa chọn tiểu bang."</span>
+            <span data-lang="zh">"我有DACA。我的Medicaid被削减了。但我的三个孩子是美国公民——他们的福利是安全的。我正在打电话给西北司法项目了解州级选项。"</span>
+            <span data-lang="so">"Waxaan leeyahay DACA. Medicaid-keygii waa la gooyaa. Laakiin saddexdayda carruur waxay yihiin muwaadino Maraykanka — dheefshiidkooda waa nabadgalyo. Waxaan wacayaa Northwest Justice Project si aan u fahmo xulashooyinkeyga gobolka."</span>
+            <span data-lang="tl">"Mayroon akong DACA. Ang aking Medicaid ay pinuputol. Ngunit ang aking tatlong anak ay mga mamamayan ng US — ang kanilang mga benepisyo ay ligtas. Tinatawagan ko ang Northwest Justice Project para maunawaan ang aking mga pagpipilian sa estado."</span>
+            <span data-lang="es">"Tengo DACA. Mi Medicaid está siendo cortado. Pero mis tres hijos son ciudadanos de EE.UU. — sus beneficios están seguros. Estoy llamando al Northwest Justice Project para entender mis opciones estatales."</span>
+          </div>
+        </div>
+        <div class="status-block red"><div class="sb-icon">🚨</div><div class="sb-content"><h4><span data-lang="en">DACA &amp; TPS holders — losing federal Medicaid now</span><span data-lang="vi">Người có DACA &amp; TPS — mất Medicaid liên bang ngay</span><span data-lang="zh">DACA和TPS持有者 — 正在失去联邦Medicaid</span><span data-lang="so">Kuwa DACA &amp; TPS leh — hadda lumaya Medicaid federaalka</span><span data-lang="tl">Mga may DACA at TPS — mawawalan ng federal Medicaid ngayon</span><span data-lang="es">Titulares de DACA y TPS — perdiendo Medicaid federal ahora</span></h4><p><span data-lang="en">Call Northwest Justice Project immediately: <a href="https://nwjustice.org">nwjustice.org</a>. They provide free help in Spanish. Also call 1-855-923-4633 to explore state coverage options before your federal coverage ends.</span><span data-lang="vi">Gọi Northwest Justice Project ngay: <a href="https://nwjustice.org">nwjustice.org</a>. Họ cung cấp trợ giúp miễn phí bằng tiếng Tây Ban Nha. Gọi 1-855-923-4633 để khám phá các lựa chọn bảo hiểm tiểu bang.</span><span data-lang="zh">立即联系西北司法项目：<a href="https://nwjustice.org">nwjustice.org</a>。提供西班牙语免费帮助。同时致电1-855-923-4633了解州保险选项。</span><span data-lang="so">Si deg deg ah la xiriir Northwest Justice Project: <a href="https://nwjustice.org">nwjustice.org</a>. Waxay bixiyaan caawimaad bilaash ah Isbaanishka. Sidoo kale wac 1-855-923-4633.</span><span data-lang="tl">Agad na tumawag sa Northwest Justice Project: <a href="https://nwjustice.org">nwjustice.org</a>. Nagbibigay sila ng libreng tulong sa Espanyol. Tumawag din sa 1-855-923-4633.</span><span data-lang="es">Llame al Northwest Justice Project de inmediato: <a href="https://nwjustice.org">nwjustice.org</a>. Ofrecen ayuda gratuita en español. También llame al 1-855-923-4633.</span></p></div></div>
+        <div class="status-block green"><div class="sb-icon">✅</div><div class="sb-content"><h4><span data-lang="en">US citizen children are always protected</span><span data-lang="vi">Con cái là công dân Mỹ luôn được bảo vệ</span><span data-lang="zh">美国公民子女始终受到保护</span><span data-lang="so">Carruurta muwaadiniinta ah waa la ilaalinayaa had iyo jeer</span><span data-lang="tl">Ang mga anak na mamamayan ng US ay laging protektado</span><span data-lang="es">Los hijos ciudadanos de EE.UU. siempre están protegidos</span></h4><p><span data-lang="en">If your child is a US citizen, they are fully eligible for SNAP and Medicaid regardless of your status. A parent's status does not affect the child's benefits. Apply for your children — it is safe and does not affect your immigration case.</span><span data-lang="vi">Nếu con bạn là công dân Mỹ, chúng hoàn toàn đủ điều kiện nhận SNAP và Medicaid bất kể tình trạng của bạn. Tình trạng của cha mẹ không ảnh hưởng đến quyền lợi của con. Đăng ký cho con bạn — an toàn và không ảnh hưởng đến hồ sơ nhập cư.</span><span data-lang="zh">如果您的孩子是美国公民，无论您的身份如何，他们完全有资格获得SNAP和Medicaid。父母的身份不影响孩子的福利。为您的孩子申请——这是安全的，不影响您的移民案件。</span><span data-lang="so">Haddii ilmahaagu yahay muwaadin Maraykanka, si buuxda ayuu u-qalmaa SNAP iyo Medicaid xaaladaada ha ku xidna. Xaaladda waalidka kuma saameynayso dheefshiidka carruurta. Carruurta codsado — waa nabadgalyo mana saameyneyso dacwaddaada socdaalka.</span><span data-lang="tl">Kung ang iyong anak ay isang mamamayan ng US, sila ay ganap na karapat-dapat para sa SNAP at Medicaid anuman ang iyong katayuan. Ang katayuan ng magulang ay hindi nakakaapekto sa mga benepisyo ng bata. Mag-apply para sa iyong mga anak — ligtas ito at hindi nakakaapekto sa iyong kaso sa immigration.</span><span data-lang="es">Si su hijo/a es ciudadano/a de EE.UU., es totalmente elegible para SNAP y Medicaid independientemente de su estatus. El estatus de los padres no afecta los beneficios de los hijos. Solicite para sus hijos — es seguro y no afecta su caso de inmigración.</span></p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTION STEPS -->
+  <div class="topic-card" id="tc4">
+    <div class="tc-head" onclick="toggleCard('tc4')">
+      <div class="tc-icon">📋</div>
+      <div class="tc-head-text">
+        <h3><span data-lang="en">What To Do — Step by Step</span><span data-lang="vi">Phải Làm Gì — Từng Bước</span><span data-lang="zh">该怎么做 — 一步一步</span><span data-lang="so">Waxa La Samaynayo — Tallaabo Tallaabo</span><span data-lang="tl">Ano ang Gagawin — Hakbang-Hakbang</span><span data-lang="es">Qué Hacer — Paso a Paso</span></h3>
+        <p><span data-lang="en">4 things you can do today</span><span data-lang="vi">4 việc bạn có thể làm hôm nay</span><span data-lang="zh">今天可以做的4件事</span><span data-lang="so">4 shay oo aad maanta samayn kartid</span><span data-lang="tl">4 bagay na maaari mong gawin ngayon</span><span data-lang="es">4 cosas que puede hacer hoy</span></p>
+      </div>
+      <div class="tc-chevron">▼</div>
+    </div>
+    <div class="tc-divider"></div>
+    <div class="tc-body">
+      <div class="action-step primary">
+        <div class="as-num">1</div>
         <div>
-          <h4>Your Voice Matters — Advocate Now</h4>
-          <p>Many H.R. 1 provisions take effect after the 2026 midterm elections — there is still time to make a difference. Call your Washington State legislators and urge them to protect refugee, immigrant, and low-income community benefits. Find your representative at <a href="https://app.leg.wa.gov/districtfinder/">app.leg.wa.gov/districtfinder</a>.</p>
+          <div class="as-title"><span data-lang="en">Call DSHS — free translation available</span><span data-lang="vi">Gọi DSHS — có phiên dịch miễn phí</span><span data-lang="zh">致电DSHS——提供免费翻译</span><span data-lang="so">Wac DSHS — turjumaan bilaash ah ayaa la heli karaa</span><span data-lang="tl">Tumawag sa DSHS — available ang libreng pagsasalin</span><span data-lang="es">Llame a DSHS — traducción gratuita disponible</span></div>
+          <div class="as-sub"><strong>877-501-2233</strong> — <span data-lang="en">ask about your benefits and your status</span><span data-lang="vi">hỏi về quyền lợi và tình trạng của bạn</span><span data-lang="zh">询问您的福利和身份状况</span><span data-lang="so">weydiiso dheefshiidkaaga iyo xaaladaada</span><span data-lang="tl">tanungin ang tungkol sa iyong mga benepisyo at katayuan</span><span data-lang="es">pregunte sobre sus beneficios y su estatus</span></div>
         </div>
-        <a class="advocate-cta" href="https://app.leg.wa.gov/districtfinder/" target="_blank">Find My Rep →</a>
+        <div class="as-arrow">→</div>
+      </div>
+      <div class="action-step">
+        <div class="as-num">2</div>
+        <div>
+          <div class="as-title"><span data-lang="en">Update your contact info with DSHS</span><span data-lang="vi">Cập nhật thông tin liên hệ với DSHS</span><span data-lang="zh">更新您在DSHS的联系信息</span><span data-lang="so">Macluumaadkaaga DSHS la cusboonsii</span><span data-lang="tl">I-update ang contact info sa DSHS</span><span data-lang="es">Actualice su información de contacto con DSHS</span></div>
+          <div class="as-sub"><span data-lang="en">So you don't miss critical notices about your eligibility. Visit </span><span data-lang="vi">Để không bỏ lỡ thông báo quan trọng. Truy cập </span><span data-lang="zh">以免错过重要通知。访问 </span><span data-lang="so">Si aanad ka maarmin ogeysiisyada muhiimka ah. Booqo </span><span data-lang="tl">Para hindi ka makapalampas ng mga kritikal na abiso. Bisitahin ang </span><span data-lang="es">Para no perderse avisos importantes. Visite </span><a href="https://benefitscap.dshs.wa.gov">benefitscap.dshs.wa.gov</a></div>
+        </div>
+        <div class="as-arrow">→</div>
+      </div>
+      <div class="action-step">
+        <div class="as-num">3</div>
+        <div>
+          <div class="as-title"><span data-lang="en">Check your immigration status with a free legal helper</span><span data-lang="vi">Kiểm tra tình trạng nhập cư với trợ giúp pháp lý miễn phí</span><span data-lang="zh">通过免费法律援助核实您的移民身份</span><span data-lang="so">Xaaladaada socdaalka la xaqiiji si caawimaad sharciyeed oo bilaash ah</span><span data-lang="tl">Suriin ang immigration status mo sa tulong ng libreng legal helper</span><span data-lang="es">Verifique su estatus migratorio con un asesor legal gratuito</span></div>
+          <div class="as-sub"><a href="https://nwjustice.org">Northwest Justice Project</a> · <a href="https://washingtonlawhelp.org">washingtonlawhelp.org</a></div>
+        </div>
+        <div class="as-arrow">→</div>
+      </div>
+      <div class="action-step">
+        <div class="as-num">4</div>
+        <div>
+          <div class="as-title"><span data-lang="en">Mark November 1, 2026 — health insurance enrollment opens</span><span data-lang="vi">Đánh dấu 1/11/2026 — đăng ký bảo hiểm y tế mở</span><span data-lang="zh">标记2026年11月1日 — 健康保险注册开始</span><span data-lang="so">Calaamadee Noofambar 1, 2026 — diiwaangelinta caymiska caafimaadka waa la furayaa</span><span data-lang="tl">Markahan Nobyembre 1, 2026 — bumubukas ang enrollment ng health insurance</span><span data-lang="es">Marque el 1 de noviembre de 2026 — se abre la inscripción al seguro de salud</span></div>
+          <div class="as-sub"><span data-lang="en">If you're losing Medicaid, you can sign up for a health plan. </span><span data-lang="vi">Nếu mất Medicaid, bạn có thể đăng ký kế hoạch y tế. </span><span data-lang="zh">如果失去Medicaid，您可以注册健康计划。</span><span data-lang="so">Haddaad lumaysid Medicaid, waxaad u diiwaan gali kartaa qorshaha caafimaadka. </span><span data-lang="tl">Kung mawawalan ng Medicaid, maaari kang mag-sign up para sa health plan. </span><span data-lang="es">Si pierde Medicaid, puede inscribirse en un plan de salud. </span><a href="https://wahbexchange.org">wahbexchange.org</a></div>
+        </div>
+        <div class="as-arrow">→</div>
       </div>
     </div>
   </div>
 
-  <!-- RESOURCES -->
-  <div class="section" id="s6">
-    <div class="section-head" onclick="toggleSec('s6')">
-      <div class="section-icon-wrap">🔗</div>
-      <div class="section-head-text">
-        <h3>Official Resources &amp; Help Lines</h3>
-        <p>Free assistance for Washington State residents</p>
-      </div>
-      <div class="section-toggle">▼</div>
-    </div>
-    <div class="section-body">
-      <div class="res-grid">
-        <div class="res-card">
-          <div class="res-card-top"><div class="res-icon-sq">🏛️</div><h5>DSHS — WA Benefits &amp; H.R. 1 Info</h5></div>
-          <p>Official Washington State SNAP, Apple Health, and H.R. 1 impact information. Translation services available.</p>
-          <div class="res-links"><a class="res-link" href="https://www.dshs.wa.gov/office-of-the-secretary/dshs-benefits-and-hr-1" target="_blank">dshs.wa.gov ↗</a></div>
-          <div class="res-phone">📞 877-501-2233</div>
-        </div>
-        <div class="res-card">
-          <div class="res-card-top"><div class="res-icon-sq">🏥</div><h5>WA Health Care Authority — Apple Health</h5></div>
-          <p>H.R. 1 specific impacts on Apple Health (Medicaid) coverage and eligibility.</p>
-          <div class="res-links"><a class="res-link" href="https://www.hca.wa.gov/about-hca/programs-and-initiatives/apple-health-medicaid/hr-1-impacts" target="_blank">hca.wa.gov ↗</a></div>
-        </div>
-        <div class="res-card">
-          <div class="res-card-top"><div class="res-icon-sq">💊</div><h5>WA Health Benefit Exchange</h5></div>
-          <p>Healthplanfinder — enroll in or change health insurance. Open enrollment begins November 1, 2026.</p>
-          <div class="res-links"><a class="res-link" href="https://wahbexchange.org" target="_blank">wahbexchange.org ↗</a></div>
-          <div class="res-phone">📞 1-855-923-4633</div>
-        </div>
-        <div class="res-card">
-          <div class="res-card-top"><div class="res-icon-sq">⚖️</div><h5>Northwest Justice Project</h5></div>
-          <p>Free legal aid for immigrants and low-income families. Multilingual resources available.</p>
-          <div class="res-links">
-            <a class="res-link" href="https://nwjustice.org" target="_blank">nwjustice.org ↗</a>
-            <a class="res-link" href="https://washingtonlawhelp.org" target="_blank">washingtonlawhelp.org ↗</a>
-          </div>
-        </div>
-        <div class="res-card">
-          <div class="res-card-top"><div class="res-icon-sq">🤝</div><h5>REWA — Refugee &amp; Immigrant Service Centers</h5></div>
-          <p>Benefits navigation, language support, and community advocacy across Washington State.</p>
-          <div class="res-links"><a class="res-link" href="https://www.rewa.org" target="_blank">rewa.org ↗</a></div>
-        </div>
-        <div class="res-card">
-          <div class="res-card-top"><div class="res-icon-sq">🍎</div><h5>Benefits.wa.gov — Apply Online</h5></div>
-          <p>Apply for SNAP, Apple Health, childcare, and cash assistance online in multiple languages.</p>
-          <div class="res-links"><a class="res-link" href="https://benefits.wa.gov" target="_blank">benefits.wa.gov ↗</a></div>
-        </div>
-      </div>
-    </div>
+  <!-- HOTLINES -->
+  <div class="section-label" style="margin-top:20px;">
+    <span data-lang="en">📞 Call For Free Help — Translation Available</span>
+    <span data-lang="vi">📞 Gọi để được trợ giúp miễn phí</span>
+    <span data-lang="zh">📞 免费帮助热线 — 提供翻译</span>
+    <span data-lang="so">📞 Wac si aad u hesho caawimaad bilaash ah</span>
+    <span data-lang="tl">📞 Tumawag para sa Libreng Tulong</span>
+    <span data-lang="es">📞 Llame para ayuda gratuita</span>
+  </div>
+  <div class="hotline-grid">
+    <a class="hotline-card" href="tel:8775012233">
+      <div class="hotline-icon">🏛️</div>
+      <div class="hotline-org">DSHS Benefits</div>
+      <div class="hotline-num">877-501-2233</div>
+      <div class="hotline-desc"><span data-lang="en">SNAP, Apple Health, benefits changes</span><span data-lang="vi">SNAP, Apple Health, thay đổi trợ cấp</span><span data-lang="zh">SNAP、Apple Health、福利变化</span><span data-lang="so">SNAP, Apple Health, isbedelada dheefshiidka</span><span data-lang="tl">SNAP, Apple Health, mga pagbabago ng benepisyo</span><span data-lang="es">SNAP, Apple Health, cambios en beneficios</span></div>
+    </a>
+    <a class="hotline-card" href="tel:18559234633">
+      <div class="hotline-icon">💊</div>
+      <div class="hotline-org">Health Benefit Exchange</div>
+      <div class="hotline-num">1-855-923-4633</div>
+      <div class="hotline-desc"><span data-lang="en">Health insurance enrollment</span><span data-lang="vi">Đăng ký bảo hiểm y tế</span><span data-lang="zh">健康保险注册</span><span data-lang="so">Geli kaydka caymiska caafimaadka</span><span data-lang="tl">Pag-enroll sa health insurance</span><span data-lang="es">Inscripción al seguro de salud</span></div>
+    </a>
+    <a class="hotline-card" href="https://nwjustice.org">
+      <div class="hotline-icon">⚖️</div>
+      <div class="hotline-org">Northwest Justice Project</div>
+      <div class="hotline-link">nwjustice.org</div>
+      <div class="hotline-desc"><span data-lang="en">Free legal aid — multilingual</span><span data-lang="vi">Hỗ trợ pháp lý miễn phí — đa ngôn ngữ</span><span data-lang="zh">免费法律援助 — 多语言</span><span data-lang="so">Gargaar sharciyeed bilaash ah — dadban luqadood</span><span data-lang="tl">Libreng legal aid — multilingual</span><span data-lang="es">Ayuda legal gratuita — multilingüe</span></div>
+    </a>
+    <a class="hotline-card" href="https://www.rewa.org">
+      <div class="hotline-icon">🤝</div>
+      <div class="hotline-org">REWA Refugee Services</div>
+      <div class="hotline-link">rewa.org</div>
+      <div class="hotline-desc"><span data-lang="en">Refugee & immigrant support</span><span data-lang="vi">Hỗ trợ người tị nạn & nhập cư</span><span data-lang="zh">难民和移民支持</span><span data-lang="so">Taageerada qaxootiga iyo socdaalayaasha</span><span data-lang="tl">Suporta para sa refugee at imigrante</span><span data-lang="es">Apoyo para refugiados e inmigrantes</span></div>
+    </a>
+    <a class="hotline-card" href="https://benefits.wa.gov">
+      <div class="hotline-icon">🍎</div>
+      <div class="hotline-org">Apply for Benefits</div>
+      <div class="hotline-link">benefits.wa.gov</div>
+      <div class="hotline-desc"><span data-lang="en">SNAP, Medicaid, cash assistance online</span><span data-lang="vi">SNAP, Medicaid, hỗ trợ tiền mặt trực tuyến</span><span data-lang="zh">在线申请SNAP、Medicaid、现金援助</span><span data-lang="so">SNAP, Medicaid, caawimaadda lacagta onlayn</span><span data-lang="tl">SNAP, Medicaid, cash assistance online</span><span data-lang="es">SNAP, Medicaid, asistencia en efectivo en línea</span></div>
+    </a>
+    <a class="hotline-card" href="https://www.ichs.com">
+      <div class="hotline-icon">🏥</div>
+      <div class="hotline-org">ICHS — 70+ Languages</div>
+      <div class="hotline-link">ichs.com</div>
+      <div class="hotline-desc"><span data-lang="en">International Community Health Services — Chinatown-ID</span><span data-lang="vi">Dịch vụ Y tế Cộng đồng Quốc tế</span><span data-lang="zh">国际社区卫生服务——唐人街国际区</span><span data-lang="so">Adeegyada Caafimaadka Bulshada Caalamiga ah</span><span data-lang="tl">International Community Health Services</span><span data-lang="es">Servicios de Salud Comunitaria Internacional</span></div>
+    </a>
   </div>
 
-  <!-- FAQ -->
-  <div class="section" id="s7">
-    <div class="section-head" onclick="toggleSec('s7')">
-      <div class="section-icon-wrap">❓</div>
-      <div class="section-head-text">
-        <h3>Frequently Asked Questions</h3>
-        <p>Common questions about H.R. 1 and your benefits</p>
-      </div>
-      <div class="section-toggle">▼</div>
-    </div>
-    <div class="section-body">
-      <div class="faq-list">
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-q"><span>Will I lose my SNAP benefits right away?</span><div class="faq-toggle">+</div></div>
-          <div class="faq-a">No. SNAP work requirements begin June 1, 2026. If you are a refugee or asylee, DSHS will automatically move you to state-funded benefits in May 2026 — same amount, no reapplication needed. You will not lose benefits before your scheduled eligibility review and screening.</div>
-        </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-q"><span>I'm on DACA. Will I lose my health coverage?</span><div class="faq-toggle">+</div></div>
-          <div class="faq-a">Under H.R. 1, DACA recipients lose federal Medicaid eligibility. However, Washington State may provide state-funded alternatives. Contact the Washington Health Benefit Exchange at wahbexchange.org or call 1-855-923-4633 before your coverage ends. Do not wait until you receive a termination notice — act early.</div>
-        </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-q"><span>My child is a U.S. citizen but I'm undocumented. Can my child still get benefits?</span><div class="faq-toggle">+</div></div>
-          <div class="faq-a">Yes. Your U.S. citizen child is fully eligible for SNAP and Medicaid benefits regardless of your status. If one person in a household becomes ineligible, other household members — including U.S. citizen children — can still receive their full benefits. Do not let fear stop you from applying for your children.</div>
-        </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-q"><span>I received a notice about SNAP changes. Do I need to reapply?</span><div class="faq-toggle">+</div></div>
-          <div class="faq-a">For refugees and asylees shifting to state-funded SNAP in May 2026: No reapplication is needed. DSHS automatically transitions you. Your benefit amount stays exactly the same. Keep your contact information updated with DSHS so you receive all notices. If you have questions, call 877-501-2233.</div>
-        </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-q"><span>What if I need help but don't speak English well?</span><div class="faq-toggle">+</div></div>
-          <div class="faq-a">DSHS provides free translation and interpreter services. Call 877-501-2233 and ask for an interpreter in your language. The Northwest Justice Project also provides legal help in multiple languages. REWA serves refugee and immigrant communities with dedicated language support. ICHS (International Community Health Services) serves patients in 70+ languages.</div>
-        </div>
-      </div>
-    </div>
+  <!-- ADVOCATE -->
+  <div class="advocate-card" style="margin-top:20px;">
+    <h3>🗳️ <span data-lang="en">Your voice matters — advocate before 2026 midterms</span><span data-lang="vi">Tiếng nói của bạn quan trọng — vận động trước bầu cử giữa kỳ 2026</span><span data-lang="zh">您的声音很重要 — 在2026年中期选举前倡导</span><span data-lang="so">Codkaagu muhiim buu yahay — ka doodso ka hor doorashooyinka 2026</span><span data-lang="tl">Ang iyong boses ay mahalaga — mag-adbokasya bago ang 2026 midterms</span><span data-lang="es">Su voz importa — abogar antes de las elecciones de 2026</span></h3>
+    <p><span data-lang="en">Many H.R. 1 changes take effect after the 2026 midterm elections. Call your Washington State legislator today and ask them to protect immigrant, refugee, and low-income community benefits.</span><span data-lang="vi">Nhiều thay đổi H.R. 1 có hiệu lực sau cuộc bầu cử giữa kỳ 2026. Gọi cho nhà lập pháp Washington State của bạn hôm nay.</span><span data-lang="zh">H.R. 1的许多变化在2026年中期选举后生效。今天致电您的华盛顿州立法者，要求保护移民、难民和低收入社区福利。</span><span data-lang="so">Isbedelada badan ee H.R. 1 waxay bilaabmayaan ka dib doorashooyinka 2026. Maanta wac sharciye gobolka Washington oo ka codso siduu u ilaalinayo dheefshiidka.</span><span data-lang="tl">Maraming pagbabago ng H.R. 1 ang magkakabisa pagkatapos ng 2026 midterm elections. Tumawag ngayon sa iyong mambabatas ng Washington State.</span><span data-lang="es">Muchos cambios de H.R. 1 entran en vigor después de las elecciones de 2026. Llame hoy a su legislador estatal de Washington.</span></p>
+    <a class="advocate-btn" href="https://app.leg.wa.gov/districtfinder/" target="_blank">
+      🗺️ <span data-lang="en">Find My Representative</span><span data-lang="vi">Tìm đại diện của tôi</span><span data-lang="zh">找到我的代表</span><span data-lang="so">Raadi Wakiilkeyga</span><span data-lang="tl">Hanapin ang Aking Kinatawan</span><span data-lang="es">Encontrar Mi Representante</span>
+    </a>
   </div>
 
-</div><!-- .page-wrap -->
+</div><!-- end .page -->
 
 <footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-seal">🏛️</div>
-      <div>
-        <div class="footer-title">H.R. 1 Community Impact Guide — Washington State</div>
-        <div class="footer-sub">Serving Vietnamese 🇻🇳 · Chinese 🇨🇳 · Somali 🇸🇴 · Filipino 🇵🇭 · Latino 🇲🇽 communities</div>
-      </div>
-    </div>
-    <div class="footer-sources">
+  <div style="max-width:680px; margin:0 auto;">
+    <div class="ft-title">H.R. 1 Community Guide · Washington State · 2026</div>
+    <div class="ft-sources">
       <a href="https://www.dshs.wa.gov" target="_blank">DSHS.wa.gov</a>
       <a href="https://www.hca.wa.gov" target="_blank">HCA.wa.gov</a>
-      <a href="https://www.rewa.org" target="_blank">REWA.org</a>
+      <a href="https://www.rewa.org" target="_blank">REWA</a>
       <a href="https://nwjustice.org" target="_blank">NW Justice Project</a>
       <a href="https://arcwa.org" target="_blank">Arc Washington</a>
       <a href="https://iexaminer.org" target="_blank">International Examiner</a>
-      <a href="https://www.congress.gov/bill/119th-congress/house-bill/1" target="_blank">Congress.gov H.R.1</a>
+      <a href="https://www.congress.gov/bill/119th-congress/house-bill/1" target="_blank">Congress.gov</a>
     </div>
-    <div class="footer-disclaimer">This guide is for educational purposes only and does not constitute legal advice. For your specific situation, consult a qualified immigration attorney or contact the Northwest Justice Project at <a href="https://nwjustice.org" style="color:rgba(255,255,255,0.7)">nwjustice.org</a>. Information based on official DSHS and HCA guidance as of May 2026.</div>
+    <div class="ft-disclaimer">For educational purposes only — not legal advice. For your specific situation contact <a href="https://nwjustice.org">Northwest Justice Project</a>. 🇻🇳 🇨🇳 🇸🇴 🇵🇭 🇲🇽</div>
   </div>
 </footer>
 
 <script>
   function setLang(lang, btn) {
     document.querySelectorAll('[data-lang]').forEach(el => {
-      const inline = ['SPAN','A','STRONG','B','EM','SMALL'].includes(el.tagName);
+      const inline = ['SPAN','A','STRONG','B','EM','SMALL','LI'].includes(el.tagName);
       el.style.display = el.dataset.lang === lang ? (inline ? 'inline' : 'block') : 'none';
     });
     document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     document.documentElement.lang = lang;
   }
-  function toggleSec(id) {
+  function toggleCard(id) {
     document.getElementById(id).classList.toggle('open');
   }
-  function setCTab(id, btn) {
-    document.querySelectorAll('.ctab-pane').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.ctab').forEach(b => b.classList.remove('active'));
-    document.getElementById('cp-' + id).classList.add('active');
+  function setCom(id, btn) {
+    document.querySelectorAll('.community-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.cs-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('com-' + id).classList.add('active');
     btn.classList.add('active');
-  }
-  function toggleFaq(el) {
-    const wasOpen = el.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(f => { f.classList.remove('open'); f.querySelector('.faq-toggle').textContent = '+'; });
-    if (!wasOpen) { el.classList.add('open'); el.querySelector('.faq-toggle').textContent = '+'; }
   }
 </script>
 </body>
