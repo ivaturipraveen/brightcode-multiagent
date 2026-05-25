@@ -28,6 +28,9 @@ services:
         source: /wow-investor
         destination: /wow-investor.html
       - type: rewrite
+        source: /hr1-guide
+        destination: /hr1-guide.html
+      - type: rewrite
         source: /competitor-analysis-italy
         destination: /competitor-analysis-italy.html
       - type: rewrite
