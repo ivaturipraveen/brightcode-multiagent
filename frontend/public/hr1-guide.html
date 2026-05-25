@@ -78,67 +78,24 @@
     img { display: block; max-width: 100%; }
 
     /* ─── LANGUAGE BAR — refined, not toolbary ──────────────────────────── */
-    .lang-bar {
+    /* ─── UNIFIED HEADER & NAV ──────────────────────────────────────────── */
+    .site-header {
       background: var(--navy-dk);
-      padding: 0;
       position: sticky;
       top: 0;
       z-index: 200;
-      border-bottom: 2px solid rgba(255,255,255,0.08);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
     }
-    .lang-inner {
+
+    /* Top strip: wordmark + language dropdown */
+    .header-top {
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .header-top-inner {
       max-width: 1080px;
       margin: 0 auto;
       padding: 0 var(--space-lg);
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-      overflow-x: auto;
-      scrollbar-width: none;
-      height: 44px;
-    }
-    .lang-inner::-webkit-scrollbar { display: none; }
-    .lang-eyebrow {
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.45);
-      white-space: nowrap;
-      margin-right: var(--space-sm);
-      flex-shrink: 0;
-    }
-    .lang-btn {
-      font-family: var(--sans);
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: rgba(255,255,255,0.65);
-      background: none;
-      border: 1px solid rgba(255,255,255,0.15);
-      padding: 4px 12px;
-      border-radius: 2px;
-      cursor: pointer;
-      white-space: nowrap;
-      flex-shrink: 0;
-      transition: all 0.15s;
-      letter-spacing: 0.02em;
-    }
-    .lang-btn:hover { color: white; border-color: rgba(255,255,255,0.4); }
-    .lang-btn.active {
-      background: rgba(255,255,255,0.12);
-      color: white;
-      border-color: rgba(255,255,255,0.5);
-      font-weight: 600;
-    }
-
-    /* ─── SITE HEADER ───────────────────────────────────────────────────── */
-    .site-header {
-      background: var(--navy);
-      padding: var(--space-lg) var(--space-lg);
-    }
-    .site-header-inner {
-      max-width: 1080px;
-      margin: 0 auto;
+      height: 46px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -146,23 +103,151 @@
     }
     .site-wordmark {
       font-family: var(--serif);
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: white;
       letter-spacing: -0.01em;
+      white-space: nowrap;
     }
     .site-wordmark span {
-      opacity: 0.55;
+      opacity: 0.5;
       font-weight: 400;
       font-style: italic;
     }
-    .site-communities {
+
+    /* Language dropdown */
+    .lang-dropdown-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+    .lang-dropdown-btn {
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 1.15rem;
-      opacity: 0.8;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.9);
+      padding: 5px 12px;
+      border-radius: 3px;
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+      letter-spacing: 0.01em;
     }
+    .lang-dropdown-btn:hover { background: rgba(255,255,255,0.14); }
+    .lang-dropdown-btn .caret {
+      font-size: 0.55rem;
+      opacity: 0.6;
+      transition: transform 0.2s;
+    }
+    .lang-dropdown-wrap.open .lang-dropdown-btn .caret { transform: rotate(180deg); }
+    .lang-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      background: var(--navy-dk);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 4px;
+      overflow: hidden;
+      min-width: 170px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      z-index: 500;
+    }
+    .lang-dropdown-wrap.open .lang-dropdown-menu { display: block; }
+    .lang-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      font-family: var(--sans);
+      font-size: 0.84rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.75);
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      transition: background 0.12s;
+      letter-spacing: 0.01em;
+    }
+    .lang-option:hover { background: rgba(255,255,255,0.08); color: white; }
+    .lang-option.active {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      font-weight: 700;
+    }
+    .lang-option .lang-flag { font-size: 1rem; }
+    .lang-option .lang-check { margin-left: auto; font-size: 0.7rem; opacity: 0; }
+    .lang-option.active .lang-check { opacity: 1; color: #86efac; }
+
+    /* Nav strip */
+    .header-nav {
+      background: var(--navy);
+    }
+    .header-nav-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .header-nav-inner::-webkit-scrollbar { display: none; }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 11px 16px;
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      font-family: var(--sans);
+    }
+    .nav-item:hover { color: white; text-decoration: none; }
+    .nav-item.active { color: white; border-bottom-color: #60a5fa; }
+    .nav-item .nav-dot {
+      width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+    }
+    .nav-dot-green  { background: #4ade80; }
+    .nav-dot-amber  { background: #fbbf24; }
+    .nav-dot-red    { background: #f87171; }
+    .nav-emergency {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(248,113,113,0.15);
+      border: 1px solid rgba(248,113,113,0.3);
+      border-radius: 3px;
+      color: #fca5a5;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-right: 0;
+      letter-spacing: 0.03em;
+    }
+    .nav-emergency:hover { background: rgba(248,113,113,0.25); color: #fca5a5; text-decoration: none; }
 
     /* ─── HERO — editorial, not a marketing banner ──────────────────────── */
     .hero {
@@ -917,7 +1002,7 @@
 
     /* ─── PRINT ─────────────────────────────────────────────────────────── */
     @media print {
-      .lang-bar, .mobile-cta, .share-card { display: none !important; }
+      .header-nav, .mobile-cta, .share-card, .lang-dropdown-wrap { display: none !important; }
       .accord-panel { display: block !important; }
       .ctab-pane { display: block !important; }
       body { font-size: 11pt; background: white; }
@@ -927,27 +1012,60 @@
 </head>
 <body>
 
-<!-- LANGUAGE BAR -->
-<div class="lang-bar">
-  <div class="lang-inner">
-    <span class="lang-eyebrow">Language</span>
-    <button class="lang-btn active" onclick="setLang('en',this)">English</button>
-    <button class="lang-btn" onclick="setLang('vi',this)">Tiếng Việt</button>
-    <button class="lang-btn" onclick="setLang('zh',this)">中文</button>
-    <button class="lang-btn" onclick="setLang('so',this)">Soomaali</button>
-    <button class="lang-btn" onclick="setLang('tl',this)">Filipino</button>
-    <button class="lang-btn" onclick="setLang('es',this)">Español</button>
-  </div>
-</div>
+<!-- ══ UNIFIED HEADER ═════════════════════════════════════════════════════ -->
+<header class="site-header" id="top">
 
-<!-- SITE HEADER -->
-<header class="site-header">
-  <div class="site-header-inner">
-    <div class="site-wordmark">
-      Washington State <span>Community Brief</span>
+  <!-- Top strip: wordmark + language dropdown -->
+  <div class="header-top">
+    <div class="header-top-inner">
+      <div class="site-wordmark">H.R. 1 Guide <span>· Washington State Community Brief</span></div>
+
+      <!-- Language dropdown — English default -->
+      <div class="lang-dropdown-wrap" id="langWrap">
+        <button class="lang-dropdown-btn" onclick="toggleLangDropdown()" id="langBtn">
+          <span id="langFlag">🇺🇸</span>
+          <span id="langLabel">English</span>
+          <span class="caret">▼</span>
+        </button>
+        <div class="lang-dropdown-menu" id="langMenu">
+          <button class="lang-option active" onclick="setLang('en','🇺🇸','English',this)"><span class="lang-flag">🇺🇸</span> English <span class="lang-check">✓</span></button>
+          <button class="lang-option" onclick="setLang('vi','🇻🇳','Tiếng Việt',this)"><span class="lang-flag">🇻🇳</span> Tiếng Việt <span class="lang-check">✓</span></button>
+          <button class="lang-option" onclick="setLang('zh','🇨🇳','中文',this)"><span class="lang-flag">🇨🇳</span> 中文 <span class="lang-check">✓</span></button>
+          <button class="lang-option" onclick="setLang('so','🇸🇴','Soomaali',this)"><span class="lang-flag">🇸🇴</span> Soomaali <span class="lang-check">✓</span></button>
+          <button class="lang-option" onclick="setLang('tl','🇵🇭','Filipino',this)"><span class="lang-flag">🇵🇭</span> Filipino <span class="lang-check">✓</span></button>
+          <button class="lang-option" onclick="setLang('es','🇲🇽','Español',this)"><span class="lang-flag">🇲🇽</span> Español <span class="lang-check">✓</span></button>
+        </div>
+      </div>
     </div>
-    <div class="site-communities">🇻🇳 🇨🇳 🇸🇴 🇵🇭 🇲🇽</div>
   </div>
+
+  <!-- Nav strip -->
+  <nav class="header-nav">
+    <div class="header-nav-inner">
+      <a class="nav-item active" href="#eligibility" onclick="setNavActive(this)">
+        <span class="nav-dot nav-dot-green"></span>
+        <span data-lang="en">Am I Affected?</span><span data-lang="vi">Tôi bị ảnh hưởng không?</span><span data-lang="zh">我受影响吗？</span><span data-lang="so">Ma saameynaysaa?</span><span data-lang="tl">Apektado ba ako?</span><span data-lang="es">¿Me Afecta?</span>
+      </a>
+      <a class="nav-item" href="#snap" onclick="setNavActive(this)">
+        <span data-lang="en">Food Benefits</span><span data-lang="vi">Trợ Cấp Thực Phẩm</span><span data-lang="zh">食品福利</span><span data-lang="so">Dheefshiidka Cuntada</span><span data-lang="tl">Benepisyo sa Pagkain</span><span data-lang="es">Beneficios de Alimentos</span>
+      </a>
+      <a class="nav-item" href="#medicaid" onclick="setNavActive(this)">
+        <span data-lang="en">Health Coverage</span><span data-lang="vi">Bảo Hiểm Y Tế</span><span data-lang="zh">健康保险</span><span data-lang="so">Caymiska Caafimaadka</span><span data-lang="tl">Health Coverage</span><span data-lang="es">Seguro de Salud</span>
+      </a>
+      <a class="nav-item" href="#dates" onclick="setNavActive(this)">
+        <span data-lang="en">Key Dates</span><span data-lang="vi">Ngày Quan Trọng</span><span data-lang="zh">关键日期</span><span data-lang="so">Taariikhaha Muhiimka ah</span><span data-lang="tl">Mga Petsa</span><span data-lang="es">Fechas Clave</span>
+      </a>
+      <a class="nav-item" href="#community" onclick="setNavActive(this)">
+        <span data-lang="en">My Community</span><span data-lang="vi">Cộng Đồng Của Tôi</span><span data-lang="zh">我的社区</span><span data-lang="so">Bulshadeyda</span><span data-lang="tl">Ang Aking Komunidad</span><span data-lang="es">Mi Comunidad</span>
+      </a>
+      <a class="nav-item" href="#action" onclick="setNavActive(this)">
+        <span data-lang="en">What To Do</span><span data-lang="vi">Phải Làm Gì</span><span data-lang="zh">该怎么做</span><span data-lang="so">Waxa La Sameeyo</span><span data-lang="tl">Ano ang Gagawin</span><span data-lang="es">Qué Hacer</span>
+      </a>
+      <a class="nav-emergency" href="tel:8775012233">
+        📞 <span data-lang="en">877-501-2233</span><span data-lang="vi">Gọi ngay</span><span data-lang="zh">立即致电</span><span data-lang="so">Wac</span><span data-lang="tl">Tumawag</span><span data-lang="es">Llame</span>
+      </a>
+    </div>
+  </nav>
 </header>
 
 <!-- HERO -->
@@ -991,7 +1109,7 @@
 </section>
 
 <!-- ELIGIBILITY STRIP — most important section, always visible -->
-<section class="eligibility-strip">
+<section class="eligibility-strip" id="eligibility">
   <div class="elig-inner">
     <div class="elig-header">
       <h2>
@@ -1105,7 +1223,7 @@
   <div class="main-col">
 
     <!-- SNAP SECTION -->
-    <div class="mb-xl">
+    <div class="mb-xl" id="snap">
       <div class="section-eyebrow">Food Assistance</div>
       <h2 class="section-title">
         <span data-lang="en">SNAP benefits — new work requirements and transitions</span>
@@ -1190,7 +1308,7 @@
     </div>
 
     <!-- MEDICAID SECTION -->
-    <div class="mb-xl">
+    <div class="mb-xl" id="medicaid">
       <div class="section-eyebrow">Health Coverage</div>
       <h2 class="section-title">
         <span data-lang="en">Medicaid / Apple Health — coverage changes by immigration status</span>
@@ -1246,7 +1364,7 @@
     </div>
 
     <!-- TIMELINE -->
-    <div class="mb-xl">
+    <div class="mb-xl" id="dates">
       <div class="section-eyebrow">Implementation Schedule</div>
       <h2 class="section-title">
         <span data-lang="en">Key dates</span>
@@ -1289,7 +1407,7 @@
     </div>
 
     <!-- COMMUNITY SECTION -->
-    <div class="mb-xl">
+    <div class="mb-xl" id="community">
       <div class="section-eyebrow">Community Perspectives</div>
       <h2 class="section-title">
         <span data-lang="en">What this means for your community</span>
@@ -1375,7 +1493,7 @@
     </div>
 
     <!-- ADVOCATE -->
-    <div class="advocate-section">
+    <div class="advocate-section" id="action">
       <h3><span data-lang="en">Advocate before the 2026 midterm elections</span><span data-lang="vi">Vận động trước cuộc bầu cử giữa kỳ 2026</span><span data-lang="zh">在2026年中期选举前倡导</span><span data-lang="so">Ka doodso ka hor doorashooyinka bartamaha 2026</span><span data-lang="tl">Mag-adbokasya bago ang 2026 midterm elections</span><span data-lang="es">Abogar antes de las elecciones de 2026</span></h3>
       <p><span data-lang="en">Many H.R. 1 provisions — including Medicaid work requirements and six-month eligibility re-verification — take effect after the 2026 midterm elections. There is time to make a difference. Call or write to your Washington State legislators and ask them to protect benefits for refugee, immigrant, and low-income families in your community.</span><span data-lang="vi">Nhiều điều khoản H.R. 1 — bao gồm yêu cầu làm việc Medicaid và xác minh điều kiện 6 tháng — có hiệu lực sau cuộc bầu cử giữa kỳ 2026. Vẫn còn thời gian để tạo ra sự khác biệt. Gọi hoặc viết cho các nhà lập pháp Washington State của bạn.</span><span data-lang="zh">许多H.R. 1条款——包括Medicaid工作要求和6个月资格重新核查——在2026年中期选举后生效。仍有时间产生影响。致电或写信给您的华盛顿州立法者。</span><span data-lang="so">Qodobbo badan oo ka mid ah H.R. 1 — oo ay ku jiraan shuruudaha shaqada Medicaid iyo hubinta u-qalmitaanka 6-biloodlaha ah — waxay bilaabmayaan ka dib doorashooyinka bartamaha 2026. Waxaa jira waqti lagu samayn karo farqi. Wac ama u qor sharciyeyaashada gobolkaaga ee Washington State.</span><span data-lang="tl">Maraming probisyon ng H.R. 1 — kabilang ang mga work requirements ng Medicaid at 6-buwanang eligibility re-verification — ay magkakabisa pagkatapos ng 2026 midterm elections. May oras pa para gumawa ng pagkakaiba. Tumawag o sumulat sa iyong mga mambabatas ng Washington State.</span><span data-lang="es">Muchas disposiciones de H.R. 1 — incluyendo los requisitos de trabajo de Medicaid y la re-verificación semestral de elegibilidad — entran en vigor después de las elecciones de 2026. Hay tiempo para marcar la diferencia. Llame o escriba a sus legisladores estatales de Washington.</span></p>
       <a class="btn-primary" href="https://app.leg.wa.gov/districtfinder/" target="_blank">Find my representative →</a>
@@ -1506,16 +1624,56 @@
 </footer>
 
 <script>
-  // ── Language switching ─────────────────────────────────────────────────
-  function setLang(lang, btn) {
+  // ── Language dropdown ──────────────────────────────────────────────────
+  function toggleLangDropdown() {
+    document.getElementById('langWrap').classList.toggle('open');
+  }
+  document.addEventListener('click', function(e) {
+    const wrap = document.getElementById('langWrap');
+    if (wrap && !wrap.contains(e.target)) wrap.classList.remove('open');
+  });
+
+  function setLang(lang, flag, label, btn) {
+    // Update content visibility
     document.querySelectorAll('[data-lang]').forEach(el => {
       const inline = ['SPAN','A','STRONG','B','EM'].includes(el.tagName);
       el.style.display = el.dataset.lang === lang ? (inline ? 'inline' : 'block') : 'none';
     });
-    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    // Update dropdown button label
+    document.getElementById('langFlag').textContent = flag;
+    document.getElementById('langLabel').textContent = label;
+    // Update active state in menu
+    document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+    // Close dropdown
+    document.getElementById('langWrap').classList.remove('open');
     document.documentElement.lang = lang;
+
+    // Vietnamese UX enhancement: auto-switch community tab to Vietnamese
+    if (lang === 'vi') {
+      const vietTab = document.querySelector('.ctab');
+      if (vietTab) { setCom('viet', vietTab); }
+    }
   }
+
+  // ── Nav active state ───────────────────────────────────────────────────
+  function setNavActive(el) {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // Scroll spy for nav
+  window.addEventListener('scroll', function() {
+    const sections = ['eligibility','snap','medicaid','dates','community','action'];
+    let current = 'eligibility';
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= 120) current = id;
+    });
+    document.querySelectorAll('.nav-item').forEach(n => {
+      n.classList.toggle('active', n.getAttribute('href') === '#' + current);
+    });
+  }, { passive: true });
 
   // ── Accordion ──────────────────────────────────────────────────────────
   function toggleAccord(id) {
