@@ -1052,9 +1052,251 @@
       body { font-size: 11pt; background: white; }
       .page-body { grid-template-columns: 1fr; }
     }
+
+    /* ─── INTERACTIVE SCREENER ──────────────────────────────────────────── */
+    .screener-wrap {
+      background: var(--warm-white);
+      border-bottom: 3px solid var(--navy);
+    }
+    .screener-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: var(--space-xl) var(--space-lg);
+    }
+    .screener-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      margin-bottom: var(--space-xl);
+    }
+    .screener-badge {
+      background: var(--navy);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      padding: 4px 12px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .screener-title {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--navy-dk);
+      letter-spacing: -0.02em;
+    }
+    .screener-progress {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .prog-step {
+      width: 28px;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--line);
+      transition: background 0.3s;
+    }
+    .prog-step.done { background: var(--navy); }
+    .prog-step.active { background: var(--signal-green); }
+
+    /* Question cards */
+    .screener-question {
+      display: none;
+      animation: fadeSlideIn 0.3s ease;
+    }
+    .screener-question.active { display: block; }
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateX(16px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .sq-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--slate-lt);
+      margin-bottom: var(--space-sm);
+    }
+    .sq-text {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--navy-dk);
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-lg);
+      line-height: 1.3;
+    }
+    .sq-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: var(--space-sm);
+    }
+    .sq-opt {
+      border: 2px solid var(--line-dk);
+      border-radius: var(--r);
+      padding: var(--space-md);
+      cursor: pointer;
+      background: var(--warm-white);
+      text-align: left;
+      font-family: var(--sans);
+      transition: all 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .sq-opt:hover { border-color: var(--navy); background: var(--navy-lt); }
+    .sq-opt-icon { font-size: 1.4rem; display: block; margin-bottom: 6px; }
+    .sq-opt-label { font-size: 0.88rem; font-weight: 700; color: var(--slate); display: block; line-height: 1.3; }
+    .sq-opt-sub { font-size: 0.75rem; color: var(--slate-lt); display: block; margin-top: 3px; line-height: 1.4; }
+
+    /* Result card */
+    .screener-result {
+      display: none;
+      animation: fadeSlideIn 0.4s ease;
+    }
+    .screener-result.active { display: block; }
+    .sr-card {
+      border-radius: var(--r);
+      padding: var(--space-lg) var(--space-xl);
+      margin-bottom: var(--space-md);
+      display: flex;
+      gap: var(--space-lg);
+      align-items: flex-start;
+    }
+    .sr-card.green { background: var(--signal-green-bg); border: 2px solid var(--signal-green-border); }
+    .sr-card.amber { background: var(--signal-amber-bg); border: 2px solid var(--signal-amber-border); }
+    .sr-card.red   { background: var(--signal-red-bg);   border: 2px solid var(--signal-red-border); }
+    .sr-icon { font-size: 2.2rem; flex-shrink: 0; line-height: 1; }
+    .sr-verdict {
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 6px;
+    }
+    .sr-card.green .sr-verdict { color: var(--signal-green); }
+    .sr-card.amber .sr-verdict { color: var(--signal-amber); }
+    .sr-card.red   .sr-verdict { color: var(--signal-red); }
+    .sr-headline {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: var(--space-sm);
+      color: var(--navy-dk);
+    }
+    .sr-body { font-size: 0.9rem; color: var(--slate); line-height: 1.7; }
+    .sr-body strong { color: var(--navy-dk); }
+    .sr-body a { color: var(--navy); font-weight: 600; }
+    .sr-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    .sr-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      border-radius: var(--r-sm);
+      font-size: 0.84rem;
+      font-weight: 700;
+      text-decoration: none;
+      font-family: var(--sans);
+      transition: opacity 0.15s;
+    }
+    .sr-btn.primary { background: var(--navy); color: white; }
+    .sr-btn.secondary { background: var(--warm-white); color: var(--navy); border: 2px solid var(--navy); }
+    .sr-btn:hover { opacity: 0.85; text-decoration: none; color: inherit; }
+    .screener-restart {
+      font-size: 0.8rem;
+      color: var(--slate-lt);
+      cursor: pointer;
+      text-decoration: underline;
+      background: none;
+      border: none;
+      font-family: var(--sans);
+      margin-top: var(--space-sm);
+      display: inline-block;
+    }
+    .screener-restart:hover { color: var(--navy); }
+
+    /* ─── ANIMATED STATS ────────────────────────────────────────────────── */
+    .stat-num[data-count] { transition: none; }
+
+    /* ─── SCROLL REVEAL ─────────────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ─── PROGRESS INDICATOR ────────────────────────────────────────────── */
+    .read-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #4f8ef7, #7c5cfc);
+      width: 0%;
+      z-index: 1000;
+      transition: width 0.1s linear;
+    }
+
+    /* ─── ENHANCED FINDING BARS ─────────────────────────────────────────── */
+    .finding {
+      cursor: default;
+      transition: background 0.15s;
+    }
+    .finding:hover { background: rgba(0,48,135,0.02); border-radius: var(--r-sm); }
+
+    /* ─── ENHANCED STAT BOXES ───────────────────────────────────────────── */
+    .stat-box {
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: default;
+    }
+    .stat-box:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+    /* ─── TIMELINE HOVER ────────────────────────────────────────────────── */
+    .tl-item {
+      transition: background 0.15s;
+      border-radius: var(--r-sm);
+      padding-left: var(--space-sm);
+      margin-left: -var(--space-sm);
+    }
+    .tl-item:hover { background: rgba(0,48,135,0.025); }
+
+    /* ─── CONTACT ROW ENHANCED ──────────────────────────────────────────── */
+    .contact-row { position: relative; }
+    .contact-row::after {
+      content: "→";
+      position: absolute;
+      right: var(--space-md);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--line-dk);
+      font-size: 0.8rem;
+      transition: right 0.15s, color 0.15s;
+    }
+    .contact-row:hover::after { right: calc(var(--space-md) - 4px); color: var(--navy); }
+
+    /* ─── PRINT ENHANCED ────────────────────────────────────────────────── */
+    @media print {
+      .screener-wrap { display: none !important; }
+    }
+
   </style>
 </head>
 <body>
+  <div class="read-progress" id="readProgress"></div>
 
 <!-- ══ UNIFIED HEADER ═════════════════════════════════════════════════════ -->
 <header class="site-header" id="top">
@@ -1112,6 +1354,138 @@
   </nav>
 </header>
 
+<!-- ══ INTERACTIVE SCREENER ════════════════════════════════════════════════ -->
+<div class="screener-wrap" id="screener">
+  <div class="screener-inner">
+    <div class="screener-header">
+      <div class="screener-badge">Quick Check</div>
+      <div class="screener-title" id="screener-title">
+        <span data-lang="en">Find out if your benefits are changing</span>
+        <span data-lang="vi">Tìm hiểu quyền lợi của bạn có thay đổi không</span>
+        <span data-lang="zh">了解您的福利是否在变化</span>
+        <span data-lang="so">Ogow haddii dheefshiidkaagu beddelayo</span>
+        <span data-lang="tl">Alamin kung nagbabago ang iyong mga benepisyo</span>
+        <span data-lang="es">Averigüe si sus beneficios están cambiando</span>
+      </div>
+      <div class="screener-progress" id="screenerProgress">
+        <div class="prog-step active" id="ps1"></div>
+        <div class="prog-step" id="ps2"></div>
+        <div class="prog-step" id="ps3"></div>
+      </div>
+    </div>
+
+    <!-- Q1: Immigration status -->
+    <div class="screener-question active" id="sq1">
+      <div class="sq-label">Question 1 of 3</div>
+      <div class="sq-text">
+        <span data-lang="en">What is your immigration status?</span>
+        <span data-lang="vi">Tình trạng nhập cư của bạn là gì?</span>
+        <span data-lang="zh">您的移民身份是什么？</span>
+        <span data-lang="so">Xaaladaadu socdaalku waa maxay?</span>
+        <span data-lang="tl">Ano ang iyong immigration status?</span>
+        <span data-lang="es">¿Cuál es su estatus migratorio?</span>
+      </div>
+      <div class="sq-options">
+        <button class="sq-opt" onclick="answer(1,'citizen')">
+          <span class="sq-opt-icon">🇺🇸</span>
+          <span class="sq-opt-label"><span data-lang="en">US Citizen or National</span><span data-lang="vi">Công dân Mỹ</span><span data-lang="zh">美国公民</span><span data-lang="so">Muwaadin US</span><span data-lang="tl">Mamamayan ng US</span><span data-lang="es">Ciudadano de EE.UU.</span></span>
+          <span class="sq-opt-sub"><span data-lang="en">Born in the US, or naturalized</span><span data-lang="vi">Sinh tại Mỹ hoặc đã nhập tịch</span><span data-lang="zh">在美国出生或已入籍</span><span data-lang="so">Ku dhashay US ama la muwaadisay</span><span data-lang="tl">Ipinanganak sa US o naturalisado</span><span data-lang="es">Nacido en EE.UU. o naturalizado</span></span>
+        </button>
+        <button class="sq-opt" onclick="answer(1,'lpr')">
+          <span class="sq-opt-icon">💚</span>
+          <span class="sq-opt-label"><span data-lang="en">Green Card (LPR)</span><span data-lang="vi">Thẻ xanh</span><span data-lang="zh">绿卡持有者</span><span data-lang="so">Kaadhka cagaaran</span><span data-lang="tl">Green Card (LPR)</span><span data-lang="es">Tarjeta verde (LPR)</span></span>
+          <span class="sq-opt-sub"><span data-lang="en">Lawful Permanent Resident card</span><span data-lang="vi">Thường trú nhân hợp pháp</span><span data-lang="zh">合法永久居民卡</span><span data-lang="so">Kaadhka deganaanshaha joogtada ah</span><span data-lang="tl">Lawful Permanent Resident card</span><span data-lang="es">Tarjeta de residente permanente</span></span>
+        </button>
+        <button class="sq-opt" onclick="answer(1,'refugee')">
+          <span class="sq-opt-icon">🕊️</span>
+          <span class="sq-opt-label"><span data-lang="en">Refugee or Asylee</span><span data-lang="vi">Người tị nạn / xin tị nạn</span><span data-lang="zh">难民或庇护申请者</span><span data-lang="so">Qaxooti ama Asiilo</span><span data-lang="tl">Refugee o Asylee</span><span data-lang="es">Refugiado o Asilado</span></span>
+          <span class="sq-opt-sub"><span data-lang="en">Official resettlement, asylee status</span><span data-lang="vi">Tái định cư chính thức, xin tị nạn</span><span data-lang="zh">官方安置、庇护身份</span><span data-lang="so">Dib-u-dejin rasmi, xaaladda asiilaynta</span><span data-lang="tl">Opisyal na resettlement, asylee status</span><span data-lang="es">Reasentamiento oficial, estatus de asilado</span></span>
+        </button>
+        <button class="sq-opt" onclick="answer(1,'work_visa')">
+          <span class="sq-opt-icon">💼</span>
+          <span class="sq-opt-label"><span data-lang="en">Work or Family Visa</span><span data-lang="vi">Visa làm việc / gia đình</span><span data-lang="zh">工作或家庭签证</span><span data-lang="so">Fiisaha shaqada ama qoyska</span><span data-lang="tl">Work o Family Visa</span><span data-lang="es">Visa laboral o familiar</span></span>
+          <span class="sq-opt-sub"><span data-lang="en">H-1B, L-1, F-2, TN, family petition</span><span data-lang="vi">H-1B, L-1, F-2, TN, bảo lãnh gia đình</span><span data-lang="zh">H-1B, L-1, F-2, TN, 家庭申请</span><span data-lang="so">H-1B, L-1, F-2, TN, codsiga qoyska</span><span data-lang="tl">H-1B, L-1, F-2, TN, family petition</span><span data-lang="es">H-1B, L-1, F-2, TN, petición familiar</span></span>
+        </button>
+        <button class="sq-opt" onclick="answer(1,'daca_tps')">
+          <span class="sq-opt-icon">📋</span>
+          <span class="sq-opt-label"><span data-lang="en">DACA or TPS</span><span data-lang="vi">DACA hoặc TPS</span><span data-lang="zh">DACA或TPS</span><span data-lang="so">DACA ama TPS</span><span data-lang="tl">DACA o TPS</span><span data-lang="es">DACA o TPS</span></span>
+          <span class="sq-opt-sub"><span data-lang="en">Deferred Action, Temporary Protected Status</span><span data-lang="vi">Hành động hoãn lại, Tình trạng Bảo hộ Tạm thời</span><span data-lang="zh">延期行动、临时保护身份</span><span data-lang="so">Ficilka La Dajiyay, Xaaladda Ilaalinta Ku-meel-gaarka</span><span data-lang="tl">Deferred Action, Temporary Protected Status</span><span data-lang="es">Acción Diferida, Estado de Protección Temporal</span></span>
+        </button>
+        <button class="sq-opt" onclick="answer(1,'other')">
+          <span class="sq-opt-icon">❓</span>
+          <span class="sq-opt-label"><span data-lang="en">Not Sure / Other</span><span data-lang="vi">Không chắc / Khác</span><span data-lang="zh">不确定/其他</span><span data-lang="so">Hubsanayn / Kale</span><span data-lang="tl">Hindi Sigurado / Iba pa</span><span data-lang="es">No estoy seguro/a / Otro</span></span>
+          <span class="sq-opt-sub"><span data-lang="en">Parolee, humanitarian, other status</span><span data-lang="vi">Người được tạm tha, nhân đạo</span><span data-lang="zh">假释者、人道主义保护</span><span data-lang="so">Xabsiga ka sii daayay, bani'aadannimo</span><span data-lang="tl">Parolee, humanitarian, iba pang status</span><span data-lang="es">Liberado bajo fianza, humanitario, otro</span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Q2: Age -->
+    <div class="screener-question" id="sq2">
+      <div class="sq-label">Question 2 of 3</div>
+      <div class="sq-text">
+        <span data-lang="en">How old are you?</span>
+        <span data-lang="vi">Bạn bao nhiêu tuổi?</span>
+        <span data-lang="zh">您多大年纪？</span>
+        <span data-lang="so">Imisa jir baad tahay?</span>
+        <span data-lang="tl">Ilang taon ka na?</span>
+        <span data-lang="es">¿Cuántos años tiene?</span>
+      </div>
+      <div class="sq-options">
+        <button class="sq-opt" onclick="answer(2,'under18')">
+          <span class="sq-opt-icon">👧</span>
+          <span class="sq-opt-label"><span data-lang="en">Under 18</span><span data-lang="vi">Dưới 18</span><span data-lang="zh">18岁以下</span><span data-lang="so">Hoostaan 18</span><span data-lang="tl">Wala pang 18</span><span data-lang="es">Menor de 18</span></span>
+        </button>
+        <button class="sq-opt" onclick="answer(2,'18to64')">
+          <span class="sq-opt-icon">👤</span>
+          <span class="sq-opt-label"><span data-lang="en">18–64</span><span data-lang="vi">18–64 tuổi</span><span data-lang="zh">18-64岁</span><span data-lang="so">18–64 jir</span><span data-lang="tl">18–64 taong gulang</span><span data-lang="es">18–64 años</span></span>
+        </button>
+        <button class="sq-opt" onclick="answer(2,'65plus')">
+          <span class="sq-opt-icon">👴</span>
+          <span class="sq-opt-label"><span data-lang="en">65 or older</span><span data-lang="vi">65 tuổi trở lên</span><span data-lang="zh">65岁及以上</span><span data-lang="so">65 jir ama ka weyn</span><span data-lang="tl">65 o mas matanda</span><span data-lang="es">65 años o más</span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Q3: Household situation -->
+    <div class="screener-question" id="sq3">
+      <div class="sq-label">Question 3 of 3</div>
+      <div class="sq-text">
+        <span data-lang="en">Which applies to you?</span>
+        <span data-lang="vi">Điều nào áp dụng với bạn?</span>
+        <span data-lang="zh">哪项适用于您？</span>
+        <span data-lang="so">Kee khuseya adiga?</span>
+        <span data-lang="tl">Alin ang naaangkop sa iyo?</span>
+        <span data-lang="es">¿Cuál se aplica a usted?</span>
+      </div>
+      <div class="sq-options">
+        <button class="sq-opt" onclick="answer(3,'child_under14')">
+          <span class="sq-opt-icon">👶</span>
+          <span class="sq-opt-label"><span data-lang="en">Child under 14 at home</span><span data-lang="vi">Có con dưới 14 tuổi</span><span data-lang="zh">家中有14岁以下子女</span><span data-lang="so">Carruur hoostaan 14 guriga</span><span data-lang="tl">May batang wala pang 14</span><span data-lang="es">Hijo/a menor de 14 en casa</span></span>
+        </button>
+        <button class="sq-opt" onclick="answer(3,'disabled')">
+          <span class="sq-opt-icon">♿</span>
+          <span class="sq-opt-label"><span data-lang="en">Disabled or on SSI</span><span data-lang="vi">Khuyết tật hoặc nhận SSI</span><span data-lang="zh">残疾或领取SSI</span><span data-lang="so">Naafada ama SSI</span><span data-lang="tl">May kapansanan o nasa SSI</span><span data-lang="es">Discapacitado/a o con SSI</span></span>
+        </button>
+        <button class="sq-opt" onclick="answer(3,'pregnant')">
+          <span class="sq-opt-icon">🤰</span>
+          <span class="sq-opt-label"><span data-lang="en">Pregnant</span><span data-lang="vi">Đang mang thai</span><span data-lang="zh">怀孕</span><span data-lang="so">Uur leh</span><span data-lang="tl">Buntis</span><span data-lang="es">Embarazada</span></span>
+        </button>
+        <button class="sq-opt" onclick="answer(3,'working')">
+          <span class="sq-opt-icon">🏢</span>
+          <span class="sq-opt-label"><span data-lang="en">Working or in school</span><span data-lang="vi">Đang làm việc hoặc đi học</span><span data-lang="zh">在工作或上学</span><span data-lang="so">Shaqeynaya ama iskoolka</span><span data-lang="tl">Nagtatrabaho o nag-aaral</span><span data-lang="es">Trabajando o estudiando</span></span>
+        </button>
+        <button class="sq-opt" onclick="answer(3,'none')">
+          <span class="sq-opt-icon">🔍</span>
+          <span class="sq-opt-label"><span data-lang="en">None of the above</span><span data-lang="vi">Không điều nào</span><span data-lang="zh">以上都不是</span><span data-lang="so">Midna kuma khuseyso</span><span data-lang="tl">Wala sa itaas</span><span data-lang="es">Ninguna de las anteriores</span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="screener-result" id="sq-result"></div>
+  </div>
+</div>
+
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
@@ -1136,15 +1510,15 @@
     </div>
     <div class="hero-right">
       <div class="hero-stat-row">
-        <div class="num">~1M</div>
+        <div class="num" data-count="1000000" data-prefix="~" data-suffix="">~1M</div>
         <div class="desc"><strong>Washingtonians</strong> receiving SNAP food benefits — including children, elderly, immigrants, and people with disabilities</div>
       </div>
       <div class="hero-stat-row">
-        <div class="num">130K</div>
+        <div class="num" data-count="130000" data-suffix="">130K</div>
         <div class="desc"><strong>At risk of losing</strong> all food benefits under new work requirements</div>
       </div>
       <div class="hero-stat-row">
-        <div class="num">$360M</div>
+        <div class="num" data-count="360" data-prefix="$" data-suffix="M">$360M</div>
         <div class="desc"><strong>Pulled annually</strong> from Washington's economy — disproportionately from refugee and immigrant neighborhoods (REWA, 2025)</div>
       </div>
       <div class="hero-signed">Source: DSHS · HCA · REWA · Congress.gov · Signed July 4, 2025</div>
@@ -1274,7 +1648,7 @@
   <div class="main-col">
 
     <!-- SNAP SECTION -->
-    <div class="mb-xl" id="snap">
+    <div class="mb-xl reveal" id="snap">
       <div class="section-eyebrow">Food Assistance</div>
       <h2 class="section-title">
         <span data-lang="en">SNAP benefits — new work requirements and transitions</span>
@@ -1359,7 +1733,7 @@
     </div>
 
     <!-- MEDICAID SECTION -->
-    <div class="mb-xl" id="medicaid">
+    <div class="mb-xl reveal" id="medicaid">
       <div class="section-eyebrow">Health Coverage</div>
       <h2 class="section-title">
         <span data-lang="en">Medicaid / Apple Health — coverage changes by immigration status</span>
@@ -1415,7 +1789,7 @@
     </div>
 
     <!-- TIMELINE -->
-    <div class="mb-xl" id="dates">
+    <div class="mb-xl reveal" id="dates">
       <div class="section-eyebrow">Implementation Schedule</div>
       <h2 class="section-title">
         <span data-lang="en">Key dates</span>
@@ -1795,6 +2169,189 @@
 </footer>
 
 <script>
+  // ── Read progress bar ─────────────────────────────────────────────────
+  const prog = document.getElementById('readProgress');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    if (prog) prog.style.width = pct + '%';
+  }, { passive: true });
+
+  // ── Scroll reveal ──────────────────────────────────────────────────────
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }});
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  // ── Animated stat counters ────────────────────────────────────────────
+  function animateCount(el, target, prefix='', suffix='') {
+    const duration = 1200;
+    const start = performance.now();
+    const isFloat = String(target).includes('.');
+    function tick(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - t, 3);
+      const val = isFloat ? (ease * target).toFixed(0) : Math.round(ease * target);
+      el.textContent = prefix + val.toLocaleString() + suffix;
+      if (t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  const countObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target;
+        const raw = el.dataset.count;
+        if (!raw) return;
+        const suffix = el.dataset.suffix || '';
+        const prefix = el.dataset.prefix || '';
+        const num = parseFloat(raw.replace(/,/g,''));
+        animateCount(el, num, prefix, suffix);
+        countObs.unobserve(el);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  // ── Interactive screener ───────────────────────────────────────────────
+  const answers = {};
+  const RESULTS = {
+    citizen:   { status: 'green', icon: '✅',
+      en: { v: 'You are protected', h: 'No major changes to your SNAP or Medicaid', b: 'As a U.S. citizen, your federal SNAP and Apple Health (Medicaid) benefits are <strong>not affected</strong> by H.R. 1. Continue attending your regular eligibility reviews and keep your DSHS contact information current.', a: [{t:'Check your benefits', u:'https://benefits.wa.gov', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
+      vi: { v: 'Bạn được bảo vệ', h: 'Không có thay đổi lớn với SNAP hoặc Medicaid', b: 'Là công dân Mỹ, quyền lợi SNAP và Apple Health (Medicaid) của bạn <strong>không bị ảnh hưởng</strong> bởi H.R. 1. Tiếp tục tham dự các kỳ xem xét điều kiện thường xuyên.', a: [{t:'Kiểm tra quyền lợi', u:'https://benefits.wa.gov', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
+      zh: { v: '您受到保护', h: 'SNAP或Medicaid无重大变化', b: '作为美国公民，您的联邦SNAP和Apple Health（Medicaid）福利<strong>不受</strong>H.R. 1影响。继续参加定期资格审查并保持DSHS联系信息更新。', a: [{t:'查看福利', u:'https://benefits.wa.gov', p:true},{t:'DSHS：877-501-2233', u:'tel:8775012233', p:false}] },
+      so: { v: 'Waxaad amnaan tahay', h: 'Isbedel weyn kuma jiro SNAP ama Medicaid-kaaga', b: 'Adigu oo ah muwaadin Maraykanka, dheefshiidkaaga SNAP iyo Apple Health (Medicaid) <strong>kuma saameynayso</strong> H.R. 1. Sii wad hubintadaada joogtada ah.', a: [{t:'Hubi dheefshiidkaaga', u:'https://benefits.wa.gov', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
+      tl: { v: 'Ikaw ay protektado', h: 'Walang malaking pagbabago sa iyong SNAP o Medicaid', b: 'Bilang isang mamamayan ng US, ang iyong federal SNAP at Apple Health (Medicaid) ay <strong>hindi apektado</strong> ng H.R. 1.', a: [{t:'Suriin ang iyong benepisyo', u:'https://benefits.wa.gov', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
+      es: { v: 'Usted está protegido/a', h: 'Sin cambios importantes en su SNAP o Medicaid', b: 'Como ciudadano/a de EE.UU., sus beneficios federales de SNAP y Apple Health (Medicaid) <strong>no se ven afectados</strong> por H.R. 1. Continúe sus revisiones de elegibilidad regulares.', a: [{t:'Verifique sus beneficios', u:'https://benefits.wa.gov', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] }
+    },
+    lpr: { status: 'green', icon: '✅',
+      en: { v: 'You are protected', h: 'Green card holders keep full federal benefits', b: 'As a Lawful Permanent Resident, your federal SNAP and Apple Health (Medicaid) benefits are <strong>fully protected</strong> under H.R. 1. Attend your eligibility reviews on time and keep your address current with DSHS.', a: [{t:'Benefits portal', u:'https://benefits.wa.gov', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
+      vi: { v: 'Bạn được bảo vệ', h: 'Người có thẻ xanh giữ đầy đủ quyền lợi liên bang', b: 'Là thường trú nhân hợp pháp, quyền lợi SNAP và Apple Health của bạn <strong>được bảo vệ hoàn toàn</strong>. Tham dự đúng hạn các kỳ xem xét điều kiện.', a: [{t:'Cổng thông tin quyền lợi', u:'https://benefits.wa.gov', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
+      zh: { v: '您受到保护', h: '绿卡持有者保留全部联邦福利', b: '作为合法永久居民，您的SNAP和Apple Health福利<strong>完全受保护</strong>。按时参加资格审查并更新DSHS联系信息。', a: [{t:'福利门户', u:'https://benefits.wa.gov', p:true},{t:'DSHS：877-501-2233', u:'tel:8775012233', p:false}] },
+      so: { v: 'Waxaad amnaan tahay', h: 'Kuwii kaadhka cagaaran haysta waxay hayaan dhamaan dheefshiidka federaalka', b: 'Adigu oo ah deganaanshaha joogtada ah ee sharci ah, dheefshiidkaaga SNAP iyo Apple Health <strong>si buuxda ayaa loo ilaalinayaa</strong>.', a: [{t:'Goobta dheefshiidka', u:'https://benefits.wa.gov', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
+      tl: { v: 'Ikaw ay protektado', h: 'Ang mga may green card ay napapanatili ang lahat ng federal benefits', b: 'Bilang isang Lawful Permanent Resident, ang iyong SNAP at Apple Health ay <strong>ganap na protektado</strong>.', a: [{t:'Benefits portal', u:'https://benefits.wa.gov', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
+      es: { v: 'Usted está protegido/a', h: 'Los titulares de tarjeta verde conservan todos los beneficios federales', b: 'Como Residente Permanente Legal, sus beneficios de SNAP y Apple Health están <strong>completamente protegidos</strong>.', a: [{t:'Portal de beneficios', u:'https://benefits.wa.gov', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] }
+    },
+    refugee: { status: 'amber', icon: '🔄',
+      en: { v: 'Changing — but you\'re OK', h: 'Your SNAP moves to state funding in May 2026', b: 'Your SNAP benefits shift from federal to state-funded in May 2026. <strong>Same amount. No reapplication needed. DSHS does it automatically.</strong> The one thing you must do: update your mailing address with DSHS so you receive the transition notice. If you arrived in 2019 or later, you are still within the 7-year federal Medicaid window.', a: [{t:'Update address now', u:'https://benefitscap.dshs.wa.gov', p:true},{t:'Call REWA for help', u:'https://www.rewa.org', p:false},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
+      vi: { v: 'Thay đổi — nhưng bạn vẫn ổn', h: 'SNAP của bạn chuyển sang tiểu bang vào tháng 5/2026', b: 'SNAP chuyển từ liên bang sang tiểu bang vào tháng 5/2026. <strong>Cùng số tiền. Không cần đăng ký lại. DSHS tự làm.</strong> Một việc bạn phải làm: cập nhật địa chỉ bưu điện với DSHS.', a: [{t:'Cập nhật địa chỉ ngay', u:'https://benefitscap.dshs.wa.gov', p:true},{t:'Gọi REWA để được trợ giúp', u:'https://www.rewa.org', p:false},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
+      zh: { v: '变化中——但您没问题', h: '您的SNAP于2026年5月转为州资助', b: '2026年5月，SNAP从联邦转为州资助。<strong>金额相同。无需重新申请。DSHS自动处理。</strong>您必须做的一件事：更新DSHS的通讯地址。', a: [{t:'立即更新地址', u:'https://benefitscap.dshs.wa.gov', p:true},{t:'联系REWA寻求帮助', u:'https://www.rewa.org', p:false},{t:'DSHS：877-501-2233', u:'tel:8775012233', p:false}] },
+      so: { v: 'Beddelaysa — laakiin waxaad fiicanaan', h: 'SNAP-kaagu wuxuu u wareegayaa gobolka Maayo 2026', b: 'SNAP wuxuu ka wareegayaa federaalka ilaa gobolka Maayo 2026. <strong>Xaddiga isku mid. Codsasho cusub ma loo baahna. DSHS si toos ah ayuu u samaynayaa.</strong> Shayga keliya ee aad sameyso: cinwaanka boostadaada la cusboonsii DSHS.', a: [{t:'Cinwaanka ku cusboonsii hadda', u:'https://benefitscap.dshs.wa.gov', p:true},{t:'REWA la xiriir', u:'https://www.rewa.org', p:false},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
+      tl: { v: 'Nagbabago — ngunit OK ka', h: 'Ang iyong SNAP ay lilipat sa state funding sa Mayo 2026', b: 'Ang iyong SNAP ay lilipat mula sa federal patungo sa state-funded sa Mayo 2026. <strong>Parehong halaga. Hindi kailangang mag-reapply. Awtomatiko ito ng DSHS.</strong> Ang isang bagay na dapat mong gawin: i-update ang iyong mailing address sa DSHS.', a: [{t:'I-update ang address ngayon', u:'https://benefitscap.dshs.wa.gov', p:true},{t:'Tumawag sa REWA', u:'https://www.rewa.org', p:false},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
+      es: { v: 'Cambiando — pero está bien', h: 'Su SNAP pasa a fondos estatales en mayo de 2026', b: 'Su SNAP pasa de fondos federales a estatales en mayo de 2026. <strong>Mismo monto. Sin nueva solicitud. DSHS lo hace automáticamente.</strong> Lo único que debe hacer: actualizar su dirección postal en DSHS.', a: [{t:'Actualice su dirección ahora', u:'https://benefitscap.dshs.wa.gov', p:true},{t:'Llame a REWA', u:'https://www.rewa.org', p:false},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] }
+    },
+    work_visa: { status: 'red', icon: '⚠️',
+      en: { v: 'Action required', h: 'You are likely losing federal Medicaid', b: 'People on work or family visas (H-1B, L-1, TN, F-2, or family petitions) lose federal Medicaid under H.R. 1 — <strong>even if you have a pending green card (I-485)</strong>. Call DSHS now to find state-funded Apple Health alternatives before your federal coverage ends. Free translation in your language is available.', a: [{t:'Call DSHS now: 877-501-2233', u:'tel:8775012233', p:true},{t:'WA Health Exchange: 1-855-923-4633', u:'tel:18559234633', p:false},{t:'Free legal help', u:'https://nwjustice.org', p:false}] },
+      vi: { v: 'Cần hành động', h: 'Bạn có thể sẽ mất Medicaid liên bang', b: 'Người có visa H-1B, L-1, TN, F-2 hoặc bảo lãnh gia đình sẽ mất Medicaid liên bang — <strong>kể cả khi bạn đang chờ thẻ xanh (I-485)</strong>. Gọi DSHS ngay, yêu cầu phiên dịch tiếng Việt.', a: [{t:'Gọi DSHS: 877-501-2233', u:'tel:8775012233', p:true},{t:'WA Health Exchange: 1-855-923-4633', u:'tel:18559234633', p:false},{t:'ICHS (tiếng Việt)', u:'https://www.ichs.com', p:false}] },
+      zh: { v: '需要行动', h: '您可能即将失去联邦Medicaid', b: '持工作或家庭签证（H-1B、L-1、TN、F-2或家庭申请）将失去联邦Medicaid——<strong>即使您有待批的绿卡（I-485）</strong>。立即致电DSHS请求中文口译员。', a: [{t:'致电DSHS：877-501-2233', u:'tel:8775012233', p:true},{t:'WA Health Exchange：1-855-923-4633', u:'tel:18559234633', p:false},{t:'ICHS（中文）', u:'https://www.ichs.com', p:false}] },
+      so: { v: 'Tallaabo loo baahan yahay', h: 'Waxaa laga yaabaa inaad lumeyso Medicaid federaalka', b: 'Dadka leh fiisaha shaqada ama qoyska (H-1B, L-1, TN, F-2) waxay lumiyaan Medicaid federaalka — <strong>xitaa haddaad leedahay I-485 la sugayo</strong>. Hadda DSHS wac.', a: [{t:'DSHS wac: 877-501-2233', u:'tel:8775012233', p:true},{t:'WA Health Exchange: 1-855-923-4633', u:'tel:18559234633', p:false}] },
+      tl: { v: 'Kailangan ng aksyon', h: 'Malamang na mawawalan ka ng federal Medicaid', b: 'Ang mga nasa work o family visa (H-1B, L-1, TN, F-2) ay mawawalan ng federal Medicaid — <strong>kahit may nakabinbing green card (I-485)</strong>. Tumawag na sa DSHS, humingi ng Tagalog interpreter.', a: [{t:'Tumawag sa DSHS: 877-501-2233', u:'tel:8775012233', p:true},{t:'WA Health Exchange: 1-855-923-4633', u:'tel:18559234633', p:false}] },
+      es: { v: 'Se requiere acción', h: 'Es probable que pierda Medicaid federal', b: 'Las personas con visa laboral o familiar (H-1B, L-1, TN, F-2 o petición familiar) pierden Medicaid federal — <strong>incluso si tiene una solicitud de green card pendiente (I-485)</strong>. Llame a DSHS ahora y pida un intérprete en español.', a: [{t:'Llame a DSHS: 877-501-2233', u:'tel:8775012233', p:true},{t:'WA Health Exchange: 1-855-923-4633', u:'tel:18559234633', p:false},{t:'Ayuda legal gratuita', u:'https://nwjustice.org', p:false}] }
+    },
+    daca_tps: { status: 'red', icon: '🚨',
+      en: { v: 'Urgent action required', h: 'You are losing federal Medicaid under H.R. 1', b: 'DACA recipients and TPS holders are explicitly excluded from federal Medicaid under H.R. 1. Call the WA Health Benefit Exchange <strong>now</strong> to explore state-funded alternatives before your coverage ends. Your U.S. citizen children\'s benefits are <strong>fully protected</strong> — you can apply for them without giving your own SSN or immigration status.', a: [{t:'Call Health Exchange NOW: 1-855-923-4633', u:'tel:18559234633', p:true},{t:'Free legal help (NW Justice Project)', u:'https://nwjustice.org', p:false},{t:'211 — food banks & resources', u:'https://wa211.org', p:false}] },
+      es: { v: 'Se requiere acción urgente', h: 'Está perdiendo Medicaid federal bajo H.R. 1', b: 'Los beneficiarios de DACA y TPS son excluidos explícitamente del Medicaid federal bajo H.R. 1. Llame al WA Health Benefit Exchange <strong>ahora</strong>. Los beneficios de sus hijos ciudadanos de EE.UU. están <strong>completamente protegidos</strong> — puede solicitarlos sin dar su propio número de seguro social.', a: [{t:'Llame al Health Exchange AHORA: 1-855-923-4633', u:'tel:18559234633', p:true},{t:'Ayuda legal gratuita', u:'https://nwjustice.org', p:false},{t:'211 — bancos de alimentos', u:'https://wa211.org', p:false}] },
+      vi: { v: 'Cần hành động khẩn cấp', h: 'Bạn đang mất Medicaid liên bang theo H.R. 1', b: 'Người có DACA và TPS mất Medicaid liên bang theo H.R. 1. Quyền lợi của con cái là công dân Mỹ của bạn <strong>được bảo vệ hoàn toàn</strong> — bạn có thể đăng ký cho chúng mà không cần cung cấp SSN của chính bạn.', a: [{t:'Gọi Health Exchange NGAY: 1-855-923-4633', u:'tel:18559234633', p:true},{t:'Trợ giúp pháp lý miễn phí', u:'https://nwjustice.org', p:false}] },
+      zh: { v: '需要紧急行动', h: '您正在根据H.R. 1失去联邦Medicaid', b: 'DACA和TPS持有者被H.R. 1明确排除在联邦Medicaid之外。您的美国公民子女的福利<strong>完全受保护</strong>——您可以为他们申请而无需提供自己的SSN。', a: [{t:'立即致电Health Exchange：1-855-923-4633', u:'tel:18559234633', p:true},{t:'免费法律援助', u:'https://nwjustice.org', p:false}] },
+      so: { v: 'Tallaabo deg deg ah ayaa loo baahan yahay', h: 'Waxaad lumaysaa Medicaid federaalka ee H.R. 1 hoos yimaada', b: 'Kuwa DACA iyo TPS si cad ayaa looga saaray Medicaid federaalka ee H.R. 1. Dheefshiidka carruurta muwaadiniinta ah waa <strong>si buuxda la ilaashaa</strong>.', a: [{t:'HADDA wac Health Exchange: 1-855-923-4633', u:'tel:18559234633', p:true},{t:'Gargaarka sharciga oo bilaash ah', u:'https://nwjustice.org', p:false}] },
+      tl: { v: 'Kailangan ng agarang aksyon', h: 'Nawawalan ka ng federal Medicaid sa ilalim ng H.R. 1', b: 'Ang mga may DACA at TPS ay explicitly excluded sa federal Medicaid sa ilalim ng H.R. 1. Ang mga benepisyo ng iyong mga anak na mamamayan ng US ay <strong>ganap na protektado</strong> — maaari mong i-apply para sa kanila nang hindi ibinibigay ang iyong sariling SSN.', a: [{t:'Tumawag sa Health Exchange NGAYON: 1-855-923-4633', u:'tel:18559234633', p:true},{t:'Libreng legal help', u:'https://nwjustice.org', p:false}] }
+    },
+    other: { status: 'amber', icon: '❓',
+      en: { v: 'Get personalized help', h: 'Your situation needs individual review', b: 'Parolees, humanitarian protection recipients, and others in lawful status may be losing federal Medicaid coverage under H.R. 1. Your specific situation depends on the exact category of your status. Call DSHS for a free eligibility check — translation is available in your language.', a: [{t:'Call DSHS: 877-501-2233', u:'tel:8775012233', p:true},{t:'Free legal help', u:'https://nwjustice.org', p:false},{t:'Benefits portal', u:'https://benefits.wa.gov', p:false}] },
+      vi: { v: 'Nhận trợ giúp cá nhân', h: 'Tình huống của bạn cần được xem xét riêng', b: 'Gọi DSHS để kiểm tra điều kiện miễn phí — có phiên dịch tiếng Việt.', a: [{t:'Gọi DSHS: 877-501-2233', u:'tel:8775012233', p:true},{t:'Trợ giúp pháp lý miễn phí', u:'https://nwjustice.org', p:false}] },
+      zh: { v: '获取个性化帮助', h: '您的情况需要个别审查', b: '致电DSHS进行免费资格核查——提供中文翻译。', a: [{t:'致电DSHS：877-501-2233', u:'tel:8775012233', p:true},{t:'免费法律援助', u:'https://nwjustice.org', p:false}] },
+      so: { v: 'Caawimaad gaarka ah hel', h: 'Xaaladaadu waxay u baahan tahay dib-u-eegis gaar ah', b: 'DSHS wac hubinta u-qalmitaanka bilaashka ah — turjumaan ku jira luqadaada ayaa la heli karo.', a: [{t:'DSHS wac: 877-501-2233', u:'tel:8775012233', p:true}] },
+      tl: { v: 'Kumuha ng personalized na tulong', h: 'Ang iyong sitwasyon ay nangangailangan ng indibidwal na pagsusuri', b: 'Tumawag sa DSHS para sa libreng eligibility check — available ang translation sa iyong wika.', a: [{t:'Tumawag sa DSHS: 877-501-2233', u:'tel:8775012233', p:true}] },
+      es: { v: 'Obtenga ayuda personalizada', h: 'Su situación necesita una revisión individual', b: 'Llame a DSHS para una verificación de elegibilidad gratuita — hay traducción disponible en español.', a: [{t:'Llame a DSHS: 877-501-2233', u:'tel:8775012233', p:true},{t:'Ayuda legal gratuita', u:'https://nwjustice.org', p:false}] }
+    }
+  };
+
+  // Exemption results override
+  const EXEMPT = {
+    en: { v: 'You are exempt from work requirements', h: 'Your situation qualifies for an exemption', b: 'Based on your answers, you are <strong>exempt from the new SNAP and Medicaid work requirements</strong>. Your immigration status still determines your benefit eligibility — see the full guide below for details.', a: [{t:'View full eligibility guide', u:'#eligibility', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
+    vi: { v: 'Bạn được miễn yêu cầu làm việc', h: 'Tình huống của bạn đủ điều kiện miễn trừ', b: 'Dựa trên câu trả lời của bạn, bạn <strong>được miễn các yêu cầu làm việc SNAP và Medicaid mới</strong>.', a: [{t:'Xem hướng dẫn đầy đủ', u:'#eligibility', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
+    zh: { v: '您免于工作要求', h: '您的情况符合豁免条件', b: '根据您的回答，您<strong>免于新的SNAP和Medicaid工作要求</strong>。', a: [{t:'查看完整指南', u:'#eligibility', p:true},{t:'DSHS：877-501-2233', u:'tel:8775012233', p:false}] },
+    so: { v: 'Waxaad ka maamuusantahay shuruudaha shaqada', h: 'Xaaladaadu waxay u qalmaa xumaasiyadda', b: 'Ku salaysan jawaabaha, waxaad <strong>ka maamuusantahay shuruudaha shaqada cusub ee SNAP iyo Medicaid</strong>.', a: [{t:'Eeg hagaha buuxa', u:'#eligibility', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
+    tl: { v: 'Ikaw ay exempt sa mga work requirements', h: 'Ang iyong sitwasyon ay karapat-dapat sa exemption', b: 'Batay sa iyong mga sagot, ikaw ay <strong>exempt sa mga bagong SNAP at Medicaid work requirements</strong>.', a: [{t:'Tingnan ang buong gabay', u:'#eligibility', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
+    es: { v: 'Está exento/a de los requisitos de trabajo', h: 'Su situación califica para una exención', b: 'Según sus respuestas, está <strong>exento/a de los nuevos requisitos de trabajo de SNAP y Medicaid</strong>.', a: [{t:'Ver guía completa', u:'#eligibility', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] }
+  };
+
+  function answer(q, val) {
+    answers[q] = val;
+    if (q === 1) {
+      document.getElementById('sq1').classList.remove('active');
+      document.getElementById('sq2').classList.add('active');
+      document.getElementById('ps1').classList.remove('active'); document.getElementById('ps1').classList.add('done');
+      document.getElementById('ps2').classList.add('active');
+    } else if (q === 2) {
+      // Skip Q3 if clearly exempt
+      const exempt = (answers[2] === 'under18' || answers[2] === '65plus');
+      if (exempt) { showResult(); return; }
+      document.getElementById('sq2').classList.remove('active');
+      document.getElementById('sq3').classList.add('active');
+      document.getElementById('ps2').classList.remove('active'); document.getElementById('ps2').classList.add('done');
+      document.getElementById('ps3').classList.add('active');
+    } else if (q === 3) {
+      showResult();
+    }
+  }
+
+  function showResult() {
+    ['sq1','sq2','sq3'].forEach(id => document.getElementById(id).classList.remove('active'));
+    document.getElementById('ps3').classList.remove('active'); document.getElementById('ps3').classList.add('done');
+    document.querySelectorAll('.prog-step').forEach(p => { p.classList.remove('active'); p.classList.add('done'); });
+
+    const lang = document.documentElement.lang || 'en';
+    const statusKey = answers[1];
+    const age = answers[2];
+    const situation = answers[3];
+
+    // Check for exemptions first
+    let isExempt = (age === 'under18' || age === '65plus' ||
+                    situation === 'disabled' || situation === 'pregnant' || situation === 'child_under14');
+
+    let data, statusClass;
+    if (isExempt && (statusKey === 'citizen' || statusKey === 'lpr' || statusKey === 'refugee')) {
+      // Citizen/LPR/refugee + exempt from work requirements
+      data = EXEMPT[lang] || EXEMPT.en;
+      statusClass = 'green';
+    } else {
+      const result = RESULTS[statusKey] || RESULTS.other;
+      data = result[lang] || result.en;
+      statusClass = result.status;
+    }
+
+    const actionsHtml = data.a.map(a =>
+      `<a href="${a.u}" class="sr-btn ${a.p ? 'primary' : 'secondary'}">${a.t}</a>`
+    ).join('');
+
+    document.getElementById('sq-result').innerHTML = `
+      <div class="sr-card ${statusClass}">
+        <div class="sr-icon">${RESULTS[statusKey] ? (isExempt ? '✅' : (RESULTS[statusKey].icon || '?')) : '❓'}</div>
+        <div>
+          <div class="sr-verdict">${data.v}</div>
+          <div class="sr-headline">${data.h}</div>
+          <div class="sr-body">${data.b}<div class="sr-actions">${actionsHtml}</div></div>
+        </div>
+      </div>
+      <button class="screener-restart" onclick="resetScreener()">← Start over / Check another person</button>
+    `;
+    document.getElementById('sq-result').classList.add('active');
+    document.getElementById('screener-title').style.display = 'none';
+  }
+
+  function resetScreener() {
+    answers[1] = answers[2] = answers[3] = null;
+    ['sq1','sq2','sq3','sq-result'].forEach(id => document.getElementById(id).classList.remove('active'));
+    document.getElementById('sq1').classList.add('active');
+    document.getElementById('sq-result').innerHTML = '';
+    document.getElementById('screener-title').style.display = '';
+    ['ps1','ps2','ps3'].forEach(id => { document.getElementById(id).classList.remove('done','active'); });
+    document.getElementById('ps1').classList.add('active');
+  }
+
+  // Init stat counters after DOM load
+  document.querySelectorAll('[data-count]').forEach(el => countObs.observe(el));
+
   // ── Language dropdown ──────────────────────────────────────────────────
   function toggleLangDropdown() {
     document.getElementById('langWrap').classList.toggle('open');
