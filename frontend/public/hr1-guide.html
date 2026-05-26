@@ -1053,6 +1053,73 @@
       .page-body { grid-template-columns: 1fr; }
     }
 
+
+
+    .finding-label.critical {
+      color: var(--signal-red) !important;
+    }
+    .finding-label.critical::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--signal-red);
+      margin-right: 6px;
+      vertical-align: middle;
+      margin-bottom: 1px;
+    }
+
+    /* ─── SVG ICON SYSTEM ───────────────────────────────────────────────── */
+    .sq-opt-icon {
+      display: block;
+      width: 28px;
+      height: 28px;
+      margin-bottom: 8px;
+      color: var(--navy);
+      opacity: 0.7;
+      transition: opacity 0.15s;
+    }
+    .sq-opt:hover .sq-opt-icon { opacity: 1; }
+    .sq-opt-icon svg { width: 100%; height: 100%; }
+
+    .contact-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--r-sm);
+      background: var(--navy-lt);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--navy);
+      padding: 7px;
+    }
+    .contact-icon svg { width: 100%; height: 100%; }
+
+    /* Initial-circle for persona avatars */
+    .persona-initial {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid var(--line-dk);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: -0.02em;
+    }
+    .pi-viet    { background: #1a4fa0; }
+    .pi-chinese { background: #0a6b3e; }
+    .pi-somali  { background: #7c2d12; }
+    .pi-filipino{ background: #4a1d96; }
+    .pi-latino  { background: #064e3b; }
+
+
     /* ─── INTERACTIVE SCREENER ──────────────────────────────────────────── */
     .screener-wrap {
       background: var(--warm-white);
@@ -1169,7 +1236,15 @@
     .sr-card.green { background: var(--signal-green-bg); border: 2px solid var(--signal-green-border); }
     .sr-card.amber { background: var(--signal-amber-bg); border: 2px solid var(--signal-amber-border); }
     .sr-card.red   { background: var(--signal-red-bg);   border: 2px solid var(--signal-red-border); }
-    .sr-icon { font-size: 2.2rem; flex-shrink: 0; line-height: 1; }
+    .sr-icon {
+      width: 48px; height: 48px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 1.1rem; font-weight: 900;
+      font-family: var(--sans); line-height: 1;
+    }
+    .sr-card.green .sr-icon { background: var(--signal-green); color: white; }
+    .sr-card.amber .sr-icon { background: #d97706; color: white; }
+    .sr-card.red   .sr-icon { background: var(--signal-red); color: white; }
     .sr-verdict {
       font-size: 0.68rem;
       font-weight: 800;
@@ -1348,7 +1423,7 @@
         <span data-lang="en">What To Do</span><span data-lang="vi">Phải Làm Gì</span><span data-lang="zh">该怎么做</span><span data-lang="so">Waxa La Sameeyo</span><span data-lang="tl">Ano ang Gagawin</span><span data-lang="es">Qué Hacer</span>
       </a>
       <a class="nav-emergency" href="tel:8775012233">
-        📞 <span data-lang="en">877-501-2233</span><span data-lang="vi">Gọi ngay</span><span data-lang="zh">立即致电</span><span data-lang="so">Wac</span><span data-lang="tl">Tumawag</span><span data-lang="es">Llame</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0;"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .7h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.63a16 16 0 006.29 6.29l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7a2 2 0 011.72 2.02z"/></svg> <span data-lang="en">877-501-2233</span><span data-lang="vi">Gọi ngay</span><span data-lang="zh">立即致电</span><span data-lang="so">Wac</span><span data-lang="tl">Tumawag</span><span data-lang="es">Llame</span>
       </a>
     </div>
   </nav>
@@ -1387,32 +1462,32 @@
       </div>
       <div class="sq-options">
         <button class="sq-opt" onclick="answer(1,'citizen')">
-          <span class="sq-opt-icon">🇺🇸</span>
+          <span class="sq-opt-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg></span>
           <span class="sq-opt-label"><span data-lang="en">US Citizen or National</span><span data-lang="vi">Công dân Mỹ</span><span data-lang="zh">美国公民</span><span data-lang="so">Muwaadin US</span><span data-lang="tl">Mamamayan ng US</span><span data-lang="es">Ciudadano de EE.UU.</span></span>
           <span class="sq-opt-sub"><span data-lang="en">Born in the US, or naturalized</span><span data-lang="vi">Sinh tại Mỹ hoặc đã nhập tịch</span><span data-lang="zh">在美国出生或已入籍</span><span data-lang="so">Ku dhashay US ama la muwaadisay</span><span data-lang="tl">Ipinanganak sa US o naturalisado</span><span data-lang="es">Nacido en EE.UU. o naturalizado</span></span>
         </button>
         <button class="sq-opt" onclick="answer(1,'lpr')">
-          <span class="sq-opt-icon">💚</span>
+          <span class="sq-opt-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 9h4"/><path d="M6 13h2"/><path d="M15 11l2 2 3-3"/></svg></span>
           <span class="sq-opt-label"><span data-lang="en">Green Card (LPR)</span><span data-lang="vi">Thẻ xanh</span><span data-lang="zh">绿卡持有者</span><span data-lang="so">Kaadhka cagaaran</span><span data-lang="tl">Green Card (LPR)</span><span data-lang="es">Tarjeta verde (LPR)</span></span>
           <span class="sq-opt-sub"><span data-lang="en">Lawful Permanent Resident card</span><span data-lang="vi">Thường trú nhân hợp pháp</span><span data-lang="zh">合法永久居民卡</span><span data-lang="so">Kaadhka deganaanshaha joogtada ah</span><span data-lang="tl">Lawful Permanent Resident card</span><span data-lang="es">Tarjeta de residente permanente</span></span>
         </button>
         <button class="sq-opt" onclick="answer(1,'refugee')">
-          <span class="sq-opt-icon">🕊️</span>
+          <span class="sq-opt-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12L12 4l9 8"/><path d="M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/></svg></span>
           <span class="sq-opt-label"><span data-lang="en">Refugee or Asylee</span><span data-lang="vi">Người tị nạn / xin tị nạn</span><span data-lang="zh">难民或庇护申请者</span><span data-lang="so">Qaxooti ama Asiilo</span><span data-lang="tl">Refugee o Asylee</span><span data-lang="es">Refugiado o Asilado</span></span>
           <span class="sq-opt-sub"><span data-lang="en">Official resettlement, asylee status</span><span data-lang="vi">Tái định cư chính thức, xin tị nạn</span><span data-lang="zh">官方安置、庇护身份</span><span data-lang="so">Dib-u-dejin rasmi, xaaladda asiilaynta</span><span data-lang="tl">Opisyal na resettlement, asylee status</span><span data-lang="es">Reasentamiento oficial, estatus de asilado</span></span>
         </button>
         <button class="sq-opt" onclick="answer(1,'work_visa')">
-          <span class="sq-opt-icon">💼</span>
+          <span class="sq-opt-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="11" y2="17"/></svg></span>
           <span class="sq-opt-label"><span data-lang="en">Work or Family Visa</span><span data-lang="vi">Visa làm việc / gia đình</span><span data-lang="zh">工作或家庭签证</span><span data-lang="so">Fiisaha shaqada ama qoyska</span><span data-lang="tl">Work o Family Visa</span><span data-lang="es">Visa laboral o familiar</span></span>
           <span class="sq-opt-sub"><span data-lang="en">H-1B, L-1, F-2, TN, family petition</span><span data-lang="vi">H-1B, L-1, F-2, TN, bảo lãnh gia đình</span><span data-lang="zh">H-1B, L-1, F-2, TN, 家庭申请</span><span data-lang="so">H-1B, L-1, F-2, TN, codsiga qoyska</span><span data-lang="tl">H-1B, L-1, F-2, TN, family petition</span><span data-lang="es">H-1B, L-1, F-2, TN, petición familiar</span></span>
         </button>
         <button class="sq-opt" onclick="answer(1,'daca_tps')">
-          <span class="sq-opt-icon">📋</span>
+          <span class="sq-opt-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="10" x2="12" y2="12"/><line x1="12" y1="12" x2="13.5" y2="13"/></svg></span>
           <span class="sq-opt-label"><span data-lang="en">DACA or TPS</span><span data-lang="vi">DACA hoặc TPS</span><span data-lang="zh">DACA或TPS</span><span data-lang="so">DACA ama TPS</span><span data-lang="tl">DACA o TPS</span><span data-lang="es">DACA o TPS</span></span>
           <span class="sq-opt-sub"><span data-lang="en">Deferred Action, Temporary Protected Status</span><span data-lang="vi">Hành động hoãn lại, Tình trạng Bảo hộ Tạm thời</span><span data-lang="zh">延期行动、临时保护身份</span><span data-lang="so">Ficilka La Dajiyay, Xaaladda Ilaalinta Ku-meel-gaarka</span><span data-lang="tl">Deferred Action, Temporary Protected Status</span><span data-lang="es">Acción Diferida, Estado de Protección Temporal</span></span>
         </button>
         <button class="sq-opt" onclick="answer(1,'other')">
-          <span class="sq-opt-icon">❓</span>
+          <span class="sq-opt-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
           <span class="sq-opt-label"><span data-lang="en">Not Sure / Other</span><span data-lang="vi">Không chắc / Khác</span><span data-lang="zh">不确定/其他</span><span data-lang="so">Hubsanayn / Kale</span><span data-lang="tl">Hindi Sigurado / Iba pa</span><span data-lang="es">No estoy seguro/a / Otro</span></span>
           <span class="sq-opt-sub"><span data-lang="en">Parolee, humanitarian, other status</span><span data-lang="vi">Người được tạm tha, nhân đạo</span><span data-lang="zh">假释者、人道主义保护</span><span data-lang="so">Xabsiga ka sii daayay, bani'aadannimo</span><span data-lang="tl">Parolee, humanitarian, iba pang status</span><span data-lang="es">Liberado bajo fianza, humanitario, otro</span></span>
         </button>
@@ -1432,15 +1507,15 @@
       </div>
       <div class="sq-options">
         <button class="sq-opt" onclick="answer(2,'under18')">
-          <span class="sq-opt-icon">👧</span>
+          <span class="sq-opt-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 20v-1a6 6 0 0112 0v1"/><line x1="2" y1="12" x2="6" y2="12"/></svg></span>
           <span class="sq-opt-label"><span data-lang="en">Under 18</span><span data-lang="vi">Dưới 18</span><span data-lang="zh">18岁以下</span><span data-lang="so">Hoostaan 18</span><span data-lang="tl">Wala pang 18</span><span data-lang="es">Menor de 18</span></span>
         </button>
         <button class="sq-opt" onclick="answer(2,'18to64')">
-          <span class="sq-opt-icon">👤</span>
+          <span class="sq-opt-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 20v-1a6 6 0 0112 0v1"/></svg></span>
           <span class="sq-opt-label"><span data-lang="en">18–64</span><span data-lang="vi">18–64 tuổi</span><span data-lang="zh">18-64岁</span><span data-lang="so">18–64 jir</span><span data-lang="tl">18–64 taong gulang</span><span data-lang="es">18–64 años</span></span>
         </button>
         <button class="sq-opt" onclick="answer(2,'65plus')">
-          <span class="sq-opt-icon">👴</span>
+          <span class="sq-opt-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 20v-1a6 6 0 0112 0v1"/><path d="M18 12l2 2"/><path d="M18 16h4"/></svg></span>
           <span class="sq-opt-label"><span data-lang="en">65 or older</span><span data-lang="vi">65 tuổi trở lên</span><span data-lang="zh">65岁及以上</span><span data-lang="so">65 jir ama ka weyn</span><span data-lang="tl">65 o mas matanda</span><span data-lang="es">65 años o más</span></span>
         </button>
       </div>
@@ -1459,23 +1534,23 @@
       </div>
       <div class="sq-options">
         <button class="sq-opt" onclick="answer(3,'child_under14')">
-          <span class="sq-opt-icon">👶</span>
+          <span class="sq-opt-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span>
           <span class="sq-opt-label"><span data-lang="en">Child under 14 at home</span><span data-lang="vi">Có con dưới 14 tuổi</span><span data-lang="zh">家中有14岁以下子女</span><span data-lang="so">Carruur hoostaan 14 guriga</span><span data-lang="tl">May batang wala pang 14</span><span data-lang="es">Hijo/a menor de 14 en casa</span></span>
         </button>
         <button class="sq-opt" onclick="answer(3,'disabled')">
-          <span class="sq-opt-icon">♿</span>
+          <span class="sq-opt-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4" r="2"/><path d="M12 6v6l3 3"/><path d="M7 11l5 1 5-1"/><path d="M7 15a5 5 0 009.9 1"/></svg></span>
           <span class="sq-opt-label"><span data-lang="en">Disabled or on SSI</span><span data-lang="vi">Khuyết tật hoặc nhận SSI</span><span data-lang="zh">残疾或领取SSI</span><span data-lang="so">Naafada ama SSI</span><span data-lang="tl">May kapansanan o nasa SSI</span><span data-lang="es">Discapacitado/a o con SSI</span></span>
         </button>
         <button class="sq-opt" onclick="answer(3,'pregnant')">
-          <span class="sq-opt-icon">🤰</span>
+          <span class="sq-opt-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 19h8a4 4 0 000-8H8.5A4.5 4.5 0 004 15.5v0A3.5 3.5 0 007.5 19H8z"/><circle cx="12" cy="6" r="3"/><line x1="12" y1="10" x2="12" y2="11"/></svg></span>
           <span class="sq-opt-label"><span data-lang="en">Pregnant</span><span data-lang="vi">Đang mang thai</span><span data-lang="zh">怀孕</span><span data-lang="so">Uur leh</span><span data-lang="tl">Buntis</span><span data-lang="es">Embarazada</span></span>
         </button>
         <button class="sq-opt" onclick="answer(3,'working')">
-          <span class="sq-opt-icon">🏢</span>
+          <span class="sq-opt-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="12"/><path d="M2 12h20"/></svg></span>
           <span class="sq-opt-label"><span data-lang="en">Working or in school</span><span data-lang="vi">Đang làm việc hoặc đi học</span><span data-lang="zh">在工作或上学</span><span data-lang="so">Shaqeynaya ama iskoolka</span><span data-lang="tl">Nagtatrabaho o nag-aaral</span><span data-lang="es">Trabajando o estudiando</span></span>
         </button>
         <button class="sq-opt" onclick="answer(3,'none')">
-          <span class="sq-opt-icon">🔍</span>
+          <span class="sq-opt-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg></span>
           <span class="sq-opt-label"><span data-lang="en">None of the above</span><span data-lang="vi">Không điều nào</span><span data-lang="zh">以上都不是</span><span data-lang="so">Midna kuma khuseyso</span><span data-lang="tl">Wala sa itaas</span><span data-lang="es">Ninguna de las anteriores</span></span>
         </button>
       </div>
@@ -1854,7 +1929,7 @@
       <!-- Vietnamese -->
       <div class="ctab-pane active" id="com-viet">
         <div class="persona">
-          <div class="persona-avatar">👩</div>
+          <div class="persona-initial pi-viet">L</div>
           <div>
             <div class="persona-name">Seattle · Federal Way · Kent · Tacoma</div>
             <div class="persona-quote"><span data-lang="en">"My parents arrived in 1982 and became citizens — their benefits are safe. I'm on an H-1B work visa waiting for my green card. My Medicaid ends when H.R. 1 takes effect. I called DSHS and asked for a Vietnamese interpreter — they helped me find a state plan."</span><span data-lang="vi">"Bố mẹ tôi đến năm 1982 và đã nhập quốc tịch — quyền lợi của họ an toàn. Tôi đang ở visa H-1B đợi thẻ xanh. Medicaid của tôi sẽ hết khi H.R. 1 có hiệu lực. Tôi gọi DSHS và yêu cầu thông dịch viên tiếng Việt — họ đã giúp tôi tìm gói bảo hiểm tiểu bang."</span></div>
@@ -1877,7 +1952,7 @@
         </div></div>
 
         <div class="finding"><div class="finding-bar red"></div><div class="finding-content">
-          <div class="finding-label"><span data-lang="en">⚠ Critical: update your address with DSHS now</span><span data-lang="vi">⚠ Quan trọng: cập nhật địa chỉ với DSHS ngay</span></div>
+          <div class="finding-label critical"><span data-lang="en">Critical — Update your address with DSHS now</span><span data-lang="vi">Quan trọng — Cập nhật địa chỉ với DSHS ngay</span></div>
           <p><span data-lang="en">DSHS sends eligibility notices by <strong>mail</strong>. If your address is outdated, you will miss the notice and your benefits may stop without warning. Update your address today at <a href="https://benefitscap.dshs.wa.gov">benefitscap.dshs.wa.gov</a> or call 877-501-2233.</span><span data-lang="vi">DSHS gửi thông báo điều kiện qua <strong>đường bưu điện</strong>. Nếu địa chỉ của bạn đã cũ, bạn sẽ bỏ lỡ thông báo và quyền lợi có thể bị cắt mà không báo trước. Cập nhật địa chỉ ngay tại <a href="https://benefitscap.dshs.wa.gov">benefitscap.dshs.wa.gov</a> hoặc gọi 877-501-2233.</span></p>
         </div></div>
 
@@ -1893,7 +1968,7 @@
       <!-- Chinese -->
       <div class="ctab-pane" id="com-chinese">
         <div class="persona">
-          <div class="persona-avatar">👨</div>
+          <div class="persona-initial pi-chinese">W</div>
           <div>
             <div class="persona-name">Seattle Chinatown-International District · Bellevue · Redmond</div>
             <div class="persona-quote"><span data-lang="en">"My mother is 72 with SSI — no change for her. I'm an engineer on H-1B with a green card application pending (I-485 filed). Even though I'm waiting for the green card, I still lose federal Medicaid. ICHS told me about the state Apple Health option."</span><span data-lang="zh">"我母亲72岁，有SSI——对她没有变化。我是H-1B工程师，绿卡申请待批（已提交I-485）。即使我在等绿卡，我仍然失去联邦Medicaid。ICHS告诉了我州Apple Health选项。"</span></div>
@@ -1927,7 +2002,7 @@
       <!-- Somali -->
       <div class="ctab-pane" id="com-somali">
         <div class="persona">
-          <div class="persona-avatar">👩</div>
+          <div class="persona-initial pi-somali">H</div>
           <div>
             <div class="persona-name">Seattle · Tukwila · SeaTac · Rainier Valley</div>
             <div class="persona-quote"><span data-lang="en">"I came through official resettlement in 2019. In May 2026, my SNAP moves to state funding — same amount, DSHS does it automatically. I called REWA and they have Somali-speaking caseworkers who helped me check everything. Most important: update your address with DSHS before the letter arrives."</span><span data-lang="so">"Waxaan imid dib-u-dejinta rasmiga ah 2019. Maayo 2026, SNAP-keygii waxay u wareegaysaa gobolka — xaddiga isku mid, DSHS si toos ah ayuu u samaynayaa. Waxaan wacay REWA waxayna leeyihiin shaqaalaha kiiska ku hadla Soomaaliga oo ii caawiyay inaan hubsado wax walba. Muhiimka ugu badan: cinwaankaaga la cusboonsii DSHS ka hor intaanu warqaddu timaanin."</span></div>
@@ -1945,7 +2020,7 @@
         </div></div>
 
         <div class="finding"><div class="finding-bar red"></div><div class="finding-content">
-          <div class="finding-label"><span data-lang="en">⚠ Do not ignore mail from DSHS</span><span data-lang="so">⚠ Ha iska indha tirin boostada ka timid DSHS</span></div>
+          <div class="finding-label critical"><span data-lang="en">Do not ignore mail from DSHS</span><span data-lang="so">Ha iska indha tirin boostada ka timid DSHS</span></div>
           <p><span data-lang="en">DSHS sends eligibility review notices by mail. Missing a mail notice can cause your benefits to stop silently. <strong>If you get a letter from DSHS, call REWA immediately</strong> — they have Somali-speaking caseworkers at their Rainier Valley office who can read the letter with you and tell you exactly what to do. REWA: <a href="https://www.rewa.org">rewa.org</a> · Located on Martin Luther King Jr. Way S, Seattle (near Mt. Baker Light Rail).</span><span data-lang="so">DSHS waxay boostada u dirtaa ogeysiisyada dib-u-eegista u-qalmitaanka. Maarista ogeysiis boosad waxay keeni kartaa joojinta dheefshiidkaaga si degdeg ah. <strong>Haddaad hesho warqad DSHS ka timid, si deg deg ah la xiriir REWA</strong> — waxay leeyihiin shaqaalaha kiiska Soomaaliga ku hadla xafiiskooda Rainier Valley kaas oo kula akhrini doona warqadda oo kuula sheegi doona waxa la sameeyo. REWA: <a href="https://www.rewa.org">rewa.org</a> · Ku taal Martin Luther King Jr. Way S, Seattle (agagaarka Mt. Baker Light Rail).</span></p>
         </div></div>
 
@@ -1966,7 +2041,7 @@
       <!-- Filipino -->
       <div class="ctab-pane" id="com-filipino">
         <div class="persona">
-          <div class="persona-avatar">👨</div>
+          <div class="persona-initial pi-filipino">E</div>
           <div>
             <div class="persona-name">Seattle · Tacoma · Bremerton · Federal Way</div>
             <div class="persona-quote"><span data-lang="en">"I'm a registered nurse on H-1B at a Tacoma hospital, waiting for my green card. My Medicaid ends under H.R. 1. A Filipino Community Center navigator helped me enroll in a state Apple Health plan. My parents are citizens — nothing changes for them."</span><span data-lang="tl">"Ako ay isang rehistradong nars sa H-1B sa isang ospital sa Tacoma, naghihintay ng green card. Ang aking Medicaid ay magtatapos sa ilalim ng H.R. 1. Tinulungan ako ng isang navigator ng Filipino Community Center na mag-enroll sa state Apple Health plan. Ang aking mga magulang ay mga mamamayan — walang nagbabago para sa kanila."</span></div>
@@ -2000,7 +2075,7 @@
       <!-- Latino -->
       <div class="ctab-pane" id="com-latino">
         <div class="persona">
-          <div class="persona-avatar">👩</div>
+          <div class="persona-initial pi-latino">M</div>
           <div>
             <div class="persona-name">Yakima Valley · Tri-Cities · Wenatchee · Seattle/King County</div>
             <div class="persona-quote"><span data-lang="en">"I have DACA. My Medicaid is ending. But my three children are U.S. citizens — their benefits are safe. I applied for them without giving my SSN. Northwest Justice Project helped me find a state health plan. I also called 211 and they told me about a local food bank while I figure things out."</span><span data-lang="es">"Tengo DACA. Mi Medicaid se termina. Pero mis tres hijos son ciudadanos de EE.UU. — sus beneficios están seguros. Los solicité sin dar mi número de seguro social. Northwest Justice Project me ayudó a encontrar un plan de salud estatal. También llamé al 211 y me informaron sobre un banco de alimentos local mientras resuelvo las cosas."</span></div>
@@ -2053,7 +2128,7 @@
       <div class="sidebar-card-header"><h3>Help Lines — Free Translation Available</h3></div>
       <div class="sidebar-card-body">
         <a class="contact-row" href="tel:8775012233">
-          <div class="contact-icon">📋</div>
+          <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg></div>
           <div>
             <div class="contact-org">DSHS Benefits</div>
             <div class="contact-num">877-501-2233</div>
@@ -2061,7 +2136,7 @@
           </div>
         </a>
         <a class="contact-row" href="tel:18559234633">
-          <div class="contact-icon">💊</div>
+          <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/><polyline points="8 12 10 14 14 10"/></svg></div>
           <div>
             <div class="contact-org">WA Health Benefit Exchange</div>
             <div class="contact-num">1-855-923-4633</div>
@@ -2069,7 +2144,7 @@
           </div>
         </a>
         <a class="contact-row" href="https://nwjustice.org">
-          <div class="contact-icon">⚖️</div>
+          <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V4"/><path d="M5 12H2a10 10 0 007 9.5"/><path d="M19 12h3a10 10 0 01-7 9.5"/><path d="M2 9l3 3 3-3"/><path d="M22 9l-3 3-3-3"/><path d="M3 6h18"/></svg></div>
           <div>
             <div class="contact-org">Northwest Justice Project</div>
             <div class="contact-url">nwjustice.org</div>
@@ -2077,7 +2152,7 @@
           </div>
         </a>
         <a class="contact-row" href="https://www.rewa.org">
-          <div class="contact-icon">🤝</div>
+          <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
           <div>
             <div class="contact-org">REWA</div>
             <div class="contact-url">rewa.org</div>
@@ -2085,7 +2160,7 @@
           </div>
         </a>
         <a class="contact-row" href="https://benefits.wa.gov">
-          <div class="contact-icon">🍎</div>
+          <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
           <div>
             <div class="contact-org">Apply Online</div>
             <div class="contact-url">benefits.wa.gov</div>
@@ -2093,7 +2168,7 @@
           </div>
         </a>
         <a class="contact-row" href="https://www.ichs.com">
-          <div class="contact-icon">🏥</div>
+          <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4.8 2.3A.3.3 0 105 2H4a2 2 0 00-2 2v5a6 6 0 006 6v0a6 6 0 006-6V4a2 2 0 00-2-2h-1a.2.2 0 10.3.3"/><path d="M8 15v1a6 6 0 006 6v0a6 6 0 006-6v-4"/><circle cx="20" cy="10" r="2"/></svg></div>
           <div>
             <div class="contact-org">ICHS — 70+ Languages</div>
             <div class="contact-url">ichs.com</div>
@@ -2215,7 +2290,7 @@
   // ── Interactive screener ───────────────────────────────────────────────
   const answers = {};
   const RESULTS = {
-    citizen:   { status: 'green', icon: '✅',
+    citizen:   { status: 'green', icon: '&#10003;',
       en: { v: 'You are protected', h: 'No major changes to your SNAP or Medicaid', b: 'As a U.S. citizen, your federal SNAP and Apple Health (Medicaid) benefits are <strong>not affected</strong> by H.R. 1. Continue attending your regular eligibility reviews and keep your DSHS contact information current.', a: [{t:'Check your benefits', u:'https://benefits.wa.gov', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
       vi: { v: 'Bạn được bảo vệ', h: 'Không có thay đổi lớn với SNAP hoặc Medicaid', b: 'Là công dân Mỹ, quyền lợi SNAP và Apple Health (Medicaid) của bạn <strong>không bị ảnh hưởng</strong> bởi H.R. 1. Tiếp tục tham dự các kỳ xem xét điều kiện thường xuyên.', a: [{t:'Kiểm tra quyền lợi', u:'https://benefits.wa.gov', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
       zh: { v: '您受到保护', h: 'SNAP或Medicaid无重大变化', b: '作为美国公民，您的联邦SNAP和Apple Health（Medicaid）福利<strong>不受</strong>H.R. 1影响。继续参加定期资格审查并保持DSHS联系信息更新。', a: [{t:'查看福利', u:'https://benefits.wa.gov', p:true},{t:'DSHS：877-501-2233', u:'tel:8775012233', p:false}] },
@@ -2223,7 +2298,7 @@
       tl: { v: 'Ikaw ay protektado', h: 'Walang malaking pagbabago sa iyong SNAP o Medicaid', b: 'Bilang isang mamamayan ng US, ang iyong federal SNAP at Apple Health (Medicaid) ay <strong>hindi apektado</strong> ng H.R. 1.', a: [{t:'Suriin ang iyong benepisyo', u:'https://benefits.wa.gov', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
       es: { v: 'Usted está protegido/a', h: 'Sin cambios importantes en su SNAP o Medicaid', b: 'Como ciudadano/a de EE.UU., sus beneficios federales de SNAP y Apple Health (Medicaid) <strong>no se ven afectados</strong> por H.R. 1. Continúe sus revisiones de elegibilidad regulares.', a: [{t:'Verifique sus beneficios', u:'https://benefits.wa.gov', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] }
     },
-    lpr: { status: 'green', icon: '✅',
+    lpr: { status: 'green', icon: '&#10003;',
       en: { v: 'You are protected', h: 'Green card holders keep full federal benefits', b: 'As a Lawful Permanent Resident, your federal SNAP and Apple Health (Medicaid) benefits are <strong>fully protected</strong> under H.R. 1. Attend your eligibility reviews on time and keep your address current with DSHS.', a: [{t:'Benefits portal', u:'https://benefits.wa.gov', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
       vi: { v: 'Bạn được bảo vệ', h: 'Người có thẻ xanh giữ đầy đủ quyền lợi liên bang', b: 'Là thường trú nhân hợp pháp, quyền lợi SNAP và Apple Health của bạn <strong>được bảo vệ hoàn toàn</strong>. Tham dự đúng hạn các kỳ xem xét điều kiện.', a: [{t:'Cổng thông tin quyền lợi', u:'https://benefits.wa.gov', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
       zh: { v: '您受到保护', h: '绿卡持有者保留全部联邦福利', b: '作为合法永久居民，您的SNAP和Apple Health福利<strong>完全受保护</strong>。按时参加资格审查并更新DSHS联系信息。', a: [{t:'福利门户', u:'https://benefits.wa.gov', p:true},{t:'DSHS：877-501-2233', u:'tel:8775012233', p:false}] },
@@ -2231,7 +2306,7 @@
       tl: { v: 'Ikaw ay protektado', h: 'Ang mga may green card ay napapanatili ang lahat ng federal benefits', b: 'Bilang isang Lawful Permanent Resident, ang iyong SNAP at Apple Health ay <strong>ganap na protektado</strong>.', a: [{t:'Benefits portal', u:'https://benefits.wa.gov', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
       es: { v: 'Usted está protegido/a', h: 'Los titulares de tarjeta verde conservan todos los beneficios federales', b: 'Como Residente Permanente Legal, sus beneficios de SNAP y Apple Health están <strong>completamente protegidos</strong>.', a: [{t:'Portal de beneficios', u:'https://benefits.wa.gov', p:true},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] }
     },
-    refugee: { status: 'amber', icon: '🔄',
+    refugee: { status: 'amber', icon: '↺',
       en: { v: 'Changing — but you\'re OK', h: 'Your SNAP moves to state funding in May 2026', b: 'Your SNAP benefits shift from federal to state-funded in May 2026. <strong>Same amount. No reapplication needed. DSHS does it automatically.</strong> The one thing you must do: update your mailing address with DSHS so you receive the transition notice. If you arrived in 2019 or later, you are still within the 7-year federal Medicaid window.', a: [{t:'Update address now', u:'https://benefitscap.dshs.wa.gov', p:true},{t:'Call REWA for help', u:'https://www.rewa.org', p:false},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
       vi: { v: 'Thay đổi — nhưng bạn vẫn ổn', h: 'SNAP của bạn chuyển sang tiểu bang vào tháng 5/2026', b: 'SNAP chuyển từ liên bang sang tiểu bang vào tháng 5/2026. <strong>Cùng số tiền. Không cần đăng ký lại. DSHS tự làm.</strong> Một việc bạn phải làm: cập nhật địa chỉ bưu điện với DSHS.', a: [{t:'Cập nhật địa chỉ ngay', u:'https://benefitscap.dshs.wa.gov', p:true},{t:'Gọi REWA để được trợ giúp', u:'https://www.rewa.org', p:false},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
       zh: { v: '变化中——但您没问题', h: '您的SNAP于2026年5月转为州资助', b: '2026年5月，SNAP从联邦转为州资助。<strong>金额相同。无需重新申请。DSHS自动处理。</strong>您必须做的一件事：更新DSHS的通讯地址。', a: [{t:'立即更新地址', u:'https://benefitscap.dshs.wa.gov', p:true},{t:'联系REWA寻求帮助', u:'https://www.rewa.org', p:false},{t:'DSHS：877-501-2233', u:'tel:8775012233', p:false}] },
@@ -2239,7 +2314,7 @@
       tl: { v: 'Nagbabago — ngunit OK ka', h: 'Ang iyong SNAP ay lilipat sa state funding sa Mayo 2026', b: 'Ang iyong SNAP ay lilipat mula sa federal patungo sa state-funded sa Mayo 2026. <strong>Parehong halaga. Hindi kailangang mag-reapply. Awtomatiko ito ng DSHS.</strong> Ang isang bagay na dapat mong gawin: i-update ang iyong mailing address sa DSHS.', a: [{t:'I-update ang address ngayon', u:'https://benefitscap.dshs.wa.gov', p:true},{t:'Tumawag sa REWA', u:'https://www.rewa.org', p:false},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] },
       es: { v: 'Cambiando — pero está bien', h: 'Su SNAP pasa a fondos estatales en mayo de 2026', b: 'Su SNAP pasa de fondos federales a estatales en mayo de 2026. <strong>Mismo monto. Sin nueva solicitud. DSHS lo hace automáticamente.</strong> Lo único que debe hacer: actualizar su dirección postal en DSHS.', a: [{t:'Actualice su dirección ahora', u:'https://benefitscap.dshs.wa.gov', p:true},{t:'Llame a REWA', u:'https://www.rewa.org', p:false},{t:'DSHS: 877-501-2233', u:'tel:8775012233', p:false}] }
     },
-    work_visa: { status: 'red', icon: '⚠️',
+    work_visa: { status: 'red', icon: '!',
       en: { v: 'Action required', h: 'You are likely losing federal Medicaid', b: 'People on work or family visas (H-1B, L-1, TN, F-2, or family petitions) lose federal Medicaid under H.R. 1 — <strong>even if you have a pending green card (I-485)</strong>. Call DSHS now to find state-funded Apple Health alternatives before your federal coverage ends. Free translation in your language is available.', a: [{t:'Call DSHS now: 877-501-2233', u:'tel:8775012233', p:true},{t:'WA Health Exchange: 1-855-923-4633', u:'tel:18559234633', p:false},{t:'Free legal help', u:'https://nwjustice.org', p:false}] },
       vi: { v: 'Cần hành động', h: 'Bạn có thể sẽ mất Medicaid liên bang', b: 'Người có visa H-1B, L-1, TN, F-2 hoặc bảo lãnh gia đình sẽ mất Medicaid liên bang — <strong>kể cả khi bạn đang chờ thẻ xanh (I-485)</strong>. Gọi DSHS ngay, yêu cầu phiên dịch tiếng Việt.', a: [{t:'Gọi DSHS: 877-501-2233', u:'tel:8775012233', p:true},{t:'WA Health Exchange: 1-855-923-4633', u:'tel:18559234633', p:false},{t:'ICHS (tiếng Việt)', u:'https://www.ichs.com', p:false}] },
       zh: { v: '需要行动', h: '您可能即将失去联邦Medicaid', b: '持工作或家庭签证（H-1B、L-1、TN、F-2或家庭申请）将失去联邦Medicaid——<strong>即使您有待批的绿卡（I-485）</strong>。立即致电DSHS请求中文口译员。', a: [{t:'致电DSHS：877-501-2233', u:'tel:8775012233', p:true},{t:'WA Health Exchange：1-855-923-4633', u:'tel:18559234633', p:false},{t:'ICHS（中文）', u:'https://www.ichs.com', p:false}] },
@@ -2247,7 +2322,7 @@
       tl: { v: 'Kailangan ng aksyon', h: 'Malamang na mawawalan ka ng federal Medicaid', b: 'Ang mga nasa work o family visa (H-1B, L-1, TN, F-2) ay mawawalan ng federal Medicaid — <strong>kahit may nakabinbing green card (I-485)</strong>. Tumawag na sa DSHS, humingi ng Tagalog interpreter.', a: [{t:'Tumawag sa DSHS: 877-501-2233', u:'tel:8775012233', p:true},{t:'WA Health Exchange: 1-855-923-4633', u:'tel:18559234633', p:false}] },
       es: { v: 'Se requiere acción', h: 'Es probable que pierda Medicaid federal', b: 'Las personas con visa laboral o familiar (H-1B, L-1, TN, F-2 o petición familiar) pierden Medicaid federal — <strong>incluso si tiene una solicitud de green card pendiente (I-485)</strong>. Llame a DSHS ahora y pida un intérprete en español.', a: [{t:'Llame a DSHS: 877-501-2233', u:'tel:8775012233', p:true},{t:'WA Health Exchange: 1-855-923-4633', u:'tel:18559234633', p:false},{t:'Ayuda legal gratuita', u:'https://nwjustice.org', p:false}] }
     },
-    daca_tps: { status: 'red', icon: '🚨',
+    daca_tps: { status: 'red', icon: '!!',
       en: { v: 'Urgent action required', h: 'You are losing federal Medicaid under H.R. 1', b: 'DACA recipients and TPS holders are explicitly excluded from federal Medicaid under H.R. 1. Call the WA Health Benefit Exchange <strong>now</strong> to explore state-funded alternatives before your coverage ends. Your U.S. citizen children\'s benefits are <strong>fully protected</strong> — you can apply for them without giving your own SSN or immigration status.', a: [{t:'Call Health Exchange NOW: 1-855-923-4633', u:'tel:18559234633', p:true},{t:'Free legal help (NW Justice Project)', u:'https://nwjustice.org', p:false},{t:'211 — food banks & resources', u:'https://wa211.org', p:false}] },
       es: { v: 'Se requiere acción urgente', h: 'Está perdiendo Medicaid federal bajo H.R. 1', b: 'Los beneficiarios de DACA y TPS son excluidos explícitamente del Medicaid federal bajo H.R. 1. Llame al WA Health Benefit Exchange <strong>ahora</strong>. Los beneficios de sus hijos ciudadanos de EE.UU. están <strong>completamente protegidos</strong> — puede solicitarlos sin dar su propio número de seguro social.', a: [{t:'Llame al Health Exchange AHORA: 1-855-923-4633', u:'tel:18559234633', p:true},{t:'Ayuda legal gratuita', u:'https://nwjustice.org', p:false},{t:'211 — bancos de alimentos', u:'https://wa211.org', p:false}] },
       vi: { v: 'Cần hành động khẩn cấp', h: 'Bạn đang mất Medicaid liên bang theo H.R. 1', b: 'Người có DACA và TPS mất Medicaid liên bang theo H.R. 1. Quyền lợi của con cái là công dân Mỹ của bạn <strong>được bảo vệ hoàn toàn</strong> — bạn có thể đăng ký cho chúng mà không cần cung cấp SSN của chính bạn.', a: [{t:'Gọi Health Exchange NGAY: 1-855-923-4633', u:'tel:18559234633', p:true},{t:'Trợ giúp pháp lý miễn phí', u:'https://nwjustice.org', p:false}] },
@@ -2255,7 +2330,7 @@
       so: { v: 'Tallaabo deg deg ah ayaa loo baahan yahay', h: 'Waxaad lumaysaa Medicaid federaalka ee H.R. 1 hoos yimaada', b: 'Kuwa DACA iyo TPS si cad ayaa looga saaray Medicaid federaalka ee H.R. 1. Dheefshiidka carruurta muwaadiniinta ah waa <strong>si buuxda la ilaashaa</strong>.', a: [{t:'HADDA wac Health Exchange: 1-855-923-4633', u:'tel:18559234633', p:true},{t:'Gargaarka sharciga oo bilaash ah', u:'https://nwjustice.org', p:false}] },
       tl: { v: 'Kailangan ng agarang aksyon', h: 'Nawawalan ka ng federal Medicaid sa ilalim ng H.R. 1', b: 'Ang mga may DACA at TPS ay explicitly excluded sa federal Medicaid sa ilalim ng H.R. 1. Ang mga benepisyo ng iyong mga anak na mamamayan ng US ay <strong>ganap na protektado</strong> — maaari mong i-apply para sa kanila nang hindi ibinibigay ang iyong sariling SSN.', a: [{t:'Tumawag sa Health Exchange NGAYON: 1-855-923-4633', u:'tel:18559234633', p:true},{t:'Libreng legal help', u:'https://nwjustice.org', p:false}] }
     },
-    other: { status: 'amber', icon: '❓',
+    other: { status: 'amber', icon: '?',
       en: { v: 'Get personalized help', h: 'Your situation needs individual review', b: 'Parolees, humanitarian protection recipients, and others in lawful status may be losing federal Medicaid coverage under H.R. 1. Your specific situation depends on the exact category of your status. Call DSHS for a free eligibility check — translation is available in your language.', a: [{t:'Call DSHS: 877-501-2233', u:'tel:8775012233', p:true},{t:'Free legal help', u:'https://nwjustice.org', p:false},{t:'Benefits portal', u:'https://benefits.wa.gov', p:false}] },
       vi: { v: 'Nhận trợ giúp cá nhân', h: 'Tình huống của bạn cần được xem xét riêng', b: 'Gọi DSHS để kiểm tra điều kiện miễn phí — có phiên dịch tiếng Việt.', a: [{t:'Gọi DSHS: 877-501-2233', u:'tel:8775012233', p:true},{t:'Trợ giúp pháp lý miễn phí', u:'https://nwjustice.org', p:false}] },
       zh: { v: '获取个性化帮助', h: '您的情况需要个别审查', b: '致电DSHS进行免费资格核查——提供中文翻译。', a: [{t:'致电DSHS：877-501-2233', u:'tel:8775012233', p:true},{t:'免费法律援助', u:'https://nwjustice.org', p:false}] },
