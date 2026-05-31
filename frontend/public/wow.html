@@ -8,7 +8,8 @@
   <link rel="icon" type="image/svg+xml" href="/wow-assets/wow-favicon.svg" />
   <link rel="icon" type="image/png" sizes="32x32" href="/wow-assets/wow-favicon-32.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/wow-assets/wow-favicon-180.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Self-hosted fonts (Google Fonts CDN is blocked in China) -->
+  <link href="/wow-assets/fonts/wow-fonts.css" rel="stylesheet">
   <style>
     :root{--green:#0B1A12;--green-mid:#122A1C;--green-rich:#1A3D28;--gold:#C9A84C;--gold-light:#E8D5A3;--gold-dim:#7A6030;--black:#060A07;--off-white:#F5F0E8;--muted:#7A9480;}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -837,11 +838,12 @@
           Via XIV Settembre, 69<br>
           06122 Perugia PG, Italy
         </div>
+        <!-- OpenStreetMap embed: works in China (Google Maps is blocked there) and worldwide, no API key -->
         <iframe
           class="wow-map-frame"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2920.8!2d12.3916!3d43.1112!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132e2bb7e4f7b8b5%3A0x8d1e2f3a4b5c6d7e!2sVia%20XIV%20Settembre%2C%2069%2C%2006122%20Perugia%20PG%2C%20Italy!5e0!3m2!1sen!2sit!4v1715000000000!5m2!1sen!2sit"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=12.3816%2C43.1062%2C12.4016%2C43.1162&layer=mapnik&marker=43.1112%2C12.3916"
           allowfullscreen>
         </iframe>
         <div class="wow-map-links">

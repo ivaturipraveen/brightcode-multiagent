@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
+/* Inter via Google Fonts removed — the CDN is blocked in China and the @import
+   was render-blocking the whole app. Falls back to the system-ui stack below. */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
