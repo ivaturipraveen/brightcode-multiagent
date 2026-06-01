@@ -33,6 +33,13 @@ services:
       - type: rewrite
         source: /competitor-analysis-italy
         destination: /competitor-analysis-italy.html
+      # Serve the WoW marketing page (plain HTML) at the root so Chinese browsers
+      # on older engines don't have to boot the React ES-module bundle (which they
+      # can't run -> blank page). The homepage React route was only an iframe wrapper
+      # around wow.html anyway. Internal routes (/admin, /hr, ...) still use the SPA below.
+      - type: rewrite
+        source: /
+        destination: /wow.html
       - type: rewrite
         source: /*
         destination: /index.html

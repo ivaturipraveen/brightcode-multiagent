@@ -1499,16 +1499,16 @@
 
   async function submitBooking(){
     const t=T[lang];
-    const fname=(document.getElementById('bf-fname')||{}).value?.trim();
-    const lname=(document.getElementById('bf-lname')||{}).value?.trim();
-    const email=(document.getElementById('bf-email')||{}).value?.trim();
-    const phone=(document.getElementById('bf-phone')||{}).value?.trim();
+    const fname=((document.getElementById('bf-fname')||{}).value||'').trim();
+    const lname=((document.getElementById('bf-lname')||{}).value||'').trim();
+    const email=((document.getElementById('bf-email')||{}).value||'').trim();
+    const phone=((document.getElementById('bf-phone')||{}).value||'').trim();
     const date=(document.getElementById('bf-date')||{}).value;
     const service=(document.getElementById('bf-service')||{}).value;
     const guests=(document.getElementById('bf-guests')||{}).value;
     const pod=(document.getElementById('bf-pod')||{}).value;
     const wine=(document.getElementById('bf-wine')||{}).value;
-    const notes=(document.getElementById('bf-notes')||{}).value?.trim();
+    const notes=((document.getElementById('bf-notes')||{}).value||'').trim();
 
     if(!fname||!lname||!email||!date||!service||!guests){alert(t.err_msg);return;}
 
@@ -1560,8 +1560,8 @@
       if(!el)return;
       el.addEventListener('click',e=>{ if(e.target===el) closeModal(id); });
     });
-    document.getElementById('contactModalClose')?.addEventListener('click',()=>closeModal('contactModal'));
-    document.getElementById('mapModalClose')?.addEventListener('click',()=>closeModal('mapModal'));
+    (document.getElementById('contactModalClose')||{addEventListener:function(){}}).addEventListener('click',()=>closeModal('contactModal'));
+    (document.getElementById('mapModalClose')||{addEventListener:function(){}}).addEventListener('click',()=>closeModal('mapModal'));
     document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal('contactModal'); closeModal('mapModal'); }});
 
     // ── Wire footer links ───────────────────────────────────────
@@ -1620,14 +1620,14 @@
       openModal('contactModal');
     }
 
-    document.getElementById('link-events')?.addEventListener('click',e=>{ e.preventDefault(); openContact('private_events'); });
-    document.getElementById('link-press')?.addEventListener('click',e=>{ e.preventDefault(); openContact('press'); });
+    (document.getElementById('link-events')||{addEventListener:function(){}}).addEventListener('click',e=>{ e.preventDefault(); openContact('private_events'); });
+    (document.getElementById('link-press')||{addEventListener:function(){}}).addEventListener('click',e=>{ e.preventDefault(); openContact('press'); });
 
     // "Contact" via email link — keep mailto for direct; wire any future contact link
     // Also wire the nav CTA area if needed — for now just events + press
 
     // ── Directions ─────────────────────────────────────────────
-    document.getElementById('link-directions')?.addEventListener('click',e=>{
+    (document.getElementById('link-directions')||{addEventListener:function(){}}).addEventListener('click',e=>{
       e.preventDefault();
       const t = typeof T!=='undefined' && T[lang] ? T[lang] : {};
       const ey=document.getElementById('map-eyebrow');
@@ -1642,12 +1642,12 @@
     });
 
     // ── Contact form submission ─────────────────────────────────
-    document.getElementById('cm-submit')?.addEventListener('click', async ()=>{
+    (document.getElementById('cm-submit')||{addEventListener:function(){}}).addEventListener('click', async ()=>{
       const t = typeof T!=='undefined' && T[lang] ? T[lang] : {};
-      const name    = (document.getElementById('cm-name')||{}).value?.trim();
-      const email   = (document.getElementById('cm-email')||{}).value?.trim();
-      const phone   = (document.getElementById('cm-phone')||{}).value?.trim();
-      const message = (document.getElementById('cm-message')||{}).value?.trim();
+      const name    = ((document.getElementById('cm-name')||{}).value||'').trim();
+      const email   = ((document.getElementById('cm-email')||{}).value||'').trim();
+      const phone   = ((document.getElementById('cm-phone')||{}).value||'').trim();
+      const message = ((document.getElementById('cm-message')||{}).value||'').trim();
       const guests  = (document.getElementById('cm-guests')||{}).value;
       const evtDate = (document.getElementById('cm-event-date')||{}).value;
 
