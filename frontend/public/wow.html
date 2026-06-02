@@ -48,7 +48,7 @@
     .nav-cta:hover{background:var(--gold-light);}
     /* HERO */
     .hero{position:relative;height:100vh;min-height:700px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
-    .hero-img{position:absolute;inset:0;background-image:url('/wow-assets/wow-interior.png');background-size:cover;background-position:center;filter:brightness(0.38);transform:scale(1.06);transition:transform 10s ease;}
+    .hero-img{position:absolute;inset:0;background-image:url('/wow-assets/wow-interior.jpg');background-size:cover;background-position:center;filter:brightness(0.38);transform:scale(1.06);transition:transform 10s ease;}
     /* Hero video background */
     .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;filter:brightness(0.52) saturate(1.1);z-index:0;}
     .hero-gold-tint{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(201,168,76,0.07) 0%,transparent 70%);z-index:1;pointer-events:none;}
@@ -215,7 +215,7 @@
     .bf-confirm-text{font-size:0.82rem;color:var(--muted);line-height:1.8;}
     /* RESERVE CTA */
     .reserve-cta{padding:12rem 0;background:var(--green);text-align:center;position:relative;overflow:hidden;}
-    .reserve-cta-bg{position:absolute;inset:0;background-image:url('/wow-assets/wow-tablesetting.png');background-size:cover;background-position:center;filter:brightness(0.18) saturate(0.6);}
+    .reserve-cta-bg{position:absolute;inset:0;background-image:url('/wow-assets/wow-tablesetting.jpg');background-size:cover;background-position:center;filter:brightness(0.18) saturate(0.6);}
     .reserve-cta-ovl{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(11,26,18,0.5),rgba(11,26,18,0.97));}
     .reserve-cta .c{position:relative;z-index:2;}
     .r-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,6vw,5.5rem);font-weight:300;line-height:1.12;margin-bottom:1.5rem;}
@@ -451,7 +451,7 @@
 
   <nav id="nav">
     <a class="logo" href="#">
-      <img class="logo-wow" src="/wow-assets/wow-logo-v1.5.png" alt="WoW Fast Fine Dining">
+      <img loading="lazy" class="logo-wow" src="/wow-assets/wow-logo-v1.5.png" alt="WoW Fast Fine Dining">
       <span class="logo-sub">Italy</span>
     </a>
     <ul class="nav-links">
@@ -501,8 +501,8 @@
     <!-- Video background — falls back to static image if video fails -->
     <video class="hero-video" id="heroVideo"
       src="/wow-assets/wow-hero-goldflakes.mp4"
-      autoplay muted loop playsinline preload="auto"
-      poster="/wow-assets/wow-interior.png">
+      autoplay muted loop playsinline preload="metadata"
+      poster="/wow-assets/wow-interior.jpg">
     </video>
     <div class="hero-gold-tint"></div>
     <div class="hero-vignette"></div>
@@ -511,7 +511,7 @@
     <div class="hero-img hero-img-fallback" id="heroImg" style="display:none;"></div>
     <div class="hero-content">
       <div class="h-city" data-i18n="hero_city">Italy</div>
-      <img src="/wow-assets/wow-logo-v1.5.png" alt="WoW Fast Fine Dining" class="h-logo">
+      <img loading="lazy" src="/wow-assets/wow-logo-v1.5.png" alt="WoW Fast Fine Dining" class="h-logo">
       <div class="h-div"></div>
       <p class="h-tag" data-i18n="hero_tag">Where Italian artistry meets<br>the ritual of extraordinary dining.</p>
       <div class="h-ctas">
@@ -559,7 +559,7 @@
           </div>
         </div>
         <div class="stmt-img rv d2">
-          <img src="/wow-assets/wow-theatre.png" alt="WoW theatrical dining">
+          <img loading="lazy" src="/wow-assets/wow-theatre.jpg" alt="WoW theatrical dining">
           <div class="stmt-img-ovl"></div>
           <div class="stmt-img-tag">
             <div class="stmt-img-tag-label" data-i18n="phil_img_label">The WoW Moment</div>
@@ -610,7 +610,7 @@
         <!-- Hero ingredient image -->
         <div class="ci-hero rv d3">
           <div class="ci-hero-img-wrap">
-            <img class="ci-hero-img" src="/wow-assets/wow-salmon.jpg" alt="Salmon — The Main Ingredient" data-wow-img="course_hero">
+            <img loading="lazy" class="ci-hero-img" src="/wow-assets/wow-salmon.jpg" alt="Salmon — The Main Ingredient" data-wow-img="course_hero">
           </div>
           <div class="ci-hero-label">
             <span class="ci-hero-eyebrow">One Narrative</span>
@@ -619,20 +619,20 @@
         </div>
       </div>
       <div class="course-strip rv">
-        <div class="ci"><div class="ci-img-wrap"><img class="ci-img" src="/wow-assets/wow-food1.png" alt="Amuse Bouche" data-wow-img="course_1"></div><div class="ci-n">I</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c1">Amuse<br>Bouche</div></div>
-        <div class="ci"><div class="ci-img-wrap"><img class="ci-img" src="/wow-assets/wow-tablesetting.png" alt="Cold Antipasto" data-wow-img="course_2"></div><div class="ci-n">II</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c2">Cold<br>Antipasto</div></div>
-        <div class="ci"><div class="ci-img-wrap"><img class="ci-img" src="/wow-assets/wow-theatre.png" alt="Warm Starter" data-wow-img="course_3"></div><div class="ci-n">III</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c3">Warm<br>Starter</div></div>
-        <div class="ci"><div class="ci-img-wrap"><img class="ci-img" src="/wow-assets/wow-pasta-course.png" alt="Pasta Primo" data-wow-img="course_4"></div><div class="ci-n">IV</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c4">Pasta<br>Primo</div></div>
-        <div class="ci"><div class="ci-img-wrap"><img class="ci-img" src="/wow-assets/wow-food2.png" alt="Sorbet & Palate" data-wow-img="course_5"></div><div class="ci-n">V</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c5">Sorbet<br>&amp; Palate</div></div>
-        <div class="ci"><div class="ci-img-wrap"><img class="ci-img" src="/wow-assets/wow-chef-moment.png" alt="Main Secondo" data-wow-img="course_6"></div><div class="ci-n">VI</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c6">Main<br>Secondo</div></div>
-        <div class="ci"><div class="ci-img-wrap"><img class="ci-img" src="/wow-assets/wow-italy.png" alt="Formaggi" data-wow-img="course_7"></div><div class="ci-n">VII</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c7">Formaggi<br>Selection</div></div>
-        <div class="ci"><div class="ci-img-wrap"><img class="ci-img" src="/wow-assets/wow-wine-pour.png" alt="Mignardise" data-wow-img="course_8"></div><div class="ci-n">VIII</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c8">Mignardise</div></div>
-        <div class="ci"><div class="ci-img-wrap"><img class="ci-img" src="/wow-assets/wow-dessert.png" alt="Dessert Finale" data-wow-img="course_9"></div><div class="ci-n">IX</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c9">Dessert<br>Finale</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img loading="lazy" class="ci-img" src="/wow-assets/wow-food1.jpg" alt="Amuse Bouche" data-wow-img="course_1"></div><div class="ci-n">I</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c1">Amuse<br>Bouche</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img loading="lazy" class="ci-img" src="/wow-assets/wow-tablesetting.jpg" alt="Cold Antipasto" data-wow-img="course_2"></div><div class="ci-n">II</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c2">Cold<br>Antipasto</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img loading="lazy" class="ci-img" src="/wow-assets/wow-theatre.jpg" alt="Warm Starter" data-wow-img="course_3"></div><div class="ci-n">III</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c3">Warm<br>Starter</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img loading="lazy" class="ci-img" src="/wow-assets/wow-pasta-course.jpg" alt="Pasta Primo" data-wow-img="course_4"></div><div class="ci-n">IV</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c4">Pasta<br>Primo</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img loading="lazy" class="ci-img" src="/wow-assets/wow-food2.jpg" alt="Sorbet & Palate" data-wow-img="course_5"></div><div class="ci-n">V</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c5">Sorbet<br>&amp; Palate</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img loading="lazy" class="ci-img" src="/wow-assets/wow-chef-moment.jpg" alt="Main Secondo" data-wow-img="course_6"></div><div class="ci-n">VI</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c6">Main<br>Secondo</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img loading="lazy" class="ci-img" src="/wow-assets/wow-italy.jpg" alt="Formaggi" data-wow-img="course_7"></div><div class="ci-n">VII</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c7">Formaggi<br>Selection</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img loading="lazy" class="ci-img" src="/wow-assets/wow-wine-pour.jpg" alt="Mignardise" data-wow-img="course_8"></div><div class="ci-n">VIII</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c8">Mignardise</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img loading="lazy" class="ci-img" src="/wow-assets/wow-dessert.jpg" alt="Dessert Finale" data-wow-img="course_9"></div><div class="ci-n">IX</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c9">Dessert<br>Finale</div></div>
       </div>
       <div class="feat-trio rv">
-        <div class="ft"><div class="ft-line"></div><img src="/wow-assets/wow-guests-cheers.png" alt="Guests celebrating"><div class="ft-content"><div class="ft-num">I</div><div class="ft-tag" data-i18n="ft1_tag">The WoW Moment</div><div class="ft-title" data-i18n="ft1_title">Theatre at the Table</div><p class="ft-text" data-i18n="ft1_text">A live moment, unique to your table, your evening, your company. The kind that makes someone lean in, catch their breath, and smile.</p></div></div>
-        <div class="ft"><div class="ft-line"></div><img src="/wow-assets/wow-chef-moment.png" alt="Chef tableside"><div class="ft-content"><div class="ft-num">II</div><div class="ft-tag" data-i18n="ft2_tag">Italian Artistry</div><div class="ft-title" data-i18n="ft2_title">Made with Soul</div><p class="ft-text" data-i18n="ft2_text">Italian heritage carried forward not as a museum piece, but as a living, breathing act of culinary love — interpreted by Michelin-starred hands.</p></div></div>
-        <div class="ft"><div class="ft-line"></div><img src="/wow-assets/wow-dessert.png" alt="Dessert"><div class="ft-content"><div class="ft-num">III</div><div class="ft-tag" data-i18n="ft3_tag">The Sweet Finale</div><div class="ft-title" data-i18n="ft3_title">End on a High</div><p class="ft-text" data-i18n="ft3_text">The last note of an evening composed entirely for you. You will find yourself planning your return before the plate is clear.</p></div></div>
+        <div class="ft"><div class="ft-line"></div><img loading="lazy" src="/wow-assets/wow-guests-cheers.jpg" alt="Guests celebrating"><div class="ft-content"><div class="ft-num">I</div><div class="ft-tag" data-i18n="ft1_tag">The WoW Moment</div><div class="ft-title" data-i18n="ft1_title">Theatre at the Table</div><p class="ft-text" data-i18n="ft1_text">A live moment, unique to your table, your evening, your company. The kind that makes someone lean in, catch their breath, and smile.</p></div></div>
+        <div class="ft"><div class="ft-line"></div><img loading="lazy" src="/wow-assets/wow-chef-moment.jpg" alt="Chef tableside"><div class="ft-content"><div class="ft-num">II</div><div class="ft-tag" data-i18n="ft2_tag">Italian Artistry</div><div class="ft-title" data-i18n="ft2_title">Made with Soul</div><p class="ft-text" data-i18n="ft2_text">Italian heritage carried forward not as a museum piece, but as a living, breathing act of culinary love — interpreted by Michelin-starred hands.</p></div></div>
+        <div class="ft"><div class="ft-line"></div><img loading="lazy" src="/wow-assets/wow-dessert.jpg" alt="Dessert"><div class="ft-content"><div class="ft-num">III</div><div class="ft-tag" data-i18n="ft3_tag">The Sweet Finale</div><div class="ft-title" data-i18n="ft3_title">End on a High</div><p class="ft-text" data-i18n="ft3_text">The last note of an evening composed entirely for you. You will find yourself planning your return before the plate is clear.</p></div></div>
       </div>
     </div>
   </section>
@@ -641,13 +641,13 @@
   <!-- GALLERY -->
   <section class="gallery" style="display:none;">
     <div class="gal-grid">
-      <div class="gi tall"><img src="/wow-assets/wow-interior.png" alt="Interior"><div class="gi-lbl"><span data-i18n="gal1">The Interior · Perugia</span></div></div>
-      <div class="gi"><img src="/wow-assets/wow-wine-pour.png" alt="Wine service"><div class="gi-lbl"><span data-i18n="gal6">The Wine Ritual</span></div></div>
-      <div class="gi"><img src="/wow-assets/wow-pasta-course.png" alt="Pasta course"><div class="gi-lbl"><span data-i18n="gal7">The Truffle Primo</span></div></div>
-      <div class="gi"><img src="/wow-assets/wow-food1.png" alt="Food"><div class="gi-lbl"><span data-i18n="gal2">The Art of the Plate</span></div></div>
-      <div class="gi"><img src="/wow-assets/wow-tablesetting.png" alt="Table"><div class="gi-lbl"><span data-i18n="gal3">Your Table Awaits</span></div></div>
-      <div class="gi"><img src="/wow-assets/wow-intimate-pod.png" alt="Intimate pod dining"><div class="gi-lbl"><span data-i18n="gal4">Your Private World</span></div></div>
-      <div class="gi"><img src="/wow-assets/wow-food2.png" alt="Course"><div class="gi-lbl"><span data-i18n="gal5">A Moment of Joy</span></div></div>
+      <div class="gi tall"><img loading="lazy" src="/wow-assets/wow-interior.jpg" alt="Interior"><div class="gi-lbl"><span data-i18n="gal1">The Interior · Perugia</span></div></div>
+      <div class="gi"><img loading="lazy" src="/wow-assets/wow-wine-pour.jpg" alt="Wine service"><div class="gi-lbl"><span data-i18n="gal6">The Wine Ritual</span></div></div>
+      <div class="gi"><img loading="lazy" src="/wow-assets/wow-pasta-course.jpg" alt="Pasta course"><div class="gi-lbl"><span data-i18n="gal7">The Truffle Primo</span></div></div>
+      <div class="gi"><img loading="lazy" src="/wow-assets/wow-food1.jpg" alt="Food"><div class="gi-lbl"><span data-i18n="gal2">The Art of the Plate</span></div></div>
+      <div class="gi"><img loading="lazy" src="/wow-assets/wow-tablesetting.jpg" alt="Table"><div class="gi-lbl"><span data-i18n="gal3">Your Table Awaits</span></div></div>
+      <div class="gi"><img loading="lazy" src="/wow-assets/wow-intimate-pod.jpg" alt="Intimate pod dining"><div class="gi-lbl"><span data-i18n="gal4">Your Private World</span></div></div>
+      <div class="gi"><img loading="lazy" src="/wow-assets/wow-food2.jpg" alt="Course"><div class="gi-lbl"><span data-i18n="gal5">A Moment of Joy</span></div></div>
     </div>
   </section>
 
@@ -657,7 +657,7 @@
       <div class="italy-layout">
         <div class="rv italy-img-sticky italy-col-img">
           <div class="italy-img">
-            <img src="/wow-assets/wow-italy.png" alt="Italy">
+            <img loading="lazy" src="/wow-assets/wow-italy.jpg" alt="Italy">
             <div class="italy-img-ovl"></div>
             <div class="iq-box">
               <p class="iq-text" data-i18n="italy_quote">"Carry the soul of Italy to every table, in every city, with the warmth it has always deserved."</p>
@@ -671,7 +671,7 @@
           <p class="sb rv d2" style="margin-top:1.5rem;max-width:500px" data-i18n="italy_body">Italy is not merely a source of ingredients — it is a philosophy of hospitality, a craftsmanship passed through generations, a savoir-faire that turns a meal into a memory. At WoW, we carry that soul forward: honouring Italian culinary culture, elegance, and creativity while embracing the finest of what each region and season offers.</p>
           <div class="rv d2 italy-100ita-block">
             <div style="display:flex;align-items:center;gap:1.2rem;margin-bottom:0.8rem;">
-              <img src="/wow-assets/100ita-logo.png" alt="100ITA — Made in Italy" style="height:64px;width:auto;flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));">
+              <img loading="lazy" src="/wow-assets/100ita-logo.png" alt="100ITA — Made in Italy" style="height:64px;width:auto;flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));">
               <div>
                 <div style="font-size:0.46rem;letter-spacing:0.42em;text-transform:uppercase;color:rgba(201,168,76,0.7);margin-bottom:0.3rem;font-family:'Montserrat',sans-serif;">100ITA</div>
                 <div style="font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(245,240,232,0.4);font-family:'Montserrat',sans-serif;">Made in Italy</div>
@@ -731,7 +731,7 @@
     <div class="c">
       <div class="fg">
         <div>
-          <img src="/wow-assets/wow-logo-v1.5.png" alt="WoW" style="height:56px;width:auto;display:block;margin-bottom:0.6rem;">
+          <img loading="lazy" src="/wow-assets/wow-logo-v1.5.png" alt="WoW" style="height:56px;width:auto;display:block;margin-bottom:0.6rem;">
           <span class="f-sub">Fast Fine Dining · Italy</span>
           <p class="f-tag" data-i18n="footer_tag">"Where Italian artistry meets the warmth of an extraordinary evening."</p>
         </div>
