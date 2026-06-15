@@ -1,22 +1,21 @@
 # MEMORY.md — Long-Term Rules & Lessons
 
-## 🚨 CRITICAL: Git Push Workflow (NON-NEGOTIABLE)
+## 🚨 CRITICAL: Git / PR Workflow (NON-NEGOTIABLE)
 
-**NEVER push without asking the user first — unless they explicitly told you where to push.**
+**ALWAYS create a PR. Never push directly to main.**
 
-After ALL work is done and tests pass, STOP and ask:
+Mandatory flow for every task:
 
-> "Ready to push. Should I:
-> A) Create branch `fix/<name>` and open a PR?
-> B) Push directly to main?"
+1. **Branch** — create `feat/<name>` or `fix/<name>`
+2. **Commit** — commit all changes to that branch
+3. **Push + PR** — open a GitHub PR with a clear description
+4. **Review comments** — add inline PR comments explaining key decisions / changes
+5. **Address reviews** — if the user (or CI) leaves review comments, fix them and push to the same branch
+6. **Deploy** — only after PR is approved / user says to merge
 
-Wait for user response. Do NOT commit or push until they answer.
+**No exceptions. Never push to main directly. Never skip the PR step.**
 
-**Only skip this step if:**
-- User already said "push to main" → push to main directly
-- User already named a branch → use that branch, create PR
-
-**This rule has been broken multiple times. Never again. No exceptions.**
+This rule was violated multiple times before. It is now the default for ALL tasks.
 
 ---
 
