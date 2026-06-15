@@ -37,7 +37,6 @@ import { AdminContentPage } from './pages/admin/AdminContentPage'
 import { FicoLandingPage } from './pages/fico/FicoLandingPage'
 import { FicoLoginPage } from './pages/fico/FicoLoginPage'
 import { FicoSignupPage } from './pages/fico/FicoSignupPage'
-import { WFMPage } from './pages/WFMPage'
 
 function HRProtectedRoute({ children }: { children: React.ReactNode }) {
   return getHRToken() ? <>{children}</> : <Navigate to="/hr" replace />
@@ -89,9 +88,6 @@ export default function App() {
       <Route path="/freelance/jobs" element={<FreelanceJobsPage />} />
       <Route path="/freelance/post-job" element={<FreelancePostJobPage />} />
       <Route path="/freelance/freelancers" element={<FreelanceFreelancersPage />} />
-
-      {/* ── WFM Planner ── */}
-      <Route path="/wfm" element={<WFMPage />} />
 
       <Route
         path="/chat"

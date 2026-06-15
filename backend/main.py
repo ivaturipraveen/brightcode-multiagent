@@ -29,8 +29,6 @@ from models import wow_reservation as _wow_reservation_model  # noqa: F401
 from routes.wow_reservations import router as wow_reservations_router
 from routes.content import router as content_router
 from routes.admin_auth import router as admin_auth_router
-from models import wfm as _wfm_model  # noqa: F401 — registers WFM models with Base
-from routes.wfm import router as wfm_router
 
 app = FastAPI(title="Brightcone")
 
@@ -61,7 +59,6 @@ app.include_router(freelance_router)
 app.include_router(wow_reservations_router)
 app.include_router(content_router)
 app.include_router(admin_auth_router)
-app.include_router(wfm_router)
 
 
 @app.on_event("startup")
@@ -73,11 +70,6 @@ def create_tables() -> None:
         seed_admin.run()
     except Exception as e:
         print(f"[seed] Warning: {e}")
-    try:
-        import seed_wfm
-        seed_wfm.run()
-    except Exception as e:
-        print(f"[seed_wfm] Warning: {e}")
 
 
 @app.get("/health")
