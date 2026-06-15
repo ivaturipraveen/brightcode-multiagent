@@ -140,15 +140,23 @@ export function WFMPage() {
   const save = async () => {
     if (!form.name.trim()) { alert('Name is required'); return }
     setSaving(true)
-    const url = editId ? `${API}/wfm/scenarios/${editId}` : `${API}/wfm/scenarios`
-    const method = editId ? 'PUT' : 'POST'
-    const r = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
-    if (r.ok) {
-      setShowForm(false)
-      await load()
-      showToast(editId ? 'Scenario updated.' : 'Scenario saved.')
+    try {
+      const url = editId ? `${API}/wfm/scenarios/${editId}` : `${API}/wfm/scenarios`
+      const method = editId ? 'PUT' : 'POST'
+      const r = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
+      if (r.ok) {
+        setShowForm(false)
+        await load()
+        showToast(editId ? 'Scenario updated.' : 'Scenario saved.')
+      } else {
+        const err = await r.json().catch(() => ({ detail: r.statusText }))
+        alert(`Save failed: ${JSON.stringify(err.detail ?? err)}`)
+      }
+    } catch (e: any) {
+      alert(`Save error: ${e.message}`)
+    } finally {
+      setSaving(false)
     }
-    setSaving(false)
   }
 
   const del = async (id: number, name: string) => {

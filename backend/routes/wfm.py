@@ -1,5 +1,6 @@
 """WFM What-If Scenario API routes."""
 import math
+from datetime import datetime
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
@@ -84,7 +85,7 @@ class ScenarioOut(BaseModel):
     utilization_pct: Optional[float]
     gap: Optional[int]
     est_service_level: Optional[float]
-    created_at: Optional[str]
+    created_at: Optional[datetime] = None
 
     class Config:
         from_attributes = True
