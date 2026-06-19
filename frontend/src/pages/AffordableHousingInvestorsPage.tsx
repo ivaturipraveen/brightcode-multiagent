@@ -15,6 +15,12 @@ type ActionItem = {
   detail: string
 }
 
+type EngineeringBlock = {
+  title: string
+  detail: string
+  metrics: string[]
+}
+
 const marketStats = [
   {
     label: 'Capital gap',
@@ -124,6 +130,69 @@ const solutions = [
   },
 ]
 
+const engineeringBlocks: EngineeringBlock[] = [
+  {
+    title: 'Bankruptcy-remote aggregation SPV',
+    detail: 'Pool stabilized assets into a bankruptcy-remote special purpose vehicle with ring-fenced cash waterfalls, centralized servicing, and asset-level reporting covenants. This converts sponsor-specific exposure into a diversified pool exposure and enables consistent leverage policy across properties.',
+    metrics: ['Target portfolio DSCR: 1.20x–1.35x', 'Minimum debt yield discipline: 7%–9%', 'Portfolio diversification by metro, subsidy type, and operator'],
+  },
+  {
+    title: 'Tranching and first-loss subordination',
+    detail: 'Use a multi-layer capital stack: senior institutional notes, mezzanine social-infrastructure capital, and public/philanthropic first-loss capital. Subordination absorbs initial covenant stress, compresses attachment risk for senior investors, and materially improves required rating outcomes.',
+    metrics: ['First-loss tranche: 5%–15%', 'Senior attachment point above modeled stress loss', 'Mezzanine priced to absorb volatility, not permanent impairment'],
+  },
+  {
+    title: 'Cash-flow smoothing and reserve engineering',
+    detail: 'Create debt service reserves, operating deficit reserves, capex reserves, and compliance cure reserves sized from stochastic vacancy, arrears, and maintenance assumptions. Affordable housing is often operationally resilient but administratively noisy; reserve design must absorb timing mismatch as well as true loss.',
+    metrics: ['DSRA: 6–12 months of interest or P&I', 'Capex reserve tied to replacement schedule', 'Liquidity triggers linked to collections and subsidy receivables'],
+  },
+  {
+    title: 'Credit enhancement and guarantee overlay',
+    detail: 'Wrap the portfolio with partial municipal guarantees, state housing credit enhancement, monoline-style payment support, or policy-backed backstop facilities. The goal is not to eliminate risk, but to convert tail risk into defined and financeable counterparty exposure.',
+    metrics: ['Guarantee covers tail defaults, not routine leakage', 'Liquidity backstop sized to receivables lag', 'Rating uplift driven by explicit support terms'],
+  },
+  {
+    title: 'Term-matched liability design',
+    detail: 'Align debt tenor with affordability covenants, tax-credit compliance periods, and expected cash generation profile. Long-duration institutions will only scale if refinancing risk is intentionally managed rather than left as an implicit assumption.',
+    metrics: ['WAL aligned to covenant life', 'Refi tests under base, downside, and rate-shock cases', 'Amortization sculpted to NOI ramp and reserve replenishment'],
+  },
+  {
+    title: 'Data standardization for securitizable issuance',
+    detail: 'Create asset tapes with rent roll normalization, voucher concentration reporting, tenant turnover analytics, work-order latency, reserve movements, and covenant status. Without tape-quality data, securitization economics and third-party ratings remain out of reach.',
+    metrics: ['Monthly tape governance', 'Uniform NOI, NCF, and subsidy receivable definitions', 'Look-through reporting for top exposures and trigger breaches'],
+  },
+]
+
+const structuringMoves = [
+  'Use preservation portfolios as collateral pools because stabilized assets can support tighter spreads than ground-up development.',
+  'Separate development risk from holdco income risk so institutions can buy the stabilized sleeve without funding full construction uncertainty.',
+  'Convert soft public subsidies into quantifiable support instruments—guarantees, reserve commitments, or subordinate notes—rather than opaque policy assumptions.',
+  'Model rent collections, voucher delays, and compliance penalties with scenario-based cash-flow waterfalls, not single-point underwriting.',
+]
+
+const technicalMetrics = [
+  {
+    label: 'Coverage covenant design',
+    value: 'DSCR / LLCR / debt yield',
+    note: 'Institutions want covenants that translate social-housing variability into familiar credit language.',
+  },
+  {
+    label: 'Risk transfer method',
+    value: 'First-loss + guarantees',
+    note: 'Public balance sheets should absorb catalytic risk, leaving investable risk for private senior capital.',
+  },
+  {
+    label: 'Execution vehicle',
+    value: 'SPV / fund / REIT sleeve',
+    note: 'Vehicle architecture matters as much as asset quality when scaling institutional allocation.',
+  },
+  {
+    label: 'Analytics standard',
+    value: 'Tape-ready reporting',
+    note: 'Securitizable data discipline is the bridge between mission housing and institutional distribution.',
+  },
+]
+
 const roadmap: ActionItem[] = [
   {
     phase: '0–12 months',
@@ -163,6 +232,7 @@ export function AffordableHousingInvestorsPage() {
           <div className="hidden items-center gap-6 text-sm text-slate-600 md:flex">
             <a href="#challenge-map" className="transition hover:text-slate-900">Challenges</a>
             <a href="#solutions" className="transition hover:text-slate-900">Solutions</a>
+            <a href="#financial-engineering" className="transition hover:text-slate-900">Financial engineering</a>
             <a href="#roadmap" className="transition hover:text-slate-900">Roadmap</a>
           </div>
           <Link
@@ -316,6 +386,84 @@ export function AffordableHousingInvestorsPage() {
                     </ul>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="financial-engineering" className="px-6 py-16 lg:px-8">
+          <div className="mx-auto max-w-7xl">
+            <div className="max-w-4xl">
+              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-slate-400">Financial engineering solution</p>
+              <h2 className="mt-4 text-4xl font-semibold tracking-tight text-slate-950">Technical structuring architecture for institutional affordability vehicles.</h2>
+              <p className="mt-5 text-base leading-8 text-slate-600">
+                To move from mission-aligned rhetoric to financeable risk, affordable housing must be engineered like a credit product. That means isolating risks by layer, converting policy support into explicit credit enhancement, and creating tape-quality cash-flow analytics that can survive rating agency, IC, and lender diligence.
+              </p>
+            </div>
+
+            <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              {technicalMetrics.map((metric) => (
+                <div key={metric.label} className="rounded-[1.75rem] border border-slate-200/80 bg-white p-6 shadow-[0_16px_40px_rgba(15,23,42,0.05)]">
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">{metric.label}</p>
+                  <div className="mt-3 text-2xl font-semibold tracking-tight text-slate-950">{metric.value}</div>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{metric.note}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-12 grid gap-6 lg:grid-cols-2">
+              {engineeringBlocks.map((block, index) => (
+                <article key={block.title} className="overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white shadow-[0_18px_50px_rgba(15,23,42,0.06)]">
+                  <div className="flex items-center justify-between border-b border-slate-100 px-7 py-5">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">Structure {index + 1}</p>
+                      <h3 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950">{block.title}</h3>
+                    </div>
+                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-950 text-sm font-semibold text-white">0{index + 1}</div>
+                  </div>
+                  <div className="p-7">
+                    <p className="text-sm leading-7 text-slate-600">{block.detail}</p>
+                    <div className="mt-6 space-y-3 rounded-[1.5rem] bg-slate-50 p-5">
+                      {block.metrics.map((metric) => (
+                        <div key={metric} className="flex gap-3 text-sm leading-6 text-slate-700">
+                          <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-gradient-to-r from-violet-600 to-cyan-500" />
+                          <span>{metric}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_0.95fr]">
+              <div className="rounded-[2rem] border border-slate-200/80 bg-slate-950 p-8 text-white shadow-[0_24px_70px_rgba(15,23,42,0.2)]">
+                <p className="text-sm font-semibold uppercase tracking-[0.26em] text-white/45">Structuring moves that matter</p>
+                <h3 className="mt-4 text-3xl font-semibold tracking-tight">What sophisticated capital actually wants to underwrite.</h3>
+                <div className="mt-7 space-y-4">
+                  {structuringMoves.map((move, index) => (
+                    <div key={move} className="flex gap-4 rounded-2xl border border-white/10 bg-white/5 p-4">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/10 text-sm font-semibold text-cyan-100">{index + 1}</div>
+                      <p className="text-sm leading-6 text-white/75">{move}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-[2rem] border border-slate-200/80 bg-gradient-to-br from-[#eef4ff] via-white to-[#fff6ef] p-8 shadow-[0_18px_50px_rgba(15,23,42,0.06)]">
+                <p className="text-sm font-semibold uppercase tracking-[0.26em] text-slate-400">Technical note</p>
+                <h3 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950">The rating-agency lens</h3>
+                <div className="mt-6 space-y-4 text-sm leading-7 text-slate-600">
+                  <p>
+                    If the objective is to unlock insurer, pension, sovereign, or long-only credit demand, the portfolio must be expressible in familiar fixed-income terms: covenant package, reserve regime, attachment and detachment points, stress loss assumptions, amortization profile, legal isolation, and servicer replacement rights.
+                  </p>
+                  <p>
+                    In practice, this means affordable housing should be structured less like a bespoke municipal program and more like a hybrid of infrastructure debt, private ABS, and core real-estate income. The most scalable vehicles will not merely own affordable units; they will transform heterogeneous subsidy-backed cash flows into a standardized institutional liability profile.
+                  </p>
+                  <p className="rounded-2xl bg-white/90 px-4 py-4 font-semibold text-slate-800 ring-1 ring-slate-200/70">
+                    Technical punch line: the sector becomes scalable when subsidy complexity is converted into quantifiable enhancement and residual risk is packaged into tranches institutions already know how to buy.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
