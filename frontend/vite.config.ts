@@ -9,4 +9,7 @@ export default defineConfig({
     open: true,
     allowedHosts: ['www.wowfinedining.com', 'wowfinedining.com', 'all'],
   },
+  test: {
+    environment: 'jsdom',
+  },
 })

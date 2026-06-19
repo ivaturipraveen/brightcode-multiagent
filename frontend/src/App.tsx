@@ -15,6 +15,7 @@ import { PricingPage } from './pages/PricingPage'
 import { RegisterPage } from './pages/RegisterPage'
 import { ReportPage } from './pages/ReportPage'
 import { ResetPasswordPage } from './pages/ResetPasswordPage'
+import { AffordableHousingInvestorsPage } from './pages/AffordableHousingInvestorsPage'
 import { TicketsPage } from './pages/TicketsPage'
 import { HRAttendancePage } from './pages/hr/HRAttendancePage'
 import { HRCompaniesPage } from './pages/hr/HRCompaniesPage'
@@ -37,7 +38,6 @@ import { AdminContentPage } from './pages/admin/AdminContentPage'
 import { FicoLandingPage } from './pages/fico/FicoLandingPage'
 import { FicoLoginPage } from './pages/fico/FicoLoginPage'
 import { FicoSignupPage } from './pages/fico/FicoSignupPage'
-import { WFMPage } from './pages/WFMPage'
 
 function HRProtectedRoute({ children }: { children: React.ReactNode }) {
   return getHRToken() ? <>{children}</> : <Navigate to="/hr" replace />
@@ -61,6 +61,7 @@ export default function App() {
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
       <Route path="/report" element={<ProtectedRoute><ReportPage /></ProtectedRoute>} />
+      <Route path="/insights/affordable-housing" element={<AffordableHousingInvestorsPage />} />
 
       {/* ── HR Portal ── */}
       <Route path="/hr" element={<HRLoginPage />} />
@@ -89,9 +90,6 @@ export default function App() {
       <Route path="/freelance/jobs" element={<FreelanceJobsPage />} />
       <Route path="/freelance/post-job" element={<FreelancePostJobPage />} />
       <Route path="/freelance/freelancers" element={<FreelanceFreelancersPage />} />
-
-      {/* ── WFM Planner ── */}
-      <Route path="/wfm" element={<WFMPage />} />
 
       <Route
         path="/chat"
