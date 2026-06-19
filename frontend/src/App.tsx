@@ -15,6 +15,7 @@ import { PricingPage } from './pages/PricingPage'
 import { RegisterPage } from './pages/RegisterPage'
 import { ReportPage } from './pages/ReportPage'
 import { ResetPasswordPage } from './pages/ResetPasswordPage'
+import { AffordableHousingInvestorsPage } from './pages/AffordableHousingInvestorsPage'
 import { TicketsPage } from './pages/TicketsPage'
 import { HRAttendancePage } from './pages/hr/HRAttendancePage'
 import { HRCompaniesPage } from './pages/hr/HRCompaniesPage'
@@ -60,6 +61,7 @@ export default function App() {
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
       <Route path="/report" element={<ProtectedRoute><ReportPage /></ProtectedRoute>} />
+      <Route path="/insights/affordable-housing" element={<AffordableHousingInvestorsPage />} />
 
       {/* ── HR Portal ── */}
       <Route path="/hr" element={<HRLoginPage />} />
