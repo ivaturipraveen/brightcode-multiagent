@@ -39,6 +39,7 @@ import { FicoLandingPage } from './pages/fico/FicoLandingPage'
 import { FicoLoginPage } from './pages/fico/FicoLoginPage'
 import { FicoSignupPage } from './pages/fico/FicoSignupPage'
 import { BlogsPage } from './pages/BlogsPage'
+import { TodoPage } from './pages/TodoPage'
 
 function HRProtectedRoute({ children }: { children: React.ReactNode }) {
   return getHRToken() ? <>{children}</> : <Navigate to="/hr" replace />
@@ -52,6 +53,7 @@ export default function App() {
       <Route path="/" element={<WowLandingPage />} />
       <Route path="/agent" element={<HomePage />} />
       <Route path="/blogs" element={<BlogsPage />} />
+      <Route path="/todo" element={<TodoPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/careers" element={<CareersPage />} />
       <Route path="/crm" element={<ProtectedRoute><CRMPage /></ProtectedRoute>} />
