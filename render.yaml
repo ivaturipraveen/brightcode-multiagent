@@ -8,10 +8,14 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
+      # Set in the Render dashboard, not here — the Postgres instance predates this
+      # blueprint and holds live data, so it must not be provisioned from config.
+      # Target: database "openclaw", user "tarta_user", instance
+      # dpg-d5tj5n7pm1nc739djf8g (Oregon). Use that instance's EXTERNAL hostname
+      # (dpg-...-a.oregon-postgres.render.com) — the bare internal hostname
+      # "dpg-...-a" does not resolve from the service and crashes startup.
       - key: DATABASE_URL
-        fromDatabase:
-          name: openclaw-postgres
-          property: connectionString
+        sync: false
 
   - type: static
     name: openclaw-multiagent-1
@@ -51,12 +55,6 @@ services:
       - key: VITE_API_BASE_URL
         value: https://openclaw-multiagent.onrender.com
 
-databases:
-  # Previously this dependency existed only in the Render dashboard, which is why
-  # a deleted instance broke every backend deploy with nothing in the repo to
-  # explain it. NOTE: Render deletes `free` Postgres ~30 days after creation —
-  # that is what caused the outage. Move to a paid plan to stop it recurring.
-  - name: openclaw-postgres
-    databaseName: openclaw
-    user: openclaw
-    plan: free
+# No `databases:` block on purpose. The Postgres instance already exists outside
+# this blueprint and holds live data (21 tables); declaring it here would make a
+# blueprint sync provision a second, empty database and repoint the API at it.
