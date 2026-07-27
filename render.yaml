@@ -8,6 +8,10 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
+      - key: DATABASE_URL
+        fromDatabase:
+          name: openclaw-postgres
+          property: connectionString
 
   - type: static
     name: openclaw-multiagent-1
@@ -46,3 +50,13 @@ services:
     envVars:
       - key: VITE_API_BASE_URL
         value: https://openclaw-multiagent.onrender.com
+
+databases:
+  # Previously this dependency existed only in the Render dashboard, which is why
+  # a deleted instance broke every backend deploy with nothing in the repo to
+  # explain it. NOTE: Render deletes `free` Postgres ~30 days after creation —
+  # that is what caused the outage. Move to a paid plan to stop it recurring.
+  - name: openclaw-postgres
+    databaseName: openclaw
+    user: openclaw
+    plan: free
