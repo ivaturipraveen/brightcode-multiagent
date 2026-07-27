@@ -63,7 +63,14 @@ app.include_router(admin_auth_router)
 
 @app.on_event("startup")
 def create_tables() -> None:
-    Base.metadata.create_all(bind=engine)
+    # A database outage must not stop the app from booting — an unguarded
+    # create_all() here takes down every route (including /health) and makes
+    # Render roll the deploy back. Log and continue; DB routes fail on their own.
+    try:
+        Base.metadata.create_all(bind=engine)
+    except Exception as e:
+        print(f"[startup] Warning: could not create tables: {e}")
+        return
     # Seed admin user and default content on every startup (idempotent)
     try:
         import seed_admin
