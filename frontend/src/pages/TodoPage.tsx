@@ -101,6 +101,12 @@ export function TodoPage() {
     setTodos((current) => current.filter((item) => !item.completed))
   }
 
+  function markAllCompleted() {
+    setTodos((current) => current.map((item) => (
+      item.completed ? item : { ...item, completed: true }
+    )))
+  }
+
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#fff6ef,_#fff,_#f6f7fb)] px-6 py-10 text-slate-900 dark:bg-[radial-gradient(circle_at_top,_#1d1320,_#0d0e14,_#090a0f)] dark:text-white lg:px-8">
       <div className="mx-auto max-w-5xl">
@@ -215,14 +221,24 @@ export function TodoPage() {
                   <dd className="text-lg font-semibold">{activeCount}</dd>
                 </div>
               </dl>
-              <button
-                type="button"
-                onClick={clearCompleted}
-                className="mt-6 w-full rounded-2xl border border-black/10 px-4 py-3 text-sm font-medium transition hover:border-[#cf6c4a] hover:text-[#cf6c4a] disabled:cursor-not-allowed disabled:opacity-50 dark:border-white/10"
-                disabled={completedCount === 0}
-              >
-                Clear completed
-              </button>
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                <button
+                  type="button"
+                  onClick={markAllCompleted}
+                  className="w-full rounded-2xl bg-slate-900 px-4 py-3 text-sm font-medium text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
+                  disabled={activeCount === 0}
+                >
+                  Mark all complete
+                </button>
+                <button
+                  type="button"
+                  onClick={clearCompleted}
+                  className="w-full rounded-2xl border border-black/10 px-4 py-3 text-sm font-medium transition hover:border-[#cf6c4a] hover:text-[#cf6c4a] disabled:cursor-not-allowed disabled:opacity-50 dark:border-white/10"
+                  disabled={completedCount === 0}
+                >
+                  Clear completed
+                </button>
+              </div>
             </div>
 
             <div className="rounded-[2rem] border border-black/5 bg-[#1f2937] p-7 text-white shadow-[0_16px_60px_rgba(15,23,42,0.15)] dark:border-white/10 dark:bg-[#161a23]">

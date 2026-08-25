@@ -22,7 +22,7 @@ beforeAll(() => {
 })
 
 describe('TodoPage', () => {
-  it('renders the route and lets users add, filter, and clear todo items', async () => {
+  it('renders the route and lets users add, bulk-complete, filter, and clear todo items', async () => {
     window.localStorage.clear()
 
     const user = userEvent.setup()
@@ -45,16 +45,26 @@ describe('TodoPage', () => {
     expect(screen.getByText(/write the deployment note/i)).toBeTruthy()
     expect(screen.getByText(/2 active/i)).toBeTruthy()
 
-    await user.click(screen.getByRole('button', { name: /mark ship one small win before lunch as active/i }))
-    expect(screen.getByText(/3 active/i)).toBeTruthy()
+    await user.click(screen.getByRole('button', { name: /mark all complete/i }))
+    expect(screen.getByText(/0 active/i)).toBeTruthy()
 
-    await user.click(screen.getByRole('button', { name: 'Completed' }))
+    await user.click(screen.getByRole('button', { name: 'Active' }))
     expect(screen.getByText(/nothing here yet. add a task or switch filters./i)).toBeTruthy()
 
     await user.click(screen.getByRole('button', { name: 'All' }))
-    await user.click(screen.getByRole('button', { name: /mark sketch today's top priorities as completed/i }))
+
+    await user.click(screen.getByRole('button', { name: /mark ship one small win before lunch as active/i }))
+    expect(screen.getByText(/1 active/i)).toBeTruthy()
+
+    await user.click(screen.getByRole('button', { name: 'Completed' }))
+    expect(screen.getByText(/write the deployment note/i)).toBeTruthy()
+    expect(screen.queryByText(/ship one small win before lunch/i)).toBeNull()
+
+    await user.click(screen.getByRole('button', { name: 'All' }))
+    await user.click(screen.getByRole('button', { name: /mark sketch today's top priorities as active/i }))
     await user.click(screen.getByRole('button', { name: /clear completed/i }))
 
-    expect(screen.queryByText(/sketch today's top priorities/i)).toBeNull()
+    expect(screen.getByText(/sketch today's top priorities/i)).toBeTruthy()
+    expect(screen.queryByText(/write the deployment note/i)).toBeNull()
   })
 })
