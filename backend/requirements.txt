@@ -5,7 +5,7 @@ psycopg2-binary
 python-jose
 bcrypt<4
 passlib
-anthropic
+openai
 python-dotenv
 httpx
 pytest

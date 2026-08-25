@@ -2,7 +2,7 @@ import json
 import os
 from typing import AsyncGenerator
 
-import anthropic
+from openai import OpenAI
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
@@ -53,9 +53,15 @@ async def generate_chat_events(
     conversation: Conversation,
     message: str,
 ) -> AsyncGenerator[str, None]:
-    api_key = os.getenv('ANTHROPIC_API_KEY')
+    # Raising past this point is invisible to the client: StreamingResponse has
+    # already sent the 200 headers, so an exception just ends the body after zero
+    # bytes and the UI renders an empty reply. Every failure below is reported as
+    # an SSE error event instead.
+    api_key = os.getenv('OPENAI_API_KEY')
     if not api_key:
-        raise HTTPException(status_code=500, detail='ANTHROPIC_API_KEY is not set')
+        yield _sse(json.dumps({'error': 'OPENAI_API_KEY is not set', 'conversation_id': conversation.id}))
+        yield _sse('[DONE]')
+        return
 
     db_message = ChatMessage(conversation_id=conversation.id, role='user', content=message)
     db.add(db_message)
@@ -68,19 +74,31 @@ async def generate_chat_events(
         .all()
     )
 
-    client = anthropic.Anthropic(api_key=api_key)
+    client = OpenAI(api_key=api_key)
 
     assistant_parts: list[str] = []
 
-    with client.messages.stream(
-        model=os.getenv('MODEL', 'claude-sonnet-4-6'),
-        max_tokens=4096,
-        messages=[{'role': item.role, 'content': item.content} for item in history],
-    ) as stream:
-        for text in stream.text_stream:
+    try:
+        stream = client.chat.completions.create(
+            model=os.getenv('OPENAI_MODEL', 'gpt-4o-mini'),
+            max_tokens=4096,
+            messages=[{'role': item.role, 'content': item.content} for item in history],
+            stream=True,
+        )
+        for chunk in stream:
+            if not chunk.choices:
+                continue
+            text = chunk.choices[0].delta.content
             if text:
                 assistant_parts.append(text)
                 yield _sse(json.dumps({'token': text, 'conversation_id': conversation.id}))
+    except Exception as exc:
+        yield _sse(json.dumps({
+            'error': f'{type(exc).__name__}: {exc}',
+            'conversation_id': conversation.id,
+        }))
+        yield _sse('[DONE]')
+        return
 
     assistant_text = ''.join(assistant_parts)
     db.add(ChatMessage(conversation_id=conversation.id, role='assistant', content=assistant_text))
