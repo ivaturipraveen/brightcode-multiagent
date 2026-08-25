@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SAFFRON — Indian Bar &amp; Kitchen · Sarasota, FL</title>
+  <meta name="description" content="SAFFRON — Voted #1 Indian Restaurant in Sarasota. Where ancient spice meets modern fire. Fine dining, craft cocktails, al fresco terrace &amp; private events."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --sa:#D4841A; --sa-b:#F0A030; --sa-p:#F8DFB0;
+      --cr:#7A1728; --cr-m:#A82038;
+      --bk:#080402; --dk:#100804; --dk-m:#1A0D06; --dk-c:#1E1008;
+      --cm:#F5EEDD; --cm-m:#C4A882; --mu:#8A6E50;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Montserrat',sans-serif;background:var(--bk);color:var(--cm);overflow-x:hidden;cursor:none;}
+    img{display:block;max-width:100%;}
+    a{text-decoration:none;color:inherit;}
+    button{border:none;background:none;cursor:none;font-family:inherit;}
+
+    /* CURSOR */
+    #cdot{position:fixed;width:7px;height:7px;background:var(--sa);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
+    #cring{position:fixed;width:38px;height:38px;border:1.5px solid rgba(212,132,26,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .15s;}
+
+    /* PRELOADER */
+    #pre{position:fixed;inset:0;background:var(--bk);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;transition:opacity 1s,visibility 1s;}
+    #pre.done{opacity:0;visibility:hidden;}
+    .pre-logo{font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;color:var(--sa);letter-spacing:.2em;}
+    .pre-sp{width:56px;height:56px;border:2px solid rgba(212,132,26,.12);border-top-color:var(--sa);border-radius:50%;animation:spin 1s linear infinite;}
+    .pre-lbl{font-size:.5rem;letter-spacing:.65em;text-transform:uppercase;color:var(--mu);}
+    @keyframes spin{to{transform:rotate(360deg);}}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:2rem 5rem;display:flex;align-items:center;justify-content:space-between;transition:all .5s;}
+    nav.sc{background:rgba(8,4,2,.97);backdrop-filter:blur(20px);padding:1.2rem 5rem;border-bottom:1px solid rgba(212,132,26,.08);}
+    .nlogo-name{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;letter-spacing:.14em;color:var(--sa);line-height:1;}
+    .nlogo-sub{font-size:.4rem;letter-spacing:.6em;text-transform:uppercase;color:var(--cm-m);margin-top:3px;}
+    .nlinks{display:flex;gap:2.5rem;list-style:none;}
+    .nlinks a{font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(245,238,221,.45);transition:color .3s;}
+    .nlinks a:hover{color:var(--sa);}
+    .nact{display:flex;gap:.8rem;align-items:center;}
+    .btn-ol{font-size:.54rem;letter-spacing:.26em;text-transform:uppercase;border:1px solid rgba(212,132,26,.35);color:var(--sa);padding:.7rem 1.5rem;transition:all .3s;display:inline-block;}
+    .btn-ol:hover{background:rgba(212,132,26,.1);border-color:var(--sa);}
+    .btn-fl{font-size:.54rem;letter-spacing:.26em;text-transform:uppercase;font-weight:600;background:var(--sa);color:var(--bk);padding:.7rem 1.5rem;transition:background .3s;display:inline-block;}
+    .btn-fl:hover{background:var(--sa-b);}
+
+    /* HERO */
+    .hero{position:relative;height:100vh;min-height:680px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+    .hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse at 25% 52%,rgba(122,23,40,.72) 0%,transparent 55%),radial-gradient(ellipse at 75% 35%,rgba(212,132,26,.16) 0%,transparent 50%),linear-gradient(155deg,#0C0300 0%,#220E05 50%,#0C0603 100%);}
+    .hero-pattern{position:absolute;inset:0;z-index:1;background-image:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4841A' fill-opacity='0.025'%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
+    .hero-vig{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse at center,transparent 20%,rgba(8,4,2,.75) 100%);}
+    .hero-btm{position:absolute;bottom:0;left:0;right:0;height:45%;background:linear-gradient(to top,var(--bk),transparent);z-index:2;}
+    .hc{position:relative;z-index:3;text-align:center;padding:2rem;max-width:960px;}
+
+    @keyframes fu{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+    .h-badge{display:inline-flex;align-items:center;gap:1.2rem;font-size:.52rem;letter-spacing:.65em;text-transform:uppercase;color:var(--sa);margin-bottom:2rem;opacity:0;animation:fu 1s .4s forwards;}
+    .h-badge::before,.h-badge::after{content:'';width:36px;height:1px;background:rgba(212,132,26,.45);}
+    .h-tagline{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;font-weight:300;color:rgba(245,238,221,.6);letter-spacing:.06em;margin-bottom:1rem;opacity:0;animation:fu .9s .7s forwards;}
+    .h-title{font-family:'Playfair Display',serif;font-size:clamp(4rem,9vw,8rem);font-weight:700;line-height:.9;color:var(--cm);letter-spacing:.02em;opacity:0;animation:fu 1.2s .5s forwards;}
+    .h-title-sub{font-family:'Playfair Display',serif;font-size:clamp(1.2rem,2.5vw,2rem);font-style:italic;font-weight:400;color:var(--sa);letter-spacing:.08em;margin-top:.4rem;opacity:0;animation:fu 1s .9s forwards;}
+    .h-div{width:70px;height:1.5px;background:linear-gradient(to right,transparent,var(--sa),transparent);margin:2rem auto;opacity:0;animation:fu .8s 1.1s forwards;}
+    .h-sub{font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,1.8vw,1.3rem);font-style:italic;font-weight:300;color:rgba(245,238,221,.7);line-height:1.8;max-width:580px;margin:0 auto 3rem;opacity:0;animation:fu 1s 1.2s forwards;}
+    .h-ctas{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;opacity:0;animation:fu 1s 1.5s forwards;}
+    .btn-hp{font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;font-weight:600;background:var(--sa);color:var(--bk);padding:1.1rem 2.8rem;transition:background .3s;display:inline-block;}
+    .btn-hp:hover{background:var(--sa-b);}
+    .btn-hs{font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;border:1px solid rgba(212,132,26,.4);color:var(--sa);padding:1.1rem 2.8rem;transition:all .3s;display:inline-block;}
+    .btn-hs:hover{background:rgba(212,132,26,.07);border-color:var(--sa);}
+    .h-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:0;animation:fu 1s 2.2s forwards;}
+    .h-scroll span{font-size:.44rem;letter-spacing:.6em;text-transform:uppercase;color:var(--mu);}
+    .scroll-ln{width:1px;height:50px;background:linear-gradient(to bottom,var(--sa),transparent);animation:spk 2.5s 2.5s infinite;}
+    @keyframes spk{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+    /* MARQUEE */
+    .mq{overflow:hidden;background:var(--sa);padding:.9rem 0;}
+    .mq-track{display:inline-flex;align-items:center;animation:mq 40s linear infinite;}
+    @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .mq-i{font-size:.54rem;letter-spacing:.45em;text-transform:uppercase;color:var(--bk);font-weight:600;padding:0 2.5rem;white-space:nowrap;}
+    .mq-s{color:rgba(0,0,0,.25);}
+
+    /* SHARED */
+    .sec{padding:7rem 0;}
+    .cnt{max-width:1260px;margin:0 auto;padding:0 5rem;}
+    .slbl{font-size:.5rem;letter-spacing:.65em;text-transform:uppercase;color:var(--sa);margin-bottom:1rem;}
+    .stitle{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,4vw,3.5rem);font-weight:600;line-height:1.15;color:var(--cm);margin-bottom:1.5rem;}
+    .stitle em{font-style:italic;color:var(--sa);}
+    .sdesc{font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-weight:300;font-style:italic;color:rgba(245,238,221,.6);line-height:1.9;max-width:540px;}
+    .dgold{width:50px;height:1.5px;background:var(--sa);margin:1.5rem 0;}
+    .rv{opacity:0;transform:translateY(36px);transition:opacity .8s,transform .8s;}
+    .rv.vis{opacity:1;transform:translateY(0);}
+    .d1{transition-delay:.1s}.d2{transition-delay:.25s}.d3{transition-delay:.4s}.d4{transition-delay:.55s}
+
+    /* STORY SECTION */
+    .story-sec{background:var(--dk);}
+    .story-g{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:center;}
+    .stats{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem;}
+    .stat{border-left:2px solid var(--sa);padding-left:1.2rem;}
+    .stat-n{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:700;color:var(--sa);line-height:1;}
+    .stat-l{font-size:.55rem;letter-spacing:.32em;text-transform:uppercase;color:var(--mu);margin-top:.35rem;}
+    .story-imgs{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:1rem;}
+    .si{overflow:hidden;}
+    .si img{width:100%;height:220px;object-fit:cover;transition:transform .8s;filter:brightness(.82) saturate(1.15);}
+    .si:first-child img{height:460px;}
+    .si:first-child{grid-row:1/3;}
+    .si:hover img{transform:scale(1.06);}
+
+    /* SPICE DIVIDER */
+    .spice-div{background:var(--cr);padding:4.5rem 0;overflow:hidden;}
+    .sd-inner{display:flex;align-items:center;gap:4rem;max-width:1260px;margin:0 auto;padding:0 5rem;}
+    .sd-t{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-style:italic;font-weight:400;color:var(--sa-p);line-height:1.3;max-width:480px;}
+    .sd-r{margin-left:auto;text-align:right;}
+    .sd-l{font-size:.52rem;letter-spacing:.55em;text-transform:uppercase;color:rgba(248,223,176,.5);margin-bottom:.5rem;}
+    .sd-v{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--sa-p);}
+
+    /* MOODS */
+    .moods-sec{background:var(--bk);}
+    .moods-g{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:3.5rem;}
+    .mood{position:relative;overflow:hidden;aspect-ratio:2/3;}
+    .mood-img-w{width:100%;height:100%;overflow:hidden;}
+    .mood-img-w img{width:100%;height:100%;object-fit:cover;transition:transform .8s,filter .8s;filter:brightness(.42) saturate(1.3);}
+    .mood:hover .mood-img-w img{transform:scale(1.09);filter:brightness(.28) saturate(1.5);}
+    .mood-ov{position:absolute;inset:0;z-index:2;background:linear-gradient(to top,rgba(8,4,2,.95) 0%,rgba(8,4,2,.15) 60%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:2rem;transition:all .5s;}
+    .mood:hover .mood-ov{background:linear-gradient(to top,rgba(122,23,40,.92) 0%,rgba(122,23,40,.35) 60%,transparent 100%);}
+    .mood-num{font-size:.46rem;letter-spacing:.6em;color:var(--sa);margin-bottom:.5rem;}
+    .mood-t{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:500;color:var(--cm);line-height:1.2;margin-bottom:.5rem;}
+    .mood-d{font-size:.63rem;color:rgba(245,238,221,.55);line-height:1.75;max-height:0;overflow:hidden;transition:max-height .5s,opacity .4s;opacity:0;}
+    .mood:hover .mood-d{max-height:100px;opacity:1;}
+    .mood-cta{display:inline-block;font-size:.52rem;letter-spacing:.35em;text-transform:uppercase;color:var(--sa);margin-top:.8rem;opacity:0;transition:opacity .4s .1s;}
+    .mood:hover .mood-cta{opacity:1;}
+
+    /* MENU */
+    .menu-sec{background:var(--dk-m);}
+    .mtabs{display:flex;border-bottom:1px solid rgba(212,132,26,.12);margin-bottom:3rem;gap:0;overflow-x:auto;}
+    .mtab{font-size:.56rem;letter-spacing:.32em;text-transform:uppercase;color:rgba(245,238,221,.38);padding:1rem 2rem;border-bottom:2px solid transparent;cursor:none;transition:all .3s;white-space:nowrap;}
+    .mtab.on{color:var(--sa);border-bottom-color:var(--sa);}
+    .mtab:hover:not(.on){color:rgba(245,238,221,.65);}
+    .mpanel{display:none;}
+    .mpanel.on{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+    .dc{background:var(--dk-c);overflow:hidden;transition:background .3s;}
+    .dc:hover{background:#221308;}
+    .dc-img-w{overflow:hidden;}
+    .dc-img-w img{width:100%;height:220px;object-fit:cover;transition:transform .6s;filter:brightness(.78) saturate(1.2);}
+    .dc:hover .dc-img-w img{transform:scale(1.06);}
+    .dinfo{padding:1.5rem 1.8rem 2rem;}
+    .dbadge{font-size:.44rem;letter-spacing:.45em;text-transform:uppercase;color:var(--sa);margin-bottom:.5rem;}
+    .dname{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--cm);margin-bottom:.5rem;line-height:1.3;}
+    .ddesc{font-size:.63rem;color:var(--mu);line-height:1.75;margin-bottom:1rem;}
+    .dprice{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--sa);}
+    .dveg{display:inline-flex;width:18px;height:18px;border:1.5px solid #22A86A;align-items:center;justify-content:center;vertical-align:middle;margin-left:.5rem;}
+    .dveg-d{width:9px;height:9px;background:#22A86A;border-radius:50%;}
+
+    /* CATERING */
+    .cat-sec{background:var(--dk);}
+    .cat-g{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:3.5rem;background:rgba(212,132,26,.03);}
+    .cat-card{background:var(--dk-c);padding:3rem 2.5rem;position:relative;overflow:hidden;transition:background .4s;}
+    .cat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--cr),var(--sa));transform:scaleX(0);transform-origin:left;transition:transform .5s;}
+    .cat-card:hover::before{transform:scaleX(1);}
+    .cat-card:hover{background:#221008;}
+    .cat-ico{font-size:2rem;margin-bottom:1.5rem;}
+    .cat-n{font-size:.46rem;letter-spacing:.5em;text-transform:uppercase;color:var(--sa);margin-bottom:.8rem;}
+    .cat-t{font-family:'Playfair Display',serif;font-size:1.55rem;color:var(--cm);margin-bottom:1rem;}
+    .cat-d{font-size:.66rem;color:var(--mu);line-height:1.85;margin-bottom:2rem;}
+    .btn-gh{font-size:.53rem;letter-spacing:.3em;text-transform:uppercase;color:var(--sa);border:1px solid rgba(212,132,26,.3);padding:.75rem 1.6rem;transition:all .3s;display:inline-block;}
+    .btn-gh:hover{background:rgba(212,132,26,.07);border-color:var(--sa);}
+
+    /* AWARDS */
+    .awards-sec{padding:6rem 0;background:linear-gradient(140deg,var(--cr) 0%,#420A10 100%);}
+    .awards-g{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:4rem;}
+    .aw{background:rgba(0,0,0,.2);padding:2.5rem 1.5rem;text-align:center;border:1px solid rgba(255,255,255,.04);}
+    .aw-ico{font-size:2.4rem;margin-bottom:1rem;}
+    .aw-t{font-family:'Playfair Display',serif;font-size:1rem;color:var(--sa-p);margin-bottom:.5rem;font-weight:500;}
+    .aw-b{font-size:.6rem;color:rgba(255,255,255,.38);line-height:1.75;}
+    .press-g{display:grid;grid-template-columns:repeat(3,1fr);gap:3rem;margin-top:4rem;}
+    .pq{border-left:2px solid rgba(212,132,26,.3);padding-left:1.8rem;}
+    .pq-t{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:rgba(255,255,255,.7);line-height:1.75;margin-bottom:1rem;}
+    .pq-s{font-size:.48rem;letter-spacing:.5em;text-transform:uppercase;color:var(--sa);}
+
+    /* VISIT */
+    .visit-sec{background:var(--dk-m);}
+    .visit-g{display:grid;grid-template-columns:1.2fr 1fr;gap:6rem;align-items:start;}
+    .mframe{width:100%;height:380px;border:0;border:1px solid rgba(212,132,26,.08);filter:grayscale(.5) sepia(.18);}
+    .hrs{margin-top:1.5rem;}
+    .hr{display:flex;justify-content:space-between;padding:.9rem 0;border-bottom:1px solid rgba(212,132,26,.06);font-size:.68rem;}
+    .hr span:first-child{color:var(--cm-m);}
+    .hr span:last-child{color:var(--cm);}
+    .hr.hi span{color:var(--sa);}
+    .cinfo{margin-top:2rem;display:flex;flex-direction:column;gap:1.2rem;}
+    .ci{display:flex;align-items:flex-start;gap:1rem;}
+    .ci-ico{font-size:1.1rem;line-height:1.4;}
+    .ci-lbl{font-size:.5rem;letter-spacing:.4em;text-transform:uppercase;color:var(--mu);margin-bottom:.25rem;}
+    .ci-val{font-size:.8rem;color:var(--cm);line-height:1.6;}
+    .ci-val a{color:var(--sa);transition:color .3s;}
+    .ci-val a:hover{color:var(--sa-b);}
+
+    /* CTA BANNER */
+    .cta-ban{background:var(--sa);padding:5rem 0;text-align:center;}
+    .cta-ban .slbl{color:var(--bk);opacity:.6;}
+    .cta-ban .stitle{color:var(--bk);font-size:clamp(1.8rem,3.5vw,3rem);}
+    .cta-ban .stitle em{color:var(--cr);}
+    .cta-ban-sub{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:rgba(8,4,2,.65);margin-bottom:2.5rem;}
+    .cta-ban .btn-hp{background:var(--bk);color:var(--sa);}
+    .cta-ban .btn-hp:hover{background:#1A0D06;}
+    .cta-ban .btn-hs{border-color:rgba(8,4,2,.3);color:var(--bk);}
+    .cta-ban .btn-hs:hover{background:rgba(8,4,2,.08);border-color:var(--bk);}
+
+    /* NEWSLETTER */
+    .nl-sec{background:var(--dk);padding:5rem 0;text-align:center;}
+    .nl-form{display:flex;max-width:480px;margin:2.5rem auto 0;}
+    .nl-inp{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(212,132,26,.18);border-right:none;color:var(--cm);padding:1rem 1.5rem;font-family:'Montserrat',sans-serif;font-size:.7rem;outline:none;transition:border-color .3s;}
+    .nl-inp::placeholder{color:var(--mu);}
+    .nl-inp:focus{border-color:rgba(212,132,26,.45);}
+    .nl-btn{font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;font-weight:600;background:var(--sa);color:var(--bk);padding:1rem 1.8rem;cursor:none;transition:background .3s;white-space:nowrap;}
+    .nl-btn:hover{background:var(--sa-b);}
+
+    /* FOOTER */
+    footer{background:var(--bk);border-top:1px solid rgba(212,132,26,.08);padding:4rem 0 2rem;}
+    .ft-g{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:4rem;margin-bottom:4rem;}
+    .ft-brand-n{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--sa);letter-spacing:.14em;margin-bottom:.5rem;}
+    .ft-brand-s{font-size:.42rem;letter-spacing:.55em;text-transform:uppercase;color:var(--mu);margin-bottom:1.2rem;}
+    .ft-about{font-size:.66rem;color:var(--mu);line-height:1.85;max-width:260px;}
+    .ft-social{display:flex;gap:.8rem;margin-top:1.5rem;}
+    .ft-soc{width:34px;height:34px;border:1px solid rgba(212,132,26,.2);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--mu);transition:all .3s;}
+    .ft-soc:hover{border-color:var(--sa);color:var(--sa);background:rgba(212,132,26,.06);}
+    .ft-hl{font-size:.46rem;letter-spacing:.55em;text-transform:uppercase;color:var(--sa);margin-bottom:1.2rem;}
+    .ft-links{display:flex;flex-direction:column;gap:.7rem;}
+    .ft-links a{font-size:.65rem;color:var(--mu);transition:color .3s;}
+    .ft-links a:hover{color:var(--sa);}
+    .ft-btm{border-top:1px solid rgba(212,132,26,.06);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;}
+    .ft-cr{font-size:.55rem;color:var(--mu);}
+    .ft-cr span{color:var(--sa);}
+
+    /* MODAL */
+    .modal-ov{position:fixed;inset:0;background:rgba(8,4,2,.92);backdrop-filter:blur(12px);z-index:3000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .4s,visibility .4s;}
+    .modal-ov.on{opacity:1;visibility:visible;}
+    .modal{background:var(--dk-c);border:1px solid rgba(212,132,26,.15);max-width:600px;width:90%;padding:3rem;position:relative;transform:translateY(30px);transition:transform .4s;}
+    .modal-ov.on .modal{transform:translateY(0);}
+    .modal-close{position:absolute;top:1.2rem;right:1.5rem;font-size:1.4rem;color:var(--mu);cursor:none;transition:color .3s;}
+    .modal-close:hover{color:var(--sa);}
+    .m-lbl{font-size:.5rem;letter-spacing:.6em;text-transform:uppercase;color:var(--sa);margin-bottom:.8rem;}
+    .m-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--cm);margin-bottom:.5rem;}
+    .m-sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--mu);margin-bottom:2rem;font-size:.95rem;}
+    .mform{display:flex;flex-direction:column;gap:1rem;}
+    .mrow{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+    .minp{background:rgba(255,255,255,.03);border:1px solid rgba(212,132,26,.15);color:var(--cm);padding:.9rem 1.2rem;font-family:'Montserrat',sans-serif;font-size:.7rem;outline:none;width:100%;transition:border-color .3s;}
+    .minp:focus{border-color:rgba(212,132,26,.45);}
+    .minp::placeholder{color:var(--mu);}
+    .btn-msub{font-size:.58rem;letter-spacing:.35em;text-transform:uppercase;font-weight:600;background:var(--sa);color:var(--bk);padding:1.1rem;width:100%;cursor:none;transition:background .3s;}
+    .btn-msub:hover{background:var(--sa-b);}
+
+    /* RESPONSIVE */
+    @media(max-width:1024px){
+      .cnt{padding:0 3rem;}
+      nav,.sc{padding-left:3rem!important;padding-right:3rem!important;}
+      .story-g,.visit-g{grid-template-columns:1fr;gap:3rem;}
+      .moods-g{grid-template-columns:repeat(2,1fr);}
+      .mpanel.on{grid-template-columns:repeat(2,1fr);}
+      .cat-g{grid-template-columns:1fr 1fr;}
+      .awards-g{grid-template-columns:repeat(2,1fr);}
+      .press-g{grid-template-columns:1fr 1fr;}
+      .ft-g{grid-template-columns:1fr 1fr;gap:2.5rem;}
+    }
+    @media(max-width:768px){
+      .cnt{padding:0 1.5rem;}
+      nav,.sc{padding-left:1.5rem!important;padding-right:1.5rem!important;}
+      .nlinks,.nact .btn-ol{display:none;}
+      .sec{padding:5rem 0;}
+      .moods-g{grid-template-columns:1fr 1fr;}
+      .mpanel.on{grid-template-columns:1fr;}
+      .cat-g{grid-template-columns:1fr;}
+      .awards-g{grid-template-columns:1fr 1fr;}
+      .press-g{grid-template-columns:1fr;}
+      .ft-g{grid-template-columns:1fr;gap:2rem;}
+      .story-imgs{grid-template-columns:1fr;}
+      .si:first-child{grid-row:auto;}
+      .si img,.si:first-child img{height:220px;}
+      .sd-inner{flex-direction:column;gap:2rem;text-align:center;}
+      .sd-r{margin-left:0;text-align:center;}
+      .mrow{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CURSOR -->
+  <div id="cdot"></div>
+  <div id="cring"></div>
+
+  <!-- PRELOADER -->
+  <div id="pre">
+    <div class="pre-logo">SAFFRON</div>
+    <div class="pre-sp"></div>
+    <div class="pre-lbl">Sarasota · Florida</div>
+  </div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <div>
+      <div class="nlogo-name">SAFFRON</div>
+      <div class="nlogo-sub">Indian Bar &amp; Kitchen</div>
+    </div>
+    <ul class="nlinks">
+      <li><a href="#story">Our Story</a></li>
+      <li><a href="#moods">Spaces</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#catering">Events</a></li>
+      <li><a href="#visit">Visit</a></li>
+    </ul>
+    <div class="nact">
+      <a class="btn-ol" href="#" onclick="openModal('order');return false;">Order Online</a>
+      <a class="btn-fl" href="#" onclick="openModal('reserve');return false;">Reserve a Table</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-pattern"></div>
+    <div class="hero-vig"></div>
+    <div class="hero-btm"></div>
+    <div class="hc">
+      <div class="h-badge">Voted #1 · Sarasota 2024</div>
+      <div class="h-tagline">Where ancient spice meets modern fire</div>
+      <div class="h-title">SAFFRON</div>
+      <div class="h-title-sub">Indian Bar &amp; Kitchen</div>
+      <div class="h-div"></div>
+      <div class="h-sub">A culinary journey through the subcontinent's richest flavors, reimagined with contemporary fire for the Sarasota table.</div>
+      <div class="h-ctas">
+        <a class="btn-hp" href="#" onclick="openModal('reserve');return false;">Reserve a Table</a>
+        <a class="btn-hs" href="#menu">Explore Menu</a>
+      </div>
+    </div>
+    <div class="h-scroll">
+      <span>Discover</span>
+      <div class="scroll-ln"></div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="mq">
+    <div class="mq-track">
+      <span class="mq-i">Tandoor Fired</span><span class="mq-s">✦</span>
+      <span class="mq-i">Open Daily · Lunch &amp; Dinner</span><span class="mq-s">✦</span>
+      <span class="mq-i">Craft Cocktails</span><span class="mq-s">✦</span>
+      <span class="mq-i">Private Events</span><span class="mq-s">✦</span>
+      <span class="mq-i">Al Fresco Terrace</span><span class="mq-s">✦</span>
+      <span class="mq-i">Lunch Buffet Daily</span><span class="mq-s">✦</span>
+      <span class="mq-i">Happy Hour 3–5 PM</span><span class="mq-s">✦</span>
+      <span class="mq-i">Sarasota's Finest Indian</span><span class="mq-s">✦</span>
+      <!-- duplicate for seamless loop -->
+      <span class="mq-i">Tandoor Fired</span><span class="mq-s">✦</span>
+      <span class="mq-i">Open Daily · Lunch &amp; Dinner</span><span class="mq-s">✦</span>
+      <span class="mq-i">Craft Cocktails</span><span class="mq-s">✦</span>
+      <span class="mq-i">Private Events</span><span class="mq-s">✦</span>
+      <span class="mq-i">Al Fresco Terrace</span><span class="mq-s">✦</span>
+      <span class="mq-i">Lunch Buffet Daily</span><span class="mq-s">✦</span>
+      <span class="mq-i">Happy Hour 3–5 PM</span><span class="mq-s">✦</span>
+      <span class="mq-i">Sarasota's Finest Indian</span><span class="mq-s">✦</span>
+    </div>
+  </div>
+
+  <!-- STORY -->
+  <section class="sec story-sec" id="story">
+    <div class="cnt">
+      <div class="story-g">
+        <div>
+          <div class="slbl rv">Our Origin</div>
+          <h2 class="stitle rv d1">A <em>Passion</em><br/>for the Subcontinent</h2>
+          <div class="dgold rv d2"></div>
+          <p class="sdesc rv d2">Born from a lifelong love affair with India's diverse culinary tapestry, SAFFRON brings the layered complexity of Mumbai street kitchens, the smoky grandeur of Lucknow's kebab houses, and the fragrant subtlety of Kerala's coast to the heart of Sarasota.</p>
+          <p class="sdesc rv d3" style="margin-top:1.2rem;">Each dish is a story — of trade routes, royal kitchens, grandmother's secrets, and the bold ambition of a team that refuses to compromise on authenticity or craft.</p>
+          <div class="stats rv d3">
+            <div class="stat">
+              <div class="stat-n">12+</div>
+              <div class="stat-l">Years of Craft</div>
+            </div>
+            <div class="stat">
+              <div class="stat-n">#1</div>
+              <div class="stat-l">Sarasota 2024</div>
+            </div>
+            <div class="stat">
+              <div class="stat-n">200+</div>
+              <div class="stat-l">Spice Profiles</div>
+            </div>
+            <div class="stat">
+              <div class="stat-n">3</div>
+              <div class="stat-l">Unique Spaces</div>
+            </div>
+          </div>
+        </div>
+        <div class="story-imgs rv d2">
+          <div class="si">
+            <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=80" alt="Indian fine dining interior"/>
+          </div>
+          <div class="si">
+            <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&q=80" alt="Spiced dish"/>
+          </div>
+          <div class="si">
+            <img src="https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&q=80" alt="Tandoor kitchen"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPICE DIVIDER -->
+  <div class="spice-div">
+    <div class="sd-inner">
+      <div class="sd-t rv">"Every spice has a soul. Our kitchen listens to all of them."</div>
+      <div class="sd-r rv d2">
+        <div class="sd-l">Lunch Buffet</div>
+        <div class="sd-v">11 AM – 3 PM Daily</div>
+      </div>
+      <div class="sd-r rv d3">
+        <div class="sd-l">Happy Hour</div>
+        <div class="sd-v">3 PM – 5 PM Daily</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOODS / SPACES -->
+  <section class="sec moods-sec" id="moods">
+    <div class="cnt">
+      <div class="rv"><div class="slbl">Our Spaces</div></div>
+      <h2 class="stitle rv d1">Dining <em>Experiences</em><br/>for Every Mood</h2>
+      <p class="sdesc rv d2">Three floors, four distinct atmospheres — whether you seek intimate candlelit dinners, al fresco evenings under Florida's sky, game-day energy, or a grand private feast.</p>
+    </div>
+    <div class="moods-g">
+      <div class="mood rv">
+        <div class="mood-img-w">
+          <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80" alt="Indoor dining"/>
+        </div>
+        <div class="mood-ov">
+          <div class="mood-num">01</div>
+          <div class="mood-t">Indoor Fine Dining</div>
+          <div class="mood-d">An intimate sanctuary of warm amber light, hand-carved screens, and the quiet luxury of a meal prepared with devotion. For evenings that deserve to linger.</div>
+          <div class="mood-cta">Reserve →</div>
+        </div>
+      </div>
+      <div class="mood rv d1">
+        <div class="mood-img-w">
+          <img src="https://images.unsplash.com/photo-1554679665-f5537f187268?w=600&q=80" alt="Al fresco terrace"/>
+        </div>
+        <div class="mood-ov">
+          <div class="mood-num">02</div>
+          <div class="mood-t">Al Fresco Terrace</div>
+          <div class="mood-d">The open-air terrace brings together Florida's golden evenings and the intoxicating aromas of our kitchen. Dining with the sky as your ceiling.</div>
+          <div class="mood-cta">Reserve →</div>
+        </div>
+      </div>
+      <div class="mood rv d2">
+        <div class="mood-img-w">
+          <img src="https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=600&q=80" alt="Sports bar"/>
+        </div>
+        <div class="mood-ov">
+          <div class="mood-num">03</div>
+          <div class="mood-t">Sports Bar</div>
+          <div class="mood-d">Catch the game with craft cocktails, bold small plates, and a crowd that knows good food. The most spirited floor in Sarasota.</div>
+          <div class="mood-cta">Join Us →</div>
+        </div>
+      </div>
+      <div class="mood rv d3">
+        <div class="mood-img-w">
+          <img src="https://images.unsplash.com/photo-1555244162-803834f70033?w=600&q=80" alt="Private dining"/>
+        </div>
+        <div class="mood-ov">
+          <div class="mood-num">04</div>
+          <div class="mood-t">Private Dining</div>
+          <div class="mood-d">An exclusive space for gatherings that demand perfection. Custom menus, dedicated service, and a setting crafted entirely around your vision.</div>
+          <div class="mood-cta">Enquire →</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section class="sec menu-sec" id="menu">
+    <div class="cnt">
+      <div class="rv"><div class="slbl">Signature Dishes</div></div>
+      <h2 class="stitle rv d1">A Menu Born from <em>Eight Regions</em></h2>
+      <p class="sdesc rv d2">From the coastal coconut curries of Goa to the clay-pot slow-cooks of Rajasthan — every plate is a passport.</p>
+
+      <div class="mtabs rv d2">
+        <button class="mtab on" onclick="switchTab(this,'classics')">Chef's Classics</button>
+        <button class="mtab" onclick="switchTab(this,'tandoor')">From the Tandoor</button>
+        <button class="mtab" onclick="switchTab(this,'cocktails')">Craft Cocktails</button>
+        <button class="mtab" onclick="switchTab(this,'dessert')">Desserts</button>
+      </div>
+
+      <!-- Classics -->
+      <div class="mpanel on" id="tab-classics">
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&q=80" alt="Butter Chicken"/></div>
+          <div class="dinfo">
+            <div class="dbadge">Chef's Signature</div>
+            <div class="dname">Murgh Makhani <span class="dveg"><span class="dveg-d"></span></span></div>
+            <div class="ddesc">Overnight-marinated free-range chicken, 12-hour tomato gravy, house-cultured cream, smoked fenugreek leaf.</div>
+            <div class="dprice">$28</div>
+          </div>
+        </div>
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1548943487-a2e4e43b4853?w=500&q=80" alt="Lamb Rogan Josh"/></div>
+          <div class="dinfo">
+            <div class="dbadge">Kashmir Valley</div>
+            <div class="dname">Rogan Josh</div>
+            <div class="ddesc">Slow-braised Colorado lamb shoulder, whole Kashmiri chilies, fennel seed, aromatic Mughal spice profile. 5-hour cook.</div>
+            <div class="dprice">$34</div>
+          </div>
+        </div>
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1505253758473-96b7015fcd40?w=500&q=80" alt="Paneer Tikka"/></div>
+          <div class="dinfo">
+            <div class="dbadge">Vegetarian · Rajasthan</div>
+            <div class="dname">Paneer Makhani <span class="dveg"><span class="dveg-d"></span></span></div>
+            <div class="ddesc">House-set paneer in a velvety tomato-cashew reduction. Finished with cardamom butter and micro cilantro.</div>
+            <div class="dprice">$24</div>
+          </div>
+        </div>
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1574653853027-5382a3d23a15?w=500&q=80" alt="Biryani"/></div>
+          <div class="dinfo">
+            <div class="dbadge">Hyderabad</div>
+            <div class="dname">Dum Biryani</div>
+            <div class="ddesc">Aged basmati sealed with saffron-kewra water, marinated lamb, crispy shallots, and rose petal. Dum-cooked 90 minutes.</div>
+            <div class="dprice">$32</div>
+          </div>
+        </div>
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=500&q=80" alt="Goan Fish Curry"/></div>
+          <div class="dinfo">
+            <div class="dbadge">Coastal Goa</div>
+            <div class="dname">Goan Fish Curry</div>
+            <div class="ddesc">Fresh Florida snapper in a tamarind-coconut curry. Mustard seeds, curry leaf, dried kokum, green mango.</div>
+            <div class="dprice">$30</div>
+          </div>
+        </div>
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=500&q=80" alt="Dal Makhani"/></div>
+          <div class="dinfo">
+            <div class="dbadge">Punjab · Vegetarian</div>
+            <div class="dname">Dal Makhani <span class="dveg"><span class="dveg-d"></span></span></div>
+            <div class="ddesc">Whole black lentils simmered 18 hours with tomato, butter, cream, and a finishing smoke of charcoal. A SAFFRON staple.</div>
+            <div class="dprice">$18</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tandoor -->
+      <div class="mpanel" id="tab-tandoor">
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500&q=80" alt="Seekh Kebab"/></div>
+          <div class="dinfo">
+            <div class="dbadge">Lucknow Kebab House</div>
+            <div class="dname">Seekh Kebab</div>
+            <div class="ddesc">Hand-minced grass-fed lamb, garam masala, raw papaya tenderizer, charred over live charcoal. Served with mint chutney.</div>
+            <div class="dprice">$26</div>
+          </div>
+        </div>
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?w=500&q=80" alt="Chicken Tikka"/></div>
+          <div class="dinfo">
+            <div class="dbadge">Clay Oven · Punjabi</div>
+            <div class="dname">Chicken Tikka</div>
+            <div class="ddesc">48-hour yogurt marinade with 11 spices, fired in a 900°F clay tandoor. Caramelized crust, juicy center, charcoal finish.</div>
+            <div class="dprice">$22</div>
+          </div>
+        </div>
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=500&q=80" alt="Naan"/></div>
+          <div class="dinfo">
+            <div class="dbadge">From the Oven</div>
+            <div class="dname">Peshwari Naan <span class="dveg"><span class="dveg-d"></span></span></div>
+            <div class="ddesc">Pillowy tandoor-baked bread stuffed with almond, coconut and sultana. Brushed with cardamom butter. Served warm.</div>
+            <div class="dprice">$8</div>
+          </div>
+        </div>
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=500&q=80" alt="Tandoori Salmon"/></div>
+          <div class="dinfo">
+            <div class="dbadge">Pacific Northwest</div>
+            <div class="dname">Tandoori Salmon</div>
+            <div class="ddesc">Wild King salmon marinated in ajwain-hung curd, fired at high heat. Served with pickled onion, dill raita, microgreens.</div>
+            <div class="dprice">$36</div>
+          </div>
+        </div>
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=500&q=80" alt="Paneer Tikka"/></div>
+          <div class="dinfo">
+            <div class="dbadge">Vegetarian · Star Dish</div>
+            <div class="dname">Paneer Tikka <span class="dveg"><span class="dveg-d"></span></span></div>
+            <div class="ddesc">House-set paneer marinated in capsicum-yogurt paste, grilled over open flame. With chili-mango salsa.</div>
+            <div class="dprice">$20</div>
+          </div>
+        </div>
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1548943487-a2e4e43b4853?w=500&q=80" alt="Lamb Chops"/></div>
+          <div class="dinfo">
+            <div class="dbadge">Chef's Pride</div>
+            <div class="dname">Tandoori Lamb Chops</div>
+            <div class="ddesc">Frenched New Zealand rack, 24-hour spiced marinade, tandoor finish. Rare to medium-rare. Chutney trio.</div>
+            <div class="dprice">$42</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cocktails -->
+      <div class="mpanel" id="tab-cocktails">
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=500&q=80" alt="Mango Lassi cocktail"/></div>
+          <div class="dinfo">
+            <div class="dbadge">House Signature</div>
+            <div class="dname">Saffron Sour</div>
+            <div class="ddesc">Ketel One vodka, house saffron syrup, fresh lemon, egg white foam, cardamom bitters. Edible gold leaf.</div>
+            <div class="dprice">$16</div>
+          </div>
+        </div>
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1560512823-829485b8bf24?w=500&q=80" alt="Spiced Old Fashioned"/></div>
+          <div class="dinfo">
+            <div class="dbadge">Spirit Forward</div>
+            <div class="dname">Cardamom Old Fashioned</div>
+            <div class="ddesc">Woodford Reserve bourbon, house cardamom-clove syrup, Angostura, charred orange peel. A smoky subcontinental twist.</div>
+            <div class="dprice">$18</div>
+          </div>
+        </div>
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&q=80" alt="Mango cocktail"/></div>
+          <div class="dinfo">
+            <div class="dbadge">Tropical</div>
+            <div class="dname">Alphonso Mule</div>
+            <div class="ddesc">Grey Goose vodka, Alphonso mango purée, fresh lime, house-brewed ginger beer, Tajin rim. Summer in a glass.</div>
+            <div class="dprice">$15</div>
+          </div>
+        </div>
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=500&q=80" alt="Rose cocktail"/></div>
+          <div class="dinfo">
+            <div class="dbadge">Floral</div>
+            <div class="dname">Rose &amp; Pepper Gin</div>
+            <div class="ddesc">Hendricks gin, rose water, tonic, pink peppercorn infusion, fresh cucumber ribbon, dried rose petal.</div>
+            <div class="dprice">$17</div>
+          </div>
+        </div>
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1560512823-829485b8bf24?w=500&q=80" alt="Mocktail"/></div>
+          <div class="dinfo">
+            <div class="dbadge">Zero Proof</div>
+            <div class="dname">Tamarind Shrub <span class="dveg"><span class="dveg-d"></span></span></div>
+            <div class="ddesc">House tamarind shrub, date molasses, fresh lime, hibiscus, soda. Complex, sour, beautiful. For the designated driver too.</div>
+            <div class="dprice">$10</div>
+          </div>
+        </div>
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&q=80" alt="Chai Martini"/></div>
+          <div class="dinfo">
+            <div class="dbadge">Late Night</div>
+            <div class="dname">Masala Chai Martini</div>
+            <div class="ddesc">Kahlúa, masala chai-infused vodka, condensed milk foam, cinnamon sugar rim. India's most beloved drink, after dark.</div>
+            <div class="dprice">$16</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desserts -->
+      <div class="mpanel" id="tab-dessert">
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=500&q=80" alt="Gulab Jamun"/></div>
+          <div class="dinfo">
+            <div class="dbadge">Classic · Vegetarian</div>
+            <div class="dname">Gulab Jamun <span class="dveg"><span class="dveg-d"></span></span></div>
+            <div class="ddesc">House-made khoya dumplings, rose-saffron syrup soak, pistachios, vanilla bean ice cream. Served warm.</div>
+            <div class="dprice">$12</div>
+          </div>
+        </div>
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=500&q=80" alt="Kulfi"/></div>
+          <div class="dinfo">
+            <div class="dbadge">Frozen · Chef's Choice</div>
+            <div class="dname">Saffron Kulfi</div>
+            <div class="ddesc">Slow-reduced whole milk kulfi with 24-karat saffron, pistachios, and rose petal sugar. A 48-hour freeze.</div>
+            <div class="dprice">$14</div>
+          </div>
+        </div>
+        <div class="dc">
+          <div class="dc-img-w"><img src="https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=500&q=80" alt="Rasmalai"/></div>
+          <div class="dinfo">
+            <div class="dbadge">Bengal · Vegetarian</div>
+            <div class="dname">Rasmalai <span class="dveg"><span class="dveg-d"></span></span></div>
+            <div class="ddesc">Soft chenna patties soaked in cardamom-saffron reduced milk. Garnished with pistachios, gold leaf, rose.</div>
+            <div class="dprice">$13</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATERING / EVENTS -->
+  <section class="sec cat-sec" id="catering">
+    <div class="cnt">
+      <div class="rv"><div class="slbl">Events &amp; Catering</div></div>
+      <h2 class="stitle rv d1">Crafting <em>Memories</em><br/>For Every Occasion</h2>
+      <p class="sdesc rv d2">From intimate dinners for 12 to grand receptions for 300 — our events team orchestrates flavor, service, and setting into an experience your guests will never forget.</p>
+
+      <div class="cat-g">
+        <div class="cat-card rv d1">
+          <div class="cat-ico">🕯️</div>
+          <div class="cat-n">Intimate Gatherings</div>
+          <div class="cat-t">Private Events</div>
+          <div class="cat-d">Our dedicated private dining room seats up to 40 guests. Custom menu curation, private bar service, and a dedicated event coordinator ensure every detail exceeds expectation. Perfect for birthdays, anniversaries, and family celebrations.</div>
+          <a class="btn-gh" href="#" onclick="openModal('events');return false;">Know More</a>
+        </div>
+        <div class="cat-card rv d2">
+          <div class="cat-ico">🏢</div>
+          <div class="cat-n">150–300 Guests</div>
+          <div class="cat-t">Corporate Events</div>
+          <div class="cat-d">Elevate your brand through exceptional hospitality. Full-venue buyouts, multi-course prix fixe menus, and audiovisual capabilities make SAFFRON the city's most distinctive corporate dining venue. From board dinners to product launches.</div>
+          <a class="btn-gh" href="#" onclick="openModal('events');return false;">Know More</a>
+        </div>
+        <div class="cat-card rv d3">
+          <div class="cat-ico">💍</div>
+          <div class="cat-n">Weddings &amp; Receptions</div>
+          <div class="cat-t">Celebrations</div>
+          <div class="cat-d">Your celebration, written in flavor. From Mehndi feasts to rehearsal dinners, from fusion receptions to traditional banquets — we build each menu from scratch around your story. Tasting sessions, floral coordination, and full-service catering available.</div>
+          <a class="btn-gh" href="#" onclick="openModal('events');return false;">Know More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AWARDS / PRESS -->
+  <section class="awards-sec">
+    <div class="cnt">
+      <div class="rv" style="text-align:center"><div class="slbl" style="text-align:center;display:block">Recognition</div></div>
+      <h2 class="stitle rv d1" style="text-align:center">The World <em>Noticed</em></h2>
+      <div class="awards-g">
+        <div class="aw rv d1">
+          <div class="aw-ico">🏆</div>
+          <div class="aw-t">#1 Indian Restaurant</div>
+          <div class="aw-b">Sarasota Magazine Dining Awards 2024 · Best Restaurant Overall</div>
+        </div>
+        <div class="aw rv d2">
+          <div class="aw-ico">⭐</div>
+          <div class="aw-t">Zagat Rated</div>
+          <div class="aw-b">Top 10 Fine Dining Experiences in Southwest Florida · 2023 &amp; 2024</div>
+        </div>
+        <div class="aw rv d3">
+          <div class="aw-ico">🍸</div>
+          <div class="aw-t">Best Bar Program</div>
+          <div class="aw-b">Florida Restaurant &amp; Lodging Association · Craft Cocktail Excellence 2024</div>
+        </div>
+        <div class="aw rv d4">
+          <div class="aw-ico">👨‍🍳</div>
+          <div class="aw-t">Chef of the Year</div>
+          <div class="aw-b">Sarasota-Manatee Originals · Chef Arjun Kapoor recognized for culinary innovation</div>
+        </div>
+      </div>
+
+      <div class="press-g">
+        <div class="pq rv d1">
+          <div class="pq-t">"SAFFRON has quietly become one of the most important restaurants in Florida. The biryani alone is worth the drive from Miami."</div>
+          <div class="pq-s">— Sarasota Herald-Tribune</div>
+        </div>
+        <div class="pq rv d2">
+          <div class="pq-t">"Technically flawless, aesthetically breathtaking, and emotionally resonant. This is Indian food at its most evolved."</div>
+          <div class="pq-s">— Florida Weekly</div>
+        </div>
+        <div class="pq rv d3">
+          <div class="pq-t">"A room of this beauty serving food of this caliber is rare anywhere in America, let alone in Sarasota. Go immediately."</div>
+          <div class="pq-s">— Eater Miami</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISIT -->
+  <section class="sec visit-sec" id="visit">
+    <div class="cnt">
+      <div class="visit-g">
+        <div>
+          <div class="rv"><div class="slbl">Find Us</div></div>
+          <h2 class="stitle rv d1">Come <em>Visit</em><br/>Sarasota's Finest</h2>
+          <div class="dgold rv d2"></div>
+          <iframe class="mframe rv d2"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3538.5!2d-82.5475!3d27.3451!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjfCsDIwJzQyLjciTiA4MsKwMzInNDYuMSJX!5e0!3m2!1sen!2sus!4v1"
+            allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+          <div class="hrs rv d3">
+            <div class="hr"><span>Monday – Thursday</span><span>11:00 AM – 10:00 PM</span></div>
+            <div class="hr"><span>Friday – Saturday</span><span>11:00 AM – 11:00 PM</span></div>
+            <div class="hr"><span>Sunday</span><span>11:00 AM – 9:00 PM</span></div>
+            <div class="hr hi"><span>Lunch Buffet Daily</span><span>11:00 AM – 3:00 PM</span></div>
+            <div class="hr hi"><span>Happy Hour Daily</span><span>3:00 PM – 5:00 PM</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="rv"><div class="slbl">Contact &amp; Reservations</div></div>
+          <h2 class="stitle rv d1" style="font-size:2rem">We'd Love to<br/><em>Hear from You</em></h2>
+          <div class="cinfo rv d2">
+            <div class="ci">
+              <div class="ci-ico">📍</div>
+              <div>
+                <div class="ci-lbl">Address</div>
+                <div class="ci-val">1825 Fruitville Rd<br/>Sarasota, FL 34236</div>
+              </div>
+            </div>
+            <div class="ci">
+              <div class="ci-ico">📞</div>
+              <div>
+                <div class="ci-lbl">Reservations &amp; Info</div>
+                <div class="ci-val"><a href="tel:9413339988">941.333.9988</a></div>
+              </div>
+            </div>
+            <div class="ci">
+              <div class="ci-ico">✉️</div>
+              <div>
+                <div class="ci-lbl">Email</div>
+                <div class="ci-val"><a href="mailto:hello@saffronsarasota.com">hello@saffronsarasota.com</a></div>
+              </div>
+            </div>
+            <div class="ci">
+              <div class="ci-ico">🎉</div>
+              <div>
+                <div class="ci-lbl">Private Events</div>
+                <div class="ci-val"><a href="mailto:events@saffronsarasota.com">events@saffronsarasota.com</a></div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:2.5rem" class="rv d3">
+            <a class="btn-hp" href="#" onclick="openModal('reserve');return false;" style="display:block;text-align:center;margin-bottom:1rem;">Reserve a Table</a>
+            <a class="btn-hs" href="#" onclick="openModal('order');return false;" style="display:block;text-align:center;">Order Online</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-ban">
+    <div class="cnt">
+      <div class="slbl rv">Savor Authentic Indian Flavors</div>
+      <h2 class="stitle rv d1">Dine In, <em>Order Out</em>,<br/>or Celebrate With Us</h2>
+      <p class="cta-ban-sub rv d2">Every table is set for a story. What will yours be?</p>
+      <div class="h-ctas rv d2">
+        <a class="btn-hp" href="#" onclick="openModal('reserve');return false;">Reserve a Table</a>
+        <a class="btn-hs" href="#" onclick="openModal('order');return false;">Order &amp; Deliver</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <div class="nl-sec">
+    <div class="cnt">
+      <div class="slbl rv" style="display:block;text-align:center">Stay in the Loop</div>
+      <h2 class="stitle rv d1" style="text-align:center;font-size:2rem">Specials, Events &amp; <em>Seasonal Menus</em></h2>
+      <div class="nl-form rv d2">
+        <input class="nl-inp" type="email" placeholder="Your email address"/>
+        <button class="nl-btn" onclick="handleNL(this)">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="cnt">
+      <div class="ft-g">
+        <div>
+          <div class="ft-brand-n">SAFFRON</div>
+          <div class="ft-brand-s">Indian Bar &amp; Kitchen · Sarasota, FL</div>
+          <p class="ft-about">Where the ancient spice routes of India meet the vibrant dining culture of Sarasota's Gulf Coast. A culinary destination since 2012.</p>
+          <div class="ft-social">
+            <a class="ft-soc" href="#" aria-label="Facebook">f</a>
+            <a class="ft-soc" href="#" aria-label="Instagram">✦</a>
+            <a class="ft-soc" href="#" aria-label="TripAdvisor">◉</a>
+            <a class="ft-soc" href="#" aria-label="Yelp">★</a>
+          </div>
+        </div>
+        <div>
+          <div class="ft-hl">Navigate</div>
+          <div class="ft-links">
+            <a href="#story">Our Story</a>
+            <a href="#moods">Spaces</a>
+            <a href="#menu">Menu</a>
+            <a href="#catering">Catering &amp; Events</a>
+            <a href="#visit">Visit Us</a>
+          </div>
+        </div>
+        <div>
+          <div class="ft-hl">Reservations</div>
+          <div class="ft-links">
+            <a href="#" onclick="openModal('reserve');return false;">Reserve a Table</a>
+            <a href="#" onclick="openModal('order');return false;">Order Online</a>
+            <a href="#" onclick="openModal('events');return false;">Private Events</a>
+            <a href="#">Gift Cards</a>
+            <a href="#">Rewards</a>
+          </div>
+        </div>
+        <div>
+          <div class="ft-hl">Info</div>
+          <div class="ft-links">
+            <a href="#">Press</a>
+            <a href="#">Careers</a>
+            <a href="#">Accessibility</a>
+            <a href="#">Privacy Policy</a>
+          </div>
+          <div style="margin-top:1.5rem;font-size:.62rem;color:var(--mu);line-height:1.8;">
+            1825 Fruitville Rd<br/>Sarasota, FL 34236<br/>
+            <a href="tel:9413339988" style="color:var(--sa)">941.333.9988</a>
+          </div>
+        </div>
+      </div>
+      <div class="ft-btm">
+        <div class="ft-cr">© 2025 <span>SAFFRON LLC</span>. All rights reserved.</div>
+        <div class="ft-cr">Designed with ❤️ for Sarasota's dining scene.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- RESERVE MODAL -->
+  <div class="modal-ov" id="modal-reserve">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('reserve')">✕</button>
+      <div class="m-lbl">Reservations</div>
+      <div class="m-title">Reserve a Table</div>
+      <div class="m-sub">We'll confirm your booking within 2 hours. For large parties call us directly.</div>
+      <div class="mform">
+        <div class="mrow">
+          <input class="minp" type="text" placeholder="First Name"/>
+          <input class="minp" type="text" placeholder="Last Name"/>
+        </div>
+        <div class="mrow">
+          <input class="minp" type="email" placeholder="Email Address"/>
+          <input class="minp" type="tel" placeholder="Phone Number"/>
+        </div>
+        <div class="mrow">
+          <input class="minp" type="date" placeholder="Preferred Date"/>
+          <select class="minp" style="appearance:none;">
+            <option value="">Number of Guests</option>
+            <option>1–2 guests</option>
+            <option>3–4 guests</option>
+            <option>5–6 guests</option>
+            <option>7–10 guests</option>
+            <option>10+ guests (call us)</option>
+          </select>
+        </div>
+        <div class="mrow">
+          <select class="minp" style="appearance:none;">
+            <option value="">Preferred Time</option>
+            <option>Lunch 12:00 PM</option>
+            <option>Lunch 1:00 PM</option>
+            <option>Dinner 5:30 PM</option>
+            <option>Dinner 6:30 PM</option>
+            <option>Dinner 7:30 PM</option>
+            <option>Dinner 8:30 PM</option>
+          </select>
+          <select class="minp" style="appearance:none;">
+            <option value="">Dining Space</option>
+            <option>Indoor Fine Dining</option>
+            <option>Al Fresco Terrace</option>
+            <option>Sports Bar</option>
+            <option>No Preference</option>
+          </select>
+        </div>
+        <textarea class="minp" rows="3" placeholder="Special requests, dietary needs, or occasion details..."></textarea>
+        <button class="btn-msub" onclick="handleSubmit(this,'reserve')">Confirm Reservation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ORDER MODAL -->
+  <div class="modal-ov" id="modal-order">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('order')">✕</button>
+      <div class="m-lbl">Online Ordering</div>
+      <div class="m-title">Order &amp; Deliver</div>
+      <div class="m-sub">Fresh, hot, and delivered to your door. Minimum order $35. 45–60 min delivery window.</div>
+      <div style="display:grid;gap:1rem;margin-top:1.5rem;">
+        <a href="#" class="btn-hp" style="display:block;text-align:center;padding:1.2rem;">Order Directly — saffronsarasota.com</a>
+        <a href="#" class="btn-hs" style="display:block;text-align:center;padding:1.2rem;">UberEats</a>
+        <a href="#" class="btn-hs" style="display:block;text-align:center;padding:1.2rem;">DoorDash</a>
+        <a href="#" class="btn-hs" style="display:block;text-align:center;padding:1.2rem;">Order Catering (ezCater)</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENTS MODAL -->
+  <div class="modal-ov" id="modal-events">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('events')">✕</button>
+      <div class="m-lbl">Private Events &amp; Catering</div>
+      <div class="m-title">Let's Plan Your Event</div>
+      <div class="m-sub">Our events coordinator will respond within 24 hours with a custom proposal.</div>
+      <div class="mform">
+        <div class="mrow">
+          <input class="minp" type="text" placeholder="Your Name"/>
+          <input class="minp" type="email" placeholder="Email Address"/>
+        </div>
+        <div class="mrow">
+          <select class="minp" style="appearance:none;">
+            <option value="">Event Type</option>
+            <option>Private Dinner</option>
+            <option>Corporate Event</option>
+            <option>Wedding / Reception</option>
+            <option>Birthday Celebration</option>
+            <option>Engagement Party</option>
+            <option>Other</option>
+          </select>
+          <input class="minp" type="number" placeholder="Guest Count"/>
+        </div>
+        <input class="minp" type="date" placeholder="Event Date"/>
+        <textarea class="minp" rows="4" placeholder="Tell us about your event — vision, budget, dietary requirements..."></textarea>
+        <button class="btn-msub" onclick="handleSubmit(this,'events')">Send Enquiry</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Cursor
+    const cdot = document.getElementById('cdot');
+    const cring = document.getElementById('cring');
+    document.addEventListener('mousemove', e => {
+      cdot.style.left = e.clientX + 'px';
+      cdot.style.top = e.clientY + 'px';
+      setTimeout(() => {
+        cring.style.left = e.clientX + 'px';
+        cring.style.top = e.clientY + 'px';
+      }, 80);
+    });
+    document.querySelectorAll('a,button,.mood,.dc,.cat-card').forEach(el => {
+      el.addEventListener('mouseenter', () => { cring.style.width='52px'; cring.style.height='52px'; cring.style.borderColor='rgba(212,132,26,.8)'; });
+      el.addEventListener('mouseleave', () => { cring.style.width='38px'; cring.style.height='38px'; cring.style.borderColor='rgba(212,132,26,.5)'; });
+    });
+
+    // Preloader
+    window.addEventListener('load', () => {
+      setTimeout(() => document.getElementById('pre').classList.add('done'), 800);
+    });
+
+    // Navbar scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('sc', window.scrollY > 60);
+    });
+
+    // Scroll reveal
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('vis'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+    // Menu tabs
+    function switchTab(btn, id) {
+      document.querySelectorAll('.mtab').forEach(t => t.classList.remove('on'));
+      document.querySelectorAll('.mpanel').forEach(p => p.classList.remove('on'));
+      btn.classList.add('on');
+      document.getElementById('tab-' + id).classList.add('on');
+    }
+
+    // Modals
+    function openModal(id) {
+      document.getElementById('modal-' + id).classList.add('on');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+      document.getElementById('modal-' + id).classList.remove('on');
+      document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-ov').forEach(ov => {
+      ov.addEventListener('click', e => { if(e.target === ov) { ov.classList.remove('on'); document.body.style.overflow=''; } });
+    });
+    document.addEventListener('keydown', e => {
+      if(e.key === 'Escape') {
+        document.querySelectorAll('.modal-ov.on').forEach(m => { m.classList.remove('on'); document.body.style.overflow=''; });
+      }
+    });
+
+    // Form submissions
+    function handleSubmit(btn, type) {
+      const orig = btn.textContent;
+      btn.textContent = 'Sending...';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = '✓ ' + (type === 'reserve' ? 'Reservation Requested!' : 'Enquiry Sent!');
+        btn.style.background = '#22A86A';
+        setTimeout(() => { closeModal(type); btn.textContent = orig; btn.disabled = false; btn.style.background = ''; }, 2000);
+      }, 1200);
+    }
+
+    // Newsletter
+    function handleNL(btn) {
+      const inp = btn.previousElementSibling;
+      if(!inp.value || !inp.value.includes('@')) { inp.style.borderColor='var(--cr)'; setTimeout(()=>inp.style.borderColor='',2000); return; }
+      btn.textContent = '✓ Subscribed!';
+      btn.style.background = '#22A86A';
+      inp.value = '';
+      setTimeout(() => { btn.textContent = 'Subscribe'; btn.style.background = ''; }, 3000);
+    }
+  </script>
+</body>
+</html>

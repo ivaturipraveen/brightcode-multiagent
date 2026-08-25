@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 170" width="360" height="170">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#F0D880"/>
+      <stop offset="35%"  stop-color="#D4A843"/>
+      <stop offset="75%"  stop-color="#B8892A"/>
+      <stop offset="100%" stop-color="#96711C"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#E8C96A"/>
+      <stop offset="50%"  stop-color="#C9A84C"/>
+      <stop offset="100%" stop-color="#A07828"/>
+    </linearGradient>
+  </defs>
+
+  <!--
+    Logo layout (viewBox 360×170):
+    W1: x=0..128   (~35.5%)
+    gap: 128..136  (~2.2%)
+    O:  x=136..224 (~24.4%, centered at 180)
+    gap: 224..232  (~2.2%)
+    W2: x=232..360 (~35.5%)
+
+    W height: 100pt (y=8..108)
+    O center: 180,58  radius outer=44, gap ring=30, inner dot=15
+    Tagline: y=148
+  -->
+
+  <!-- ═══ W LEFT ═══
+       5 strokes forming W shape
+       Outer-left, inner-left-down, inner-left-up, inner-right-up, inner-right-down, outer-right
+  -->
+  <!-- Using filled path for crisp W -->
+  <!-- W1: spans x=4 to x=128, height y=8 to y=104 -->
+  <path d="
+    M 4,8
+    L 22,8
+    L 50,78
+    L 66,40
+    L 76,40
+    L 104,78
+    L 126,8
+    L 108,8
+    L 74,95
+    L 64,68
+    L 54,95
+    Z"
+    fill="url(#g1)"/>
+  <!-- stroke outline for crispness -->
+
+  <!-- ═══ O CENTER ═══ centered at x=180, y=56 -->
+  <!-- Outer filled circle -->
+  <circle cx="180" cy="56" r="44" fill="url(#g1)"/>
+  <!-- Inner gap — will be filled with bg color by each HTML page via CSS trick, here use a neutral dark -->
+  <circle cx="180" cy="56" r="29" fill="#0B1A12"/>
+  <!-- Center dot -->
+  <circle cx="180" cy="56" r="14" fill="url(#g2)"/>
+
+  <!-- ═══ W RIGHT ═══ mirror of W1, spans x=232 to x=356 -->
+  <path d="
+    M 356,8
+    L 338,8
+    L 310,78
+    L 294,40
+    L 284,40
+    L 256,78
+    L 234,8
+    L 252,8
+    L 286,95
+    L 296,68
+    L 306,95
+    Z"
+    fill="url(#g1)"/>
+
+  <!-- ═══ DIVIDING LINE ═══ -->
+  <line x1="4" y1="118" x2="356" y2="118" stroke="url(#g1)" stroke-width="0.9" opacity="0.9"/>
+
+  <!-- ═══ TAGLINE ═══ -->
+  <text
+    x="180" y="148"
+    font-family="'Montserrat','Futura','Century Gothic','Arial',sans-serif"
+    font-size="13.5"
+    font-weight="300"
+    fill="url(#g1)"
+    text-anchor="middle"
+    letter-spacing="7"
+    opacity="0.95">FAST FINE DINING</text>
+</svg>

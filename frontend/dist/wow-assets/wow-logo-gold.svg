@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 175" width="380" height="175">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#EDD06E"/>
+      <stop offset="30%"  stop-color="#D4A843"/>
+      <stop offset="70%"  stop-color="#C09030"/>
+      <stop offset="100%" stop-color="#9E7418"/>
+    </linearGradient>
+    <!-- Mask: white=show, black=hide — creates the transparent ring gap -->
+    <mask id="ringMask">
+      <circle cx="190" cy="50" r="44" fill="white"/>
+      <circle cx="190" cy="50" r="28" fill="black"/>
+      <circle cx="190" cy="50" r="11" fill="white"/>
+    </mask>
+  </defs>
+
+  <!-- ══ W LEFT ══  flat tops, sharp bottom points, spans x=6..128 -->
+  <path d="M 6,0 L 24,0 L 56,82 L 70,42 L 82,42 L 114,82 L 128,0 L 110,0 L 76,100 L 64,68 L 52,100 Z"
+    fill="url(#gold)"/>
+
+  <!-- ══ O CENTER ══  concentric bullseye, transparent ring gap, centered at 190,50 -->
+  <circle cx="190" cy="50" r="44" fill="url(#gold)" mask="url(#ringMask)"/>
+
+  <!-- ══ W RIGHT ══  mirror of left, spans x=252..374 -->
+  <path d="M 374,0 L 356,0 L 324,82 L 310,42 L 298,42 L 266,82 L 252,0 L 270,0 L 304,100 L 316,68 L 328,100 Z"
+    fill="url(#gold)"/>
+
+  <!-- ══ DIVIDING LINE ══ -->
+  <line x1="6" y1="115" x2="374" y2="115" stroke="url(#gold)" stroke-width="1.2" opacity="0.88"/>
+
+  <!-- ══ TAGLINE ══ -->
+  <text x="190" y="149"
+    font-family="'Montserrat','Futura','Century Gothic','Arial',sans-serif"
+    font-size="14" font-weight="300"
+    fill="url(#gold)" text-anchor="middle"
+    letter-spacing="8" opacity="0.95">FAST FINE DINING</text>
+</svg>

@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GUSTO | Italy Competitor Analysis 2025</title>
+  <style>
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8D5A3;
+      --dark: #0D0D0D;
+      --darker: #080808;
+      --card: #141414;
+      --card2: #1A1A1A;
+      --accent: #9B1D20;
+      --text: #F0EDE8;
+      --muted: #888;
+      --green: #2ECC71;
+      --red: #E74C3C;
+      --yellow: #F39C12;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: var(--darker);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8,8,8,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 3rem;
+    }
+    .nav-brand {
+      font-size: 1.6rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      font-weight: normal;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-family: 'Arial', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-tag {
+      background: var(--gold);
+      color: var(--dark);
+      font-family: 'Arial', sans-serif;
+      font-size: 0.7rem;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      padding: 0.3rem 0.8rem;
+      text-transform: uppercase;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      background:
+        radial-gradient(ellipse at 20% 80%, rgba(155,29,32,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.1) 0%, transparent 50%),
+        var(--darker);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        0deg, transparent, transparent 60px,
+        rgba(201,168,76,0.02) 60px, rgba(201,168,76,0.02) 61px
+      );
+    }
+    .hero-eyebrow {
+      font-family: 'Arial', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: normal;
+      letter-spacing: 0.2em;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .hero-title span { color: var(--gold); }
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 3rem;
+      letter-spacing: 0.05em;
+    }
+    .hero-divider {
+      width: 80px;
+      height: 1px;
+      background: var(--gold);
+      margin: 2rem auto;
+    }
+    .hero-desc {
+      max-width: 700px;
+      font-size: 1.05rem;
+      color: #bbb;
+      margin-bottom: 3rem;
+      font-family: 'Arial', sans-serif;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 4rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .stat-block { text-align: center; }
+    .stat-num {
+      font-size: 2.5rem;
+      color: var(--gold);
+      font-weight: bold;
+      display: block;
+      font-family: 'Arial', sans-serif;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: 'Arial', sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 5rem 2rem; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .section-eyebrow {
+      font-family: 'Arial', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: normal;
+      margin-bottom: 1rem;
+    }
+    .section-desc {
+      color: var(--muted);
+      font-family: 'Arial', sans-serif;
+      max-width: 650px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── MARKET OVERVIEW ── */
+    .market-bg {
+      background: var(--card);
+      border-top: 1px solid rgba(201,168,76,0.15);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+    .market-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .market-card {
+      background: var(--card2);
+      border: 1px solid rgba(201,168,76,0.15);
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .market-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--gold);
+    }
+    .market-card-num {
+      font-size: 2.2rem;
+      color: var(--gold);
+      font-family: 'Arial', sans-serif;
+      font-weight: bold;
+    }
+    .market-card-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-family: 'Arial', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 0.5rem;
+    }
+    .market-card-note {
+      font-size: 0.75rem;
+      color: #666;
+      font-family: 'Arial', sans-serif;
+      margin-top: 0.8rem;
+      font-style: italic;
+    }
+
+    /* ── COMPETITOR CARDS ── */
+    .comp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2rem;
+    }
+    .comp-card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.07);
+      padding: 2rem;
+      transition: border-color 0.3s, transform 0.2s;
+      position: relative;
+    }
+    .comp-card:hover {
+      border-color: rgba(201,168,76,0.4);
+      transform: translateY(-4px);
+    }
+    .comp-tier {
+      position: absolute;
+      top: 1.2rem; right: 1.2rem;
+      font-size: 0.65rem;
+      font-family: 'Arial', sans-serif;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+    }
+    .tier-mass { background: rgba(100,100,100,0.3); color: #999; }
+    .tier-premium { background: rgba(201,168,76,0.15); color: var(--gold); }
+    .tier-luxury { background: rgba(155,29,32,0.3); color: #E87C7F; }
+    .tier-direct { background: rgba(46,204,113,0.2); color: var(--green); border: 1px solid rgba(46,204,113,0.3); }
+
+    .comp-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+    .comp-name {
+      font-size: 1.3rem;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+    .comp-type {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: 'Arial', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.2rem;
+    }
+    .comp-divider { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 1rem 0; }
+    .comp-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-family: 'Arial', sans-serif;
+      margin-bottom: 0.5rem;
+    }
+    .comp-row-label { color: var(--muted); }
+    .comp-row-val { color: var(--text); font-weight: bold; }
+    .comp-desc {
+      font-size: 0.85rem;
+      color: #999;
+      font-family: 'Arial', sans-serif;
+      margin-top: 1rem;
+      font-style: italic;
+    }
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 1rem;
+    }
+    .tag {
+      font-size: 0.7rem;
+      font-family: 'Arial', sans-serif;
+      padding: 0.2rem 0.5rem;
+      border-radius: 2px;
+    }
+    .tag-strength { background: rgba(46,204,113,0.12); color: #2ECC71; }
+    .tag-weakness { background: rgba(231,76,60,0.12); color: #E74C3C; }
+    .threat-bar {
+      margin-top: 1rem;
+    }
+    .threat-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      font-family: 'Arial', sans-serif;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+    .threat-track {
+      height: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .threat-fill {
+      height: 100%;
+      border-radius: 2px;
+    }
+
+    /* ── POSITIONING MAP ── */
+    .pos-bg { background: var(--card); border-top: 1px solid rgba(201,168,76,0.1); border-bottom: 1px solid rgba(201,168,76,0.1); }
+    .pos-map {
+      position: relative;
+      width: 100%;
+      max-width: 720px;
+      height: 480px;
+      margin: 2rem auto;
+      border-left: 2px solid rgba(201,168,76,0.3);
+      border-bottom: 2px solid rgba(201,168,76,0.3);
+      background: radial-gradient(ellipse at center, rgba(201,168,76,0.04) 0%, transparent 70%);
+    }
+    .pos-axis-x {
+      position: absolute;
+      bottom: -2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: 'Arial', sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      width: 100%;
+      text-align: center;
+    }
+    .pos-axis-y {
+      position: absolute;
+      left: -4.5rem;
+      top: 50%;
+      transform: translateY(-50%) rotate(-90deg);
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: 'Arial', sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .pos-label-low-x { position: absolute; bottom: -1.8rem; left: 0; font-size: 0.65rem; color: #555; font-family: 'Arial', sans-serif; }
+    .pos-label-high-x { position: absolute; bottom: -1.8rem; right: 0; font-size: 0.65rem; color: #555; font-family: 'Arial', sans-serif; }
+    .pos-label-low-y { position: absolute; left: -3.5rem; bottom: 0; font-size: 0.65rem; color: #555; font-family: 'Arial', sans-serif; writing-mode: vertical-rl; transform: rotate(180deg); }
+    .pos-label-high-y { position: absolute; left: -3.5rem; top: 0; font-size: 0.65rem; color: #555; font-family: 'Arial', sans-serif; writing-mode: vertical-rl; transform: rotate(180deg); }
+    .pos-dot {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      transform: translate(-50%, 50%);
+      cursor: default;
+    }
+    .pos-dot-label {
+      position: absolute;
+      font-size: 0.7rem;
+      font-family: 'Arial', sans-serif;
+      white-space: nowrap;
+      transform: translate(-50%, calc(50% + 14px));
+    }
+    .gusto-dot {
+      width: 20px;
+      height: 20px;
+      background: var(--gold);
+      box-shadow: 0 0 20px rgba(201,168,76,0.6);
+    }
+    .gusto-dot-label { color: var(--gold); font-weight: bold; font-size: 0.8rem; }
+    .pos-quadrant-label {
+      position: absolute;
+      font-size: 0.65rem;
+      font-family: 'Arial', sans-serif;
+      color: rgba(255,255,255,0.08);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── PRICING COMPARISON ── */
+    .pricing-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Arial', sans-serif;
+      margin-top: 2rem;
+    }
+    .pricing-table th {
+      background: var(--card2);
+      color: var(--gold);
+      padding: 1rem 1.5rem;
+      text-align: left;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(201,168,76,0.3);
+    }
+    .pricing-table td {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.9rem;
+      color: var(--text);
+      vertical-align: middle;
+    }
+    .pricing-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .pricing-table tr.gusto-row td { background: rgba(201,168,76,0.06); border-top: 1px solid rgba(201,168,76,0.3); border-bottom: 1px solid rgba(201,168,76,0.3); }
+    .price-bar-wrap { display: flex; align-items: center; gap: 1rem; }
+    .price-bar { height: 6px; border-radius: 3px; min-width: 4px; }
+    .courses-badge {
+      display: inline-block;
+      background: rgba(201,168,76,0.2);
+      color: var(--gold);
+      font-size: 0.7rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 10px;
+      border: 1px solid rgba(201,168,76,0.3);
+    }
+    .value-score {
+      font-weight: bold;
+      color: var(--green);
+    }
+
+    /* ── SWOT ── */
+    .swot-bg { background: var(--card); border-top: 1px solid rgba(201,168,76,0.1); border-bottom: 1px solid rgba(201,168,76,0.1); }
+    .swot-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .swot-card {
+      padding: 2rem;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    .swot-S { border-top: 3px solid var(--green); background: rgba(46,204,113,0.04); }
+    .swot-W { border-top: 3px solid var(--red); background: rgba(231,76,60,0.04); }
+    .swot-O { border-top: 3px solid var(--gold); background: rgba(201,168,76,0.04); }
+    .swot-T { border-top: 3px solid #9B59B6; background: rgba(155,89,182,0.04); }
+    .swot-label {
+      font-size: 0.7rem;
+      font-family: 'Arial', sans-serif;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .swot-S .swot-label { color: var(--green); }
+    .swot-W .swot-label { color: var(--red); }
+    .swot-O .swot-label { color: var(--gold); }
+    .swot-T .swot-label { color: #9B59B6; }
+    .swot-title {
+      font-size: 1.2rem;
+      margin-bottom: 1.2rem;
+      color: var(--text);
+    }
+    .swot-list {
+      list-style: none;
+      font-family: 'Arial', sans-serif;
+      font-size: 0.85rem;
+    }
+    .swot-list li {
+      padding: 0.4rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: #bbb;
+      display: flex;
+      gap: 0.6rem;
+    }
+    .swot-list li::before { flex-shrink: 0; margin-top: 0.1rem; }
+    .swot-S li::before { content: '✓'; color: var(--green); }
+    .swot-W li::before { content: '✗'; color: var(--red); }
+    .swot-O li::before { content: '→'; color: var(--gold); }
+    .swot-T li::before { content: '⚠'; color: #9B59B6; }
+
+    /* ── OPPORTUNITY ── */
+    .opp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .opp-card {
+      border: 1px solid rgba(201,168,76,0.15);
+      padding: 2rem;
+      position: relative;
+    }
+    .opp-number {
+      font-size: 4rem;
+      color: rgba(201,168,76,0.1);
+      font-family: 'Arial', sans-serif;
+      font-weight: bold;
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      line-height: 1;
+    }
+    .opp-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+    .opp-title {
+      font-size: 1.1rem;
+      margin-bottom: 0.8rem;
+      color: var(--gold);
+    }
+    .opp-text {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-family: 'Arial', sans-serif;
+    }
+
+    /* ── STRATEGY ── */
+    .strategy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .strategy-card {
+      background: var(--card);
+      padding: 2rem;
+      border-left: 3px solid var(--gold);
+    }
+    .strategy-title { font-size: 1rem; color: var(--gold); margin-bottom: 0.8rem; font-family: 'Arial', sans-serif; text-transform: uppercase; letter-spacing: 0.1em; }
+    .strategy-text { font-size: 0.85rem; color: #aaa; font-family: 'Arial', sans-serif; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(201,168,76,0.2);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    .footer-brand { font-size: 2rem; letter-spacing: 0.3em; color: var(--gold); margin-bottom: 0.5rem; }
+    .footer-tagline { font-style: italic; color: var(--muted); margin-bottom: 2rem; }
+    .footer-note { font-size: 0.75rem; color: #444; font-family: 'Arial', sans-serif; }
+
+    /* ── UTILS ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem; }
+      .nav-links { display: none; }
+      .swot-grid { grid-template-columns: 1fr; }
+      .pos-map { height: 320px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-brand">GUSTO</div>
+    <ul class="nav-links">
+      <li><a href="#market">Market</a></li>
+      <li><a href="#competitors">Competitors</a></li>
+      <li><a href="#positioning">Positioning</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#swot">SWOT</a></li>
+      <li><a href="#strategy">Strategy</a></li>
+    </ul>
+    <div class="nav-tag">Confidential · 2025</div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">Competitor Analysis · Italy · 2025</div>
+    <h1 class="hero-title"><span>GUSTO</span></h1>
+    <p class="hero-subtitle">La dolce vita — democratised</p>
+    <div class="hero-divider"></div>
+    <p class="hero-desc">
+      A first-of-its-kind premium fast dining concept: 9-course Michelin-calibre tasting menus, 
+      crafted by starred chefs, served in 30 minutes — at half the price of fine dining.
+      Italy's €17 billion fast food market meets haute cuisine.
+    </p>
+    <div class="hero-stats">
+      <div class="stat-block">
+        <span class="stat-num">€17B</span>
+        <span class="stat-label">Italy Fast Food Market (2024)</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-num">€117</span>
+        <span class="stat-label">GUSTO Price Per Cover</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-num">9</span>
+        <span class="stat-label">Courses, Michelin Recipes</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-num">4.17%</span>
+        <span class="stat-label">Market CAGR (2025–2033)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARKET OVERVIEW -->
+  <section id="market" class="market-bg">
+    <div class="container">
+      <div class="section-eyebrow">01 · Market Overview</div>
+      <h2 class="section-title">Italy's Foodservice Landscape</h2>
+      <p class="section-desc">
+        Italy's restaurant culture is unique — steeped in tradition, fiercely quality-conscious, 
+        and historically resistant to fast food. Yet the sector is growing faster than ever, 
+        driven by urban professionals, international tourism, and evolving dining habits.
+      </p>
+      <div class="market-grid">
+        <div class="market-card">
+          <div class="market-card-num">€117.85B</div>
+          <div class="market-card-label">Total Foodservice Market</div>
+          <div class="market-card-note">Italy 2026 projection — CAGR 9.15% to 2031</div>
+        </div>
+        <div class="market-card">
+          <div class="market-card-num">€17B</div>
+          <div class="market-card-label">Fast Food Segment</div>
+          <div class="market-card-note">28% of restaurant market — 2024</div>
+        </div>
+        <div class="market-card">
+          <div class="market-card-num">€31.8B</div>
+          <div class="market-card-label">Fast Food Projected 2033</div>
+          <div class="market-card-note">CAGR 4.17% — deepmarketinsights.com</div>
+        </div>
+        <div class="market-card">
+          <div class="market-card-num">407</div>
+          <div class="market-card-label">Michelin-Starred Restaurants</div>
+          <div class="market-card-note">Italy ranks #3 globally — Michelin Guide 2024</div>
+        </div>
+        <div class="market-card">
+          <div class="market-card-num">€235</div>
+          <div class="market-card-label">Avg Michelin Tasting Menu</div>
+          <div class="market-card-note">Per person, 5-course — Chef's Pencil 2024</div>
+        </div>
+        <div class="market-card">
+          <div class="market-card-num">68M+</div>
+          <div class="market-card-label">Annual Tourist Arrivals</div>
+          <div class="market-card-note">Italy — World's #5 most visited country</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPETITORS -->
+  <section id="competitors">
+    <div class="container">
+      <div class="section-eyebrow">02 · Competitive Landscape</div>
+      <h2 class="section-title">Who We're Up Against</h2>
+      <p class="section-desc">
+        GUSTO occupies a unique "white space" between fast food and fine dining. 
+        Competitors span three tiers: mass market chains, premium casual, and traditional fine dining.
+      </p>
+      <div class="comp-grid">
+
+        <!-- McDonald's -->
+        <div class="comp-card">
+          <span class="comp-tier tier-mass">Mass Market</span>
+          <div class="comp-logo" style="background:#DA291C22;">🍔</div>
+          <div class="comp-name">McDonald's Italy</div>
+          <div class="comp-type">Quick Service Restaurant</div>
+          <hr class="comp-divider">
+          <div class="comp-row"><span class="comp-row-label">Locations in Italy</span><span class="comp-row-val">~630</span></div>
+          <div class="comp-row"><span class="comp-row-label">Avg Spend / Visit</span><span class="comp-row-val">€8–12</span></div>
+          <div class="comp-row"><span class="comp-row-label">Target Customer</span><span class="comp-row-val">Families, Students</span></div>
+          <div class="comp-row"><span class="comp-row-label">Key Cities</span><span class="comp-row-val">Milan, Rome, Naples</span></div>
+          <div class="comp-desc">"McCafé" premiumisation push signals McDonald's is creeping upmarket — but brand perception remains firmly mass-market. Zero perceived threat on quality.</div>
+          <div class="tag-list">
+            <span class="tag tag-strength">Brand recognition</span>
+            <span class="tag tag-strength">Network density</span>
+            <span class="tag tag-weakness">Quality perception</span>
+            <span class="tag tag-weakness">No premium positioning</span>
+          </div>
+          <div class="threat-bar">
+            <div class="threat-label"><span>Threat to GUSTO</span><span>Low — 15%</span></div>
+            <div class="threat-track"><div class="threat-fill" style="width:15%;background:#E74C3C;"></div></div>
+          </div>
+        </div>
+
+        <!-- Old Wild West -->
+        <div class="comp-card">
+          <span class="comp-tier tier-mass">Mass Market</span>
+          <div class="comp-logo" style="background:#8B451322;">🤠</div>
+          <div class="comp-name">Old Wild West</div>
+          <div class="comp-type">CIGIERRE SpA · Casual Dining Chain</div>
+          <hr class="comp-divider">
+          <div class="comp-row"><span class="comp-row-label">Locations in Italy</span><span class="comp-row-val">~230</span></div>
+          <div class="comp-row"><span class="comp-row-label">Avg Spend / Visit</span><span class="comp-row-val">€18–28</span></div>
+          <div class="comp-row"><span class="comp-row-label">Target Customer</span><span class="comp-row-val">Families, Mall Shoppers</span></div>
+          <div class="comp-row"><span class="comp-row-label">Parent</span><span class="comp-row-val">CIGIERRE SpA</span></div>
+          <div class="comp-desc">Italy's largest domestic casual dining chain. Known for burgers and American-style food. Sits below GUSTO in quality but has strong suburban and mall penetration.</div>
+          <div class="tag-list">
+            <span class="tag tag-strength">Domestic scale</span>
+            <span class="tag tag-strength">Mall presence</span>
+            <span class="tag tag-weakness">No premium perception</span>
+            <span class="tag tag-weakness">No culinary heritage</span>
+          </div>
+          <div class="threat-bar">
+            <div class="threat-label"><span>Threat to GUSTO</span><span>Low — 20%</span></div>
+            <div class="threat-track"><div class="threat-fill" style="width:20%;background:#E74C3C;"></div></div>
+          </div>
+        </div>
+
+        <!-- Eataly -->
+        <div class="comp-card">
+          <span class="comp-tier tier-premium">Premium Casual</span>
+          <div class="comp-logo" style="background:#2ECC7122;">🏪</div>
+          <div class="comp-name">Eataly</div>
+          <div class="comp-type">Premium Food Market + Restaurant Hybrid</div>
+          <hr class="comp-divider">
+          <div class="comp-row"><span class="comp-row-label">Locations Italy</span><span class="comp-row-val">7 flagship stores</span></div>
+          <div class="comp-row"><span class="comp-row-label">Avg Restaurant Spend</span><span class="comp-row-val">€35–65</span></div>
+          <div class="comp-row"><span class="comp-row-label">Target Customer</span><span class="comp-row-val">Affluent foodies, Tourists</span></div>
+          <div class="comp-row"><span class="comp-row-label">Founded</span><span class="comp-row-val">Turin, 2007</span></div>
+          <div class="comp-desc">Closest brand-adjacent competitor — premium Italian ingredients, artisanal approach, tourist appeal. However Eataly is a retail-first concept, not a tasting menu experience. No Michelin chef partnership model.</div>
+          <div class="tag-list">
+            <span class="tag tag-strength">Strong brand equity</span>
+            <span class="tag tag-strength">Tourist draw</span>
+            <span class="tag tag-weakness">Retail not dining</span>
+            <span class="tag tag-weakness">No tasting format</span>
+          </div>
+          <div class="threat-bar">
+            <div class="threat-label"><span>Threat to GUSTO</span><span>Medium — 45%</span></div>
+            <div class="threat-track"><div class="threat-fill" style="width:45%;background:#F39C12;"></div></div>
+          </div>
+        </div>
+
+        <!-- Miscusi -->
+        <div class="comp-card">
+          <span class="comp-tier tier-premium">Premium Casual</span>
+          <div class="comp-logo" style="background:#3498DB22;">🍝</div>
+          <div class="comp-name">Miscusi</div>
+          <div class="comp-type">Premium Fast Pasta Chain</div>
+          <hr class="comp-divider">
+          <div class="comp-row"><span class="comp-row-label">Locations Italy</span><span class="comp-row-val">~40 (growing)</span></div>
+          <div class="comp-row"><span class="comp-row-label">Avg Spend / Visit</span><span class="comp-row-val">€15–22</span></div>
+          <div class="comp-row"><span class="comp-row-label">Target Customer</span><span class="comp-row-val">Urban millennials, Lunch crowd</span></div>
+          <div class="comp-row"><span class="comp-row-label">Founded</span><span class="comp-row-val">Milan, 2017</span></div>
+          <div class="comp-desc">Italy's fastest-growing premium fast casual brand. Sustainability-focused, fresh ingredients, transparent kitchen. Growing rapidly in Milan, Rome and Florence. Closest in format to GUSTO but positioned well below on price and prestige.</div>
+          <div class="tag-list">
+            <span class="tag tag-strength">Strong growth trajectory</span>
+            <span class="tag tag-strength">Millennial brand appeal</span>
+            <span class="tag tag-weakness">Single-dish focus (pasta)</span>
+            <span class="tag tag-weakness">No chef partnership</span>
+          </div>
+          <div class="threat-bar">
+            <div class="threat-label"><span>Threat to GUSTO</span><span>Medium — 40%</span></div>
+            <div class="threat-track"><div class="threat-fill" style="width:40%;background:#F39C12;"></div></div>
+          </div>
+        </div>
+
+        <!-- Osteria Francescana -->
+        <div class="comp-card">
+          <span class="comp-tier tier-luxury">Fine Dining</span>
+          <div class="comp-logo" style="background:#9B1D2022;">⭐</div>
+          <div class="comp-name">Osteria Francescana</div>
+          <div class="comp-type">Massimo Bottura · 3 Michelin Stars</div>
+          <hr class="comp-divider">
+          <div class="comp-row"><span class="comp-row-label">Price per Cover</span><span class="comp-row-val">€280–340</span></div>
+          <div class="comp-row"><span class="comp-row-label">Avg Wait / Booking</span><span class="comp-row-val">3–6 months</span></div>
+          <div class="comp-row"><span class="comp-row-label">Courses</span><span class="comp-row-val">10–12</span></div>
+          <div class="comp-row"><span class="comp-row-label">Location</span><span class="comp-row-val">Modena</span></div>
+          <div class="comp-desc">World's most famous Italian restaurant. Inspirational touchstone for GUSTO's concept — not a competitor in access terms. The very exclusivity of venues like Francescana is the gap GUSTO fills. Potential brand ambassador / collaboration target.</div>
+          <div class="tag-list">
+            <span class="tag tag-strength">World #1 pedigree</span>
+            <span class="tag tag-strength">Aspirational benchmark</span>
+            <span class="tag tag-weakness">Inaccessible price</span>
+            <span class="tag tag-weakness">6-month wait</span>
+          </div>
+          <div class="threat-bar">
+            <div class="threat-label"><span>Threat to GUSTO</span><span>Very Low — 10%</span></div>
+            <div class="threat-track"><div class="threat-fill" style="width:10%;background:#9B59B6;"></div></div>
+          </div>
+        </div>
+
+        <!-- Rossopomodoro -->
+        <div class="comp-card">
+          <span class="comp-tier tier-premium">Premium Casual</span>
+          <div class="comp-logo" style="background:#E74C3C22;">🍕</div>
+          <div class="comp-name">Rossopomodoro</div>
+          <div class="comp-type">Premium Neapolitan Pizza Chain</div>
+          <hr class="comp-divider">
+          <div class="comp-row"><span class="comp-row-label">Locations Italy</span><span class="comp-row-val">~80</span></div>
+          <div class="comp-row"><span class="comp-row-label">Avg Spend / Visit</span><span class="comp-row-val">€20–35</span></div>
+          <div class="comp-row"><span class="comp-row-label">Target Customer</span><span class="comp-row-val">Families, Tourists, Mid-market</span></div>
+          <div class="comp-row"><span class="comp-row-label">Founded</span><span class="comp-row-val">Naples, 1992</span></div>
+          <div class="comp-desc">Premium Neapolitan pizza with Slow Food endorsement. Strong Italian culinary authenticity credentials. However, single-category focus (pizza) and mid-market pricing keeps it below GUSTO's positioning.</div>
+          <div class="tag-list">
+            <span class="tag tag-strength">Authenticity credentials</span>
+            <span class="tag tag-strength">Slow Food certified</span>
+            <span class="tag tag-weakness">Pizza only</span>
+            <span class="tag tag-weakness">No chef partnerships</span>
+          </div>
+          <div class="threat-bar">
+            <div class="threat-label"><span>Threat to GUSTO</span><span>Low — 25%</span></div>
+            <div class="threat-track"><div class="threat-fill" style="width:25%;background:#F39C12;"></div></div>
+          </div>
+        </div>
+
+        <!-- Cremonini / Chef Express -->
+        <div class="comp-card">
+          <span class="comp-tier tier-premium">Premium Casual</span>
+          <div class="comp-logo" style="background:#2980B922;">🚄</div>
+          <div class="comp-name">Chef Express (Cremonini)</div>
+          <div class="comp-type">Travel Hub Fine Casual · Rail & Airport</div>
+          <hr class="comp-divider">
+          <div class="comp-row"><span class="comp-row-label">Locations</span><span class="comp-row-val">200+ (stations/airports)</span></div>
+          <div class="comp-row"><span class="comp-row-label">Avg Spend / Visit</span><span class="comp-row-val">€25–45</span></div>
+          <div class="comp-row"><span class="comp-row-label">Target Customer</span><span class="comp-row-val">Business travellers</span></div>
+          <div class="comp-row"><span class="comp-row-label">Parent</span><span class="comp-row-val">Cremonini SpA</span></div>
+          <div class="comp-desc">Dominant in Italian travel hubs — Trenitalia stations and major airports. Occupies the "premium transit dining" niche. Italian quality ingredients but not chef-designed tasting menus. High foot-traffic locations = potential GUSTO site overlap.</div>
+          <div class="tag-list">
+            <span class="tag tag-strength">Captive audience</span>
+            <span class="tag tag-strength">Premium positioning</span>
+            <span class="tag tag-weakness">No tasting format</span>
+            <span class="tag tag-weakness">Transit context limits dwell time</span>
+          </div>
+          <div class="threat-bar">
+            <div class="threat-label"><span>Threat to GUSTO</span><span>Medium — 35%</span></div>
+            <div class="threat-track"><div class="threat-fill" style="width:35%;background:#F39C12;"></div></div>
+          </div>
+        </div>
+
+        <!-- GUSTO (Us) -->
+        <div class="comp-card" style="border-color: rgba(201,168,76,0.4);">
+          <span class="comp-tier tier-direct">▶ GUSTO (Us)</span>
+          <div class="comp-logo" style="background: rgba(201,168,76,0.15); font-size:1.6rem;">✦</div>
+          <div class="comp-name" style="color:var(--gold);">GUSTO</div>
+          <div class="comp-type">Michelin-Calibre Fast Fine Dining</div>
+          <hr class="comp-divider">
+          <div class="comp-row"><span class="comp-row-label">Target Price / Cover</span><span class="comp-row-val" style="color:var(--gold);">€117</span></div>
+          <div class="comp-row"><span class="comp-row-label">Courses</span><span class="comp-row-val" style="color:var(--gold);">9 (Michelin-designed)</span></div>
+          <div class="comp-row"><span class="comp-row-label">Service Time</span><span class="comp-row-val">~30 minutes</span></div>
+          <div class="comp-row"><span class="comp-row-label">Target Launch Cities</span><span class="comp-row-val">Milan · Florence · Rome</span></div>
+          <div class="comp-desc" style="color:#bbb;">The only concept combining Michelin-star chef recipes, 9-course progression, 30-minute service windows, and a price point accessible to affluent professionals — not just the ultra-wealthy.</div>
+          <div class="tag-list">
+            <span class="tag tag-strength">Unique market position</span>
+            <span class="tag tag-strength">Michelin provenance</span>
+            <span class="tag tag-strength">Price disruption</span>
+            <span class="tag tag-strength">Premium + speed</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- POSITIONING MAP -->
+  <section id="positioning" class="pos-bg">
+    <div class="container">
+      <div class="section-eyebrow">03 · Market Positioning</div>
+      <h2 class="section-title">The Competitive Map</h2>
+      <p class="section-desc">
+        GUSTO occupies a deliberately unclaimed space: high culinary quality, moderate-to-fast service speed. 
+        No competitor sits in this quadrant.
+      </p>
+      <div style="padding-left: 5rem; padding-right: 1rem; padding-bottom: 3rem;">
+        <div class="pos-map">
+          <!-- Quadrant Labels -->
+          <div class="pos-quadrant-label" style="top:10%; left:5%;">Slow Fine Dining</div>
+          <div class="pos-quadrant-label" style="top:10%; right:5%;">Fast Fine Dining</div>
+          <div class="pos-quadrant-label" style="bottom:10%; left:5%;">Slow Casual</div>
+          <div class="pos-quadrant-label" style="bottom:10%; right:5%;">Fast Food</div>
+
+          <!-- Crosshairs -->
+          <div style="position:absolute;top:0;bottom:0;left:50%;width:1px;background:rgba(255,255,255,0.06);"></div>
+          <div style="position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(255,255,255,0.06);"></div>
+
+          <!-- Dots: x% from left = speed (fast=right), bottom% from bottom = quality (high=top) -->
+          <!-- McDonald's: fast + low quality -->
+          <div class="pos-dot" style="left:88%;bottom:8%;background:#DA291C;"></div>
+          <div class="pos-dot-label" style="left:88%;bottom:8%;color:#DA291C;">McDonald's</div>
+
+          <!-- Old Wild West: medium-fast + low-medium quality -->
+          <div class="pos-dot" style="left:74%;bottom:18%;background:#8B4513;"></div>
+          <div class="pos-dot-label" style="left:74%;bottom:18%;color:#8B4513;">Old Wild West</div>
+
+          <!-- Miscusi: medium-fast + medium quality -->
+          <div class="pos-dot" style="left:70%;bottom:38%;background:#3498DB;"></div>
+          <div class="pos-dot-label" style="left:70%;bottom:38%;color:#3498DB;">Miscusi</div>
+
+          <!-- Rossopomodoro: medium + medium quality -->
+          <div class="pos-dot" style="left:55%;bottom:42%;background:#E74C3C;"></div>
+          <div class="pos-dot-label" style="left:55%;bottom:42%;color:#E74C3C;">Rossopomodoro</div>
+
+          <!-- Eataly: slow-medium + medium-high quality -->
+          <div class="pos-dot" style="left:35%;bottom:62%;background:#2ECC71;"></div>
+          <div class="pos-dot-label" style="left:35%;bottom:62%;color:#2ECC71;">Eataly</div>
+
+          <!-- Chef Express: fast + medium quality -->
+          <div class="pos-dot" style="left:78%;bottom:50%;background:#2980B9;"></div>
+          <div class="pos-dot-label" style="left:78%;bottom:50%;color:#2980B9;">Chef Express</div>
+
+          <!-- Osteria Francescana: very slow + very high quality -->
+          <div class="pos-dot" style="left:12%;bottom:88%;background:#9B1D20;"></div>
+          <div class="pos-dot-label" style="left:12%;bottom:88%;color:#9B1D20;">Francescana</div>
+
+          <!-- GUSTO: fast + very high quality ← THE WHITE SPACE -->
+          <div class="pos-dot gusto-dot" style="left:72%;bottom:82%;"></div>
+          <div class="pos-dot-label gusto-dot-label" style="left:72%;bottom:82%;">✦ GUSTO</div>
+
+          <!-- Axis Labels -->
+          <div class="pos-label-low-x">Slow Service</div>
+          <div class="pos-label-high-x">Fast Service</div>
+          <div class="pos-label-low-y">Low Quality</div>
+          <div class="pos-label-high-y">High Quality</div>
+          <div class="pos-axis-x">Service Speed →</div>
+          <div class="pos-axis-y">← Culinary Quality →</div>
+        </div>
+      </div>
+      <p style="text-align:center; font-size:0.8rem; color:var(--muted); font-family:'Arial',sans-serif; font-style:italic;">
+        ✦ GUSTO occupies the upper-right quadrant — high culinary quality × fast service — a space with no existing competitor.
+      </p>
+    </div>
+  </section>
+
+  <!-- PRICING COMPARISON -->
+  <section id="pricing">
+    <div class="container">
+      <div class="section-eyebrow">04 · Pricing Analysis</div>
+      <h2 class="section-title">Price per Cover Comparison</h2>
+      <p class="section-desc">
+        GUSTO delivers 9 Michelin-calibre courses at €117 — 50% below a traditional fine dining menu,
+        yet 3–7× above premium casual. An entirely new price architecture for Italian dining.
+      </p>
+      <table class="pricing-table">
+        <thead>
+          <tr>
+            <th>Brand</th>
+            <th>Price / Person</th>
+            <th>Courses</th>
+            <th>Price Scale</th>
+            <th>Value Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>McDonald's Italy</td>
+            <td>€8–12</td>
+            <td>1 (combo)</td>
+            <td>
+              <div class="price-bar-wrap">
+                <div class="price-bar" style="width:22px;background:#DA291C;"></div>
+                <span style="font-size:0.8rem;color:#888;">€10 avg</span>
+              </div>
+            </td>
+            <td style="color:#888;">Functional</td>
+          </tr>
+          <tr>
+            <td>Old Wild West</td>
+            <td>€18–28</td>
+            <td>1–2</td>
+            <td>
+              <div class="price-bar-wrap">
+                <div class="price-bar" style="width:44px;background:#8B4513;"></div>
+                <span style="font-size:0.8rem;color:#888;">€23 avg</span>
+              </div>
+            </td>
+            <td style="color:#888;">Casual value</td>
+          </tr>
+          <tr>
+            <td>Miscusi</td>
+            <td>€15–22</td>
+            <td>1–2</td>
+            <td>
+              <div class="price-bar-wrap">
+                <div class="price-bar" style="width:38px;background:#3498DB;"></div>
+                <span style="font-size:0.8rem;color:#888;">€18 avg</span>
+              </div>
+            </td>
+            <td style="color:#888;">Premium casual</td>
+          </tr>
+          <tr>
+            <td>Rossopomodoro</td>
+            <td>€20–35</td>
+            <td>1–3</td>
+            <td>
+              <div class="price-bar-wrap">
+                <div class="price-bar" style="width:50px;background:#E74C3C;"></div>
+                <span style="font-size:0.8rem;color:#888;">€27 avg</span>
+              </div>
+            </td>
+            <td style="color:#888;">Mid-premium</td>
+          </tr>
+          <tr>
+            <td>Chef Express</td>
+            <td>€25–45</td>
+            <td>2–3</td>
+            <td>
+              <div class="price-bar-wrap">
+                <div class="price-bar" style="width:62px;background:#2980B9;"></div>
+                <span style="font-size:0.8rem;color:#888;">€35 avg</span>
+              </div>
+            </td>
+            <td style="color:#888;">Transit premium</td>
+          </tr>
+          <tr>
+            <td>Eataly Restaurants</td>
+            <td>€35–65</td>
+            <td>3–4</td>
+            <td>
+              <div class="price-bar-wrap">
+                <div class="price-bar" style="width:90px;background:#2ECC71;"></div>
+                <span style="font-size:0.8rem;color:#888;">€50 avg</span>
+              </div>
+            </td>
+            <td style="color:#888;">Artisan premium</td>
+          </tr>
+          <tr class="gusto-row">
+            <td><strong style="color:var(--gold);">✦ GUSTO</strong></td>
+            <td><strong style="color:var(--gold);">€117</strong></td>
+            <td><span class="courses-badge">9 Michelin-designed</span></td>
+            <td>
+              <div class="price-bar-wrap">
+                <div class="price-bar" style="width:160px;background:var(--gold);"></div>
+                <span style="font-size:0.8rem;color:var(--gold);">€117 flat</span>
+              </div>
+            </td>
+            <td class="value-score">Best-in-class ✓</td>
+          </tr>
+          <tr>
+            <td>Michelin 1★ (traditional)</td>
+            <td>€120–180</td>
+            <td>5–7</td>
+            <td>
+              <div class="price-bar-wrap">
+                <div class="price-bar" style="width:200px;background:#E87C7F;"></div>
+                <span style="font-size:0.8rem;color:#888;">€150 avg</span>
+              </div>
+            </td>
+            <td style="color:#888;">Slow fine dining</td>
+          </tr>
+          <tr>
+            <td>Michelin 2–3★ (traditional)</td>
+            <td>€220–340</td>
+            <td>5–12</td>
+            <td>
+              <div class="price-bar-wrap">
+                <div class="price-bar" style="width:260px;background:#9B1D20;"></div>
+                <span style="font-size:0.8rem;color:#888;">€280 avg</span>
+              </div>
+            </td>
+            <td style="color:#888;">Ultra-luxury</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SWOT -->
+  <section id="swot" class="swot-bg">
+    <div class="container">
+      <div class="section-eyebrow">05 · SWOT Analysis</div>
+      <h2 class="section-title">GUSTO — Strategic Assessment</h2>
+      <p class="section-desc">An honest look at where we stand and where we need to move.</p>
+      <div class="swot-grid">
+        <div class="swot-card swot-S">
+          <div class="swot-label">Strengths</div>
+          <div class="swot-title">Unmatched Advantages</div>
+          <ul class="swot-list">
+            <li>First-mover in Michelin fast fine dining — no direct competitors</li>
+            <li>9-course experience at price no other brand offers</li>
+            <li>30-min service unlocks lunch + dinner dayparts simultaneously</li>
+            <li>Italy's 407 Michelin-starred restaurants = deep talent pipeline</li>
+            <li>Strong tourist market (68M+ arrivals/yr) craves authentic prestige dining</li>
+            <li>Pre-designed chef menus allow kitchen standardisation at scale</li>
+            <li>Price point appeals to affluent millennials priced out of fine dining</li>
+          </ul>
+        </div>
+        <div class="swot-card swot-W">
+          <div class="swot-label">Weaknesses</div>
+          <div class="swot-title">Gaps to Address</div>
+          <ul class="swot-list">
+            <li>Unproven concept — no direct market precedent to reference</li>
+            <li>High COGS: Michelin-quality ingredients at fast food throughput volumes</li>
+            <li>Chef partnership dependency — IP and quality tied to individuals</li>
+            <li>€117 price requires strong consumer education in fast food context</li>
+            <li>Premium interiors + kitchen complexity = high capex per unit</li>
+            <li>Italian food culture is conservative — institutional resistance possible</li>
+          </ul>
+        </div>
+        <div class="swot-card swot-O">
+          <div class="swot-label">Opportunities</div>
+          <div class="swot-title">Market Tailwinds</div>
+          <ul class="swot-list">
+            <li>€17B fast food market growing at 4.17% CAGR — expanding pie</li>
+            <li>Post-COVID "experience economy" — consumers pay for memories, not just food</li>
+            <li>Corporate/B2B: premium business lunches at predictable time + cost</li>
+            <li>International expansion: Paris, London, NYC after Italy proof-of-concept</li>
+            <li>Tourism-driven demand in Milan, Florence, Rome, Venice, Amalfi</li>
+            <li>Michelin guide partnerships for cross-promotional credibility</li>
+            <li>Private dining / events: curated GUSTO evenings = high-margin revenue</li>
+            <li>Delivery via premium platforms (Deliveroo, Glovo luxury tier)</li>
+          </ul>
+        </div>
+        <div class="swot-card swot-T">
+          <div class="swot-label">Threats</div>
+          <div class="swot-title">Risks to Monitor</div>
+          <ul class="swot-list">
+            <li>Miscusi / Eataly upscaling into adjacent territory</li>
+            <li>Global chains (Nobu, Zuma) launching casual spin-offs in Italy</li>
+            <li>Consumer skepticism: "If it's fast, can it really be Michelin quality?"</li>
+            <li>Ingredient cost inflation eroding margin at fixed price point</li>
+            <li>Italian regulatory complexity (licensing, HACCP, labour law)</li>
+            <li>Economic downturn compressing discretionary dining spend</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPPORTUNITY -->
+  <section id="opportunity">
+    <div class="container">
+      <div class="section-eyebrow">06 · Market Opportunity</div>
+      <h2 class="section-title">Why Now. Why Italy.</h2>
+      <p class="section-desc">Three structural shifts have created the perfect conditions for GUSTO to thrive in 2025.</p>
+      <div class="opp-grid">
+        <div class="opp-card">
+          <div class="opp-number">01</div>
+          <div class="opp-icon">🍽️</div>
+          <div class="opp-title">The Experience Premium</div>
+          <div class="opp-text">Post-pandemic consumers spend more on experiences than goods. Dining is now theatre. The demand for memorable, story-worthy meals is at an all-time high — especially among 30–45 year olds with disposable income.</div>
+        </div>
+        <div class="opp-card">
+          <div class="opp-number">02</div>
+          <div class="opp-icon">⏱️</div>
+          <div class="opp-title">Time Poverty at the Top</div>
+          <div class="opp-text">Italy's urban professional class increasingly lacks 3-hour windows for traditional fine dining — but still wants to impress clients, celebrate milestones, and eat beautifully. GUSTO collapses the time barrier without sacrificing prestige.</div>
+        </div>
+        <div class="opp-card">
+          <div class="opp-number">03</div>
+          <div class="opp-icon">✈️</div>
+          <div class="opp-title">Tourism Boom</div>
+          <div class="opp-text">68M+ annual tourists seek authentic Italian culinary experiences. Most can't get a table at Bottura or Da Vittorio. GUSTO offers a Michelin-credentialed experience with no booking waitlist and no €300 commitment.</div>
+        </div>
+        <div class="opp-card">
+          <div class="opp-number">04</div>
+          <div class="opp-icon">👨‍🍳</div>
+          <div class="opp-title">Chef Talent Surplus</div>
+          <div class="opp-text">Italy has 407 Michelin-starred restaurants — more per capita than almost anywhere. Many starred chefs are looking for commercial vehicles to extend their reach beyond their single dining room. GUSTO is that vehicle.</div>
+        </div>
+        <div class="opp-card">
+          <div class="opp-number">05</div>
+          <div class="opp-icon">📊</div>
+          <div class="opp-title">Untapped Price Band</div>
+          <div class="opp-text">There is a clear pricing vacuum between €50 (premium casual) and €180 (entry-level Michelin). GUSTO's €117 flat price sits precisely in this gap — affordable enough to be a regular treat, premium enough to signal status.</div>
+        </div>
+        <div class="opp-card">
+          <div class="opp-number">06</div>
+          <div class="opp-icon">🌍</div>
+          <div class="opp-title">Global Scalability</div>
+          <div class="opp-text">Italy is the perfect proof-of-concept market — the world's most respected culinary origin. Once validated here, GUSTO's model exports globally. The "Made in Italy, by Michelin chefs" brand story travels anywhere.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRATEGY -->
+  <section id="strategy" style="background:var(--card);border-top:1px solid rgba(201,168,76,0.1);border-bottom:1px solid rgba(201,168,76,0.1);">
+    <div class="container">
+      <div class="section-eyebrow">07 · Competitive Strategy</div>
+      <h2 class="section-title">How GUSTO Wins</h2>
+      <p class="section-desc">Six strategic pillars to establish and defend GUSTO's unique market position.</p>
+      <div class="strategy-grid">
+        <div class="strategy-card">
+          <div class="strategy-title">🤝 Chef Partnership Programme</div>
+          <div class="strategy-text">Partner with 2–3 Italian Michelin-starred chefs per city as resident menu designers. Rotate seasonal menus quarterly. Chefs retain creative credit — GUSTO provides scale. Revenue share model creates aligned incentives.</div>
+        </div>
+        <div class="strategy-card">
+          <div class="strategy-title">📍 Flagship First Strategy</div>
+          <div class="strategy-text">Launch in Milan (Via Montenapoleone district), then Florence (Oltrarno), then Rome (Parioli). Premium urban addresses signal brand seriousness before any marketing spend. Location IS the statement.</div>
+        </div>
+        <div class="strategy-card">
+          <div class="strategy-title">⚙️ Kitchen as Performance</div>
+          <div class="strategy-text">Open kitchen design with visible precision — induction cooking, vacuum techniques, mise en place theatre. Diners watch Michelin methods in real time. The 30-minute delivery is the magic trick. Speed becomes the show.</div>
+        </div>
+        <div class="strategy-card">
+          <div class="strategy-title">🎟️ Reservation Architecture</div>
+          <div class="strategy-text">2-week max advance booking. 45-minute dining slots. No walk-ins. This artificial scarcity signals exclusivity while enabling kitchen throughput predictability. "Getting a GUSTO reservation" becomes the social currency.</div>
+        </div>
+        <div class="strategy-card">
+          <div class="strategy-title">📱 Digital-First Loyalty</div>
+          <div class="strategy-text">GUSTO app with seasonal menu previews, chef stories, wine pairing guides, and member early access. Loyalty programme built on visits, not spend. Every 5th meal earns a chef's table experience — creating aspirational progression within the brand.</div>
+        </div>
+        <div class="strategy-card">
+          <div class="strategy-title">🏆 Awards & Credentialing</div>
+          <div class="strategy-text">Proactively pursue Gambero Rosso recognition, Slow Food endorsements, and Michelin Bib Gourmand assessment within 18 months of launch. Third-party validation is the fastest way to silence "fast food" skepticism in the Italian market.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">GUSTO</div>
+    <div class="footer-tagline">Nove portate. Trenta minuti. Una vita di sapori.</div>
+    <div style="width:60px;height:1px;background:var(--gold);margin:1.5rem auto;"></div>
+    <div class="footer-note">
+      Competitor Analysis — Italy Market · 2025<br>
+      Confidential. Prepared for internal strategy use only.<br><br>
+      Sources: DeepMarketInsights, Mordor Intelligence, Chef's Pencil, Michelin Guide, Businesscoot · 
+      Assumptions: Michelin 5-course avg €235/person; GUSTO 9-course priced at 50% = €117. 
+      Market figures 2024–2025.
+    </div>
+  </footer>
+
+</body>
+</html>

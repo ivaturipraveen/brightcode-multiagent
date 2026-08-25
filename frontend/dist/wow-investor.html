@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WoW — Investor Portal</title>
+  <!-- Self-hosted fonts (Google Fonts CDN is blocked in China) -->
+  <link href="/wow-assets/fonts/wow-fonts.css" rel="stylesheet">
+  <style>
+    :root{--green:#0B1A12;--green-mid:#122A1C;--green-rich:#1A3D28;--gold:#C9A84C;--gold-light:#E8D5A3;--gold-dim:#7A6030;--black:#060A07;--off-white:#F5F0E8;--muted:#7A9480;--red:#C0392B;}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Montserrat',sans-serif;background:var(--black);color:var(--off-white);overflow-x:hidden;}
+
+    /* LOGIN SCREEN */
+    #login-screen{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;background:var(--black);}
+    .login-bg{position:absolute;inset:0;background-image:url('/wow-assets/wow-tablesetting.jpg');background-size:cover;background-position:center;filter:brightness(0.08);}
+    .login-overlay{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(11,26,18,0.6),rgba(6,10,7,0.95));}
+    .login-box{position:relative;z-index:2;width:100%;max-width:420px;padding:4rem;background:rgba(18,42,28,0.6);border:1px solid rgba(201,168,76,0.2);backdrop-filter:blur(20px);}
+    .login-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent);}
+    .lb-logo{display:flex;justify-content:center;margin-bottom:0.4rem;}
+    .lb-sub{font-size:0.55rem;letter-spacing:0.45em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:0.5rem;}
+    .lb-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--off-white);text-align:center;margin-bottom:2.5rem;font-style:italic;}
+    .lb-field{margin-bottom:1.2rem;}
+    .lb-label{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem;display:block;}
+    .lb-input{width:100%;background:rgba(245,240,232,0.05);border:1px solid rgba(201,168,76,0.2);color:var(--off-white);padding:0.85rem 1.2rem;font-family:'Montserrat',sans-serif;font-size:0.82rem;outline:none;transition:border 0.3s;}
+    .lb-input:focus{border-color:var(--gold);}
+    .lb-input::placeholder{color:rgba(122,148,128,0.5);}
+    .lb-btn{width:100%;background:var(--gold);color:var(--black);border:none;padding:1rem;font-family:'Montserrat',sans-serif;font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;font-weight:600;cursor:pointer;transition:background 0.3s;margin-top:0.5rem;}
+    .lb-btn:hover{background:var(--gold-light);}
+    .lb-err{font-size:0.72rem;color:var(--red);text-align:center;margin-top:1rem;display:none;}
+    .lb-conf{font-size:0.65rem;color:rgba(122,148,128,0.5);text-align:center;margin-top:2rem;line-height:1.5;}
+
+    /* PORTAL */
+    #portal{display:none;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(6,10,7,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(201,168,76,0.12);padding:1.2rem 4rem;display:flex;align-items:center;justify-content:space-between;}
+    .logo{text-decoration:none;}
+    .logo-wow{display:block;height:44px;width:auto;}
+    .logo-sub{font-size:0.45rem;letter-spacing:0.45em;text-transform:uppercase;color:var(--muted);margin-top:1px;display:block;}
+    .nav-badge{display:flex;align-items:center;gap:1rem;}
+    .badge{font-size:0.55rem;letter-spacing:0.25em;text-transform:uppercase;background:rgba(201,168,76,0.15);color:var(--gold);border:1px solid rgba(201,168,76,0.3);padding:0.35rem 0.9rem;}
+    .nav-links{display:flex;gap:2rem;list-style:none;}
+    .nav-links a{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(245,240,232,0.5);text-decoration:none;transition:color 0.3s;}
+    .nav-links a:hover{color:var(--gold);}
+    .nav-logout{font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);background:none;border:1px solid rgba(122,148,128,0.2);padding:0.4rem 1rem;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all 0.3s;}
+    .nav-logout:hover{color:var(--off-white);border-color:rgba(201,168,76,0.3);}
+
+    /* SHARED */
+    .c{max-width:1200px;margin:0 auto;padding:0 4rem;}
+    section{padding:6rem 0;}
+    .ey{font-size:0.58rem;letter-spacing:0.5em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:1rem;}
+    .ey::before{content:'';display:inline-block;width:28px;height:1px;background:var(--gold);}
+    h2.st{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.5rem);font-weight:300;line-height:1.1;}
+    h2.st em{color:var(--gold);font-style:italic;}
+    .sb{font-size:0.85rem;line-height:1.9;color:var(--muted);font-weight:300;}
+    .conf-bar{background:rgba(192,57,43,0.1);border:1px solid rgba(192,57,43,0.3);border-left:3px solid var(--red);padding:1rem 1.5rem;display:flex;align-items:center;gap:1rem;margin-bottom:0;font-size:0.72rem;color:rgba(245,240,232,0.6);}
+    .conf-bar strong{color:var(--red);}
+
+    /* HERO PORTAL */
+    .portal-hero{padding:10rem 0 6rem;background:linear-gradient(160deg,var(--green) 0%,var(--black) 100%);position:relative;overflow:hidden;}
+    .portal-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(201,168,76,0.06),transparent 50%);}
+    .ph-eyebrow{font-size:0.58rem;letter-spacing:0.5em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;}
+    .ph-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,6vw,5.5rem);font-weight:300;line-height:1.05;margin-bottom:1.5rem;}
+    .ph-title em{color:var(--gold);font-style:italic;}
+    .ph-sub{font-size:0.88rem;color:var(--muted);max-width:600px;line-height:1.8;margin-bottom:3rem;}
+    .kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(201,168,76,0.1);margin-top:4rem;}
+    .kpi{background:var(--black);padding:2rem 1.5rem;}
+    .kpi-val{font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:var(--gold);font-weight:300;line-height:1;}
+    .kpi-lbl{font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-top:0.4rem;}
+
+    /* SECTION STYLES */
+    .card{background:var(--green-mid);border:1px solid rgba(201,168,76,0.1);padding:2.5rem;}
+    .card-gold{border-top:2px solid var(--gold);}
+    .tbl{width:100%;border-collapse:collapse;font-family:'Montserrat',sans-serif;}
+    .tbl th{text-align:left;padding:1rem 1.2rem;font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);background:var(--green-mid);border-bottom:1px solid rgba(201,168,76,0.2);font-weight:400;}
+    .tbl td{padding:0.9rem 1.2rem;font-size:0.82rem;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--off-white);}
+    .tbl tr:hover td{background:rgba(201,168,76,0.03);}
+    .tbl .hl td{background:rgba(201,168,76,0.06)!important;color:var(--gold);}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
+    .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(201,168,76,0.08);}
+    .g4-item{background:var(--black);padding:2rem;}
+    .g4-val{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--gold);font-weight:300;line-height:1;}
+    .g4-lbl{font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-top:0.4rem;}
+    .scenario-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(201,168,76,0.08);}
+    .sc{background:var(--green);padding:3rem;}
+    .sc.feat{background:var(--green-rich);border-top:2px solid var(--gold);}
+    .sc-tag{font-size:0.58rem;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;}
+    .sc-ev{font-family:'Cormorant Garamond',serif;font-size:3.5rem;color:var(--off-white);font-weight:300;line-height:1;margin-bottom:0.3rem;}
+    .sc-ev span{color:var(--gold);}
+    .sc-sub{font-size:0.72rem;color:var(--muted);margin-bottom:2rem;}
+    .sc-rows{display:flex;flex-direction:column;gap:0;}
+    .sc-row{display:flex;justify-content:space-between;padding:0.65rem 0;border-bottom:1px solid rgba(201,168,76,0.06);font-size:0.78rem;}
+    .sc-row span:first-child{color:var(--muted);}
+    .sc-row span:last-child{color:var(--off-white);font-weight:500;}
+    .bar-wrap{margin-bottom:1.2rem;}
+    .bar-label{display:flex;justify-content:space-between;font-size:0.7rem;margin-bottom:0.4rem;}
+    .bar-label span:first-child{color:var(--muted);}
+    .bar-label span:last-child{color:var(--off-white);}
+    .bar-track{height:4px;background:rgba(255,255,255,0.07);border-radius:2px;}
+    .bar-fill{height:100%;border-radius:2px;background:var(--gold);transition:width 1s ease;}
+    .list-check{list-style:none;display:flex;flex-direction:column;gap:0.7rem;}
+    .list-check li{display:flex;gap:0.8rem;font-size:0.82rem;color:var(--muted);}
+    .list-check li::before{content:'✔';color:var(--gold);flex-shrink:0;}
+    .list-x li::before{content:'✗';color:var(--red);}
+    .risk-item{border:1px solid rgba(201,168,76,0.1);padding:2rem;transition:border-color 0.3s;}
+    .risk-item:hover{border-color:rgba(201,168,76,0.25);}
+    .risk-title{font-size:0.78rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--off-white);margin-bottom:0.5rem;}
+    .risk-text{font-size:0.78rem;color:var(--muted);line-height:1.7;}
+    .team-card{background:var(--green-mid);border:1px solid rgba(201,168,76,0.1);padding:2.5rem;transition:border-color 0.3s;}
+    .team-card:hover{border-color:rgba(201,168,76,0.3);}
+    .tc-role{font-size:0.58rem;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem;}
+    .tc-name{font-family:'Cormorant Garamond',serif;font-size:1.4rem;margin-bottom:1rem;}
+    .tc-desc{font-size:0.78rem;color:var(--muted);line-height:1.8;}
+    .val-box{background:var(--green-mid);border:1px solid rgba(201,168,76,0.15);padding:3rem;position:relative;}
+    .val-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold),var(--gold-dim));}
+    .roadmap-table-wrap{overflow-x:auto;}
+    .section-divider{height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,0.2),transparent);margin:0;}
+
+    @media(max-width:1024px){.c{padding:0 2rem;}.kpi-strip{grid-template-columns:repeat(3,1fr);}.g2,.g3{grid-template-columns:1fr;}.scenario-cards{grid-template-columns:1fr;}.g4{grid-template-columns:1fr 1fr;}.nav-links{display:none;}}
+    @media(max-width:640px){.kpi-strip{grid-template-columns:1fr 1fr;}.g4{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-bg"></div>
+  <div class="login-overlay"></div>
+  <div class="login-box">
+    <div class="lb-logo"><img src="/wow-assets/wow-logo-v1.5.png" alt="WoW" style="height:70px;width:auto;"></div>
+    <div class="lb-sub">Fast Fine Dining</div>
+    <div class="lb-title">Investor & Partner Portal</div>
+    <div class="lb-field">
+      <label class="lb-label" for="usr">Access Code</label>
+      <input class="lb-input" id="usr" type="text" placeholder="Enter access code" autocomplete="off">
+    </div>
+    <div class="lb-field">
+      <label class="lb-label" for="pwd">Password</label>
+      <input class="lb-input" id="pwd" type="password" placeholder="••••••••••">
+    </div>
+    <button class="lb-btn" id="login-btn">Access Portal</button>
+    <div class="lb-err" id="lb-err">Invalid credentials. Please try again.</div>
+    <div class="lb-conf">This portal contains strictly confidential information prepared solely for authorised investors and partners of WoW. Unauthorised access is prohibited.</div>
+  </div>
+</div>
+
+<!-- PORTAL -->
+<div id="portal">
+  <nav>
+    <a class="logo" href="#top">
+      <img class="logo-wow" src="/wow-assets/wow-logo-v1.5.png" alt="WoW Fast Fine Dining">
+      <span class="logo-sub">Investor Portal · Confidential</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#model">Business Model</a></li>
+      <li><a href="#financials">Financials</a></li>
+      <li><a href="#scenarios">Scenarios</a></li>
+      <li><a href="#valuation">Valuation</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#risks">Risks</a></li>
+    </ul>
+    <div class="nav-badge">
+      <span class="badge">🔒 Confidential Access</span>
+      <button class="nav-logout" id="logout-btn">Logout</button>
+    </div>
+  </nav>
+
+  <!-- CONF BAR -->
+  <div class="conf-bar" style="margin-top:72px">
+    <strong>STRICTLY CONFIDENTIAL</strong> — This document is prepared solely for Founders, Executives, and Potential Investors of WoW. Redistribution is prohibited. · Version 3.9.1
+  </div>
+
+  <!-- PORTAL HERO -->
+  <section class="portal-hero" id="top">
+    <div class="c">
+      <div class="ph-eyebrow">WoW Fast Fine Dining · Investor Memorandum Summary v3.9.1</div>
+      <h1 class="ph-title">Engineering Fine Dining<br>to Scale — <em>A New<br>Global Category.</em></h1>
+      <p class="ph-sub">WoW is a boutique, asset-light culinary platform built around engineered Fast Fine Dining (FFD) processes, centralized food production, proprietary wine verticals, and a royalty-based licensing model (FFL). It is not a restaurant group. It is a Food Operating Platform.</p>
+      <div style="display:flex;gap:1.5rem;flex-wrap:wrap;">
+        <a href="#financials" style="font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;background:var(--gold);color:var(--black);padding:0.9rem 2rem;text-decoration:none;font-weight:600;">View Financials</a>
+        <a href="#valuation" style="font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;border:1px solid rgba(201,168,76,0.4);color:var(--gold);padding:0.9rem 2rem;text-decoration:none;">Valuation Analysis</a>
+      </div>
+      <div class="kpi-strip">
+        <div class="kpi"><div class="kpi-val">€4.3M</div><div class="kpi-lbl">Current Platform Value</div></div>
+        <div class="kpi"><div class="kpi-val">€35–50</div><div class="kpi-lbl">Price per Cover</div></div>
+        <div class="kpi"><div class="kpi-val">9</div><div class="kpi-lbl">Michelin-designed courses</div></div>
+        <div class="kpi"><div class="kpi-val">80%+</div><div class="kpi-lbl">Licensee Annual ROI</div></div>
+        <div class="kpi"><div class="kpi-val">€176M</div><div class="kpi-lbl">10-Year EV (Case 2)</div></div>
+      </div>
+    </div>
+  </section>
+  <div class="section-divider"></div>
+
+  <!-- OVERVIEW -->
+  <section id="overview">
+    <div class="c">
+      <div class="ey">01 · Strategic Overview</div>
+      <h2 class="st" style="margin-bottom:1.5rem">The WoW Thesis</h2>
+      <div class="g2">
+        <div>
+          <p class="sb" style="margin-bottom:2rem">WoW has been conceived not as a restaurant project, but as an operational response to a structural inefficiency within the global premium dining industry. Traditional fine dining creates cultural value but rarely produces replicable economic value.</p>
+          <p class="sb" style="margin-bottom:2rem">WoW replicates processes — not chefs. Scales infrastructure — not restaurants. Monetizes supply, certification, and IP — not tables.</p>
+          <div class="card card-gold" style="margin-top:2rem">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--off-white);line-height:1.5;margin-bottom:1rem">"WoW is an IP company disguised as hospitality."</div>
+            <div style="font-size:0.58rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold)">WoW Strategic Positioning</div>
+          </div>
+        </div>
+        <div>
+          <table class="tbl">
+            <thead><tr><th>Dimension</th><th>Fine Dining</th><th>Fast Food</th><th style="color:var(--gold)">WoW</th></tr></thead>
+            <tbody>
+              <tr><td style="color:var(--muted)">Quality</td><td>Very High</td><td style="color:rgba(245,240,232,0.4)">Low–Med</td><td style="color:var(--gold)">High ✦</td></tr>
+              <tr><td style="color:var(--muted)">Emotional Impact</td><td>High</td><td style="color:rgba(245,240,232,0.4)">Low</td><td style="color:var(--gold)">High ✦</td></tr>
+              <tr><td style="color:var(--muted)">Scalability</td><td style="color:rgba(245,240,232,0.4)">Low</td><td>Very High</td><td style="color:var(--gold)">High ✦</td></tr>
+              <tr><td style="color:var(--muted)">Operational Model</td><td>Chef Dependent</td><td>Process Driven</td><td style="color:var(--gold)">Engineered ✦</td></tr>
+              <tr><td style="color:var(--muted)">Expansion Speed</td><td style="color:rgba(245,240,232,0.4)">Slow</td><td>Fast</td><td style="color:var(--gold)">Fast & Controlled ✦</td></tr>
+              <tr><td style="color:var(--muted)">Margin Stability</td><td style="color:rgba(245,240,232,0.4)">Fragile</td><td>Moderate</td><td style="color:var(--gold)">Structured ✦</td></tr>
+              <tr><td style="color:var(--muted)">Investor Exit</td><td style="color:rgba(245,240,232,0.4)">Difficult</td><td>Moderate</td><td style="color:var(--gold)">Platform Multiple ✦</td></tr>
+            </tbody>
+          </table>
+          <div style="margin-top:1.5rem;font-size:0.72rem;color:var(--muted);font-style:italic">WoW behaves like a hybrid of: Eataly + Franchise Platform + Digital Marketplace + Culinary Institute</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="section-divider"></div>
+
+  <!-- BUSINESS MODEL -->
+  <section id="model" style="background:var(--green)">
+    <div class="c">
+      <div class="ey">02 · Business Model</div>
+      <h2 class="st" style="margin-bottom:3rem">Revenue Architecture —<br><em>Four Platform Layers</em></h2>
+      <div class="g2" style="margin-bottom:3rem">
+        <div class="card">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:3rem;color:rgba(201,168,76,0.15);line-height:1;margin-bottom:1rem">01</div>
+          <div style="font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem">Layer 1 · Flagship & Experience Units</div>
+          <p style="font-size:0.82rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem">Directly controlled locations whose role is strategic, not financial. Each unit: 24 seats · 2 turns/day · 4 operating days · 80% occupancy. Avg blended revenue: <strong style="color:var(--off-white)">€360k–420k/year</strong>. Purpose: demonstrate FFD system, validate training, anchor brand narrative.</p>
+          <div style="display:flex;justify-content:space-between;padding:0.6rem 0;border-top:1px solid rgba(201,168,76,0.1);font-size:0.78rem;"><span style="color:var(--muted)">Avg menu price Italy</span><span style="color:var(--off-white)">€35–45</span></div>
+          <div style="display:flex;justify-content:space-between;padding:0.6rem 0;border-top:1px solid rgba(201,168,76,0.06);font-size:0.78rem;"><span style="color:var(--muted)">Avg menu price Europe</span><span style="color:var(--off-white)">€50</span></div>
+        </div>
+        <div class="card">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:3rem;color:rgba(201,168,76,0.15);line-height:1;margin-bottom:1rem">02</div>
+          <div style="font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem">Layer 2 · Fast Fine Licensing (FFL)</div>
+          <p style="font-size:0.82rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem">The primary expansion mechanism. Licensee CAPEX ~€100k vs €350–800k for independent restaurant. WoW monetizes through initial fee + ongoing royalty.</p>
+          <div style="display:flex;justify-content:space-between;padding:0.6rem 0;border-top:1px solid rgba(201,168,76,0.1);font-size:0.78rem;"><span style="color:var(--muted)">Initial fee (early)</span><span style="color:var(--off-white)">€10k → €15k → €25k</span></div>
+          <div style="display:flex;justify-content:space-between;padding:0.6rem 0;border-top:1px solid rgba(201,168,76,0.06);font-size:0.78rem;"><span style="color:var(--muted)">Ongoing royalty</span><span style="color:var(--off-white)">5% → 7% → 9%</span></div>
+          <div style="display:flex;justify-content:space-between;padding:0.6rem 0;border-top:1px solid rgba(201,168,76,0.06);font-size:0.78rem;"><span style="color:var(--muted)">Licensee payback</span><span style="color:var(--gold)">12–18 months</span></div>
+        </div>
+        <div class="card">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:3rem;color:rgba(201,168,76,0.15);line-height:1;margin-bottom:1rem">03</div>
+          <div style="font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem">Layer 3 · Centralized Supply Margin</div>
+          <p style="font-size:0.82rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem">Unlike traditional franchising, WoW does not leave sourcing to licensees. Structurally embedded supply flows create recurring revenue independent of restaurant profitability.</p>
+          <div style="display:flex;justify-content:space-between;padding:0.6rem 0;border-top:1px solid rgba(201,168,76,0.1);font-size:0.78rem;"><span style="color:var(--muted)">Food supply margin</span><span style="color:var(--gold)">+20% on WoW cost</span></div>
+          <div style="display:flex;justify-content:space-between;padding:0.6rem 0;border-top:1px solid rgba(201,168,76,0.06);font-size:0.78rem;"><span style="color:var(--muted)">Wine supply margin</span><span style="color:var(--gold)">+30% on WoW cost</span></div>
+          <div style="display:flex;justify-content:space-between;padding:0.6rem 0;border-top:1px solid rgba(201,168,76,0.06);font-size:0.78rem;"><span style="color:var(--muted)">Per unit annual platform income</span><span style="color:var(--off-white)">€40–50k</span></div>
+        </div>
+        <div class="card">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:3rem;color:rgba(201,168,76,0.15);line-height:1;margin-bottom:1rem">04</div>
+          <div style="font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem">Layer 4 · Knowledge & Certification (Phase 2)</div>
+          <p style="font-size:0.82rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem">As network grows, WoW monetizes the codified FFD system through training certification, operational auditing, and continuous format updates. Increases switching costs for operators.</p>
+          <div style="display:flex;justify-content:space-between;padding:0.6rem 0;border-top:1px solid rgba(201,168,76,0.1);font-size:0.78rem;"><span style="color:var(--muted)">Effective platform capture rate</span><span style="color:var(--gold)">~12% of unit turnover</span></div>
+          <div style="display:flex;justify-content:space-between;padding:0.6rem 0;border-top:1px solid rgba(201,168,76,0.06);font-size:0.78rem;"><span style="color:var(--muted)">Total per unit (recurring)</span><span style="color:var(--off-white)">~€55k/year</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="section-divider"></div>
+
+  <!-- UNIT FINANCIALS -->
+  <section id="financials">
+    <div class="c">
+      <div class="ey">03 · Unit Economics & Financial Detail</div>
+      <h2 class="st" style="margin-bottom:3rem">Single Unit <em>Economics</em></h2>
+      <div class="g2" style="margin-bottom:3rem;align-items:start">
+        <div>
+          <table class="tbl" style="margin-bottom:1.5rem">
+            <thead><tr><th colspan="2">Conservative Model (80% Occupancy · 2 Turns · 4 Days)</th></tr></thead>
+            <tbody>
+              <tr class="hl"><td>Average Revenue</td><td>~€420,000</td></tr>
+              <tr><td style="color:var(--muted)">Revenue — Food</td><td>€280,000–€400,000</td></tr>
+              <tr><td style="color:var(--muted)">Revenue — Wine (1.5 glasses avg, €7.5)</td><td>~€90,000</td></tr>
+              <tr><td style="color:var(--muted)">Cost Food & Wine (~20% food / ~40% wine)</td><td>~€120,000</td></tr>
+              <tr><td style="color:var(--muted)">Rent & Utilities</td><td>€30,000–€40,000</td></tr>
+              <tr><td style="color:var(--muted)">FTE (3 Performer Chefs + 1 Operator)</td><td>~€140,000</td></tr>
+              <tr><td style="color:var(--muted)">OPEX</td><td>€15,000–€20,000</td></tr>
+              <tr class="hl"><td>EBITDA</td><td>€90,000–€120,000 (22–27%)</td></tr>
+            </tbody>
+          </table>
+          <table class="tbl">
+            <thead><tr><th colspan="2">Licensee CAPEX Breakdown (~€100,000–€120,000)</th></tr></thead>
+            <tbody>
+              <tr><td style="color:var(--muted)">Avg fee to WoW</td><td>~€15,000</td></tr>
+              <tr><td style="color:var(--muted)">Supplies from WoW</td><td>~€40,000</td></tr>
+              <tr><td style="color:var(--muted)">Site Adaptation</td><td>~€20,000</td></tr>
+              <tr><td style="color:var(--muted)">Working Capital</td><td>~€25,000</td></tr>
+              <tr><td style="color:var(--muted)">Other</td><td>~€10,000</td></tr>
+              <tr class="hl"><td>Total CAPEX</td><td>~€100,000–€120,000</td></tr>
+              <tr class="hl"><td>ROI</td><td>&gt;80% annually</td></tr>
+              <tr class="hl"><td>Payback Period</td><td>14–18 months</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div class="card card-gold" style="margin-bottom:2rem">
+            <div style="font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem">Annual Cover Calculation</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--off-white);line-height:1.7;margin-bottom:1.5rem">
+              24 seats × 2 turns × 4 days × 52 weeks × 80% occupancy
+            </div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:3rem;color:var(--gold);font-weight:300;line-height:1">≈ 7,987</div>
+            <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-top:0.3rem">Covers per year per unit</div>
+            <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(201,168,76,0.15)">
+              <div style="display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:0.5rem;"><span style="color:var(--muted)">Avg ticket (blended)</span><span style="color:var(--off-white)">€45</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:0.78rem;"><span style="color:var(--muted)">Annual food revenue</span><span style="color:var(--gold)">≈ €360,000</span></div>
+            </div>
+          </div>
+          <div class="card" style="margin-bottom:2rem">
+            <div style="font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem">WoW Platform Contribution per Unit</div>
+            <div style="display:flex;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.08);font-size:0.82rem;"><span style="color:var(--muted)">Food Supply Margin (+20%)</span><span style="color:var(--off-white)">~€15,000</span></div>
+            <div style="display:flex;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.08);font-size:0.82rem;"><span style="color:var(--muted)">Wine Supply Margin (+30%)</span><span style="color:var(--off-white)">~€10,000</span></div>
+            <div style="display:flex;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.08);font-size:0.82rem;"><span style="color:var(--muted)">Avg Royalty 7%</span><span style="color:var(--off-white)">~€30,000</span></div>
+            <div style="display:flex;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.08);font-size:0.82rem;"><span style="color:var(--muted)">Supplies margin (una tantum)</span><span style="color:var(--off-white)">~€8,000</span></div>
+            <div style="display:flex;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(201,168,76,0.08);font-size:0.82rem;"><span style="color:var(--muted)">Avg initial fee (una tantum)</span><span style="color:var(--off-white)">~€15,000</span></div>
+            <div style="display:flex;justify-content:space-between;padding:0.8rem 0;font-size:0.88rem;"><span style="color:var(--gold);font-weight:600">Total per unit (recurring)</span><span style="color:var(--gold);font-weight:600">~€55,000/year</span></div>
+          </div>
+          <div style="margin-top:2rem">
+            <div style="font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem">Economic Sensitivity</div>
+            <div class="bar-wrap"><div class="bar-label"><span>€45 / 80% occupancy</span><span>~€62k EBITDA (17%)</span></div><div class="bar-track"><div class="bar-fill" style="width:62%"></div></div></div>
+            <div class="bar-wrap"><div class="bar-label"><span>€50 / 85% occupancy</span><span>~€95k EBITDA (23%)</span></div><div class="bar-track"><div class="bar-fill" style="width:75%"></div></div></div>
+            <div class="bar-wrap"><div class="bar-label"><span>€55 / 90% occupancy</span><span>~€158k EBITDA (32%)</span></div><div class="bar-track"><div class="bar-fill" style="width:90%"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HUB INFRASTRUCTURE -->
+      <div style="margin-top:4rem">
+        <div style="font-size:0.6rem;letter-spacing:0.45em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem">Hub Infrastructure Model</div>
+        <table class="tbl">
+          <thead><tr><th>Hub Level</th><th>Investment</th><th>Supported Units</th><th>Function</th></tr></thead>
+          <tbody>
+            <tr><td>Initial Hub</td><td>~€200,000</td><td>5–7 locations</td><td>Centralized prep, QA, logistics dispatch</td></tr>
+            <tr><td>Expanded Hub</td><td>~€300,000</td><td>10–15 locations</td><td>Scaled production, regional distribution</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:1rem;font-style:italic">Infrastructure grows only when demand is already secured, preventing premature capital deployment. Production capacity follows network activation.</p>
+      </div>
+    </div>
+  </section>
+  <div class="section-divider"></div>
+
+  <!-- SCENARIOS -->
+  <section id="scenarios" style="background:var(--green)">
+    <div class="c">
+      <div class="ey">04 · 10-Year Growth Scenarios</div>
+      <h2 class="st" style="margin-bottom:1rem">Platform <em>Scenarios</em></h2>
+      <p class="sb" style="margin-bottom:3rem;max-width:640px">Three development scenarios evaluated at 10-year horizon. Valuation scales non-linearly because EBITDA scales faster than fixed overhead — classic operating leverage in platform businesses.</p>
+      <div class="scenario-cards">
+        <div class="sc">
+          <div class="sc-tag">Conservative · 55 Units</div>
+          <div class="sc-ev">€<span>9.6</span>M</div>
+          <div class="sc-sub">Enterprise Value at 8× EBITDA</div>
+          <div class="sc-rows">
+            <div class="sc-row"><span>Licensed Units</span><span>55</span></div>
+            <div class="sc-row"><span>Flagships</span><span>3</span></div>
+            <div class="sc-row"><span>Hubs</span><span>4</span></div>
+            <div class="sc-row"><span>Occupancy</span><span>80%</span></div>
+            <div class="sc-row"><span>Weekly Turns</span><span>8 (4d × 2)</span></div>
+            <div class="sc-row"><span>Avg Unit Turnover</span><span>~€420k</span></div>
+            <div class="sc-row"><span>Platform Revenue</span><span>~€2.5M</span></div>
+            <div class="sc-row"><span>Platform EBITDA</span><span>~€1.2M</span></div>
+            <div class="sc-row"><span>EBITDA Margin</span><span>~45%</span></div>
+          </div>
+        </div>
+        <div class="sc feat">
+          <div class="sc-tag">Case 1 · 100 Units</div>
+          <div class="sc-ev">€<span>48</span>M</div>
+          <div class="sc-sub">Enterprise Value at 8× EBITDA</div>
+          <div class="sc-rows">
+            <div class="sc-row"><span>Licensed Units</span><span>100</span></div>
+            <div class="sc-row"><span>Flagships</span><span>5</span></div>
+            <div class="sc-row"><span>Hubs</span><span>8</span></div>
+            <div class="sc-row"><span>Occupancy</span><span>80%</span></div>
+            <div class="sc-row"><span>Weekly Turns</span><span>12</span></div>
+            <div class="sc-row"><span>Avg Unit Turnover</span><span>~€885k</span></div>
+            <div class="sc-row"><span>Platform Revenue</span><span>~€11.5M</span></div>
+            <div class="sc-row"><span>Platform EBITDA</span><span>~€6.0M</span></div>
+            <div class="sc-row"><span>EBITDA Margin</span><span>~52%</span></div>
+          </div>
+        </div>
+        <div class="sc">
+          <div class="sc-tag">Case 2 · 200 Units</div>
+          <div class="sc-ev">€<span>120</span>M</div>
+          <div class="sc-sub">Enterprise Value at 8× EBITDA</div>
+          <div class="sc-rows">
+            <div class="sc-row"><span>Licensed Units</span><span>200</span></div>
+            <div class="sc-row"><span>Flagships</span><span>10</span></div>
+            <div class="sc-row"><span>Hubs</span><span>14</span></div>
+            <div class="sc-row"><span>Occupancy</span><span>60%</span></div>
+            <div class="sc-row"><span>Weekly Turns</span><span>20</span></div>
+            <div class="sc-row"><span>Avg Unit Turnover</span><span>~€1.18M</span></div>
+            <div class="sc-row"><span>Platform Revenue</span><span>~€33M</span></div>
+            <div class="sc-row"><span>Platform EBITDA</span><span>~€15M</span></div>
+            <div class="sc-row"><span>EBITDA Margin</span><span>~45%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="section-divider"></div>
+
+  <!-- VALUATION -->
+  <section id="valuation">
+    <div class="c">
+      <div class="ey">05 · Valuation Analysis</div>
+      <h2 class="st" style="margin-bottom:3rem">Current Stage <em>Valuation</em></h2>
+      <div class="g2">
+        <div>
+          <div class="val-box" style="margin-bottom:2rem">
+            <div style="font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem">Current Fair Enterprise Value (Pre-Scale)</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:5rem;color:var(--off-white);font-weight:300;line-height:1;margin-bottom:0.3rem">€<span style="color:var(--gold)">4.3</span>M</div>
+            <div style="font-size:0.78rem;color:var(--muted);margin-bottom:2rem">Range: €3.6M – €5.0M · Pre-money</div>
+            <table class="tbl">
+              <thead><tr><th>Valuation Method</th><th>Range</th></tr></thead>
+              <tbody>
+                <tr><td style="color:var(--muted)">Replacement Cost (Berkus)</td><td>€3.2M – €4.6M</td></tr>
+                <tr><td style="color:var(--muted)">Comparable Platforms</td><td>€4.0M – €6.0M</td></tr>
+                <tr><td style="color:var(--muted)">Node Activation Model</td><td>€3.1M – €4.2M</td></tr>
+                <tr class="hl"><td>Scorecard Method</td><td>€4.0M – €5.4M</td></tr>
+                <tr class="hl"><td><strong>Triangulated Fair Value</strong></td><td><strong style="color:var(--gold)">~€4.3M</strong></td></tr>
+              </tbody>
+            </table>
+            <p style="font-size:0.7rem;color:var(--muted);margin-top:1rem;font-style:italic">Valuation reflects engineered IP readiness. Excludes scale premium.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:2rem">
+            <div style="font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem">A) Replacement Cost Floor</div>
+            <table class="tbl">
+              <thead><tr><th>Component</th><th>Estimated Cost</th></tr></thead>
+              <tbody>
+                <tr><td style="color:var(--muted)">FFD Engineering (R&D, culinary, process)</td><td>€800,000</td></tr>
+                <tr><td style="color:var(--muted)">FFL Architecture (legal, financial structuring)</td><td>€500,000</td></tr>
+                <tr><td style="color:var(--muted)">Supply Chain Structuring</td><td>€600,000</td></tr>
+                <tr><td style="color:var(--muted)">Brand & Platform Structuring</td><td>€500,000</td></tr>
+                <tr><td style="color:var(--muted)">Pilot Validation</td><td>€450,000</td></tr>
+                <tr class="hl"><td>Total Replacement Cost</td><td>€2,850,000</td></tr>
+                <tr class="hl"><td>+ 25% coordination premium</td><td>≈ €3.55M</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card">
+            <div style="font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem">B) Risk-Adjusted Forward EBITDA (DCF)</div>
+            <div style="font-size:0.82rem;color:var(--muted);line-height:1.7;margin-bottom:1rem">Conservative base: 55 units → €1.25M EBITDA at Year 10. At 8× multiple = €10M EV. Discounted back at 20–25% required return (early-stage risk-adjusted). Applying 35–45% risk haircut:</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--gold);margin-bottom:0.3rem">€2.5M – €3.5M</div>
+            <div style="font-size:0.65rem;color:var(--muted)">Implied present platform value</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:3rem">
+        <div style="font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem">Why 8× EBITDA Multiple is Correct</div>
+        <table class="tbl">
+          <thead><tr><th>Multiple Range</th><th>Applies To</th><th>WoW?</th></tr></thead>
+          <tbody>
+            <tr><td>4×–6×</td><td>Single restaurants, location-dependent, low IP</td><td style="color:var(--red)">NOT this</td></tr>
+            <tr><td>10×–14×</td><td>Mature international franchise systems, global asset-light brands</td><td style="color:rgba(245,240,232,0.4)">Not yet (at 55–100 units)</td></tr>
+            <tr class="hl"><td>7×–9×</td><td>Structured multi-unit food platforms, hybrid supply + royalty models</td><td style="color:var(--gold)">WoW fits exactly here ✦</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:1rem;font-style:italic">At 200 units: even if multiple compresses to 7×, valuation remains €15M × 7 = €105M. The structural value is in network density, not menu pricing.</p>
+      </div>
+    </div>
+  </section>
+  <div class="section-divider"></div>
+
+  <!-- ROADMAP -->
+  <section id="roadmap" style="background:var(--green)">
+    <div class="c">
+      <div class="ey">06 · Development Roadmap</div>
+      <h2 class="st" style="margin-bottom:3rem">36-Month Plan &<br><em>10-Year Vision</em></h2>
+      <div style="font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem">36-Month Milestone Roadmap</div>
+      <table class="tbl" style="margin-bottom:3rem">
+        <thead><tr><th>Phase</th><th>Timeline</th><th>Key Activities</th><th>Expected Outcome</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--gold)">Phase 1 — Validation</td><td>Months 0–12</td><td>Activate Pilot 1–2 Units · Deploy first Hub · Prove unit economics</td><td style="color:var(--off-white)">&gt;€300k Revenue</td></tr>
+          <tr><td style="color:var(--gold)">Phase 2 — Validation+</td><td>Months 12–24</td><td>Activate Pilot Licensee · Open 1–3 licensed units · Strengthen wine & food procurement</td><td style="color:var(--off-white)">&gt;€600k Revenue + Positive EBITDA</td></tr>
+          <tr><td style="color:var(--gold)">Phase 3 — Platform</td><td>Months 24–36</td><td>12–18 operational units · Second Hub activated · Flagship activated</td><td style="color:var(--off-white)">&gt;€1.5M Revenue + EBITDA scale</td></tr>
+        </tbody>
+      </table>
+      <div style="font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem">10-Year Geographic Expansion</div>
+      <table class="tbl" style="margin-bottom:3rem">
+        <thead><tr><th>Phase</th><th>Geography</th><th>Hub</th><th>Function</th><th>Years</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--gold)">Proof of Process</td><td>Perugia</td><td>Hub 1</td><td>Validate FFD model, prove unit economics</td><td>1–2</td></tr>
+          <tr><td style="color:var(--gold)">Saturation</td><td>Central Italy</td><td>Hub 1</td><td>Florence, Rome — model validation</td><td>3</td></tr>
+          <tr><td style="color:var(--gold)">Bridge</td><td>North Italy</td><td>Hub 2</td><td>Milan flagship, training centre</td><td>4</td></tr>
+          <tr><td style="color:var(--gold)">Platform EU</td><td>Europe</td><td>Hub 3–5</td><td>Paris, London flagships — master licensing</td><td>5–7</td></tr>
+          <tr><td style="color:var(--gold)">Platform Global</td><td>US / China / Japan</td><td>Hub 6–10+</td><td>Global infrastructure network</td><td>8–10</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <div class="section-divider"></div>
+
+  <!-- TEAM -->
+  <section id="team">
+    <div class="c">
+      <div class="ey">07 · The Founders</div>
+      <h2 class="st" style="margin-bottom:3rem">A global team for<br><em>a global project.</em></h2>
+      <div class="g3" style="margin-bottom:2rem">
+        <div class="team-card"><div class="tc-role">CEO · Strategy & Global Coordination</div><div class="tc-name">Chief Executive Officer</div><p class="tc-desc">International project leader with experience in general management, strategic development, and cross-border business. Specializes in scalable ventures, multi-stakeholder ecosystems. Deep expertise in Food & Wine business with wide networking. Leads trading companies, a consortium, an association. Architect of WoW's vision, mission, FFD and FFL strategy.</p></div>
+        <div class="team-card"><div class="tc-role">COO · FFD Engineering Head</div><div class="tc-name">Chief Operations Officer</div><p class="tc-desc">Entrepreneur with significant international experience in China. Combines operational leadership with strong technical background. Data-driven, process-optimization focused. Bridges strategic vision with on-the-ground implementation. Leads Food Flow Design system and global supply integration. Accustomed to cross-cultural environments.</p></div>
+        <div class="team-card"><div class="tc-role">CFO · FFL Engineering Head</div><div class="tc-name">Chief Finance Officer</div><p class="tc-desc">London-based investment professional with nearly two decades of experience in private equity, global financial institutions, and the broader investment community. Combines global outlook with people-first approach. Brings financial insight and global investor network. Leads FFL financial architecture and EU development.</p></div>
+        <div class="team-card"><div class="tc-role">CCO · Michelin-Starred Chef</div><div class="tc-name">Chief Culinary Officer</div><p class="tc-desc">Italian Michelin-starred chef recognized for innovative approach to contemporary cuisine. Named Emerging Young Chef of the Year — L'Espresso Restaurant Guide (one of Italy's most important). Deep expertise in culinary research, menu engineering, and high-level gastronomic execution. Architect of the WoW menu ecosystem.</p></div>
+        <div class="team-card"><div class="tc-role">CTO · Platform & AI</div><div class="tc-name">Chief Technology Officer</div><p class="tc-desc">Technology and AI platform head. Oversees digital infrastructure, social intelligence, and US market development. Builds the data layer that transforms WoW from a dining concept into an intelligent operating platform. Leads technology commercialisation and US market entry strategy.</p></div>
+        <div class="team-card" style="border-top:2px solid var(--gold)"><div class="tc-role">Strategic Ecosystem</div><div class="tc-name">Partners & Associates</div><p class="tc-desc"><strong style="color:var(--off-white)">Italian F&W Exporter:</strong> Origin-controlled supply, preferential pricing, traceability.<br><br><strong style="color:var(--off-white)">Asian Importer:</strong> China/Japan distribution, regulatory expertise, cultural mediation.<br><br><strong style="color:var(--off-white)">Global F&B Trademark:</strong> Registered in 50+ countries.<br><br><strong style="color:var(--off-white)">Non-Profit Institute:</strong> Michelin chefs, KOLs, Nobel Laureate Muhammad Yunus.</p></div>
+      </div>
+    </div>
+  </section>
+  <div class="section-divider"></div>
+
+  <!-- RISKS -->
+  <section id="risks" style="background:var(--green)">
+    <div class="c">
+      <div class="ey">08 · Key Risks & Mitigation</div>
+      <h2 class="st" style="margin-bottom:3rem">Risk <em>Framework</em></h2>
+      <div class="g2">
+        <div style="display:flex;flex-direction:column;gap:1.5rem">
+          <div class="risk-item"><div class="risk-title">Execution Risk (Early Stage)</div><div class="risk-text"><span style="color:var(--gold)">Mitigation:</span> Pilot direct clusters validate the model before scaling. International team structured and ready for scale-up. FFD and FFL systems already engineered and codified.</div></div>
+          <div class="risk-item"><div class="risk-title">Licensee Quality & Consistency</div><div class="risk-text"><span style="color:var(--gold)">Mitigation:</span> Selective licensing, training and certification through flagship units. Operational auditing and QA protocols embedded in the FFD system.</div></div>
+          <div class="risk-item"><div class="risk-title">Model & Supply Chain Scalability</div><div class="risk-text"><span style="color:var(--gold)">Mitigation:</span> Centralized sourcing from Italian producers, controlled distribution by specialists. Hub model scales only when demand is secured.</div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:1.5rem">
+          <div class="risk-item"><div class="risk-title">Competitive Imitation</div><div class="risk-text"><span style="color:var(--gold)">Mitigation:</span> Proprietary FFD culinary engineering, FFL licensing model, and integrated supply chain create a defensible IP moat. Global trademark in 50+ countries.</div></div>
+          <div class="risk-item"><div class="risk-title">Consumer Skepticism</div><div class="risk-text"><span style="color:var(--gold)">Mitigation:</span> Engineered expectation asymmetry — the WoW effect is by design. Michelin-starred chef equity partnership provides instant credibility anchoring.</div></div>
+          <div class="risk-item"><div class="risk-title">Current Stage</div><div class="risk-text">
+            <div style="margin-bottom:1rem">Completed de-risking milestones:</div>
+            <ul class="list-check" style="font-size:0.75rem">
+              <li>International corporate structure defined</li>
+              <li>Founding team and ecosystem in place</li>
+              <li>Export–Import corridor already active</li>
+              <li>Engineering of tasting stations completed</li>
+              <li>Culinary protocols codified with Starred Chefs</li>
+              <li>Developers active across 3 regions</li>
+            </ul>
+            <div style="margin-top:1rem">Outstanding:</div>
+            <ul class="list-check list-x" style="font-size:0.75rem;margin-top:0.5rem">
+              <li>Network not yet deployed at scale</li>
+              <li>US and Japan presence not yet established</li>
+            </ul>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="section-divider"></div>
+
+  <!-- CONTACT -->
+  <section style="padding:6rem 0;background:var(--black);text-align:center">
+    <div class="c">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.5rem);font-weight:300;margin-bottom:1.5rem">Ready to <em style="color:var(--gold)">invest?</em></div>
+      <p style="font-size:0.85rem;color:var(--muted);max-width:480px;margin:0 auto 3rem;line-height:1.8">This document is the beginning of a conversation. WoW is actively seeking investment partners who understand the platform economics of premium hospitality.</p>
+      <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap">
+        <a href="mailto:investor@wow-ffd.com" style="font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;background:var(--gold);color:var(--black);padding:1rem 2.5rem;text-decoration:none;font-weight:600;">investor@wow-ffd.com</a>
+        <a href="/wow.html" style="font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;border:1px solid rgba(201,168,76,0.4);color:var(--gold);padding:1rem 2.5rem;text-decoration:none;">View Public Site</a>
+      </div>
+    </div>
+  </section>
+
+  <footer style="background:var(--green);border-top:1px solid rgba(201,168,76,0.1);padding:2.5rem 0">
+    <div class="c" style="display:flex;justify-content:space-between;align-items:center;font-size:0.65rem;color:rgba(122,148,128,0.45)">
+      <span style="display:flex;align-items:center;gap:1.2rem;"><img src="/wow-assets/wow-logo-v1.5.png" alt="WoW" style="height:32px;width:auto;opacity:0.7;"> © 2025 WoW Fast Fine Dining. All rights reserved.</span>
+      <span>Memorandum Summary v3.9.1 · Strictly Confidential · For Authorised Recipients Only</span>
+    </div>
+  </footer>
+
+</div><!-- /portal -->
+
+<script>
+  // Login credentials
+  const CREDENTIALS = [
+    { code: 'WOW2025', password: 'FastFineDining' },
+    { code: 'INVESTOR', password: 'WoW@Perugia' },
+    { code: 'PARTNER', password: 'ItaliaScale' }
+  ];
+
+  document.getElementById('login-btn').addEventListener('click', tryLogin);
+  document.getElementById('pwd').addEventListener('keydown', e => { if(e.key==='Enter') tryLogin(); });
+
+  function tryLogin() {
+    const code = document.getElementById('usr').value.trim().toUpperCase();
+    const pwd = document.getElementById('pwd').value.trim();
+    const valid = CREDENTIALS.some(c => c.code === code && c.password === pwd);
+    if (valid) {
+      document.getElementById('login-screen').style.opacity = '0';
+      document.getElementById('login-screen').style.transition = 'opacity 0.8s';
+      setTimeout(() => {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('portal').style.display = 'block';
+        document.body.style.cursor = 'auto';
+        // Animate bars
+        setTimeout(() => {
+          document.querySelectorAll('.bar-fill').forEach(b => {
+            const w = b.style.width; b.style.width = '0';
+            setTimeout(() => b.style.width = w, 100);
+          });
+        }, 500);
+      }, 800);
+    } else {
+      document.getElementById('lb-err').style.display = 'block';
+      document.getElementById('pwd').style.borderColor = 'var(--red)';
+      setTimeout(() => { document.getElementById('pwd').style.borderColor = ''; }, 2000);
+    }
+  }
+
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    document.getElementById('portal').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('login-screen').style.opacity = '1';
+    document.getElementById('usr').value = '';
+    document.getElementById('pwd').value = '';
+    document.getElementById('lb-err').style.display = 'none';
+  });
+
+  // Smooth scroll for nav
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+</script>
+</body>
+</html>

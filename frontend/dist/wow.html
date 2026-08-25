@@ -1,0 +1,2405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>WoW — Fast Fine Dining · Italy</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/svg+xml" href="/wow-assets/wow-favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/wow-assets/wow-favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/wow-assets/wow-favicon-180.png" />
+  <!-- Self-hosted fonts (Google Fonts CDN is blocked in China) -->
+  <link href="/wow-assets/fonts/wow-fonts.css" rel="stylesheet">
+  <style>
+    :root{--green:#0B1A12;--green-mid:#122A1C;--green-rich:#1A3D28;--gold:#C9A84C;--gold-light:#E8D5A3;--gold-dim:#7A6030;--black:#060A07;--off-white:#F5F0E8;--muted:#7A9480;}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Montserrat',sans-serif;background:var(--black);color:var(--off-white);overflow-x:hidden;cursor:none;}
+    #cur{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+    #cur-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(201,168,76,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all 0.15s;}
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:2rem 5rem;display:flex;align-items:center;justify-content:space-between;transition:all 0.5s;}
+    nav.s{background:rgba(6,10,7,0.96);backdrop-filter:blur(24px);padding:1.2rem 5rem;border-bottom:1px solid rgba(201,168,76,0.1);}
+    .logo{text-decoration:none;display:flex;flex-direction:column;align-items:center;}
+    .logo-wow{display:block;height:48px;width:auto;max-width:160px;object-fit:contain;}
+    .logo-sub{font-size:0.48rem;letter-spacing:0.48em;text-transform:uppercase;color:var(--muted);margin-top:2px;text-align:center;width:100%;}
+    .nav-links{display:flex;gap:2rem;list-style:none;}
+    .nav-links a{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(245,240,232,0.5);text-decoration:none;transition:color 0.3s;}
+    .nav-links a:hover{color:var(--gold);}
+    .nav-right{display:flex;align-items:center;gap:1.2rem;}
+    /* ── Language dropdown ─────────────────────────────────── */
+    .lang-switcher{position:relative;display:flex;align-items:center;}
+    .lang-selected{display:flex;align-items:center;gap:0.45rem;font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(245,240,232,0.55);background:none;border:1px solid rgba(201,168,76,0.18);padding:0.35rem 0.7rem;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all 0.25s;white-space:nowrap;}
+    .lang-selected:hover{color:var(--gold);border-color:rgba(201,168,76,0.5);}
+    .lang-selected .lang-arrow{font-size:0.45rem;opacity:0.5;transition:transform 0.25s;}
+    .lang-switcher.open .lang-selected{color:var(--gold);border-color:rgba(201,168,76,0.5);}
+    .lang-switcher.open .lang-arrow{transform:rotate(180deg);}
+    .lang-dropdown{position:absolute;top:calc(100% + 0.5rem);right:0;min-width:148px;background:rgba(6,10,7,0.97);border:1px solid rgba(201,168,76,0.22);backdrop-filter:blur(20px);z-index:300;opacity:0;visibility:hidden;transform:translateY(-6px);transition:all 0.2s;}
+    .lang-switcher.open .lang-dropdown{opacity:1;visibility:visible;transform:translateY(0);}
+    .lang-option{display:flex;align-items:center;gap:0.75rem;width:100%;padding:0.65rem 1rem;font-size:0.56rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(245,240,232,0.5);background:none;border:none;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all 0.2s;text-align:left;}
+    .lang-option:not(:last-child){border-bottom:1px solid rgba(201,168,76,0.07);}
+    .lang-option:hover{color:var(--gold);background:rgba(201,168,76,0.05);}
+    .lang-option.active{color:var(--gold);font-weight:600;}
+    .lang-option .lang-flag{font-size:0.85rem;line-height:1;}
+    .lang-option .lang-native{font-size:0.5rem;opacity:0.45;margin-left:auto;}
+    /* legacy .lang-btn kept for CMS editor compatibility */
+    .lang-btn{display:none;}
+    .nav-cta{font-size:0.58rem;letter-spacing:0.28em;text-transform:uppercase;background:var(--gold);color:var(--black);padding:0.8rem 1.8rem;text-decoration:none;font-weight:600;transition:background 0.3s;white-space:nowrap;}
+    .nav-cta:hover{background:var(--gold-light);}
+    /* HERO */
+    .hero{position:relative;height:100vh;min-height:700px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+    .hero-img{position:absolute;inset:0;background-image:url('/wow-assets/wow-interior.jpg');background-size:cover;background-position:center;filter:brightness(0.38);transform:scale(1.06);transition:transform 10s ease;}
+    /* Hero video background */
+    .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;filter:brightness(0.52) saturate(1.1);z-index:0;}
+    .hero-gold-tint{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(201,168,76,0.07) 0%,transparent 70%);z-index:1;pointer-events:none;}
+    .hero-img.loaded{transform:scale(1);}
+    .hero-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 20%,rgba(6,10,7,0.7) 100%);z-index:2;}
+    .hero-bottom{position:absolute;bottom:0;left:0;right:0;height:40%;background:linear-gradient(to top,var(--black),transparent);z-index:2;}
+    .hero-content{position:relative;z-index:3;text-align:center;padding:2rem;max-width:960px;}
+    .h-city{font-size:0.58rem;letter-spacing:0.6em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;opacity:0;animation:fu 1s 0.3s forwards;display:flex;align-items:center;justify-content:center;gap:1.2rem;}
+    .h-city::before,.h-city::after{content:'';width:40px;height:1px;background:rgba(201,168,76,0.5);}
+    .h-logo{width:clamp(220px,38vw,560px);height:auto;opacity:0;animation:fu 1.3s 0.5s forwards;margin-bottom:1.5rem;filter:drop-shadow(0 0 50px rgba(201,168,76,0.35)) drop-shadow(0 2px 20px rgba(0,0,0,0.8));}
+    .h-div{width:50px;height:1px;background:var(--gold);margin:0 auto 2rem;opacity:0;animation:fu 1s 1s forwards;}
+    .h-tag{font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,2.2vw,1.55rem);font-style:italic;font-weight:300;color:rgba(245,240,232,0.82);letter-spacing:0.04em;line-height:1.55;opacity:0;animation:fu 1s 1.2s forwards;margin-bottom:3rem;}
+    .h-ctas{display:flex;gap:1.5rem;justify-content:center;opacity:0;animation:fu 1s 1.5s forwards;flex-wrap:wrap;}
+    .btn-g{font-size:0.58rem;letter-spacing:0.32em;text-transform:uppercase;background:var(--gold);color:var(--black);padding:1.1rem 2.5rem;text-decoration:none;font-weight:600;transition:background 0.3s;}
+    .btn-g:hover{background:var(--gold-light);}
+    .btn-o{font-size:0.58rem;letter-spacing:0.32em;text-transform:uppercase;border:1px solid rgba(201,168,76,0.4);color:var(--gold);padding:1.1rem 2.5rem;text-decoration:none;transition:all 0.3s;}
+    .btn-o:hover{background:rgba(201,168,76,0.07);border-color:var(--gold);}
+    .h-scroll{position:absolute;bottom:2.5rem;left:0;right:0;margin:0 auto;width:fit-content;display:flex;flex-direction:column;align-items:center;gap:0.5rem;opacity:0;animation:fu 1s 2s forwards;z-index:3;}
+    .h-scroll span{font-size:0.48rem;letter-spacing:0.55em;text-transform:uppercase;color:var(--muted);}
+    .scroll-ln{width:1px;height:52px;background:linear-gradient(to bottom,var(--gold),transparent);animation:sl 2s 2.5s infinite;}
+    @keyframes sl{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+    @keyframes fu{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    /* MARQUEE */
+    .mq{overflow:hidden;background:var(--gold);padding:0.85rem 0;}
+    .mq-track{display:flex;align-items:center;width:max-content;animation:mq 32s linear infinite;}
+    .mq-item{font-size:0.58rem;letter-spacing:0.38em;text-transform:uppercase;color:var(--black);padding:0 2.8rem;white-space:nowrap;font-weight:600;display:inline-flex;align-items:center;}
+    .mq-dot{color:rgba(0,0,0,0.3);padding:0 0.5rem;display:inline-flex;align-items:center;}
+    @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    /* SHARED */
+    .c{max-width:1260px;margin:0 auto;padding:0 5rem;}
+    .ey{font-size:0.56rem;letter-spacing:0.52em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:1.2rem;}
+    .ey::before{content:'';display:inline-block;width:28px;height:1px;background:var(--gold);}
+    h2.st{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,4.5vw,4.2rem);font-weight:300;line-height:1.1;}
+    h2.st em{color:var(--gold);font-style:italic;}
+    .sb{font-size:0.86rem;line-height:1.95;color:var(--muted);font-weight:300;}
+    .rv{opacity:0;transform:translateY(32px);transition:opacity 0.9s,transform 0.9s;}
+    .rv.v{opacity:1;transform:none;}
+    .d1{transition-delay:.15s}.d2{transition-delay:.3s}.d3{transition-delay:.45s}.d4{transition-delay:.6s}
+    .sdiv{height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,0.18),transparent);}
+    /* PHILOSOPHY */
+    .stmt{padding:10rem 0;background:var(--black);}
+    .stmt-grid{display:grid;grid-template-columns:1fr 1fr;gap:9rem;align-items:center;}
+    .stmt-img{position:relative;height:580px;overflow:hidden;}
+    .stmt-img img{width:100%;height:100%;object-fit:cover;filter:brightness(0.78);transition:transform 8s ease;}
+    .stmt-img:hover img{transform:scale(1.04);}
+    .stmt-img-ovl{position:absolute;inset:0;background:linear-gradient(135deg,rgba(11,26,18,0.45),transparent 55%),linear-gradient(to top,rgba(6,10,7,0.75),transparent 40%);}
+    .stmt-img-tag{position:absolute;bottom:0;left:0;right:0;padding:2.5rem;}
+    .stmt-img-tag-label{font-size:0.55rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);}
+    .stmt-img-tag-val{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--off-white);}
+    /* MANIFESTO */
+    .manifesto{padding:10rem 0;background:var(--green);position:relative;overflow:hidden;}
+    .manifesto::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(42,92,63,0.25),transparent 55%);}
+    .manifesto .c{position:relative;z-index:1;}
+    .manifesto-inner{max-width:860px;margin:0 auto;text-align:center;}
+    .manifesto-heading{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,6vw,5.5rem);font-weight:300;line-height:1.1;margin-bottom:3rem;}
+    .manifesto-heading em{color:var(--gold);font-style:italic;}
+    .manifesto-body{font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,2vw,1.5rem);font-style:italic;font-weight:300;color:rgba(245,240,232,0.65);line-height:1.8;max-width:700px;margin:0 auto 2rem;}
+    .manifesto-divider{width:60px;height:1px;background:var(--gold);margin:2rem auto;}
+    .pillars-row{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:5rem;}
+    .pr{background:rgba(11,26,18,0.7);padding:3.5rem 3rem;border:1px solid rgba(201,168,76,0.07);transition:all 0.4s;position:relative;overflow:hidden;}
+    .pr:hover{background:rgba(18,42,28,0.9);border-color:rgba(201,168,76,0.2);}
+    .pr::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.4s;}
+    .pr:hover::before{transform:scaleX(1);}
+    .pr-icon{font-size:1.8rem;margin-bottom:1.5rem;display:block;}
+    .pr-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--off-white);margin-bottom:1rem;font-weight:400;}
+    .pr-text{font-size:0.8rem;color:var(--muted);line-height:1.85;}
+    /* 9 COURSES */
+    .exp{padding:10rem 0;background:var(--black);}
+    .exp-hdr{text-align:center;max-width:820px;margin:0 auto 6rem;}
+    .course-strip{position:relative;display:grid;grid-template-columns:repeat(9,1fr);margin-bottom:6rem;}
+    .course-strip::before{content:'';position:absolute;top:calc(50% - 18px);left:4%;right:4%;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,0.22),transparent);pointer-events:none;}
+    .ci{display:flex;flex-direction:column;align-items:center;gap:1rem;padding:2.5rem 0.3rem;cursor:default;transition:transform 0.35s;}
+    .ci:hover{transform:translateY(-12px);}
+    /* Hero ingredient */
+    .ci-hero{display:flex;flex-direction:column;align-items:center;gap:1.2rem;margin:3rem auto 0;max-width:260px;}
+    .ci-hero-img-wrap{width:208px;height:208px;border-radius:50%;overflow:hidden;border:1px solid rgba(201,168,76,0.4);box-shadow:0 0 40px rgba(201,168,76,0.15);transition:box-shadow 0.4s;}
+    .ci-hero-img-wrap:hover{box-shadow:0 0 60px rgba(201,168,76,0.35);}
+    .ci-hero-img{width:100%;height:100%;object-fit:cover;filter:brightness(0.85) saturate(0.9);transition:transform 0.6s,filter 0.4s;}
+    .ci-hero-img-wrap:hover .ci-hero-img{transform:scale(1.06);filter:brightness(0.95) saturate(1.05);}
+    .ci-hero-label{display:flex;flex-direction:column;align-items:center;gap:0.3rem;text-align:center;}
+    .ci-hero-eyebrow{font-size:0.44rem;letter-spacing:0.42em;text-transform:uppercase;color:rgba(201,168,76,0.55);font-family:'Montserrat',sans-serif;}
+    .ci-hero-name{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--off-white);font-style:italic;font-weight:300;}
+    /* Course images */
+    .ci-img-wrap{width:64px;height:64px;border-radius:50%;overflow:hidden;border:1px solid rgba(201,168,76,0.25);flex-shrink:0;transition:border-color 0.35s,box-shadow 0.35s;}
+    .ci:hover .ci-img-wrap{border-color:var(--gold);box-shadow:0 0 18px rgba(201,168,76,0.35);}
+    .ci-img{width:100%;height:100%;object-fit:cover;filter:brightness(0.78) saturate(0.85);transition:filter 0.35s,transform 0.5s;}
+    .ci:hover .ci-img{filter:brightness(0.92) saturate(1);transform:scale(1.08);}
+    .ci-n{font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:rgba(201,168,76,0.13);line-height:1;transition:color 0.35s;}
+    .ci:hover .ci-n{color:var(--gold);}
+    .ci-dot{width:10px;height:10px;border-radius:50%;border:1px solid rgba(201,168,76,0.28);background:var(--black);transition:all 0.35s;position:relative;z-index:1;}
+    .ci:hover .ci-dot{background:var(--gold);box-shadow:0 0 22px rgba(201,168,76,0.55);border-color:var(--gold);}
+    .ci-lbl{font-size:0.73rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-align:center;transition:color 0.35s;line-height:1.5;}
+    .ci:hover .ci-lbl{color:var(--off-white);}
+    .feat-trio{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+    .ft{position:relative;overflow:hidden;}
+    .ft img{width:100%;height:360px;object-fit:cover;display:block;filter:brightness(0.58);transition:all 0.7s;}
+    .ft:hover img{filter:brightness(0.75);transform:scale(1.04);}
+    .ft-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:2.8rem;background:linear-gradient(to top,rgba(6,10,7,0.92) 0%,transparent 55%);}
+    .ft-num{font-family:'Cormorant Garamond',serif;font-size:5rem;color:rgba(201,168,76,0.1);position:absolute;top:1.5rem;right:2rem;line-height:1;pointer-events:none;}
+    .ft-tag{font-size:0.52rem;letter-spacing:0.38em;text-transform:uppercase;color:var(--gold);margin-bottom:0.7rem;}
+    .ft-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--off-white);margin-bottom:0.7rem;font-weight:400;}
+    .ft-text{font-size:0.76rem;color:rgba(245,240,232,0.65);line-height:1.75;}
+    .ft-line{position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.5s;}
+    .ft:hover .ft-line{transform:scaleX(1);}
+    /* GALLERY */
+    .gallery{background:var(--black);}
+    .gal-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:420px 420px 420px;gap:2px;}
+    .gi{overflow:hidden;position:relative;}
+    .gi img{width:100%;height:100%;object-fit:cover;filter:brightness(0.72);transition:all 0.7s;}
+    .gi:hover img{filter:brightness(0.88);transform:scale(1.05);}
+    .gi.tall{grid-row:span 2;}
+    .gi-lbl{position:absolute;bottom:1.8rem;left:1.8rem;}
+    .gi-lbl span{font-size:0.52rem;letter-spacing:0.32em;text-transform:uppercase;color:rgba(245,240,232,0.55);}
+    /* MADE IN ITALY */
+    .italy{padding:10rem 0;background:var(--green);}
+    .italy-layout{display:grid;grid-template-columns:1fr 1.15fr;gap:9rem;align-items:start;}
+    .italy-img{position:relative;height:auto;min-height:520px;overflow:hidden;}
+    .italy-img img{width:100%;height:100%;min-height:520px;object-fit:cover;object-position:center 30%;filter:brightness(0.82);transition:transform 7s ease;}
+    .italy-img:hover img{transform:scale(1.04);}
+    .italy-img-ovl{position:absolute;inset:0;background:linear-gradient(to top,rgba(11,26,18,0.85),transparent 55%);}
+    .iq-box{position:absolute;bottom:0;left:0;right:0;padding:2.8rem;}
+    .iq-text{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;color:var(--off-white);line-height:1.55;margin-bottom:0.5rem;}
+    .iq-attr{font-size:0.52rem;letter-spacing:0.38em;text-transform:uppercase;color:var(--gold);}
+    .italy-pl{display:flex;flex-direction:column;gap:0;margin-top:3rem;}
+    .pl{display:flex;gap:2rem;padding:1.8rem 0;border-bottom:1px solid rgba(201,168,76,0.07);transition:all 0.35s;cursor:default;}
+    .pl:hover{padding-left:0.7rem;border-bottom-color:rgba(201,168,76,0.22);}
+    .pl-n{font-family:'Cormorant Garamond',serif;font-size:2rem;color:rgba(201,168,76,0.18);line-height:1;min-width:2.5rem;transition:color 0.35s;}
+    .pl:hover .pl-n{color:var(--gold);}
+    .pl-title{font-size:0.76rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--off-white);margin-bottom:0.35rem;}
+    .pl-text{font-size:0.78rem;color:var(--muted);line-height:1.75;}
+    /* BOOKING */
+    .booking{padding:10rem 0;background:var(--black);}
+    .book-body-mobile{display:none;}
+    .book-body-desktop{display:block;}
+    .booking-layout{display:grid;grid-template-columns:1fr 1.1fr;gap:7rem;align-items:start;}
+    .pod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2.5rem;background:rgba(201,168,76,0.08);}
+    .pod{background:var(--green);padding:2rem 1.5rem;text-align:center;position:relative;transition:background 0.3s;cursor:pointer;border:2px solid transparent;}
+    .pod:hover{background:var(--green-mid);}
+    .pod.selected{border-color:var(--gold);background:var(--green-rich);}
+    .pod-num{font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:var(--gold);font-weight:300;line-height:1;}
+    .pod-label{font-size:0.52rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);margin-top:0.3rem;}
+    .pod-seats{font-size:0.68rem;color:rgba(201,168,76,0.5);margin-top:0.3rem;}
+    .pod.unavail{opacity:0.35;cursor:not-allowed;}
+    .pod.unavail:hover{background:var(--green);}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+    .booking-form{background:var(--green-mid);border:1px solid rgba(201,168,76,0.12);padding:3.5rem;position:relative;}
+    .booking-form::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold),var(--gold-dim));}
+    .bf-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;margin-bottom:2rem;}
+    .bf-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.2rem;}
+    .bf-field{display:flex;flex-direction:column;gap:0.5rem;}
+    .bf-field.full{grid-column:span 2;}
+    .bf-label{font-size:0.56rem;letter-spacing:0.32em;text-transform:uppercase;color:var(--gold);}
+    .bf-input,.bf-select{background:rgba(245,240,232,0.04);border:1px solid rgba(201,168,76,0.18);color:var(--off-white);padding:0.85rem 1.1rem;font-family:'Montserrat',sans-serif;font-size:0.8rem;outline:none;transition:border 0.3s;width:100%;appearance:none;}
+    .bf-input:focus,.bf-select:focus{border-color:var(--gold);}
+    .bf-input::placeholder{color:rgba(122,148,128,0.5);}
+    .bf-select option{background:var(--green-mid);color:var(--off-white);}
+    .bf-note{font-size:0.7rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem;font-style:italic;}
+    .bf-btn{width:100%;background:var(--gold);color:var(--black);border:none;padding:1.1rem;font-family:'Montserrat',sans-serif;font-size:0.6rem;letter-spacing:0.32em;text-transform:uppercase;font-weight:600;cursor:pointer;transition:background 0.3s;}
+    .bf-btn:hover{background:var(--gold-light);}
+    .bf-btn:disabled{opacity:0.6;cursor:not-allowed;}
+    .bf-confirm{display:none;text-align:center;padding:3rem 1rem;}
+    .bf-confirm-icon{font-size:3rem;margin-bottom:1.5rem;}
+    .bf-confirm-title{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--gold);margin-bottom:1rem;}
+    .bf-confirm-text{font-size:0.82rem;color:var(--muted);line-height:1.8;}
+    /* RESERVE CTA */
+    .reserve-cta{padding:12rem 0;background:var(--green);text-align:center;position:relative;overflow:hidden;}
+    .reserve-cta-bg{position:absolute;inset:0;background-image:url('/wow-assets/wow-tablesetting.jpg');background-size:cover;background-position:center;filter:brightness(0.18) saturate(0.6);}
+    .reserve-cta-ovl{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(11,26,18,0.5),rgba(11,26,18,0.97));}
+    .reserve-cta .c{position:relative;z-index:2;}
+    .r-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,6vw,5.5rem);font-weight:300;line-height:1.12;margin-bottom:1.5rem;}
+    .r-title em{color:var(--gold);font-style:italic;}
+    .r-sub{font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,1.8vw,1.35rem);font-style:italic;color:rgba(245,240,232,0.55);max-width:560px;margin:0 auto 3.5rem;line-height:1.7;font-weight:300;}
+    /* FOOTER */
+    footer{background:var(--black);border-top:1px solid rgba(201,168,76,0.1);padding:5rem 0 2.5rem;}
+    .fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:4rem;margin-bottom:4rem;}
+    .f-sub{font-size:0.48rem;letter-spacing:0.48em;text-transform:uppercase;color:var(--muted);margin-bottom:1.2rem;display:block;}
+    .f-tag{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:rgba(245,240,232,0.35);line-height:1.6;max-width:260px;}
+    .fc-title{font-size:0.52rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;}
+    .fc-links{list-style:none;display:flex;flex-direction:column;gap:0.7rem;}
+    .fc-links a{font-size:0.78rem;color:var(--muted);text-decoration:none;transition:color 0.3s;}
+    .fc-links a:hover{color:var(--off-white);}
+    .f-bottom{display:flex;justify-content:space-between;padding-top:2rem;border-top:1px solid rgba(201,168,76,0.07);font-size:0.62rem;color:rgba(122,148,128,0.38);flex-wrap:wrap;gap:1rem;overflow:hidden;}
+    .inv-link{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);text-decoration:none;transition:color 0.3s;white-space:nowrap;}
+    .inv-link:hover{color:var(--gold);}
+    /* RESPONSIVE */
+    /* ── Tablet (≤1024px) ────────────────────────────────────── */
+
+
+
+
+    /* ── Mobile Reserve Button ─────────────────────────────── */
+    .nav-reserve-mobile{display:none;}
+
+    /* ── Hamburger ─────────────────────────────────────────── */
+    .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;
+      background:none;border:none;cursor:pointer;padding:0.4rem;width:32px;height:32px;}
+    .hamburger span{display:block;width:22px;height:1px;background:rgba(245,240,232,0.7);
+      transition:all 0.3s;transform-origin:center;}
+    .hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+    .hamburger.open span:nth-child(2){opacity:0;}
+    .hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+
+    /* ── Mobile Menu Overlay ──────────────────────────────── */
+    .mobile-menu{position:fixed;inset:0;background:rgba(6,10,7,0.98);z-index:500;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;
+      opacity:0;visibility:hidden;transition:opacity 0.35s,visibility 0.35s;
+      backdrop-filter:blur(20px);}
+    .mobile-menu.open{opacity:1;visibility:visible;}
+    .mobile-menu-close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;
+      color:rgba(245,240,232,0.5);font-size:1.2rem;cursor:pointer;padding:0.5rem;
+      transition:color 0.2s;}
+    .mobile-menu-close:hover{color:var(--gold);}
+    .mobile-menu-nav{display:flex;flex-direction:column;align-items:center;gap:0;width:100%;}
+    .mobile-menu-link{display:block;text-align:center;font-size:0.62rem;letter-spacing:0.4em;
+      text-transform:uppercase;color:rgba(245,240,232,0.55);text-decoration:none;
+      padding:1.4rem 2rem;width:100%;border-bottom:1px solid rgba(201,168,76,0.07);
+      font-family:'Montserrat',sans-serif;transition:color 0.2s,background 0.2s;}
+    .mobile-menu-link:first-child{border-top:1px solid rgba(201,168,76,0.07);}
+    .mobile-menu-link:hover{color:var(--gold);background:rgba(201,168,76,0.04);}
+    .mobile-menu-cta{margin-top:2.5rem;font-size:0.58rem;letter-spacing:0.32em;
+      text-transform:uppercase;background:var(--gold);color:var(--black);
+      padding:1rem 2.5rem;text-decoration:none;font-weight:600;
+      transition:background 0.3s;font-family:'Montserrat',sans-serif;}
+    .mobile-menu-cta:hover{background:var(--gold-light);}
+
+    .italy-img-sticky{position:sticky;top:6rem;align-self:start;}
+    .hero-100ita-trust{margin-top:2rem;font-size:0.48rem;letter-spacing:0.28em;text-transform:uppercase;color:rgba(201,168,76,0.55);font-family:'Montserrat',sans-serif;padding:0 1rem;}
+    .italy-100ita-block{margin-top:2.5rem;padding:1.8rem 2rem;border:1px solid rgba(201,168,76,0.18);border-left:2px solid rgba(201,168,76,0.6);background:rgba(201,168,76,0.04);}
+    @media(max-width:1024px){
+      .c{padding:0 2rem;}
+      .hamburger{display:flex;}
+      .nav-reserve-mobile{display:inline-block;font-size:0.52rem;letter-spacing:0.2em;
+        text-transform:uppercase;background:var(--gold);color:var(--black);
+        padding:0.6rem 1.2rem;text-decoration:none;font-weight:600;
+        font-family:'Montserrat',sans-serif;white-space:nowrap;}
+      nav{padding:1.2rem 2rem;}
+      .nav-links a{font-size:0.58rem;letter-spacing:0.16em;}
+      nav.s{padding:1rem 2rem;}
+      .nav-links{display:none;}
+      .stmt-grid,.italy-layout,.booking-layout{grid-template-columns:1fr;gap:4rem;}
+      .italy-img-sticky{position:static;align-self:auto;}
+      .italy-layout{display:flex;flex-direction:column;}
+      .italy-col-text{order:2;}
+      .italy-col-img{order:1;}
+      .stmt-img{height:380px;}
+      .italy-img{height:440px;min-height:440px;}
+      .course-strip{grid-template-columns:repeat(3,1fr);}
+      .feat-trio{grid-template-columns:1fr;}
+      .ft img{height:280px;}
+      .gal-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
+      .gi.tall{grid-row:span 1;}
+      .pillars-row{grid-template-columns:1fr;}
+      .fg{grid-template-columns:1fr 1fr;}
+      .pod-grid{grid-template-columns:repeat(2,1fr);}
+      .bf-row{grid-template-columns:1fr;}
+      .bf-field.full{grid-column:span 1;}
+    }
+
+    /* ── Mobile (≤640px) ─────────────────────────────────────── */
+    @media(max-width:640px){
+      /* Base */
+      body{cursor:auto;}
+      #cur,#cur-ring{display:none;}
+      .c{padding:0 1.2rem;}
+
+      /* Nav */
+      nav{padding:1rem 1.2rem;}
+      nav.s{padding:0.85rem 1.2rem;}
+      .nav-links{display:none;}
+      .nav-right{gap:0.6rem;align-items:center;}
+      .nav-cta{display:none;}
+      .nav-reserve-mobile{display:none !important;}
+      .lang-selected{font-size:0.52rem;padding:0.3rem 0.6rem;}
+      .lang-dropdown{right:0;left:auto;min-width:130px;max-width:calc(100vw - 2.4rem);}
+      .lang-native{display:none;}
+      .logo-wow{height:36px;width:auto;max-width:120px;object-fit:contain;}
+
+      /* Hero */
+      .hero{min-height:100svh;}
+      .hero-video{object-position:center center;}
+      .h-city{font-size:0.52rem;letter-spacing:0.35em;gap:0.8rem;}
+      .h-city::before,.h-city::after{width:24px;}
+      .h-logo{width:clamp(160px,72vw,320px);}
+      .h-tag{font-size:1.05rem;padding:0 0.5rem;}
+      .h-ctas{flex-direction:column;align-items:center;gap:0.85rem;}
+      .btn-g,.btn-o{padding:1rem 2rem;font-size:0.62rem;width:100%;max-width:280px;text-align:center;}
+      .h-scroll{bottom:1.5rem;}
+
+      /* Sections */
+      .stmt{padding:5rem 0;}
+      .stmt-grid{gap:2.5rem;}
+      .stmt-img{height:260px;margin-left:-1.2rem;margin-right:-1.2rem;width:calc(100% + 2.4rem);}
+      .italy-img{margin-left:-1.2rem;margin-right:-1.2rem;width:calc(100% + 2.4rem);}
+      .gal-grid{margin-left:-1.2rem;margin-right:-1.2rem;}
+      .manifesto{padding:5rem 0;}
+      .manifesto-heading{font-size:clamp(2rem,9vw,3.5rem);}
+      .manifesto-body{font-size:1rem;padding:0 0.5rem;}
+      .pillars-row{margin-top:3rem;}
+      .pr{padding:2.2rem 1.8rem;}
+
+      /* Experience */
+      .exp{padding:5rem 0;}
+      .exp-hdr{margin-bottom:3rem;}
+      .course-strip{grid-template-columns:repeat(3,1fr);margin-bottom:3rem;}
+      .ci{padding:1.5rem 0.2rem;gap:0.6rem;}
+      .ci-img-wrap{width:44px;height:44px;}
+      .ci-n{font-size:1.2rem;}
+      .ci-lbl{font-size:0.63rem;}
+      .feat-trio{grid-template-columns:1fr;gap:2px;margin-left:-1.2rem;margin-right:-1.2rem;}
+      .ft img{height:240px;}
+      .ft-content{padding:1.8rem;}
+      .ft-title{font-size:1.3rem;}
+      .ft-text{font-size:0.72rem;}
+
+      /* Gallery */
+      .gal-grid{grid-template-columns:1fr;grid-template-rows:auto;gap:2px;}
+      .gi{height:260px;}
+      .gi.tall{grid-row:span 1;height:280px;}
+
+      /* Italy — full-bleed image on mobile */
+      .italy{padding:0 0 5rem;}
+      .italy-layout{gap:0;}
+      .italy-img{
+        height:72vw; min-height:320px; max-height:480px;
+        /* Break out of container padding to go full-width */
+        margin-left:calc(-1.2rem);
+        margin-right:calc(-1.2rem);
+        width:calc(100% + 2.4rem);
+      }
+      .italy-img img{object-position:center 25%;}
+      .iq-box{padding:1.5rem 2rem;}
+      /* Push text content back inside padding */
+      .italy-layout > div:last-child{padding:2.5rem 0 0;}
+      .iq-text{font-size:1rem;}
+      .pl{gap:1.2rem;padding:1.4rem 0;}
+      .pl-n{font-size:1.5rem;min-width:2rem;}
+      .pl-title{font-size:0.7rem;}
+      .pl-text{font-size:0.72rem;}
+
+      /* Booking */
+      .booking{padding:5rem 0;}
+      .booking-form iframe{min-height:500px !important;}
+      .booking-layout{gap:2.5rem;}
+      .booking-form{padding:2rem 1.2rem;}
+      .pod-grid{grid-template-columns:repeat(2,1fr);}
+      .booking-layout > div:first-child{order:2;}
+      .booking-form{order:1;}
+      .book-body-mobile{display:block;margin-bottom:1.5rem;font-style:italic;color:rgba(245,240,232,0.65);font-size:0.82rem;line-height:1.8;}
+      .book-body-desktop{display:none;}
+      .pod{padding:1.4rem 0.8rem;}
+      .pod-num{font-size:1.7rem;}
+      .pod-label{font-size:0.5rem;}
+      .pod-seats{font-size:0.58rem;}
+      .bf-title{font-size:1.2rem;}
+      .bf-input,.bf-select{padding:0.75rem 0.9rem;font-size:0.82rem;}
+
+      /* Reserve CTA */
+      .reserve-cta{padding:7rem 0;}
+
+      /* Hero trust */
+      .hero-100ita-trust{font-size:0.44rem;letter-spacing:0.15em;padding:0 0.5rem;}
+      .italy-100ita-block{padding:1.4rem 1.2rem;margin-top:1.8rem;}
+
+      /* Marquee — centre on mobile */
+      .mq-track{animation-duration:40s;}
+      .mq-item{padding:0 1.8rem;}
+
+      /* Footer */
+      footer{padding:3rem 0 2rem;}
+      .fg{grid-template-columns:1fr;gap:2.5rem;}
+      .f-bottom{flex-direction:column;gap:0.8rem;font-size:0.58rem;align-items:flex-start;}
+      .f-bottom span{word-break:break-word;}
+
+      /* Typography global */
+      h2.st{font-size:clamp(2rem,8vw,3rem);}
+      .ey{font-size:0.5rem;}
+      .sb{font-size:0.82rem;}
+    }
+
+    /* ── Small phones (≤390px) ───────────────────────────────── */
+    @media(max-width:390px){
+      .c{padding:0 1rem;}
+      .h-logo{width:clamp(140px,78vw,260px);}
+      .manifesto-heading{font-size:clamp(1.75rem,10vw,3rem);}
+      .course-strip{grid-template-columns:repeat(2,1fr);}
+      .booking-form{padding:1.5rem 1rem;}
+      .pod-grid{grid-template-columns:repeat(2,1fr);}
+      .booking-layout > div:first-child{order:2;}
+      .booking-form{order:1;}
+      .stmt-img{margin-left:-1rem;margin-right:-1rem;width:calc(100% + 2rem);}
+      .italy-img{margin-left:-1rem;margin-right:-1rem;width:calc(100% + 2rem);}
+      .gal-grid{margin-left:-1rem;margin-right:-1rem;}
+      .feat-trio{margin-left:-1rem;margin-right:-1rem;}
+    }
+  </style>
+</head>
+<body>
+  <div id="cur"></div>
+  <div id="cur-ring"></div>
+
+  <nav id="nav">
+    <a class="logo" href="#">
+      <img loading="lazy" class="logo-wow" src="/wow-assets/wow-logo-v1.5.png" alt="WoW Fast Fine Dining">
+      <span class="logo-sub">Italy</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#philosophy" data-i18n="nav_philosophy">Philosophy</a></li>
+      <li><a href="#experience" data-i18n="nav_experience">The Experience</a></li>
+      <li><a href="#italy" data-i18n="nav_italy">Made in Italy</a></li>
+      <li><a href="#booking" data-i18n="nav_reserve">Reserve</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="#booking" class="nav-reserve-mobile" data-i18n="nav_cta">Reserve Your Pod</a>
+      <div class="lang-switcher" id="langSwitcher">
+        <button class="lang-selected" id="langSelected" aria-haspopup="true" aria-expanded="false">
+          <span id="langFlag">🇬🇧</span>
+          <span id="langLabel">EN</span>
+          <span class="lang-arrow">▾</span>
+        </button>
+        <div class="lang-dropdown" role="listbox">
+          <button class="lang-option active" data-lang="en" role="option"><span class="lang-flag">🇬🇧</span>English<span class="lang-native">English</span></button>
+          <button class="lang-option" data-lang="it" role="option"><span class="lang-flag">🇮🇹</span>Italiano<span class="lang-native">Italian</span></button>
+          <button class="lang-option" data-lang="fr" role="option"><span class="lang-flag">🇫🇷</span>Français<span class="lang-native">French</span></button>
+          <button class="lang-option" data-lang="es" role="option"><span class="lang-flag">🇪🇸</span>Español<span class="lang-native">Spanish</span></button>
+          <button class="lang-option" data-lang="de" role="option"><span class="lang-flag">🇩🇪</span>Deutsch<span class="lang-native">German</span></button>
+          <button class="lang-option" data-lang="zh" role="option"><span class="lang-flag">🇨🇳</span>中文<span class="lang-native">Chinese</span></button>
+        </div>
+      </div>
+      <a href="#booking" class="nav-cta" data-i18n="nav_cta">Reserve Your Pod</a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">✕</button>
+    <nav class="mobile-menu-nav">
+      <a href="#philosophy" class="mobile-menu-link" data-i18n="nav_philosophy">Philosophy</a>
+      <a href="#experience" class="mobile-menu-link" data-i18n="nav_experience">The Experience</a>
+      <a href="#italy" class="mobile-menu-link" data-i18n="nav_italy">Made in Italy</a>
+      <a href="#booking" class="mobile-menu-link" data-i18n="nav_reserve">Reserve</a>
+    </nav>
+    <a href="#booking" class="mobile-menu-cta" data-i18n="nav_cta">Reserve Your Pod</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <!-- Video background — falls back to static image if video fails -->
+    <video class="hero-video" id="heroVideo"
+      src="/wow-assets/wow-hero-goldflakes.mp4"
+      autoplay muted loop playsinline preload="metadata"
+      poster="/wow-assets/wow-interior.jpg">
+    </video>
+    <div class="hero-gold-tint"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-bottom"></div>
+    <!-- Fallback: keep hero-img hidden, shown only if video fails -->
+    <div class="hero-img hero-img-fallback" id="heroImg" style="display:none;"></div>
+    <div class="hero-content">
+      <div class="h-city" data-i18n="hero_city">Italy</div>
+      <img loading="lazy" src="/wow-assets/wow-logo-v1.5.png" alt="WoW Fast Fine Dining" class="h-logo">
+      <div class="h-div"></div>
+      <p class="h-tag" data-i18n="hero_tag">Where Italian artistry meets<br>the ritual of extraordinary dining.</p>
+      <div class="h-ctas">
+        <a href="#experience" class="btn-g" data-i18n="hero_cta1">Discover the Journey</a>
+        <a href="#booking" class="btn-o" data-i18n="hero_cta2">Reserve Your Pod</a>
+      </div>
+      <p class="hero-100ita-trust">Supported by <span style="color:rgba(201,168,76,0.55);">100ITA</span> — a global trust trademark for authentic Italian culinary culture</p>
+    </div>
+    <div class="h-scroll"><span data-i18n="scroll_lbl">Discover</span><div class="scroll-ln"></div></div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="mq">
+    <div class="mq-track">
+      <span class="mq-item" data-i18n="mq1">Nine Courses</span><span class="mq-dot">◆</span>
+      <span class="mq-item" data-i18n="mq2">Michelin-Designed Menus</span><span class="mq-dot">◆</span>
+      <span class="mq-item">Made in Italy</span><span class="mq-dot">◆</span>
+      <span class="mq-item" data-i18n="mq4">Perugia · Opening 2026</span><span class="mq-dot">◆</span>
+      <span class="mq-item" data-i18n="mq5">Tradition in Evolution</span><span class="mq-dot">◆</span>
+      <span class="mq-item" data-i18n="mq6">Fast Fine Dining</span><span class="mq-dot">◆</span>
+      <span class="mq-item" data-i18n="mq1">Nine Courses</span><span class="mq-dot">◆</span>
+      <span class="mq-item" data-i18n="mq2">Michelin-Designed Menus</span><span class="mq-dot">◆</span>
+      <span class="mq-item">Made in Italy</span><span class="mq-dot">◆</span>
+      <span class="mq-item" data-i18n="mq4">Perugia · Opening 2026</span><span class="mq-dot">◆</span>
+      <span class="mq-item" data-i18n="mq5">Tradition in Evolution</span><span class="mq-dot">◆</span>
+      <span class="mq-item" data-i18n="mq6">Fast Fine Dining</span><span class="mq-dot">◆</span>
+    </div>
+  </div>
+
+  <!-- PHILOSOPHY -->
+  <section class="stmt" id="philosophy">
+    <div class="c">
+      <div class="stmt-grid">
+        <div>
+          <div class="ey rv" data-i18n="phil_ey">Our Philosophy</div>
+          <h2 class="st rv d1" data-i18n="phil_title">A theatre<br>of <em>wonder.</em></h2>
+          <div style="height:1.5rem"></div>
+          <p class="sb rv d2" style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-style:italic;color:var(--off-white);font-weight:300;border-left:2px solid var(--gold);padding-left:1.5rem;margin-bottom:2rem;" data-i18n="phil_quote">"We do not follow recipes. We follow a feeling — and craft every visit into something irrepeatable."</p>
+          <p class="sb rv d3" style="max-width:520px" data-i18n="phil_body1">The great restaurants of the world share one truth: they transform dining into an encounter between human creativity and the finest ingredients on earth. WoW was born from reverence for that truth — and a single audacious question: <em style="color:var(--off-white)">what if it could reach everyone?</em></p>
+          <p class="sb rv d3" style="max-width:520px;margin-top:1.2rem" data-i18n="phil_body2">Not by diminishing excellence. But by honouring it — with the artistry and soul it has always deserved.</p>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3.5rem;border-top:1px solid rgba(201,168,76,0.12);padding-top:2rem;" class="rv d4">
+            <div><div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;color:var(--gold);font-weight:300;line-height:1">9</div><div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-top:0.3rem" data-i18n="stat1_lbl">Michelin-designed courses</div></div>
+            <div><div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;color:var(--gold);font-weight:300;line-height:1">90</div><div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-top:0.3rem" data-i18n="stat2_lbl">Minutes of wonder</div></div>
+            <div><div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;color:var(--gold);font-weight:300;line-height:1">50%</div><div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-top:0.3rem" data-i18n="stat3_lbl">Below traditional fine dining</div></div>
+          </div>
+        </div>
+        <div class="stmt-img rv d2">
+          <img loading="lazy" src="/wow-assets/wow-theatre.jpg" alt="WoW theatrical dining">
+          <div class="stmt-img-ovl"></div>
+          <div class="stmt-img-tag">
+            <div class="stmt-img-tag-label" data-i18n="phil_img_label">The WoW Moment</div>
+            <div class="stmt-img-tag-val" data-i18n="phil_img_val">Every visit. Every table. Every time.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="sdiv"></div>
+
+  <!-- MANIFESTO -->
+  <section class="manifesto">
+    <div class="c">
+      <div class="manifesto-inner">
+        <div class="ey rv" style="justify-content:center" data-i18n="manifesto_ey">Our Belief</div>
+        <h2 class="manifesto-heading rv d1" data-i18n="manifesto_title">Some meals<br>you eat.<br><em>WoW you remember.</em></h2>
+        <div class="manifesto-divider rv d2"></div>
+        <p class="manifesto-body rv d2" data-i18n="manifesto_body1">For too long, the world's most extraordinary tables have existed behind walls of inaccessibility. WoW opens a different door — not through imitation, but through genuine Italian hospitality and the artistry of those who live to feed, delight, and move you.</p>
+        <p class="manifesto-body rv d3" data-i18n="manifesto_body2">We have distilled the soul of Italy's greatest dining culture — its theatre, its warmth, its savoir-faire — into an experience that travels, scales, and above all, touches you.</p>
+      </div>
+      <div class="pillars-row rv">
+        <div class="pr"><span class="pr-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="14" cy="14" r="12.5" stroke="rgba(201,168,76,0.7)" stroke-width="1"/>
+            <circle cx="14" cy="14" r="7.5" stroke="rgba(201,168,76,0.5)" stroke-width="0.75"/>
+            <line x1="14" y1="1.5" x2="14" y2="4.5" stroke="rgba(201,168,76,0.8)" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="14" y1="23.5" x2="14" y2="26.5" stroke="rgba(201,168,76,0.8)" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="1.5" y1="14" x2="4.5" y2="14" stroke="rgba(201,168,76,0.8)" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="23.5" y1="14" x2="26.5" y2="14" stroke="rgba(201,168,76,0.8)" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="14" cy="14" r="2.5" fill="rgba(201,168,76,0.9)"/>
+          </svg>
+        </span><div class="pr-title" data-i18n="pillar1_title">Crafted with Purpose</div><p class="pr-text" data-i18n="pillar1_text">Every element shaped by the artistry of a Michelin kitchen and the warmth of an Italian grandmother — because beauty and soul are never in opposition.</p></div>
+        <div class="pr"><span class="pr-icon">🇮🇹</span><div class="pr-title" data-i18n="pillar2_title">Rooted in Italian Soul</div><p class="pr-text" data-i18n="pillar2_text">We do not approximate Italy. We embody it. Our philosophy begins with Italian culinary culture — its hospitality, its craftsmanship, its emotional depth — and honours that heritage with ingredients and techniques selected for authenticity and provenance.</p></div>
+        <div class="pr"><span class="pr-icon" style="font-size:1.4rem;color:var(--gold);">✦</span><div class="pr-title" data-i18n="pillar3_title">Michelin by Design</div><p class="pr-text" data-i18n="pillar3_text">Our menus are not inspired by starred kitchens — they are created by them. Our CCO, named Emerging Chef of the Year by L'Espresso, leads starred chefs who are equity partners in WoW's mission.</p></div>
+      </div>
+    </div>
+  </section>
+  <div class="sdiv"></div>
+
+  <!-- 9 COURSES -->
+  <section class="exp" id="experience">
+    <div class="c">
+      <div class="exp-hdr">
+        <div class="ey rv" style="justify-content:center" data-i18n="exp_ey">The Experience</div>
+        <h2 class="st rv d1" style="text-align:center" data-i18n="exp_title">Close your eyes.<br><em>One Narrative. Nine Courses.</em></h2>
+        <p class="sb rv d2" style="text-align:center;margin:1.8rem auto 0;max-width:620px" data-i18n="exp_body">Nine courses. Nine moments. Each one crafted to make time slow, conversation deepen, and the world outside disappear. This is not just dinner. This is the evening you will still be talking about.</p>
+        <!-- Hero ingredient image -->
+        <div class="ci-hero rv d3">
+          <div class="ci-hero-img-wrap">
+            <img loading="lazy" class="ci-hero-img" src="/wow-assets/wow-salmon.jpg" alt="Salmon — The Main Ingredient" data-wow-img="course_hero">
+          </div>
+          <div class="ci-hero-label">
+            <span class="ci-hero-eyebrow">One Narrative</span>
+            <span class="ci-hero-name" data-i18n="course_hero_name">Salmon</span>
+          </div>
+        </div>
+      </div>
+      <div class="course-strip rv">
+        <div class="ci"><div class="ci-img-wrap"><img loading="lazy" class="ci-img" src="/wow-assets/wow-food1.jpg" alt="Amuse Bouche" data-wow-img="course_1"></div><div class="ci-n">I</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c1">Amuse<br>Bouche</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img loading="lazy" class="ci-img" src="/wow-assets/wow-tablesetting.jpg" alt="Cold Antipasto" data-wow-img="course_2"></div><div class="ci-n">II</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c2">Cold<br>Antipasto</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img loading="lazy" class="ci-img" src="/wow-assets/wow-theatre.jpg" alt="Warm Starter" data-wow-img="course_3"></div><div class="ci-n">III</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c3">Warm<br>Starter</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img loading="lazy" class="ci-img" src="/wow-assets/wow-pasta-course.jpg" alt="Pasta Primo" data-wow-img="course_4"></div><div class="ci-n">IV</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c4">Pasta<br>Primo</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img loading="lazy" class="ci-img" src="/wow-assets/wow-food2.jpg" alt="Sorbet & Palate" data-wow-img="course_5"></div><div class="ci-n">V</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c5">Sorbet<br>&amp; Palate</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img loading="lazy" class="ci-img" src="/wow-assets/wow-chef-moment.jpg" alt="Main Secondo" data-wow-img="course_6"></div><div class="ci-n">VI</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c6">Main<br>Secondo</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img loading="lazy" class="ci-img" src="/wow-assets/wow-italy.jpg" alt="Formaggi" data-wow-img="course_7"></div><div class="ci-n">VII</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c7">Formaggi<br>Selection</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img loading="lazy" class="ci-img" src="/wow-assets/wow-wine-pour.jpg" alt="Mignardise" data-wow-img="course_8"></div><div class="ci-n">VIII</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c8">Mignardise</div></div>
+        <div class="ci"><div class="ci-img-wrap"><img loading="lazy" class="ci-img" src="/wow-assets/wow-dessert.jpg" alt="Dessert Finale" data-wow-img="course_9"></div><div class="ci-n">IX</div><div class="ci-dot"></div><div class="ci-lbl" data-i18n="c9">Dessert<br>Finale</div></div>
+      </div>
+      <div class="feat-trio rv">
+        <div class="ft"><div class="ft-line"></div><img loading="lazy" src="/wow-assets/wow-guests-cheers.jpg" alt="Guests celebrating"><div class="ft-content"><div class="ft-num">I</div><div class="ft-tag" data-i18n="ft1_tag">The WoW Moment</div><div class="ft-title" data-i18n="ft1_title">Theatre at the Table</div><p class="ft-text" data-i18n="ft1_text">A live moment, unique to your table, your evening, your company. The kind that makes someone lean in, catch their breath, and smile.</p></div></div>
+        <div class="ft"><div class="ft-line"></div><img loading="lazy" src="/wow-assets/wow-chef-moment.jpg" alt="Chef tableside"><div class="ft-content"><div class="ft-num">II</div><div class="ft-tag" data-i18n="ft2_tag">Italian Artistry</div><div class="ft-title" data-i18n="ft2_title">Made with Soul</div><p class="ft-text" data-i18n="ft2_text">Italian heritage carried forward not as a museum piece, but as a living, breathing act of culinary love — interpreted by Michelin-starred hands.</p></div></div>
+        <div class="ft"><div class="ft-line"></div><img loading="lazy" src="/wow-assets/wow-dessert.jpg" alt="Dessert"><div class="ft-content"><div class="ft-num">III</div><div class="ft-tag" data-i18n="ft3_tag">The Sweet Finale</div><div class="ft-title" data-i18n="ft3_title">End on a High</div><p class="ft-text" data-i18n="ft3_text">The last note of an evening composed entirely for you. You will find yourself planning your return before the plate is clear.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- GALLERY -->
+  <section class="gallery" style="display:none;">
+    <div class="gal-grid">
+      <div class="gi tall"><img loading="lazy" src="/wow-assets/wow-interior.jpg" alt="Interior"><div class="gi-lbl"><span data-i18n="gal1">The Interior · Perugia</span></div></div>
+      <div class="gi"><img loading="lazy" src="/wow-assets/wow-wine-pour.jpg" alt="Wine service"><div class="gi-lbl"><span data-i18n="gal6">The Wine Ritual</span></div></div>
+      <div class="gi"><img loading="lazy" src="/wow-assets/wow-pasta-course.jpg" alt="Pasta course"><div class="gi-lbl"><span data-i18n="gal7">The Truffle Primo</span></div></div>
+      <div class="gi"><img loading="lazy" src="/wow-assets/wow-food1.jpg" alt="Food"><div class="gi-lbl"><span data-i18n="gal2">The Art of the Plate</span></div></div>
+      <div class="gi"><img loading="lazy" src="/wow-assets/wow-tablesetting.jpg" alt="Table"><div class="gi-lbl"><span data-i18n="gal3">Your Table Awaits</span></div></div>
+      <div class="gi"><img loading="lazy" src="/wow-assets/wow-intimate-pod.jpg" alt="Intimate pod dining"><div class="gi-lbl"><span data-i18n="gal4">Your Private World</span></div></div>
+      <div class="gi"><img loading="lazy" src="/wow-assets/wow-food2.jpg" alt="Course"><div class="gi-lbl"><span data-i18n="gal5">A Moment of Joy</span></div></div>
+    </div>
+  </section>
+
+  <!-- MADE IN ITALY -->
+  <section class="italy" id="italy">
+    <div class="c">
+      <div class="italy-layout">
+        <div class="rv italy-img-sticky italy-col-img">
+          <div class="italy-img">
+            <img loading="lazy" src="/wow-assets/wow-italy.jpg" alt="Italy">
+            <div class="italy-img-ovl"></div>
+            <div class="iq-box">
+              <p class="iq-text" data-i18n="italy_quote">"Carry the soul of Italy to every table, in every city, with the warmth it has always deserved."</p>
+              <div class="iq-attr" data-i18n="italy_quote_attr">WoW · Guiding Spirit</div>
+            </div>
+          </div>
+        </div>
+        <div class="italy-col-text">
+          <div class="ey rv" data-i18n="italy_ey">Provenance &amp; Soul</div>
+          <h2 class="st rv d1" data-i18n="italy_title">The Italian soul<br>behind<br><em>WoW.</em></h2>
+          <p class="sb rv d2" style="margin-top:1.5rem;max-width:500px" data-i18n="italy_body">Italy is not merely a source of ingredients — it is a philosophy of hospitality, a craftsmanship passed through generations, a savoir-faire that turns a meal into a memory. At WoW, we carry that soul forward: honouring Italian culinary culture, elegance, and creativity while embracing the finest of what each region and season offers.</p>
+          <div class="rv d2 italy-100ita-block">
+            <div style="display:flex;align-items:center;gap:1.2rem;margin-bottom:0.8rem;">
+              <img loading="lazy" src="/wow-assets/100ita-logo.png" alt="100ITA — Made in Italy" style="height:64px;width:auto;flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));">
+              <div>
+                <div style="font-size:0.46rem;letter-spacing:0.42em;text-transform:uppercase;color:rgba(201,168,76,0.7);margin-bottom:0.3rem;font-family:'Montserrat',sans-serif;">100ITA</div>
+                <div style="font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(245,240,232,0.4);font-family:'Montserrat',sans-serif;">Made in Italy</div>
+              </div>
+            </div>
+            <p style="font-size:0.82rem;color:rgba(245,240,232,0.7);line-height:1.8;font-style:italic;margin:0;">WoW is connected to the 100ITA ecosystem — a global initiative dedicated to preserve, protect and promote authentic Italian food, wine and culinary culture around the world.</p>
+          </div>
+          <div class="italy-pl rv d3">
+            <div class="pl"><div class="pl-n">01</div><div><div class="pl-title" data-i18n="italy_p1t">Selected with Care</div><div class="pl-text" data-i18n="italy_p1b">Ingredients and wines chosen for their story — sourced from Italian producers with generations of passion behind every harvest.</div></div></div>
+            <div class="pl"><div class="pl-n">02</div><div><div class="pl-title" data-i18n="italy_p2t">A Proprietary Wine Vocabulary</div><div class="pl-text" data-i18n="italy_p2b">Exclusive WoW wine labels sourced directly. Curated to complement each chapter of the menu.</div></div></div>
+            <div class="pl"><div class="pl-n">03</div><div><div class="pl-title" data-i18n="italy_p3t">Authenticity, Certified Globally</div><div class="pl-text" data-i18n="italy_p3b">A registered Made in Italy F&B trademark in 50+ countries ensures provenance is unimpeachable as WoW scales.</div></div></div>
+            <div class="pl"><div class="pl-n">04</div><div><div class="pl-title" data-i18n="italy_p4t">Endorsed at the Highest Level</div><div class="pl-text" data-i18n="italy_p4b">A non-profit institute protecting Italian gastronomy — supported by Michelin chefs and Nobel Laureate Muhammad Yunus.</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="sdiv"></div>
+
+  <!-- BOOKING -->
+  <section class="booking" id="booking">
+    <div class="c">
+      <div class="ey rv" data-i18n="book_ey">Reservations</div>
+      <h2 class="st rv d1" style="margin-bottom:0.8rem" data-i18n="book_title">Tonight could be the evening<br>you <em>never forget.</em></h2>
+      <p class="sb rv d2 book-body-desktop" style="margin-bottom:5rem;max-width:580px" data-i18n="book_body">Six private dining pods, each a world of its own — intimate, warm, and entirely yours for the evening.</p>
+      <div class="booking-layout">
+        <div>
+          <p class="sb book-body-mobile" data-i18n="book_body">Six private dining pods, each a world of its own — intimate, warm, and entirely yours for the evening.</p>
+          <div class="ey rv" data-i18n="pod_ey">Select Your Pod</div>
+          <div class="pod-grid rv d1" id="podGrid">
+            <div class="pod selected" data-pod="1" onclick="selectPod(this)"><div class="pod-num">I</div><div class="pod-label">Tartufo</div><div class="pod-seats" data-i18n="pod_avail">4 seats · Available</div></div>
+            <div class="pod" data-pod="2" onclick="selectPod(this)"><div class="pod-num">II</div><div class="pod-label">Barolo</div><div class="pod-seats" data-i18n="pod_avail">4 seats · Available</div></div>
+            <div class="pod" data-pod="3" onclick="selectPod(this)"><div class="pod-num">III</div><div class="pod-label">Porcini</div><div class="pod-seats" data-i18n="pod_avail">4 seats · Available</div></div>
+            <div class="pod" data-pod="4" onclick="selectPod(this)"><div class="pod-num">IV</div><div class="pod-label">Sagrantino</div><div class="pod-seats" data-i18n="pod_avail">4 seats · Available</div></div>
+            <div class="pod" data-pod="5" onclick="selectPod(this)"><div class="pod-num">V</div><div class="pod-label">Brunello</div><div class="pod-seats" data-i18n="pod_avail">4 seats · Available</div></div>
+            <div class="pod" data-pod="6" onclick="selectPod(this)"><div class="pod-num">VI</div><div class="pod-label">Nebbiolo</div><div class="pod-seats" data-i18n="pod_avail">4 seats · Available</div></div>
+          </div>
+          <div style="margin-top:3rem" class="rv d3">
+            <div style="font-size:0.56rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem" data-i18n="promise_title">The WoW Promise</div>
+            <div style="display:flex;flex-direction:column;gap:0.6rem">
+              <div style="display:flex;gap:0.8rem;font-size:0.78rem;color:var(--muted)"><span style="color:var(--gold)">✦</span> <span data-i18n="promise1">Every pod receives its own live tableside finishing moment</span></div>
+              <div style="display:flex;gap:0.8rem;font-size:0.78rem;color:var(--muted)"><span style="color:var(--gold)">✦</span> <span data-i18n="promise2">Nine courses shaped by Italian artistry and seasonal soul</span></div>
+              <div style="display:flex;gap:0.8rem;font-size:0.78rem;color:var(--muted)"><span style="color:var(--gold)">✦</span> <span data-i18n="promise3">Wine pairing available at time of booking</span></div>
+              <div style="display:flex;gap:0.8rem;font-size:0.78rem;color:var(--muted)"><span style="color:var(--gold)">✦</span> <span data-i18n="promise4">Dietary requirements accommodated with advance notice</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="booking-form rv d2" style="padding:0;background:transparent;border:none;">
+          <iframe src="https://app.tableo.com/r/u2JLAO5" width="100%" height="100%" style="border:none;min-height:700px" referrerpolicy="unsafe-url"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- FOOTER -->
+  <footer>
+    <div class="c">
+      <div class="fg">
+        <div>
+          <img loading="lazy" src="/wow-assets/wow-logo-v1.5.png" alt="WoW" style="height:56px;width:auto;display:block;margin-bottom:0.6rem;">
+          <span class="f-sub">Fast Fine Dining · Italy</span>
+          <p class="f-tag" data-i18n="footer_tag">"Where Italian artistry meets the warmth of an extraordinary evening."</p>
+        </div>
+        <div><div class="fc-title" data-i18n="footer_col1">Experience</div>
+          <ul class="fc-links">
+            <li><a href="#philosophy" data-i18n="nav_philosophy">Philosophy</a></li>
+            <li><a href="#experience" data-i18n="nav_experience">The Experience</a></li>
+            <li><a href="#italy" data-i18n="nav_italy">Made in Italy</a></li>
+            <li><a href="#booking" data-i18n="nav_reserve">Reserve</a></li>
+          </ul>
+        </div>
+        <div><div class="fc-title" data-i18n="footer_col2">The Place</div>
+          <ul class="fc-links">
+            <li><a href="#" id="link-directions" data-i18n="footer_directions">Directions</a></li>
+            <li><a href="#" id="link-events" data-i18n="footer_events">Private Events</a></li>
+          </ul>
+        </div>
+        <div><div class="fc-title" data-i18n="footer_col3">Connect</div>
+          <ul class="fc-links">
+            <li><a href="mailto:info@wowfinedining.com">info@wowfinedining.com</a></li>
+            <li><a href="https://www.instagram.com/wowfinedining?igsh=MmdmcnN4dW1weDlt" target="_blank" rel="noopener noreferrer" data-i18n="footer_instagram">Instagram</a></li>
+            <li><a href="#" id="link-press" data-i18n="footer_press">Press Enquiries</a></li>
+          </ul>
+        </div>
+      </div>
+      <div style="border-top:1px solid rgba(201,168,76,0.08);padding-top:1.8rem;margin-top:0.5rem;">
+        <div style="display:flex;align-items:baseline;gap:0.8rem;flex-wrap:wrap;margin-bottom:0.5rem;">
+          <span style="font-size:0.44rem;letter-spacing:0.38em;text-transform:uppercase;color:rgba(201,168,76,0.75);font-family:'Montserrat',sans-serif;white-space:nowrap;">100ITA</span>
+          <span style="font-size:0.72rem;color:rgba(200,195,185,0.8);font-style:italic;line-height:1.6;">Supported by 100ITA — promoting authentic Italian culinary culture worldwide.</span>
+        </div>
+      </div>
+      <div class="f-bottom">
+        <span>© 2026 WoW Fast Fine Dining · Italy.</span>
+        <a href="/wow-investor.html" class="inv-link" data-i18n="footer_investor">Investor Portal →</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── Contact Modal ──────────────────────────────────────────────────── -->
+  <div class="wow-modal-overlay" id="contactModal" role="dialog" aria-modal="true">
+    <div class="wow-modal-box">
+      <button class="wow-modal-close" id="contactModalClose" aria-label="Close">✕</button>
+      <div class="wow-modal-inner">
+        <p class="wow-modal-eyebrow" id="cm-eyebrow">Get in Touch</p>
+        <h2 class="wow-modal-title" id="cm-title">We'd love to hear from you.</h2>
+        <p class="wow-modal-sub" id="cm-sub">Our team will respond within 24 hours.</p>
+        <div id="cm-form-inner">
+          <div class="wow-cf-row">
+            <div class="wow-cf-field">
+              <label class="wow-cf-label" id="cm-lbl-name">Full Name</label>
+              <input class="wow-cf-input" type="text" id="cm-name" placeholder="Your name">
+            </div>
+            <div class="wow-cf-field">
+              <label class="wow-cf-label" id="cm-lbl-email">Email</label>
+              <input class="wow-cf-input" type="email" id="cm-email" placeholder="you@example.com">
+            </div>
+          </div>
+          <div class="wow-cf-row">
+            <div class="wow-cf-field">
+              <label class="wow-cf-label" id="cm-lbl-phone">Phone (optional)</label>
+              <input class="wow-cf-input" type="tel" id="cm-phone" placeholder="+39 075 000 0000">
+            </div>
+            <div class="wow-cf-field" id="cm-guests-wrap">
+              <label class="wow-cf-label" id="cm-lbl-guests">Number of Guests</label>
+              <input class="wow-cf-input" type="number" id="cm-guests" min="1" max="500" placeholder="e.g. 20">
+            </div>
+          </div>
+          <div class="wow-cf-row" id="cm-date-row">
+            <div class="wow-cf-field">
+              <label class="wow-cf-label" id="cm-lbl-date">Preferred Event Date</label>
+              <input class="wow-cf-input" type="date" id="cm-event-date">
+            </div>
+            <div class="wow-cf-field">
+              <label class="wow-cf-label" id="cm-lbl-occasion">Occasion</label>
+              <input class="wow-cf-input" type="text" id="cm-occasion" placeholder="Birthday, corporate dinner…">
+            </div>
+          </div>
+          <div class="wow-cf-row full">
+            <div class="wow-cf-field">
+              <label class="wow-cf-label" id="cm-lbl-message">Message</label>
+              <textarea class="wow-cf-textarea" id="cm-message" placeholder="Tell us how we can help…"></textarea>
+            </div>
+          </div>
+          <button class="wow-cf-btn" id="cm-submit">Send Message</button>
+        </div>
+        <div class="wow-cf-confirm" id="cm-confirm">
+          <div class="wow-cf-confirm-icon">✦</div>
+          <div class="wow-cf-confirm-title" id="cm-confirm-title">Message received.</div>
+          <p class="wow-cf-confirm-text" id="cm-confirm-text">Thank you. Our team will be in touch within 24 hours.<br><br><em style="color:var(--gold)">A presto.</em></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Map / Directions Modal ──────────────────────────────────────────── -->
+  <div class="wow-modal-overlay" id="mapModal" role="dialog" aria-modal="true">
+    <div class="wow-modal-box wide">
+      <button class="wow-modal-close" id="mapModalClose" aria-label="Close">✕</button>
+      <div class="wow-modal-inner">
+        <p class="wow-modal-eyebrow" id="map-eyebrow">Find Us</p>
+        <h2 class="wow-modal-title" id="map-title">Getting to WoW</h2>
+        <div class="wow-map-address">
+          <strong>WoW Fast Fine Dining</strong>
+          Via XIV Settembre, 69<br>
+          06122 Perugia PG, Italy
+        </div>
+        <!-- OpenStreetMap embed: works in China (Google Maps is blocked there) and worldwide, no API key -->
+        <iframe
+          class="wow-map-frame"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=12.3816%2C43.1062%2C12.4016%2C43.1162&layer=mapnik&marker=43.1112%2C12.3916"
+          allowfullscreen>
+        </iframe>
+        <div class="wow-map-links">
+          <a class="wow-map-link" href="https://maps.google.com/?q=Via+XIV+Settembre+69,+06122+Perugia+PG,+Italy" target="_blank" rel="noopener noreferrer" id="map-google-link">Open in Google Maps ↗</a>
+          <a class="wow-map-link" href="https://maps.apple.com/?address=Via+XIV+Settembre+69,+06122+Perugia+PG,+Italy" target="_blank" rel="noopener noreferrer" id="map-apple-link">Open in Apple Maps ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  // ── CURSOR ──────────────────────────────────────────────────────
+  const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  (function tick(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
+  document.querySelectorAll('a,button,.ft,.pl,.pod,.ci').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ring.style.transform='translate(-50%,-50%) scale(1.8)';ring.style.borderColor='rgba(201,168,76,0.8)';});
+    el.addEventListener('mouseleave',()=>{ring.style.transform='translate(-50%,-50%) scale(1)';ring.style.borderColor='rgba(201,168,76,0.5)';});
+  });
+  // ── HAMBURGER MENU ──────────────────────────────────────────────
+  (function(){
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const closeBtn = document.getElementById('mobileMenuClose');
+    if(!hamburger||!mobileMenu) return;
+    function openMenu(){
+      hamburger.classList.add('open');
+      hamburger.setAttribute('aria-expanded','true');
+      mobileMenu.classList.add('open');
+      mobileMenu.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';
+    }
+    function closeMenu(){
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded','false');
+      mobileMenu.classList.remove('open');
+      mobileMenu.setAttribute('aria-hidden','true');
+      document.body.style.overflow='';
+    }
+    hamburger.addEventListener('click', ()=>{ mobileMenu.classList.contains('open') ? closeMenu() : openMenu(); });
+    closeBtn.addEventListener('click', closeMenu);
+    // Close on link click
+    mobileMenu.querySelectorAll('.mobile-menu-link,.mobile-menu-cta').forEach(a=>{
+      a.addEventListener('click', closeMenu);
+    });
+    // Close on outside tap
+    mobileMenu.addEventListener('click', e=>{ if(e.target===mobileMenu) closeMenu(); });
+  })();
+
+  // ── NAV ─────────────────────────────────────────────────────────
+  window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('s',scrollY>60));
+  // ── REVEAL ──────────────────────────────────────────────────────
+  const ro=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('v')),{threshold:0.08});
+  document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
+  // ── HERO ────────────────────────────────────────────────────────
+  // Video hero — show fallback image if video can't play (e.g. data-saver mode)
+  (function(){
+    const vid = document.getElementById('heroVideo');
+    const fallback = document.getElementById('heroImg');
+    if(!vid) return;
+    vid.addEventListener('error', ()=>{
+      if(fallback){ fallback.style.display=''; }
+      if(vid){ vid.style.display='none'; }
+    });
+    // Also handle iOS low-power mode which blocks autoplay
+    const playPromise = vid.play();
+    if(playPromise !== undefined){
+      playPromise.catch(()=>{
+        if(fallback){ fallback.style.display=''; }
+        if(vid){ vid.style.display='none'; }
+      });
+    }
+  })();
+  setTimeout(()=>{const hi=document.getElementById('heroImg');if(hi)hi.classList.add('loaded');},200);
+  window.addEventListener('scroll',()=>{const hc=document.querySelector('.hero-content');if(hc)hc.style.transform=`translateY(${scrollY*0.22}px)`;});
+  // ── DATE ────────────────────────────────────────────────────────
+  const di=document.getElementById('bf-date');
+  if(di){const t=new Date();di.min=[t.getFullYear(),String(t.getMonth()+1).padStart(2,'0'),String(t.getDate()).padStart(2,'0')].join('-');}
+  // ── POD ─────────────────────────────────────────────────────────
+  function selectPod(el){
+    if(el.classList.contains('unavail'))return;
+    document.querySelectorAll('.pod').forEach(p=>p.classList.remove('selected'));
+    el.classList.add('selected');
+    const s=document.getElementById('bf-pod');
+    if(s)for(let o of s.options){if(o.value===el.dataset.pod){o.selected=true;break;}}
+  }
+  const ps=document.getElementById('bf-pod');
+  if(ps)ps.addEventListener('change',function(){const v=this.value;document.querySelectorAll('.pod').forEach(p=>{p.classList.remove('selected');if(p.dataset.pod===v&&!p.classList.contains('unavail'))p.classList.add('selected');});});
+
+  // ══════════════════════════════════════════════════════════════
+  //  I18N — English / Italian / Chinese
+  // ══════════════════════════════════════════════════════════════
+  const T={
+    en:{
+      nav_philosophy:'Philosophy',nav_experience:'The Experience',nav_italy:'Made in Italy',
+      nav_reserve:'Reserve',nav_cta:'Reserve Your Pod',
+      hero_city:'Italy',
+      hero_tag:'Where Italian artistry meets<br>the ritual of extraordinary dining.',
+      hero_cta1:'Discover the Journey',hero_cta2:'Reserve Your Pod',scroll_lbl:'Discover',
+      mq1:'Nine Courses',mq2:'Michelin-Designed Menus',mq4:'Perugia · Opening 2026',
+      mq5:'Tradition in Evolution',mq6:'Fast Fine Dining',
+      phil_ey:'Our Philosophy',
+      phil_title:'A theatre<br>of <em>wonder.</em>',
+      phil_quote:'"We do not follow recipes. We follow a feeling — and craft every visit into something irrepeatable."',
+      phil_body1:'The great tables of the world share one truth: they transform a meal into a memory — a ritual that lingers long after the last course. WoW was born from that truth, and one audacious ambition: <em style="color:var(--off-white)">to bring that magic closer to everyone.</em>',
+      phil_body2:'Not by diminishing excellence. But by honouring it — with the artistry and soul it has always deserved.',
+      stat1_lbl:'Michelin-designed courses',stat2_lbl:'Minutes of wonder',stat3_lbl:'Below traditional fine dining',
+      phil_img_label:'The WoW Moment',phil_img_val:'Every visit. Every table. Every time.',
+      manifesto_ey:'Our Belief',
+      manifesto_title:'Some meals<br>you eat.<br><em>WoW you remember.</em>',
+      manifesto_body1:"For too long, the world's most extraordinary tables have existed behind walls of inaccessibility. WoW opens a different door — not through imitation, but through genuine Italian hospitality and the artistry of those who live to feed, delight, and move you.",
+      manifesto_body2:"We have distilled the soul of Italy's greatest dining culture — its theatre, its warmth, its savoir-faire — into an experience that travels, scales, and above all, touches you.",
+      pillar1_title:'Crafted with Purpose',pillar1_text:'Every element shaped by the artistry of a Michelin kitchen and the warmth of an Italian grandmother — because beauty and soul are never in opposition.',
+      pillar2_title:'Rooted in Italian Soul',pillar2_text:'We do not approximate Italy. We embody it — its hospitality, its craftsmanship, its emotional depth — and select every ingredient and technique with that same reverence.',
+      pillar3_title:'Michelin by Design',pillar3_text:'Our CCO, named Emerging Chef of the Year by L\'Espresso, leads starred chefs who are equity partners in WoW\'s mission.',
+      exp_ey:'The Experience',exp_title:'Close your eyes.<br><em>One Narrative. Nine Courses.</em>',
+      exp_body:'Nine courses. Nine moments. Each one crafted to make time slow, conversation deepen, and the world outside disappear. This is not just dinner. This is the evening you will still be talking about.',
+      course_hero_name:'Salmon',
+      c1:'Amuse<br>Bouche',c2:'Cold<br>Antipasto',c3:'Warm<br>Starter',c4:'Pasta<br>Primo',c5:'Sorbet<br>& Palate',c6:'Main<br>Secondo',c7:'Formaggi<br>Selection',c8:'Mignardise',c9:'Dessert<br>Finale',
+      ft1_tag:'The WoW Moment',ft1_title:'Theatre at the Table',ft1_text:'A live moment, unique to your table, your evening, your company. The kind that makes someone lean in, catch their breath, and smile.',
+      ft2_tag:'Italian Artistry',ft2_title:'Made with Soul',ft2_text:'Italian heritage carried forward not as a museum piece, but as a living, breathing act of culinary love — interpreted by Michelin-starred hands.',
+      ft3_tag:'The Sweet Finale',ft3_title:'End on a High',ft3_text:'The last note of an evening composed entirely for you. You will find yourself planning your return before the plate is clear.',
+      gal1:'The Interior · Perugia',gal2:'The Art of the Plate',gal3:'Your Table Awaits',gal4:'Your Private World',gal5:'A Moment of Joy',gal6:'The Wine Ritual',gal7:'The Truffle Primo',
+      italy_ey:'Provenance & Soul',
+      italy_title:'Italy is not<br>an ingredient.<br><em>It is the recipe.</em>',
+      italy_quote:'"Carry the soul of Italy to every table, in every city, with the warmth it has always deserved."',
+      italy_quote_attr:'WoW · Guiding Spirit',
+      italy_body:"Italy is not a source — it is a feeling. The warmth of a host, the patience of a craftsman, the joy of a table shared. At WoW, we do not just borrow from Italy. We live its spirit.",
+      italy_p1t:'Selected with Care',italy_p1b:'Ingredients and wines chosen for their story — sourced from Italian producers with generations of passion behind every harvest.',
+      italy_p2t:'A Proprietary Wine Vocabulary',italy_p2b:'Exclusive WoW wine labels. Curated to complement each chapter of the menu.',
+      italy_p3t:'A Living Tradition',italy_p3b:'Supported by 100ITA — a global initiative preserving and celebrating authentic Italian culinary culture.',
+      italy_p4t:'Endorsed at the Highest Level',italy_p4b:'Supported by Michelin chefs and Nobel Laureate Muhammad Yunus.',
+      book_ey:'Reservations',book_title:'Tonight could be the evening<br>you <em>never forget.</em>',
+      book_body:'Six private dining pods. Each one a world of its own — intimate, warm, and entirely yours for the evening.',
+      pod_ey:'Select Your Pod',pod_avail:'4 seats · Available',pod_reserved:'4 seats · Reserved',
+      avail_msg:'pods available · Perugia · Opening 2026',
+      promise_title:'The WoW Promise',
+      promise1:'Every pod receives its own live tableside finishing moment',
+      promise2:'Nine courses shaped by Italian artistry and seasonal soul',
+      promise3:'Wine pairing available at time of booking',
+      promise4:'Dietary requirements accommodated with advance notice',
+      form_title:'Reserve Your Table',form_fname:'First Name',form_lname:'Surname',
+      form_email:'Email Address',form_phone:'Phone Number',form_date:'Preferred Date',
+      form_service:'Service',form_guests:'Guests',form_wine:'Wine Pairing',
+      form_pod:'Pod Preference',form_notes:'Dietary / Special Occasions',
+      form_note:'Reservations confirmed within 24 hours.',
+      form_submit:'Request Reservation',
+      confirm_title:'Your request has been received.',
+      confirm_text:'Thank you. Our team will confirm your reservation within 24 hours.<br><br><em style="color:var(--gold)">A presto — see you soon.</em>',
+      rcta_title:'Tonight could be<br>the evening<br>you <em>never forget.</em>',
+      rcta_sub:'"Some evenings stay with you forever. This is one of them."',
+      rcta_btn:'Reserve Your Pod Now',
+      footer_tag:'"Where Italian artistry meets the warmth of an extraordinary evening."',
+      footer_col1:'Experience',footer_col2:'The Place',footer_col3:'Connect',
+      footer_instagram:'Instagram',footer_directions:'Directions',footer_events:'Private Events',footer_press:'Press Enquiries',footer_investor:'Investor Portal →',
+      contact_eyebrow:'Get in Touch',contact_title:"We'd love to hear from you.",contact_sub:'Our team will respond within 24 hours.',
+      contact_lbl_name:'Full Name',contact_lbl_email:'Email',contact_lbl_phone:'Phone (optional)',
+      contact_lbl_message:'Message',contact_btn:'Send Message',
+      contact_confirm_title:'Message received.',contact_confirm_text:'Thank you. Our team will be in touch within 24 hours.<br><br><em style="color:var(--gold)">A presto.</em>',
+      events_eyebrow:'Private Events',events_title:'An evening entirely your own.',events_sub:'WoW hosts exclusive private events for up to 24 guests. Tell us about your occasion and we will craft something extraordinary.',
+      events_lbl_guests:'Number of Guests',events_lbl_date:'Preferred Event Date',events_lbl_occasion:'Occasion',
+      press_eyebrow:'Press',press_title:'Media Enquiries.',press_sub:'For press packs, photography requests, or interview enquiries, please write to us below.',
+      map_eyebrow:'Find Us',map_title:'Getting to WoW',
+      map_google:'Open in Google Maps ↗',map_apple:'Open in Apple Maps ↗',
+      err_contact:'Please fill in your name, email and message.',
+      svc_placeholder:'Select service',svc1:'Lunch — 12:30',svc2:'Dinner — 19:30',svc3:'Dinner — 21:30',
+      wine0:'No pairing',wine1:'Classic Pairing — Italian Selection',wine2:'Premium Pairing — Prestige Labels',
+      guests_ph:'Guests (max 4)',
+      err_msg:'Please complete all required fields.',
+      sending:'Sending…',
+    },
+    it:{
+      nav_philosophy:'Filosofia',nav_experience:"L'Esperienza",nav_italy:'Fatto in Italia',
+      nav_reserve:'Prenota',nav_cta:'Prenota il Tuo Pod',
+      hero_city:'Italy',
+      hero_tag:"Dove l'arte della gastronomia italiana incontra<br>la precisione di una nuova disciplina culinaria.",
+      hero_cta1:'Scopri il Percorso',hero_cta2:'Prenota il Tuo Pod',scroll_lbl:'Scopri',
+      mq1:'Nove Portate',mq2:'Menu Firmati Michelin',mq4:'Perugia · Apertura 2026',
+      mq5:'Tradizione in Evoluzione',mq6:'Fast Fine Dining',
+      phil_ey:'La Nostra Filosofia',
+      phil_title:'Un laboratorio<br>di <em>meraviglia.</em>',
+      phil_quote:'"Non replichiamo gli chef. Replichiamo le condizioni in cui la grandezza è inevitabile."',
+      phil_body1:"I grandi ristoranti del mondo condividono una verità: trasformano la cena in un incontro tra creatività umana e i migliori ingredienti della terra. WoW è nato dalla reverenza per quella verità — e da un'unica domanda audace: <em style=\"color:var(--off-white)\">e se fosse accessibile a tutti?</em>",
+      phil_body2:'Non diminuendo l\'eccellenza. Ma ingegnerizzandola.',
+      stat1_lbl:'Portate firmate Michelin',stat2_lbl:'Minuti di meraviglia',stat3_lbl:'Al di sotto della fine dining tradizionale',
+      phil_img_label:'Il Momento WoW',phil_img_val:'Ogni visita. Ogni tavolo. Ogni volta.',
+      manifesto_ey:'La Nostra Convinzione',
+      manifesto_title:'La fine dining non è<br>un privilegio.<br><em>È un diritto.</em>',
+      manifesto_body1:"Per troppo tempo le esperienze culinarie straordinarie si sono nascoste dietro muri di inaccessibilità. WoW abbatte quei muri. Non per imitazione. Per ingegneria.",
+      manifesto_body2:"Abbiamo preso la metodologia delle grandi cucine del mondo e l'abbiamo ricostruita come un sistema che non dipende da un singolo chef, un singolo tavolo, una sola città.",
+      pillar1_title:'Eccellenza Ingegnerizzata',pillar1_text:'Ogni elemento progettato con il rigore di una disciplina scientifica e l\'anima di una nonna italiana.',
+      pillar2_title:'Radicati nell\'Origine',pillar2_text:'Non approssimiamo l\'Italia. Cominciamo da lì. Ogni ingrediente parla della terra da cui è cresciuto.',
+      pillar3_title:'Michelin per Progetto',pillar3_text:'Il nostro CCO, nominato Chef Emergente dell\'Anno da L\'Espresso, guida chef stellati che sono soci in WoW.',
+      exp_ey:"L'Esperienza",exp_title:'Nove atti.<br><em>Una sola narrazione.</em>',
+      exp_body:'Ogni menu WoW è concepito come un\'unica storia coerente — una progressione attraverso le stagioni, le regioni e la memoria della gastronomia italiana.',
+      c1:'Amuse<br>Bouche',c2:'Antipasto<br>Freddo',c3:'Antipasto<br>Caldo',c4:'Primo<br>Pasta',c5:'Sorbetto<br>& Palato',c6:'Secondo<br>Principale',c7:'Selezione<br>Formaggi',c8:'Mignardise',c9:'Dessert<br>Finale',
+      ft1_tag:'Il Momento WoW',ft1_title:'Teatro al Tavolo',ft1_text:'Un momento di teatro al tavolo, unico per ogni visita, progettato per fermare il tempo e catturare la completa attenzione.',
+      ft2_tag:'Autorialità Culinaria',ft2_title:'Creato dalle Stelle',ft2_text:'Il patrimonio italiano reinterpretato con la precisione e l\'audacia dell\'alta cucina stellata Michelin.',
+      ft3_tag:'L\'Accordo Finale',ft3_title:'Un Dessert Indimenticabile',ft3_text:'L\'ultimo movimento di una sinfonia iniziata con il primo respiro nella stanza.',
+      gal1:'L\'Interno · Perugia',gal2:'L\'Arte dell\'Impiattamento',gal3:'Il Tavolo',gal4:'Il Dessert Finale',gal5:'L\'Arte della Portata',
+      italy_ey:'Provenienza & Anima',
+      italy_title:"L'Italia non è<br>un ingrediente.<br><em>È la ricetta.</em>",
+      italy_quote:'"Ingegnerizza ciò che storicamente era artigianale — e scala ciò che storicamente era inscalabile."',
+      italy_quote_attr:'WoW · Principio Fondante',
+      italy_body:"Le grandi cucine del mondo condividono una disciplina: un rapporto intransigente con l'origine.",
+      italy_p1t:'Controllato all\'Origine',italy_p1b:'Ogni ingrediente proveniente da produttori italiani verificati. Tracciabile, autentico, stagionale.',
+      italy_p2t:'Un Vocabolario Vinicolo Proprietario',italy_p2b:'Etichette esclusive WoW. Curate per accompagnare ogni capitolo del menu.',
+      italy_p3t:'Autenticità Certificata Globalmente',italy_p3b:'Un marchio registrato Made in Italy in oltre 50 paesi.',
+      italy_p4t:'Approvato al Massimo Livello',italy_p4b:'Sostenuto da chef stellati Michelin e dal Premio Nobel per la Pace Muhammad Yunus.',
+      book_ey:'Prenotazioni',book_title:'Assicura la tua<br><em>esperienza.</em>',
+      book_body:'WoW Perugia offre sei pod privati — ognuno un mondo intimo per quattro persone.',
+      pod_ey:'Scegli il Tuo Pod',pod_avail:'4 posti · Disponibile',pod_reserved:'4 posti · Prenotato',
+      avail_msg:'pod disponibili · Perugia · Apertura 2026',
+      promise_title:'La Promessa WoW',
+      promise1:'Ogni pod riceve il proprio momento teatrale al tavolo',
+      promise2:'Nove portate, tutte provenienti e lavorate in Italia',
+      promise3:'Abbinamento vini disponibile al momento della prenotazione',
+      promise4:'Requisiti dietetici accomodati con preavviso',
+      form_title:'Prenota il Tuo Tavolo',form_fname:'Nome',form_lname:'Cognome',
+      form_email:'Indirizzo Email',form_phone:'Numero di Telefono',form_date:'Data Preferita',
+      form_service:'Servizio',form_guests:'Ospiti',form_wine:'Abbinamento Vini',
+      form_pod:'Preferenza Pod',form_notes:'Dietetica / Occasioni Speciali',
+      form_note:'Prenotazioni confermate entro 24 ore.',
+      form_submit:'Richiedi Prenotazione',
+      confirm_title:'La tua richiesta è stata ricevuta.',
+      confirm_text:'Grazie. Il nostro team confermerà la prenotazione entro 24 ore.<br><br><em style="color:var(--gold)">A presto — ci vediamo presto.</em>',
+      rcta_title:'Il pasto più straordinario<br>della tua vita<br>è a <em>novanta minuti da qui.</em>',
+      rcta_sub:'"Un\'esperienza da assaporare, raccontare e ricordare."',
+      rcta_btn:'Prenota il Tuo Pod Ora',
+      footer_tag:'"Dove l\'arte della gastronomia italiana incontra la precisione di una nuova disciplina culinaria."',
+      footer_col1:'Esperienza',footer_col2:'Il Luogo',footer_col3:'Contatti',
+      footer_instagram:'Instagram',footer_directions:'Indicazioni',footer_events:'Eventi Privati',footer_press:'Ufficio Stampa',footer_investor:'Portale Investitori →',
+      contact_eyebrow:'Contattaci',contact_title:'Siamo felici di sentirti.',contact_sub:'Il nostro team risponderà entro 24 ore.',
+      contact_lbl_name:'Nome Completo',contact_lbl_email:'Email',contact_lbl_phone:'Telefono (opzionale)',
+      contact_lbl_message:'Messaggio',contact_btn:'Invia Messaggio',
+      contact_confirm_title:'Messaggio ricevuto.',contact_confirm_text:'Grazie. Il nostro team ti risponderà entro 24 ore.<br><br><em style="color:var(--gold)">A presto.</em>',
+      events_eyebrow:'Eventi Privati',events_title:'Una serata interamente tua.',events_sub:'WoW ospita eventi privati esclusivi fino a 24 ospiti. Raccontaci la tua occasione e creeremo qualcosa di straordinario.',
+      events_lbl_guests:'Numero di Ospiti',events_lbl_date:'Data Preferita',events_lbl_occasion:'Occasione',
+      press_eyebrow:'Stampa',press_title:'Richieste Media.',press_sub:"Per kit stampa, richieste fotografiche o interviste, scrivici di seguito.",
+      map_eyebrow:'Trovaci',map_title:'Come Raggiungerci',
+      map_google:'Apri su Google Maps ↗',map_apple:'Apri su Apple Maps ↗',
+      err_contact:'Inserisci nome, email e messaggio.',
+      svc_placeholder:'Seleziona servizio',svc1:'Pranzo — 12:30',svc2:'Cena — 19:30',svc3:'Cena — 21:30',
+      wine0:'Senza abbinamento',wine1:'Abbinamento Classico — Selezione Italiana',wine2:'Abbinamento Premium — Etichette Prestigiose',
+      guests_ph:'Ospiti (max 4)',
+      err_msg:'Compila tutti i campi obbligatori.',
+      sending:'Invio…',
+    },
+    zh:{
+      nav_philosophy:'品牌哲学',nav_experience:'用餐体验',nav_italy:'意大利原产',
+      nav_reserve:'立即预订',nav_cta:'预订您的餐厅席位',
+      hero_city:'Italy',
+      hero_tag:'意大利美食艺术与新烹饪精准工艺<br>的完美融合。',
+      hero_cta1:'探索味觉旅程',hero_cta2:'预订您的包厢',scroll_lbl:'探索',
+      mq1:'九道佳肴',mq2:'米其林主厨设计菜单',mq4:'佩鲁贾 · 2026年开业',
+      mq5:'传承与创新',mq6:'快速精致餐饮',
+      phil_ey:'我们的哲学',
+      phil_title:'一个充满<br><em>惊叹的实验室。</em>',
+      phil_quote:'"我们复制的不是厨师，而是让卓越成为必然的条件。"',
+      phil_body1:'世界上伟大的餐厅共享一个真理：他们将用餐转变为人类创造力与世界最优食材之间的相遇。WoW从对这一真理的敬畏中诞生——带着一个大胆的问题：<em style="color:var(--off-white)">如果每个人都能体验到呢？</em>',
+      phil_body2:'不是通过降低卓越标准，而是通过工程化实现它。',
+      stat1_lbl:'米其林设计菜肴道数',stat2_lbl:'分钟极致体验',stat3_lbl:'低于传统精致餐饮价格',
+      phil_img_label:'WoW时刻',phil_img_val:'每次到访。每张餐桌。每一次。',
+      manifesto_ey:'我们的信念',
+      manifesto_title:'精致餐饮不是<br>一种特权，<br><em>而是一种权利。</em>',
+      manifesto_body1:'长期以来，世界上最非凡的烹饪体验一直藏在难以企及的高墙之后。WoW拆除了这些高墙。不是通过模仿，而是通过工程化。',
+      manifesto_body2:'我们汲取了世界最伟大厨房的方法论——对产地的执着、对执行的精准、对时刻的剧场感——将其重建为一个不依赖任何单一厨师、单一餐桌、单一城市的系统。',
+      pillar1_title:'工程化卓越',pillar1_text:'WoW体验的每个元素都以科学严谨性和意大利奶奶的灵魂设计而成。一致性不是我们的约束，而是我们的艺术形式。',
+      pillar2_title:'根植于原产地',pillar2_text:'我们不近似意大利，我们从那里开始。每种食材都讲述着它生长的土地、养育它的双手、塑造它的季节。',
+      pillar3_title:'米其林设计',pillar3_text:'我们的首席烹饪官曾获L\'Espresso年度新兴厨师奖，带领一群作为WoW股权合伙人的星级厨师共创菜单。',
+      exp_ey:'用餐体验',exp_title:'九幕叙事，<br><em>一段难忘旅程。</em>',
+      exp_body:'每个WoW菜单都被构思为一个完整、连贯的故事——穿越季节、地区和意大利美食记忆的旅程。',
+      c1:'开胃<br>小食',c2:'冷前菜',c3:'热前菜',c4:'意面<br>头盘',c5:'雪葩<br>清口',c6:'主菜',c7:'奶酪<br>精选',c8:'迷你<br>甜点',c9:'甜点<br>终章',
+      ft1_tag:'WoW时刻',ft1_title:'餐桌剧场',ft1_text:'每次到访独有的现场餐桌表演，旨在凝固时间，令人全神贯注。',
+      ft2_tag:'烹饪创作',ft2_title:'星级主厨出品',ft2_text:'意大利饮食传承以米其林星级烹饪的精准与胆识重新诠释。',
+      ft3_tag:'终章乐章',ft3_title:'令人难忘的甜点',ft3_text:'这场从您踏入餐厅第一刻便已开始的交响乐的最终乐章。',
+      gal1:'佩鲁贾 · 室内设计',gal2:'摆盘艺术',gal3:'餐桌设置',gal4:'甜点终章',gal5:'课程艺术',
+      italy_ey:'产地与灵魂',
+      italy_title:'意大利不仅是<br>一种食材，<br><em>它本身就是配方。</em>',
+      italy_quote:'"将历史上的手工艺进行工程化——并扩展历史上无法扩展的东西。"',
+      italy_quote_attr:'WoW · 创始原则',
+      italy_body:'世界上最伟大的厨房共享一种纪律：对原产地毫不妥协的关系。',
+      italy_p1t:'原产地管控',italy_p1b:'每种食材直接来自经认证的意大利生产商。可追溯、真实、应季。',
+      italy_p2t:'专属葡萄酒词汇',italy_p2b:'WoW独家酒标直接采购。精心搭配菜单每个章节。',
+      italy_p3t:'全球认证的真实性',italy_p3b:'在50多个国家注册的意大利制造商标，确保WoW扩张时产地无可置疑。',
+      italy_p4t:'最高级别背书',italy_p4b:'得到米其林厨师及诺贝尔和平奖得主穆罕默德·尤纳斯的支持。',
+      book_ey:'预订',book_title:'预留您的<br><em>专属体验。</em>',
+      book_body:'WoW佩鲁贾设有六个私人用餐席位——每个都是四人的私密世界。',
+      pod_ey:'选择您的餐厅席位',pod_avail:'4个座位 · 可预订',pod_reserved:'4个座位 · 已预订',
+      avail_msg:'个席位可预订 · 佩鲁贾 · 2026年开业',
+      promise_title:'WoW承诺',
+      promise1:'每个席位均有专属现场餐桌表演时刻',
+      promise2:'九道佳肴，全部在意大利采购和制作',
+      promise3:'预订时可选择葡萄酒搭配',
+      promise4:'提前告知可满足饮食要求',
+      form_title:'预订您的席位',form_fname:'名字',form_lname:'姓氏',
+      form_email:'电子邮箱',form_phone:'联系电话',form_date:'首选日期',
+      form_service:'用餐时段',form_guests:'用餐人数',form_wine:'葡萄酒搭配',
+      form_pod:'席位偏好',form_notes:'饮食要求 / 特殊场合',
+      form_note:'预订将在24小时内确认。',
+      form_submit:'提交预订申请',
+      confirm_title:'您的申请已成功提交。',
+      confirm_text:'感谢您的预订。我们的团队将在24小时内与您确认。<br><br><em style="color:var(--gold)">期待与您相见。</em>',
+      rcta_title:'您人生中最难忘的<br>一顿晚餐，<br>仅需<em>九十分钟。</em>',
+      rcta_sub:'"一段值得细细品味、反复讲述、永久铭记的体验。"',
+      rcta_btn:'立即预订您的席位',
+      footer_tag:'"意大利美食艺术与新烹饪精准工艺的完美融合。"',
+      footer_col1:'体验',footer_col2:'地点',footer_col3:'联系',
+      footer_instagram:'Instagram',footer_directions:'路线指引',footer_events:'私人活动',footer_press:'媒体询问',footer_investor:'投资者门户 →',
+      contact_eyebrow:'联系我们',contact_title:'我们很乐意听到您的声音。',contact_sub:'我们的团队将在24小时内回复。',
+      contact_lbl_name:'姓名',contact_lbl_email:'电子邮件',contact_lbl_phone:'电话（选填）',
+      contact_lbl_message:'留言',contact_btn:'发送消息',
+      contact_confirm_title:'消息已收到。',contact_confirm_text:'感谢您的留言。我们的团队将在24小时内与您联系。<br><br><em style="color:var(--gold)">期待与您相见。</em>',
+      events_eyebrow:'私人活动',events_title:'专属于您的一个夜晚。',events_sub:'WoW为最多24位宾客举办专属私人活动。告诉我们您的特殊场合，我们将为您打造非凡体验。',
+      events_lbl_guests:'宾客人数',events_lbl_date:'首选活动日期',events_lbl_occasion:'场合',
+      press_eyebrow:'媒体',press_title:'媒体咨询。',press_sub:'如需新闻资料包、摄影请求或采访咨询，请在下方留言。',
+      map_eyebrow:'找到我们',map_title:'前往WoW',
+      map_google:'在Google地图中打开 ↗',map_apple:'在Apple地图中打开 ↗',
+      err_contact:'请填写姓名、电子邮件和留言。',
+      svc_placeholder:'选择时段',svc1:'午餐 — 12:30',svc2:'晚餐 — 19:30',svc3:'晚餐 — 21:30',
+      wine0:'不需要搭配',wine1:'经典搭配 — 意大利精选',wine2:'臻品搭配 — 顶级名庄',
+      guests_ph:'用餐人数（最多4位）',
+      err_msg:'请填写所有必填字段。',
+      sending:'提交中…',
+    }
+  };
+
+  // ── French translations ──────────────────────────────────────
+  T.fr={
+    nav_philosophy:'Philosophie',nav_experience:"L'Expérience",nav_italy:'Made in Italy',
+    nav_reserve:'Réserver',nav_cta:'Réserver Votre Pod',
+    hero_city:'Italy',
+    hero_tag:"Là où l'art de la gastronomie italienne rencontre<br>la précision d'une nouvelle discipline culinaire.",
+    hero_cta1:'Découvrir le Parcours',hero_cta2:'Réserver Votre Pod',scroll_lbl:'Découvrir',
+    mq1:'Neuf Services',mq2:'Menus Conçus par Michelin',mq4:'Pérouse · Ouverture 2026',
+    mq5:'Tradition en Évolution',mq6:'Fine Dining Accessible',
+    phil_ey:'Notre Philosophie',
+    phil_title:'Un laboratoire<br>de <em>l\'émerveillement.</em>',
+    phil_quote:'"Nous ne répliquons pas les chefs. Nous répliquons les conditions dans lesquelles la grandeur devient inévitable."',
+    phil_body1:'Les plus grandes tables du monde partagent une vérité : elles transforment le repas en une rencontre entre la créativité humaine et les plus beaux produits de la terre. WoW est né de la révérence pour cette vérité — et d\'une question audacieuse : <em style="color:var(--off-white)">et si elle était accessible à tous ?</em>',
+    phil_body2:"Non pas en diminuant l'excellence. Mais en l'ingénierisant.",
+    stat1_lbl:'Services signés Michelin',stat2_lbl:"Minutes d'émerveillement",stat3_lbl:'En deçà de la gastronomie traditionnelle',
+    phil_img_label:'Le Moment WoW',phil_img_val:'Chaque visite. Chaque table. Chaque fois.',
+    manifesto_ey:'Notre Conviction',
+    manifesto_title:'La gastronomie n\'est pas<br>un privilège.<br><em>C\'est un droit.</em>',
+    manifesto_body1:"Depuis trop longtemps, les expériences culinaires les plus extraordinaires du monde se cachaient derrière des murs d'inaccessibilité. WoW abat ces murs. Non par imitation. Par ingénierie.",
+    manifesto_body2:"Nous avons pris la méthodologie des plus grandes cuisines du monde et l'avons reconstruite en un système qui ne dépend d'aucun chef unique, d'aucune table unique, d'aucune ville unique.",
+    pillar1_title:'Excellence Ingéniée',pillar1_text:"Chaque élément conçu avec la rigueur d'une discipline scientifique et l'âme d'une nonna italienne.",
+    pillar2_title:"Ancré dans l'Origine",pillar2_text:"Nous n'approximons pas l'Italie. Nous y commençons. Chaque ingrédient parle de la terre dont il est issu.",
+    pillar3_title:'Michelin par Conception',pillar3_text:"Notre Directeur Culinaire, élu Chef Émergent de l'Année par L'Espresso, dirige des chefs étoilés qui sont associés à la mission de WoW.",
+    exp_ey:"L'Expérience",exp_title:'Neuf actes.<br><em>Un seul récit.</em>',
+    exp_body:"Chaque menu WoW est conçu comme une histoire unique et cohérente — une progression à travers les saisons, les régions et la mémoire de la gastronomie italienne.",
+    c1:'Amuse-<br>Bouche',c2:'Antipasto<br>Froid',c3:'Entrée<br>Chaude',c4:'Pasta<br>Primo',c5:'Sorbet<br>& Palais',c6:'Plat<br>Principal',c7:'Sélection<br>Fromages',c8:'Mignardises',c9:'Dessert<br>Final',
+    ft1_tag:'Le Moment WoW',ft1_title:'Théâtre à Table',ft1_text:"Un moment de théâtre vivant en salle, unique à chaque visite, conçu pour suspendre le temps et commander une présence totale.",
+    ft2_tag:'Création Culinaire',ft2_title:'Signé par des Étoiles',ft2_text:"L'héritage italien réinterprété avec la précision et l'audace de la création gastronomique étoilée Michelin.",
+    ft3_tag:'L\'Accord Final',ft3_title:'Un Dessert Inoubliable',ft3_text:"Le dernier mouvement d'une symphonie qui a commencé dès votre premier souffle dans la salle.",
+    gal1:'L\'Intérieur · Pérouse',gal2:"L'Art du Dressage",gal3:'La Table',gal4:'Dessert Final',gal5:"L'Art du Service",
+    italy_ey:'Provenance & Âme',
+    italy_title:"L'Italie n'est pas<br>un ingrédient.<br><em>Elle est la recette.</em>",
+    italy_quote:'"Ingéniérisez ce qui était historiquement artisanal — et rendez scalable ce qui ne l\'a jamais été."',
+    italy_quote_attr:'WoW · Principe Fondateur',
+    italy_body:"Les plus grandes cuisines du monde partagent une discipline : une relation sans compromis avec l'origine.",
+    italy_p1t:"Maîtrisé à l'Origine",italy_p1b:"Chaque ingrédient sourcé auprès de producteurs italiens certifiés. Traçable, authentique, aligné sur la saison.",
+    italy_p2t:'Un Vocabulaire Viticole Exclusif',italy_p2b:"Étiquettes WoW en exclusivité. Sélectionnées pour accompagner chaque chapitre du menu.",
+    italy_p3t:'Authenticité Certifiée Mondialement',italy_p3b:"Une marque Made in Italy déposée dans plus de 50 pays.",
+    italy_p4t:'Soutenu au Plus Haut Niveau',italy_p4b:"Appuyé par des chefs Michelin et le Prix Nobel de la Paix Muhammad Yunus.",
+    book_ey:'Réservations',book_title:'Assurez votre<br><em>expérience.</em>',
+    book_body:"WoW Pérouse propose six pods privatifs — chacun un monde intime pour quatre convives.",
+    pod_ey:'Choisir Votre Pod',pod_avail:'4 places · Disponible',pod_reserved:'4 places · Réservé',
+    avail_msg:'pods disponibles · Pérouse · Ouverture 2026',
+    promise_title:'La Promesse WoW',
+    promise1:'Chaque pod bénéficie de son propre moment de finition en salle',
+    promise2:"Neuf services, tous sourcés et élaborés en Italie",
+    promise3:'Accord mets-vins disponible à la réservation',
+    promise4:"Exigences diététiques accommodées avec préavis",
+    form_title:'Réserver Votre Table',form_fname:'Prénom',form_lname:'Nom de Famille',
+    form_email:'Adresse Email',form_phone:'Numéro de Téléphone',form_date:'Date Souhaitée',
+    form_service:'Service',form_guests:'Couverts',form_wine:'Accord Mets-Vins',
+    form_pod:'Préférence de Pod',form_notes:'Régimes / Occasions Spéciales',
+    form_note:'Réservations confirmées sous 24 heures. Toute annulation dans les 48 heures peut entraîner des frais.',
+    form_submit:'Demander une Réservation',
+    confirm_title:'Votre demande a bien été reçue.',
+    confirm_text:'Merci. Notre équipe confirmera votre réservation sous 24 heures.<br><br><em style="color:var(--gold)">À très bientôt — nous vous attendons avec plaisir.</em>',
+    rcta_title:'Le repas le plus remarquable<br>de votre vie<br>est à <em>quatre-vingt-dix minutes.</em>',
+    rcta_sub:'"Une expérience à savourer, à raconter, et à ne jamais oublier."',
+    rcta_btn:'Réserver Votre Pod Maintenant',
+    footer_tag:'"Là où l\'art de la gastronomie italienne rencontre la précision d\'une nouvelle discipline culinaire."',
+    footer_col1:'Expérience',footer_col2:'Le Lieu',footer_col3:'Contact',
+    footer_instagram:'Instagram',footer_directions:'Itinéraire',footer_events:'Événements Privés',footer_press:'Relations Presse',footer_investor:'Portail Investisseurs →',
+    contact_eyebrow:'Nous Contacter',contact_title:'Nous serons ravis de vous lire.',contact_sub:'Notre équipe vous répondra dans les 24 heures.',
+    contact_lbl_name:'Nom Complet',contact_lbl_email:'Email',contact_lbl_phone:'Téléphone (optionnel)',
+    contact_lbl_message:'Message',contact_btn:'Envoyer le Message',
+    contact_confirm_title:'Message bien reçu.',contact_confirm_text:'Merci. Notre équipe vous répondra dans les 24 heures.<br><br><em style="color:var(--gold)">À très bientôt.</em>',
+    events_eyebrow:'Événements Privés',events_title:'Une soirée entièrement à vous.',events_sub:"WoW accueille des événements privés exclusifs jusqu'à 24 convives. Parlez-nous de votre occasion et nous créerons quelque chose d'extraordinaire.",
+    events_lbl_guests:'Nombre de Couverts',events_lbl_date:"Date Souhaitée",events_lbl_occasion:'Occasion',
+    press_eyebrow:'Presse',press_title:'Relations Presse.',press_sub:'Pour des dossiers de presse, demandes de photos ou interviews, écrivez-nous ci-dessous.',
+    map_eyebrow:'Nous Trouver',map_title:'Comment Venir chez WoW',
+    map_google:'Ouvrir dans Google Maps ↗',map_apple:'Ouvrir dans Apple Maps ↗',
+    err_contact:'Veuillez remplir votre nom, email et message.',
+    svc_placeholder:'Choisir un service',svc1:'Déjeuner — 12h30',svc2:'Dîner — 19h30',svc3:'Dîner — 21h30',
+    wine0:'Sans accord',wine1:'Accord Classique — Sélection Italienne',wine2:'Accord Premium — Étiquettes Prestige',
+    guests_ph:'Couverts (max 4)',
+    err_msg:'Veuillez compléter tous les champs obligatoires.',
+    sending:'Envoi en cours…',
+  };
+
+  // ── Spanish translations ─────────────────────────────────────
+  T.es={
+    nav_philosophy:'Filosofía',nav_experience:'La Experiencia',nav_italy:'Made in Italy',
+    nav_reserve:'Reservar',nav_cta:'Reservar Su Pod',
+    hero_city:'Italy',
+    hero_tag:'Donde el arte de la gastronomía italiana se encuentra<br>con la precisión de una nueva disciplina culinaria.',
+    hero_cta1:'Descubrir el Recorrido',hero_cta2:'Reservar Su Pod',scroll_lbl:'Descubrir',
+    mq1:'Nueve Platos',mq2:'Menús Diseñados por Michelin',mq4:'Perugia · Apertura 2026',
+    mq5:'Tradición en Evolución',mq6:'Alta Cocina Accesible',
+    phil_ey:'Nuestra Filosofía',
+    phil_title:'Un laboratorio<br>de <em>asombro.</em>',
+    phil_quote:'"No replicamos a los chefs. Replicamos las condiciones en las que la grandeza es inevitable."',
+    phil_body1:'Los grandes restaurantes del mundo comparten una verdad: transforman la comida en un encuentro entre la creatividad humana y los mejores ingredientes de la tierra. WoW nació del respeto por esa verdad — y de una pregunta audaz: <em style="color:var(--off-white)">¿y si pudiera llegar a todos?</em>',
+    phil_body2:'No reduciendo la excelencia. Sino ingeniándola.',
+    stat1_lbl:'Platos diseñados por Michelin',stat2_lbl:'Minutos de asombro',stat3_lbl:'Por debajo de la alta cocina tradicional',
+    phil_img_label:'El Momento WoW',phil_img_val:'Cada visita. Cada mesa. Cada vez.',
+    manifesto_ey:'Nuestra Convicción',
+    manifesto_title:'La alta cocina no es<br>un privilegio.<br><em>Es un derecho.</em>',
+    manifesto_body1:"Durante demasiado tiempo, las experiencias culinarias más extraordinarias del mundo han existido detrás de muros de inaccesibilidad. WoW derriba esos muros. No por imitación. Por ingeniería.",
+    manifesto_body2:"Hemos tomado la metodología de las mejores cocinas del mundo y la hemos reconstruido como un sistema que no depende de ningún chef, ninguna mesa ni ninguna ciudad en particular.",
+    pillar1_title:'Excelencia Ingeniada',pillar1_text:'Cada elemento diseñado con el rigor de una disciplina científica y el alma de una nonna italiana.',
+    pillar2_title:'Arraigado en el Origen',pillar2_text:'No aproximamos Italia. Comenzamos desde allí. Cada ingrediente habla de la tierra de la que proviene.',
+    pillar3_title:'Michelin por Diseño',pillar3_text:"Nuestro Director Culinario, nombrado Chef Emergente del Año por L'Espresso, lidera chefs con estrellas que son socios de la misión de WoW.",
+    exp_ey:'La Experiencia',exp_title:'Nueve actos.<br><em>Un solo relato.</em>',
+    exp_body:'Cada menú de WoW está concebido como una historia única y coherente — una progresión a través de las estaciones, las regiones y la memoria de la gastronomía italiana.',
+    c1:'Amuse-<br>Bouche',c2:'Antipasto<br>Frío',c3:'Entrante<br>Caliente',c4:'Pasta<br>Primo',c5:'Sorbete<br>& Paladar',c6:'Plato<br>Principal',c7:'Selección<br>de Quesos',c8:'Mignardises',c9:'Postre<br>Final',
+    ft1_tag:'El Momento WoW',ft1_title:'Teatro en la Mesa',ft1_text:'Un momento de teatro en vivo junto a la mesa, único en cada visita, diseñado para detener el tiempo y exigir presencia total.',
+    ft2_tag:'Autoría Culinaria',ft2_title:'Creado por Estrellas',ft2_text:'La herencia italiana reinterpretada con la precisión y la audacia de la autoría gastronómica con estrellas Michelin.',
+    ft3_tag:'El Acorde Final',ft3_title:'Un Postre Inolvidable',ft3_text:'El último movimiento de una sinfonía que comenzó con tu primer aliento en la sala.',
+    gal1:'El Interior · Perugia',gal2:'El Arte del Emplatado',gal3:'La Mesa',gal4:'El Postre Final',gal5:'El Arte del Plato',
+    italy_ey:'Procedencia & Alma',
+    italy_title:'Italia no es<br>un ingrediente.<br><em>Es la receta.</em>',
+    italy_quote:'"Ingenia lo que históricamente fue artesanal — y escala lo que históricamente fue inescalable."',
+    italy_quote_attr:'WoW · Principio Fundador',
+    italy_body:'Las mejores cocinas del mundo comparten una disciplina: una relación sin concesiones con el origen.',
+    italy_p1t:'Controlado en Origen',italy_p1b:'Cada ingrediente procedente de productores italianos verificados. Trazable, auténtico, alineado con la temporada.',
+    italy_p2t:'Un Vocabulario Vínico Propio',italy_p2b:'Etiquetas exclusivas WoW. Seleccionadas para complementar cada capítulo del menú.',
+    italy_p3t:'Autenticidad Certificada Globalmente',italy_p3b:'Una marca registrada Made in Italy en más de 50 países.',
+    italy_p4t:'Respaldado al Más Alto Nivel',italy_p4b:'Apoyado por chefs Michelin y el Premio Nobel de la Paz Muhammad Yunus.',
+    book_ey:'Reservas',book_title:'Asegure su<br><em>experiencia.</em>',
+    book_body:'WoW Perugia ofrece seis pods privados — cada uno un mundo íntimo para cuatro comensales.',
+    pod_ey:'Elegir Su Pod',pod_avail:'4 plazas · Disponible',pod_reserved:'4 plazas · Reservado',
+    avail_msg:'pods disponibles · Perugia · Apertura 2026',
+    promise_title:'La Promesa WoW',
+    promise1:'Cada pod recibe su propio momento de acabado en sala',
+    promise2:'Nueve platos, todos procedentes y elaborados en Italia',
+    promise3:'Maridaje de vinos disponible en el momento de la reserva',
+    promise4:'Requisitos dietéticos atendidos con aviso previo',
+    form_title:'Reservar Su Mesa',form_fname:'Nombre',form_lname:'Apellido',
+    form_email:'Correo Electrónico',form_phone:'Número de Teléfono',form_date:'Fecha Preferida',
+    form_service:'Servicio',form_guests:'Comensales',form_wine:'Maridaje de Vinos',
+    form_pod:'Preferencia de Pod',form_notes:'Dietas / Ocasiones Especiales',
+    form_note:'Reservas confirmadas en 24 horas. Las cancelaciones con menos de 48 horas de antelación pueden estar sujetas a cargo.',
+    form_submit:'Solicitar Reserva',
+    confirm_title:'Su solicitud ha sido recibida.',
+    confirm_text:'Gracias. Nuestro equipo confirmará su reserva en 24 horas.<br><br><em style="color:var(--gold)">Hasta pronto — le esperamos con placer.</em>',
+    rcta_title:'La comida más extraordinaria<br>de su vida<br>está a <em>noventa minutos.</em>',
+    rcta_sub:'"Una experiencia para saborear, para contar y para recordar siempre."',
+    rcta_btn:'Reservar Su Pod Ahora',
+    footer_tag:'"Donde el arte de la gastronomía italiana se encuentra con la precisión de una nueva disciplina culinaria."',
+    footer_col1:'Experiencia',footer_col2:'El Lugar',footer_col3:'Contacto',
+    footer_instagram:'Instagram',footer_directions:'Cómo Llegar',footer_events:'Eventos Privados',footer_press:'Prensa',footer_investor:'Portal de Inversores →',
+    contact_eyebrow:'Contáctenos',contact_title:'Nos encantará saber de usted.',contact_sub:'Nuestro equipo responderá en 24 horas.',
+    contact_lbl_name:'Nombre Completo',contact_lbl_email:'Correo Electrónico',contact_lbl_phone:'Teléfono (opcional)',
+    contact_lbl_message:'Mensaje',contact_btn:'Enviar Mensaje',
+    contact_confirm_title:'Mensaje recibido.',contact_confirm_text:'Gracias. Nuestro equipo se pondrá en contacto en 24 horas.<br><br><em style="color:var(--gold)">Hasta pronto.</em>',
+    events_eyebrow:'Eventos Privados',events_title:'Una velada enteramente suya.',events_sub:'WoW organiza eventos privados exclusivos para hasta 24 comensales. Cuéntenos su ocasión y crearemos algo extraordinario.',
+    events_lbl_guests:'Número de Comensales',events_lbl_date:'Fecha Preferida',events_lbl_occasion:'Ocasión',
+    press_eyebrow:'Prensa',press_title:'Consultas de Prensa.',press_sub:'Para dossieres de prensa, solicitudes de fotografía o entrevistas, escríbanos a continuación.',
+    map_eyebrow:'Encuéntrenos',map_title:'Cómo Llegar a WoW',
+    map_google:'Abrir en Google Maps ↗',map_apple:'Abrir en Apple Maps ↗',
+    err_contact:'Por favor, complete su nombre, correo y mensaje.',
+    svc_placeholder:'Seleccionar servicio',svc1:'Almuerzo — 12:30',svc2:'Cena — 19:30',svc3:'Cena — 21:30',
+    wine0:'Sin maridaje',wine1:'Maridaje Clásico — Selección Italiana',wine2:'Maridaje Premium — Etiquetas de Prestigio',
+    guests_ph:'Comensales (máx. 4)',
+    err_msg:'Por favor, complete todos los campos obligatorios.',
+    sending:'Enviando…',
+  };
+
+  // ── German translations ──────────────────────────────────────
+  T.de={
+    nav_philosophy:'Philosophie',nav_experience:'Das Erlebnis',nav_italy:'Made in Italy',
+    nav_reserve:'Reservieren',nav_cta:'Ihren Pod Reservieren',
+    hero_city:'Italy',
+    hero_tag:'Wo die Kunst der italienischen Gastronomie<br>auf die Präzision einer neuen kulinarischen Disziplin trifft.',
+    hero_cta1:'Die Reise Entdecken',hero_cta2:'Ihren Pod Reservieren',scroll_lbl:'Entdecken',
+    mq1:'Neun Gänge',mq2:'Von Michelin Gestaltete Menüs',mq4:'Perugia · Eröffnung 2026',
+    mq5:'Tradition im Wandel',mq6:'Fast Fine Dining',
+    phil_ey:'Unsere Philosophie',
+    phil_title:'Ein Labor<br>des <em>Staunens.</em>',
+    phil_quote:'"Wir replizieren keine Köche. Wir replizieren die Bedingungen, unter denen Großartigkeit unvermeidlich wird."',
+    phil_body1:'Die großen Restaurants der Welt teilen eine Wahrheit: Sie verwandeln das Speisen in eine Begegnung zwischen menschlicher Kreativität und den feinsten Zutaten der Erde. WoW entstand aus der Ehrfurcht vor dieser Wahrheit — und einer einzigen kühnen Frage: <em style="color:var(--off-white)">Was, wenn sie für alle erreichbar wäre?</em>',
+    phil_body2:'Nicht durch Minderung der Exzellenz. Sondern durch deren Ingenieurleistung.',
+    stat1_lbl:'Von Michelin gestaltete Gänge',stat2_lbl:'Minuten des Staunens',stat3_lbl:'Unter klassischer Haute Cuisine',
+    phil_img_label:'Der WoW-Moment',phil_img_val:'Jeder Besuch. Jeder Tisch. Jedes Mal.',
+    manifesto_ey:'Unsere Überzeugung',
+    manifesto_title:'Haute Cuisine ist kein<br>Privileg.<br><em>Es ist ein Recht.</em>',
+    manifesto_body1:"Zu lange existierten die außergewöhnlichsten kulinarischen Erlebnisse der Welt hinter Mauern der Unzugänglichkeit. WoW reißt diese Mauern nieder. Nicht durch Imitation. Durch Ingenieurkunst.",
+    manifesto_body2:"Wir haben die Methodik der besten Küchen der Welt übernommen und als System neu aufgebaut, das von keinem einzelnen Koch, keinem einzelnen Tisch, keiner einzelnen Stadt abhängt.",
+    pillar1_title:'Engineered Excellence',pillar1_text:'Jedes Element mit der Strenge einer wissenschaftlichen Disziplin und der Seele einer italienischen Nonna gestaltet.',
+    pillar2_title:'Verwurzelt im Ursprung',pillar2_text:'Wir approximieren Italien nicht. Wir beginnen dort. Jede Zutat spricht von der Erde, aus der sie gewachsen ist.',
+    pillar3_title:'Michelin by Design',pillar3_text:"Unser Culinary Director, vom L'Espresso zum aufstrebenden Koch des Jahres ernannt, führt Sterne-Köche, die als Anteilseigner an WoWs Mission beteiligt sind.",
+    exp_ey:'Das Erlebnis',exp_title:'Neun Akte.<br><em>Eine Erzählung.</em>',
+    exp_body:'Jedes WoW-Menü ist als eine einzige, kohärente Geschichte konzipiert — eine Progression durch die Jahreszeiten, Regionen und das Gedächtnis der italienischen Gastronomie.',
+    c1:'Amuse-<br>Gueule',c2:'Kalte<br>Vorspeise',c3:'Warme<br>Vorspeise',c4:'Pasta<br>Primo',c5:'Sorbet<br>& Gaumen',c6:'Haupt-<br>gericht',c7:'Käse-<br>Auswahl',c8:'Petits Fours',c9:'Dessert<br>Finale',
+    ft1_tag:'Der WoW-Moment',ft1_title:'Theater am Tisch',ft1_text:'Ein Moment lebendigen Tischtheaters, einmalig bei jedem Besuch, gestaltet um die Zeit anzuhalten und vollständige Präsenz zu gebieten.',
+    ft2_tag:'Kulinarische Autorschaft',ft2_title:'Von Sternen geschaffen',ft2_text:'Italienisches Erbe neu interpretiert mit der Präzision und Kühnheit der Michelin-Sterne-Gastronomie.',
+    ft3_tag:'Der Schlussakkord',ft3_title:'Ein unvergessliches Dessert',ft3_text:'Der letzte Satz einer Symphonie, die mit Ihrem ersten Atemzug im Raum begann.',
+    gal1:'Das Interieur · Perugia',gal2:'Die Kunst des Anrichtens',gal3:'Der Tisch',gal4:'Dessert Finale',gal5:'Die Kunst des Ganges',
+    italy_ey:'Herkunft & Seele',
+    italy_title:'Italien ist keine<br>Zutat.<br><em>Es ist das Rezept.</em>',
+    italy_quote:'"Ingenieurisieren Sie, was historisch handwerklich war — und skalieren Sie, was historisch nicht skalierbar war."',
+    italy_quote_attr:'WoW · Gründungsprinzip',
+    italy_body:'Die besten Küchen der Welt teilen eine Disziplin: eine kompromisslose Beziehung zur Herkunft.',
+    italy_p1t:'Kontrolle am Ursprung',italy_p1b:'Jede Zutat von verifizierten italienischen Erzeugern bezogen. Rückverfolgbar, authentisch, saisonal ausgerichtet.',
+    italy_p2t:'Ein eigenes Weinvokabular',italy_p2b:'Exklusive WoW-Etiketten. Sorgfältig ausgewählt, um jedes Kapitel des Menüs zu begleiten.',
+    italy_p3t:'Weltweit zertifizierte Authentizität',italy_p3b:'Eine eingetragene Made-in-Italy-Marke in über 50 Ländern.',
+    italy_p4t:'Auf höchstem Niveau empfohlen',italy_p4b:'Unterstützt von Michelin-Köchen und Friedensnobelpreisträger Muhammad Yunus.',
+    book_ey:'Reservierungen',book_title:'Sichern Sie Ihr<br><em>Erlebnis.</em>',
+    book_body:'WoW Perugia bietet sechs private Dining-Pods — jeder eine intime Welt für vier Personen.',
+    pod_ey:'Ihren Pod Wählen',pod_avail:'4 Plätze · Verfügbar',pod_reserved:'4 Plätze · Reserviert',
+    avail_msg:'Pods verfügbar · Perugia · Eröffnung 2026',
+    promise_title:'Das WoW-Versprechen',
+    promise1:'Jeder Pod erhält seinen eigenen Live-Tischmoment',
+    promise2:'Neun Gänge, alle in Italien bezogen und zubereitet',
+    promise3:'Weinbegleitung bei der Reservierung wählbar',
+    promise4:'Diätetische Anforderungen mit Vorankündigung berücksichtigt',
+    form_title:'Ihren Tisch Reservieren',form_fname:'Vorname',form_lname:'Nachname',
+    form_email:'E-Mail-Adresse',form_phone:'Telefonnummer',form_date:'Bevorzugtes Datum',
+    form_service:'Service',form_guests:'Gäste',form_wine:'Weinbegleitung',
+    form_pod:'Pod-Präferenz',form_notes:'Diät / Besondere Anlässe',
+    form_note:'Reservierungen werden innerhalb von 24 Stunden bestätigt. Stornierungen innerhalb von 48 Stunden können mit einer Gebühr verbunden sein.',
+    form_submit:'Reservierung Anfragen',
+    confirm_title:'Ihre Anfrage ist eingegangen.',
+    confirm_text:'Vielen Dank. Unser Team wird Ihre Reservierung innerhalb von 24 Stunden bestätigen.<br><br><em style="color:var(--gold)">Auf Wiedersehen — wir freuen uns auf Sie.</em>',
+    rcta_title:'Das außergewöhnlichste<br>Mahl Ihres Lebens<br>ist <em>neunzig Minuten entfernt.</em>',
+    rcta_sub:'"Ein Erlebnis zum Genießen, Erzählen und Erinnern."',
+    rcta_btn:'Jetzt Ihren Pod Reservieren',
+    footer_tag:'"Wo die Kunst der italienischen Gastronomie auf die Präzision einer neuen kulinarischen Disziplin trifft."',
+    footer_col1:'Erlebnis',footer_col2:'Der Ort',footer_col3:'Kontakt',
+    footer_instagram:'Instagram',footer_directions:'Anfahrt',footer_events:'Private Veranstaltungen',footer_press:'Presseanfragen',footer_investor:'Investorenportal →',
+    contact_eyebrow:'Kontakt',contact_title:'Wir freuen uns von Ihnen zu hören.',contact_sub:'Unser Team antwortet innerhalb von 24 Stunden.',
+    contact_lbl_name:'Vollständiger Name',contact_lbl_email:'E-Mail',contact_lbl_phone:'Telefon (optional)',
+    contact_lbl_message:'Nachricht',contact_btn:'Nachricht Senden',
+    contact_confirm_title:'Nachricht eingegangen.',contact_confirm_text:'Vielen Dank. Unser Team wird sich innerhalb von 24 Stunden bei Ihnen melden.<br><br><em style="color:var(--gold)">Auf Wiedersehen.</em>',
+    events_eyebrow:'Private Veranstaltungen',events_title:'Ein Abend ganz für Sie.',events_sub:'WoW veranstaltet exklusive private Events für bis zu 24 Gäste. Erzählen Sie uns von Ihrem Anlass und wir gestalten etwas Außergewöhnliches.',
+    events_lbl_guests:'Anzahl der Gäste',events_lbl_date:'Bevorzugtes Veranstaltungsdatum',events_lbl_occasion:'Anlass',
+    press_eyebrow:'Presse',press_title:'Presseanfragen.',press_sub:'Für Pressemappen, Fotoanfragen oder Interviewwünsche schreiben Sie uns bitte unten.',
+    map_eyebrow:'Uns Finden',map_title:'So Erreichen Sie WoW',
+    map_google:'In Google Maps öffnen ↗',map_apple:'In Apple Maps öffnen ↗',
+    err_contact:'Bitte füllen Sie Name, E-Mail und Nachricht aus.',
+    svc_placeholder:'Service wählen',svc1:'Mittagessen — 12:30',svc2:'Abendessen — 19:30',svc3:'Abendessen — 21:30',
+    wine0:'Ohne Begleitung',wine1:'Klassische Begleitung — Italienische Auswahl',wine2:'Premium-Begleitung — Prestige-Etiketten',
+    guests_ph:'Gäste (max. 4)',
+    err_msg:'Bitte füllen Sie alle erforderlichen Felder aus.',
+    sending:'Wird gesendet…',
+  };
+
+  // ── Language metadata ────────────────────────────────────────
+  const LANG_META={
+    en:{flag:'🇬🇧',label:'EN',dir:'ltr',htmlLang:'en'},
+    it:{flag:'🇮🇹',label:'IT',dir:'ltr',htmlLang:'it'},
+    fr:{flag:'🇫🇷',label:'FR',dir:'ltr',htmlLang:'fr'},
+    es:{flag:'🇪🇸',label:'ES',dir:'ltr',htmlLang:'es'},
+    de:{flag:'🇩🇪',label:'DE',dir:'ltr',htmlLang:'de'},
+    zh:{flag:'🇨🇳',label:'中文',dir:'ltr',htmlLang:'zh-CN'},
+  };
+
+  // ── Form placeholder map ─────────────────────────────────────
+  const PLACEHOLDERS={
+    en:{fname:'Giovanni',lname:'Rossi',email:'giovanni@example.com',phone:'+39 075 000 0000',notes:'Allergies, celebrations, or any notes...'},
+    it:{fname:'Giovanni',lname:'Rossi',email:'giovanni@example.com',phone:'+39 075 000 0000',notes:'Allergie, celebrazioni o note per il team...'},
+    fr:{fname:'Jean-Pierre',lname:'Dupont',email:'jpdupont@example.com',phone:'+33 1 00 00 00 00',notes:'Allergies, célébrations ou toute remarque...'},
+    es:{fname:'Carlos',lname:'García',email:'cgarcia@example.com',phone:'+34 600 000 000',notes:'Alergias, celebraciones o cualquier nota...'},
+    de:{fname:'Thomas',lname:'Müller',email:'tmueller@example.com',phone:'+49 30 000 0000',notes:'Allergien, besondere Anlässe oder Anmerkungen...'},
+    zh:{fname:'张',lname:'伟',email:'zhang@example.com',phone:'+86 138 0000 0000',notes:'过敏信息、特殊庆典或任何备注...'},
+  };
+
+  let lang='en';
+
+  function setLang(l){
+    if(!T[l]) return;
+    lang=l;
+    const t=T[l];
+    const meta=LANG_META[l];
+    // Translate all data-i18n elements
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+      const k=el.getAttribute('data-i18n');
+      if(t[k]!==undefined) el.innerHTML=t[k];
+    });
+    // Service select
+    const svc=document.getElementById('bf-service');
+    if(svc&&svc.options.length>=4){
+      svc.options[0].text=t.svc_placeholder;
+      svc.options[1].text=t.svc1;svc.options[1].value=t.svc1;
+      svc.options[2].text=t.svc2;svc.options[2].value=t.svc2;
+      svc.options[3].text=t.svc3;svc.options[3].value=t.svc3;
+    }
+    // Wine select
+    const wine=document.getElementById('bf-wine');
+    if(wine&&wine.options.length>=3){
+      wine.options[0].text=t.wine0;
+      wine.options[1].text=t.wine1;
+      wine.options[2].text=t.wine2;
+    }
+    // Guests placeholder
+    const g=document.getElementById('bf-guests');
+    if(g&&g.options[0])g.options[0].text=t.guests_ph;
+    // Form placeholders
+    const ph=PLACEHOLDERS[l]||PLACEHOLDERS.en;
+    const pfn=document.getElementById('bf-fname');if(pfn)pfn.placeholder=ph.fname;
+    const pln=document.getElementById('bf-lname');if(pln)pln.placeholder=ph.lname;
+    const pem=document.getElementById('bf-email');if(pem)pem.placeholder=ph.email;
+    const pph=document.getElementById('bf-phone');if(pph)pph.placeholder=ph.phone;
+    const pno=document.getElementById('bf-notes');if(pno)pno.placeholder=ph.notes;
+    // Update dropdown UI
+    const flag=document.getElementById('langFlag');
+    const lbl=document.getElementById('langLabel');
+    if(flag)flag.textContent=meta.flag;
+    if(lbl)lbl.textContent=meta.label;
+    document.querySelectorAll('.lang-option').forEach(b=>{
+      b.classList.toggle('active',b.dataset.lang===l);
+    });
+    // HTML lang attribute
+    document.documentElement.lang=meta.htmlLang;
+    localStorage.setItem('wow_lang',l);
+    // Close dropdown
+    const sw=document.getElementById('langSwitcher');
+    if(sw)sw.classList.remove('open');
+  }
+
+  // ── Dropdown toggle ──────────────────────────────────────────
+  (function initLangDropdown(){
+    const sw=document.getElementById('langSwitcher');
+    const btn=document.getElementById('langSelected');
+    if(!sw||!btn)return;
+    btn.addEventListener('click',e=>{e.stopPropagation();sw.classList.toggle('open');});
+    document.querySelectorAll('.lang-option').forEach(opt=>{
+      opt.addEventListener('click',()=>setLang(opt.dataset.lang));
+    });
+    document.addEventListener('click',()=>sw.classList.remove('open'));
+  })();
+
+  // ── BOOKING SUBMISSION ──────────────────────────────────────────
+  const API='https://openclaw-multiagent.onrender.com';
+
+  async function submitBooking(){
+    const t=T[lang];
+    const fname=((document.getElementById('bf-fname')||{}).value||'').trim();
+    const lname=((document.getElementById('bf-lname')||{}).value||'').trim();
+    const email=((document.getElementById('bf-email')||{}).value||'').trim();
+    const phone=((document.getElementById('bf-phone')||{}).value||'').trim();
+    const date=(document.getElementById('bf-date')||{}).value;
+    const service=(document.getElementById('bf-service')||{}).value;
+    const guests=(document.getElementById('bf-guests')||{}).value;
+    const pod=(document.getElementById('bf-pod')||{}).value;
+    const wine=(document.getElementById('bf-wine')||{}).value;
+    const notes=((document.getElementById('bf-notes')||{}).value||'').trim();
+
+    if(!fname||!lname||!email||!date||!service||!guests){alert(t.err_msg);return;}
+
+    const btn=document.getElementById('bf-submit');
+    if(btn){btn.disabled=true;btn.textContent=t.sending;}
+
+    try{
+      const res=await fetch(`${API}/wow/reservations`,{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({first_name:fname,last_name:lname,email,phone:phone||null,date,service,guests:parseInt(guests),pod:pod||null,wine_pairing:wine||null,notes:notes||null,language:lang})
+      });
+      if(res.status===409){const d=await res.json();alert(d.detail||'Pod not available.');if(btn){btn.disabled=false;btn.innerHTML=t.form_submit;}return;}
+    }catch(e){console.warn('API offline:',e);}
+
+    // Show confirmation
+    const fi=document.getElementById('formInner');
+    const fc=document.getElementById('bf-confirm');
+    if(fi)fi.style.display='none';
+    if(fc){fc.style.display='block';
+      const ct=fc.querySelector('[data-i18n="confirm_text"]');if(ct)ct.innerHTML=t.confirm_text;
+      const ctt=fc.querySelector('[data-i18n="confirm_title"]');if(ctt)ctt.innerHTML=t.confirm_title;
+    }
+    if(btn){btn.disabled=false;btn.innerHTML=t.form_submit;}
+  }
+
+  // Restore saved language
+  window.addEventListener('DOMContentLoaded',()=>{
+    const saved=localStorage.getItem('wow_lang');
+    if(saved&&T[saved]&&saved!=='en')setLang(saved);
+  });
+  // Also init dropdown after DOM ready (in case script runs before DOM)
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',()=>{if(typeof initLangDropdown==='function')initLangDropdown();});
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  //  WOW CONTACT / MAP / MODALS
+  // ══════════════════════════════════════════════════════════════
+  (function WowModals(){
+    const API = 'https://openclaw-multiagent.onrender.com';
+
+    // ── Helper: open / close any overlay modal ──────────────────
+    function openModal(id){ document.getElementById(id).classList.add('show'); document.body.style.overflow='hidden'; }
+    function closeModal(id){ document.getElementById(id).classList.remove('show'); document.body.style.overflow=''; }
+
+    // Close on overlay click or close button
+    ['contactModal','mapModal'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(!el)return;
+      el.addEventListener('click',e=>{ if(e.target===el) closeModal(id); });
+    });
+    (document.getElementById('contactModalClose')||{addEventListener:function(){}}).addEventListener('click',()=>closeModal('contactModal'));
+    (document.getElementById('mapModalClose')||{addEventListener:function(){}}).addEventListener('click',()=>closeModal('mapModal'));
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal('contactModal'); closeModal('mapModal'); }});
+
+    // ── Wire footer links ───────────────────────────────────────
+    let contactType = 'contact'; // track which form context
+
+    function openContact(type){
+      contactType = type;
+      const t = typeof T!=='undefined' && T[lang] ? T[lang] : {};
+
+      // Reset form
+      document.getElementById('cm-form-inner').style.display='';
+      document.getElementById('cm-confirm').style.display='none';
+      ['cm-name','cm-email','cm-phone','cm-guests','cm-event-date','cm-occasion','cm-message'].forEach(id=>{
+        const el=document.getElementById(id); if(el) el.value='';
+      });
+      const btn=document.getElementById('cm-submit');
+      if(btn){btn.disabled=false; btn.textContent=t.contact_btn||'Send Message';}
+
+      // Adjust modal content per type
+      const eyebrow = document.getElementById('cm-eyebrow');
+      const title   = document.getElementById('cm-title');
+      const sub     = document.getElementById('cm-sub');
+      const gWrap   = document.getElementById('cm-guests-wrap');
+      const dateRow = document.getElementById('cm-date-row');
+
+      if(type==='private_events'){
+        if(eyebrow) eyebrow.innerHTML = t.events_eyebrow||'Private Events';
+        if(title)   title.innerHTML   = t.events_title||'An evening entirely your own.';
+        if(sub)     sub.innerHTML     = t.events_sub||'WoW hosts exclusive private events for up to 24 guests.';
+        if(gWrap)   gWrap.style.display='';
+        if(dateRow) dateRow.style.display='';
+      } else if(type==='press'){
+        if(eyebrow) eyebrow.innerHTML = t.press_eyebrow||'Press';
+        if(title)   title.innerHTML   = t.press_title||'Media Enquiries.';
+        if(sub)     sub.innerHTML     = t.press_sub||'For press packs and interview enquiries, write to us below.';
+        if(gWrap)   gWrap.style.display='none';
+        if(dateRow) dateRow.style.display='none';
+      } else {
+        if(eyebrow) eyebrow.innerHTML = t.contact_eyebrow||'Get in Touch';
+        if(title)   title.innerHTML   = t.contact_title||"We'd love to hear from you.";
+        if(sub)     sub.innerHTML     = t.contact_sub||'Our team will respond within 24 hours.';
+        if(gWrap)   gWrap.style.display='none';
+        if(dateRow) dateRow.style.display='none';
+      }
+
+      // Labels
+      const lmap = {
+        'cm-lbl-name':'contact_lbl_name','cm-lbl-email':'contact_lbl_email',
+        'cm-lbl-phone':'contact_lbl_phone','cm-lbl-message':'contact_lbl_message',
+        'cm-lbl-guests':'events_lbl_guests','cm-lbl-date':'events_lbl_date','cm-lbl-occasion':'events_lbl_occasion',
+      };
+      Object.entries(lmap).forEach(([elId,key])=>{
+        const el=document.getElementById(elId); if(el&&t[key]) el.textContent=t[key];
+      });
+
+      openModal('contactModal');
+    }
+
+    (document.getElementById('link-events')||{addEventListener:function(){}}).addEventListener('click',e=>{ e.preventDefault(); openContact('private_events'); });
+    (document.getElementById('link-press')||{addEventListener:function(){}}).addEventListener('click',e=>{ e.preventDefault(); openContact('press'); });
+
+    // "Contact" via email link — keep mailto for direct; wire any future contact link
+    // Also wire the nav CTA area if needed — for now just events + press
+
+    // ── Directions ─────────────────────────────────────────────
+    (document.getElementById('link-directions')||{addEventListener:function(){}}).addEventListener('click',e=>{
+      e.preventDefault();
+      const t = typeof T!=='undefined' && T[lang] ? T[lang] : {};
+      const ey=document.getElementById('map-eyebrow');
+      const ti=document.getElementById('map-title');
+      const gl=document.getElementById('map-google-link');
+      const al=document.getElementById('map-apple-link');
+      if(ey) ey.textContent=t.map_eyebrow||'Find Us';
+      if(ti) ti.textContent=t.map_title||'Getting to WoW';
+      if(gl) gl.textContent=t.map_google||'Open in Google Maps ↗';
+      if(al) al.textContent=t.map_apple||'Open in Apple Maps ↗';
+      openModal('mapModal');
+    });
+
+    // ── Contact form submission ─────────────────────────────────
+    (document.getElementById('cm-submit')||{addEventListener:function(){}}).addEventListener('click', async ()=>{
+      const t = typeof T!=='undefined' && T[lang] ? T[lang] : {};
+      const name    = ((document.getElementById('cm-name')||{}).value||'').trim();
+      const email   = ((document.getElementById('cm-email')||{}).value||'').trim();
+      const phone   = ((document.getElementById('cm-phone')||{}).value||'').trim();
+      const message = ((document.getElementById('cm-message')||{}).value||'').trim();
+      const guests  = (document.getElementById('cm-guests')||{}).value;
+      const evtDate = (document.getElementById('cm-event-date')||{}).value;
+
+      if(!name||!email||!message){
+        alert(t.err_contact||'Please fill in your name, email and message.');
+        return;
+      }
+
+      const btn = document.getElementById('cm-submit');
+      if(btn){btn.disabled=true; btn.textContent=t.sending||'Sending…';}
+
+      try{
+        await fetch(`${API}/wow/contact`,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({
+            name, email,
+            phone: phone||null,
+            enquiry_type: contactType,
+            message,
+            guests: guests?parseInt(guests):null,
+            event_date: evtDate||null,
+            language: lang,
+          }),
+        });
+      }catch(e){ console.warn('Contact API error:',e); }
+
+      // Show confirmation regardless
+      document.getElementById('cm-form-inner').style.display='none';
+      const conf = document.getElementById('cm-confirm');
+      const ct   = document.getElementById('cm-confirm-title');
+      const ctx  = document.getElementById('cm-confirm-text');
+      if(ct)  ct.innerHTML  = t.contact_confirm_title||'Message received.';
+      if(ctx) ctx.innerHTML = t.contact_confirm_text||'Thank you. Our team will be in touch within 24 hours.';
+      if(conf) conf.style.display='block';
+    });
+
+  })(); // end WowModals
+
+  // ══════════════════════════════════════════════════════════════
+  //  WOW INLINE CONTENT EDITOR
+  //  Admin login → click any text/image → edit in place → saves to DB
+  // ══════════════════════════════════════════════════════════════
+  (function WowCMS(){
+    const API = 'https://openclaw-multiagent.onrender.com';
+    const ADMIN_TOKEN_KEY = 'wow_admin_token';
+    const EDIT_MODE_KEY   = 'wow_edit_mode';
+
+    let editMode  = false;
+    let adminToken = null;
+
+    // ── Styles ─────────────────────────────────────────────────
+    const style = document.createElement('style');
+    style.textContent = `
+      /* ── Contact / Map modals ──────────────────────────────── */
+      .wow-modal-overlay {
+        position:fixed; inset:0; z-index:9000; display:none;
+        background:rgba(6,10,7,0.92); backdrop-filter:blur(18px);
+        align-items:center; justify-content:center; padding:1.5rem;
+      }
+      .wow-modal-overlay.show { display:flex; }
+      .wow-modal-box {
+        background:var(--green-mid); border:1px solid rgba(201,168,76,0.2);
+        width:100%; max-width:520px; max-height:90vh; overflow-y:auto;
+        position:relative;
+      }
+      .wow-modal-box::before {
+        content:''; position:absolute; top:0; left:0; right:0;
+        height:2px; background:linear-gradient(to right,var(--gold),var(--gold-dim));
+      }
+      .wow-modal-box.wide { max-width:720px; }
+      .wow-modal-inner { padding:2.5rem; }
+      .wow-modal-close {
+        position:absolute; top:1rem; right:1rem;
+        background:none; border:none; color:var(--muted);
+        font-size:1.3rem; cursor:pointer; line-height:1; z-index:1;
+      }
+      .wow-modal-close:hover { color:var(--off-white); }
+      .wow-modal-eyebrow {
+        font-size:0.52rem; letter-spacing:0.4em; text-transform:uppercase;
+        color:var(--gold); margin-bottom:0.75rem;
+      }
+      .wow-modal-title {
+        font-family:'Cormorant Garamond',serif;
+        font-size:1.75rem; color:var(--off-white); font-weight:300;
+        margin-bottom:0.5rem; line-height:1.2;
+      }
+      .wow-modal-sub {
+        font-size:0.75rem; color:var(--muted); margin-bottom:2rem; line-height:1.6;
+      }
+      /* Contact form fields */
+      .wow-cf-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem; }
+      .wow-cf-row.full { grid-template-columns:1fr; }
+      .wow-cf-field { display:flex; flex-direction:column; gap:0.4rem; }
+      .wow-cf-label {
+        font-size:0.52rem; letter-spacing:0.32em; text-transform:uppercase; color:var(--gold);
+      }
+      .wow-cf-input, .wow-cf-textarea, .wow-cf-select {
+        background:rgba(245,240,232,0.04); border:1px solid rgba(201,168,76,0.18);
+        color:var(--off-white); padding:0.75rem 1rem;
+        font-family:'Montserrat',sans-serif; font-size:0.8rem;
+        outline:none; transition:border 0.3s; width:100%; appearance:none;
+      }
+      .wow-cf-input:focus, .wow-cf-textarea:focus, .wow-cf-select:focus { border-color:var(--gold); }
+      .wow-cf-input::placeholder, .wow-cf-textarea::placeholder { color:rgba(122,148,128,0.45); }
+      .wow-cf-select option { background:var(--green-mid); color:var(--off-white); }
+      .wow-cf-textarea { resize:vertical; min-height:110px; }
+      .wow-cf-btn {
+        width:100%; background:var(--gold); color:var(--black); border:none;
+        padding:1rem; font-family:'Montserrat',sans-serif;
+        font-size:0.58rem; letter-spacing:0.3em; text-transform:uppercase;
+        font-weight:600; cursor:pointer; transition:background 0.3s; margin-top:0.5rem;
+      }
+      .wow-cf-btn:hover { background:var(--gold-light); }
+      .wow-cf-btn:disabled { opacity:0.55; cursor:not-allowed; }
+      .wow-cf-confirm {
+        display:none; text-align:center; padding:2rem 0;
+      }
+      .wow-cf-confirm-icon { font-size:2.5rem; margin-bottom:1rem; }
+      .wow-cf-confirm-title {
+        font-family:'Cormorant Garamond',serif; font-size:1.5rem;
+        color:var(--gold); margin-bottom:0.75rem;
+      }
+      .wow-cf-confirm-text { font-size:0.8rem; color:var(--muted); line-height:1.75; }
+      /* Map box */
+      .wow-map-address {
+        font-size:0.82rem; color:var(--muted); line-height:1.7;
+        margin-bottom:1.5rem; padding-left:1rem;
+        border-left:2px solid rgba(201,168,76,0.3);
+      }
+      .wow-map-address strong { color:var(--off-white); display:block; margin-bottom:0.25rem; }
+      .wow-map-frame {
+        width:100%; height:320px; border:none;
+        filter:grayscale(0.3) brightness(0.9);
+      }
+      .wow-map-links {
+        display:flex; gap:1rem; margin-top:1rem; flex-wrap:wrap;
+      }
+      .wow-map-link {
+        font-size:0.55rem; letter-spacing:0.22em; text-transform:uppercase;
+        color:var(--gold); text-decoration:none; border:1px solid rgba(201,168,76,0.3);
+        padding:0.5rem 1rem; transition:all 0.2s;
+      }
+      .wow-map-link:hover { background:rgba(201,168,76,0.1); border-color:var(--gold); }
+      /* Mobile adjustments */
+      @media(max-width:640px){
+        .wow-modal-inner { padding:1.75rem 1.25rem; }
+        .wow-cf-row { grid-template-columns:1fr; }
+        .wow-map-frame { height:260px; }
+      }
+      /* Admin nav link (replaces floating lock button) */
+      #wow-admin-nav-link {
+        font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase;
+        color:var(--gold-dim); text-decoration:none;
+        transition:color 0.3s; cursor:pointer; background:none; border:none;
+        font-family:'Montserrat',sans-serif; padding:0; white-space:nowrap;
+      }
+      #wow-admin-nav-link:hover { color:var(--gold); }
+      #wow-admin-nav-link.active {
+        color:var(--gold);
+      }
+      /* Hidden — we repurpose the footer investor link area */
+
+      /* Edit mode banner */
+      #wow-edit-banner {
+        position:fixed; bottom:2rem; left:50%; transform:translateX(-50%);
+        z-index:9990; display:none;
+        background:rgba(6,10,7,0.96); border:1px solid rgba(201,168,76,0.3);
+        backdrop-filter:blur(16px); border-radius:2rem;
+        padding:0.75rem 1.5rem; display:none; align-items:center; gap:1rem;
+        box-shadow:0 8px 40px rgba(0,0,0,0.5);
+      }
+      #wow-edit-banner.show { display:flex; }
+      #wow-edit-banner span {
+        font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase;
+        color:var(--gold);
+      }
+      .wow-banner-btn {
+        font-size:0.58rem; letter-spacing:0.18em; text-transform:uppercase;
+        padding:0.45rem 1.1rem; border-radius:2rem; cursor:pointer;
+        font-family:'Montserrat',sans-serif; transition:all 0.2s;
+      }
+      .wow-banner-btn.done {
+        background:var(--gold); color:var(--black); border:none; font-weight:600;
+      }
+      .wow-banner-btn.done:hover { background:var(--gold-light); }
+      .wow-banner-btn.reset {
+        background:transparent; color:rgba(201,168,76,0.6);
+        border:1px solid rgba(201,168,76,0.25);
+      }
+      .wow-banner-btn.reset:hover { color:var(--gold); border-color:var(--gold); }
+
+      /* Login modal */
+      #wow-login-modal {
+        position:fixed; inset:0; z-index:10000; display:none;
+        background:rgba(6,10,7,0.92); backdrop-filter:blur(20px);
+        align-items:center; justify-content:center;
+      }
+      #wow-login-modal.show { display:flex; }
+      .wow-login-box {
+        background:var(--green-mid); border:1px solid rgba(201,168,76,0.2);
+        padding:2.5rem; min-width:320px; max-width:380px; width:100%;
+        position:relative;
+      }
+      .wow-login-box::before {
+        content:''; position:absolute; top:0; left:0; right:0;
+        height:2px; background:linear-gradient(to right,var(--gold),var(--gold-dim));
+      }
+      .wow-login-title {
+        font-family:'Cormorant Garamond',serif;
+        font-size:1.5rem; color:var(--off-white); margin-bottom:0.4rem;
+      }
+      .wow-login-sub {
+        font-size:0.6rem; letter-spacing:0.2em; text-transform:uppercase;
+        color:var(--muted); margin-bottom:2rem;
+      }
+      .wow-login-label {
+        font-size:0.56rem; letter-spacing:0.32em; text-transform:uppercase;
+        color:var(--gold); display:block; margin-bottom:0.5rem;
+      }
+      .wow-login-input {
+        width:100%; background:rgba(245,240,232,0.04);
+        border:1px solid rgba(201,168,76,0.18); color:var(--off-white);
+        padding:0.75rem 1rem; font-family:'Montserrat',sans-serif;
+        font-size:0.82rem; outline:none; margin-bottom:1.2rem;
+        transition:border 0.3s;
+      }
+      .wow-login-input:focus { border-color:var(--gold); }
+      .wow-login-btn {
+        width:100%; background:var(--gold); color:var(--black); border:none;
+        padding:0.9rem; font-family:'Montserrat',sans-serif;
+        font-size:0.6rem; letter-spacing:0.28em; text-transform:uppercase;
+        font-weight:600; cursor:pointer; transition:background 0.3s;
+      }
+      .wow-login-btn:hover { background:var(--gold-light); }
+      .wow-login-btn:disabled { opacity:0.6; cursor:not-allowed; }
+      .wow-login-close {
+        position:absolute; top:1rem; right:1rem;
+        background:none; border:none; color:var(--muted);
+        font-size:1.2rem; cursor:pointer; line-height:1;
+      }
+      .wow-login-close:hover { color:var(--off-white); }
+      .wow-login-err {
+        font-size:0.72rem; color:#e57373; margin-bottom:1rem;
+        display:none; padding:0.5rem 0.75rem;
+        background:rgba(229,115,115,0.08); border:1px solid rgba(229,115,115,0.2);
+      }
+      .wow-login-err.show { display:block; }
+
+      /* Editable text in edit mode */
+      body.wow-editing [data-i18n]:not(input):not(select):not(button) {
+        outline:1px dashed rgba(201,168,76,0.35);
+        cursor:text !important;
+        border-radius:2px;
+        transition:outline 0.2s;
+        position:relative;
+      }
+      body.wow-editing [data-i18n]:not(input):not(select):not(button):hover {
+        outline:2px solid rgba(201,168,76,0.7);
+        background:rgba(201,168,76,0.04);
+      }
+
+      /* Inline textarea overlay */
+      .wow-inline-editor {
+        position:absolute; z-index:9980;
+        background:rgba(11,26,18,0.97); border:1px solid var(--gold);
+        box-shadow:0 8px 40px rgba(0,0,0,0.6);
+        padding:0.75rem; min-width:280px; max-width:480px;
+      }
+      .wow-inline-editor textarea {
+        width:100%; background:transparent; border:none;
+        color:var(--off-white); font-family:'Montserrat',sans-serif;
+        font-size:0.82rem; line-height:1.6; resize:vertical;
+        outline:none; min-height:60px;
+      }
+      .wow-inline-editor-actions {
+        display:flex; gap:0.5rem; margin-top:0.5rem; justify-content:flex-end;
+      }
+      .wow-ie-btn {
+        font-size:0.55rem; letter-spacing:0.18em; text-transform:uppercase;
+        padding:0.35rem 0.8rem; cursor:pointer;
+        font-family:'Montserrat',sans-serif; transition:all 0.2s; border-radius:2px;
+      }
+      .wow-ie-save {
+        background:var(--gold); color:var(--black); border:none; font-weight:600;
+      }
+      .wow-ie-save:hover { background:var(--gold-light); }
+      .wow-ie-save.saving { opacity:0.6; }
+      .wow-ie-cancel {
+        background:transparent; color:var(--muted);
+        border:1px solid rgba(201,168,76,0.2);
+      }
+      .wow-ie-cancel:hover { color:var(--off-white); border-color:rgba(201,168,76,0.5); }
+      .wow-ie-hint {
+        font-size:0.5rem; color:var(--muted); letter-spacing:0.12em;
+        margin-top:0.25rem; text-align:right;
+      }
+
+      /* Image edit overlay */
+      body.wow-editing .wow-img-wrap { position:relative !important; }
+      body.wow-editing .wow-img-overlay {
+        position:absolute; inset:0; background:rgba(6,10,7,0.55);
+        display:flex; align-items:center; justify-content:center;
+        cursor:pointer; opacity:0; transition:opacity 0.25s;
+        border:1px solid rgba(201,168,76,0.35); z-index:10;
+      }
+      body.wow-editing .wow-img-overlay:hover {
+        background:rgba(6,10,7,0.65);
+      }
+      body.wow-editing .wow-img-overlay .wow-img-hint {
+        text-align:center; color:var(--gold); font-family:'Montserrat',sans-serif;
+        font-size:0.52rem; letter-spacing:0.28em; text-transform:uppercase;
+        line-height:1.9; padding:1rem;
+        border:1px solid rgba(201,168,76,0.3); background:rgba(6,10,7,0.7);
+      }
+      body.wow-editing .wow-img-overlay:hover .wow-img-hint { opacity:1; }
+
+      /* Toast */
+      #wow-toast {
+        position:fixed; bottom:2rem; right:2rem; z-index:9995;
+        background:var(--green-rich); border:1px solid rgba(201,168,76,0.3);
+        color:var(--gold); font-size:0.6rem; letter-spacing:0.2em;
+        text-transform:uppercase; padding:0.6rem 1.2rem;
+        opacity:0; transition:opacity 0.3s; pointer-events:none;
+      }
+      #wow-toast.show { opacity:1; }
+    `;
+    document.head.appendChild(style);
+
+    // ── DOM elements ────────────────────────────────────────────
+    // Admin entry point: inject into footer next to investor link
+    const footerBottom = document.querySelector('.f-bottom');
+    const editBtn = document.createElement('button');
+    editBtn.id = 'wow-admin-nav-link';
+    editBtn.textContent = editMode ? '✦ Editing' : 'Admin Portal →';
+    editBtn.title = 'Admin content editor';
+    if(footerBottom) footerBottom.appendChild(editBtn);
+
+    // Banner
+    const banner = document.createElement('div');
+    banner.id = 'wow-edit-banner';
+    banner.innerHTML = `
+      <span>✏️ Edit Mode — click any text or image to edit</span>
+      <button class="wow-banner-btn reset" id="wow-reset-btn">Reset all</button>
+      <button class="wow-banner-btn done" id="wow-done-btn">Done editing</button>
+    `;
+    document.body.appendChild(banner);
+
+    // Login modal
+    const modal = document.createElement('div');
+    modal.id = 'wow-login-modal';
+    modal.innerHTML = `
+      <div class="wow-login-box">
+        <button class="wow-login-close" id="wow-modal-close">✕</button>
+        <div class="wow-login-title">Admin Access</div>
+        <div class="wow-login-sub">WoW Content Editor</div>
+        <div class="wow-login-err" id="wow-login-err"></div>
+        <label class="wow-login-label">Email</label>
+        <input class="wow-login-input" type="email" id="wow-admin-email" placeholder="admin@wowfinedining.com" value="admin@wowfinedining.com">
+        <label class="wow-login-label">Password</label>
+        <input class="wow-login-input" type="password" id="wow-admin-pw" placeholder="••••••••">
+        <button class="wow-login-btn" id="wow-login-submit">Sign In to Edit</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    // Toast
+    const toast = document.createElement('div');
+    toast.id = 'wow-toast';
+    document.body.appendChild(toast);
+
+    // Hidden file input for image uploads
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.style.display = 'none';
+    document.body.appendChild(fileInput);
+
+    // ── Utils ───────────────────────────────────────────────────
+    function showToast(msg, dur=2500){
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'), dur);
+    }
+
+    function getToken(){ return localStorage.getItem(ADMIN_TOKEN_KEY); }
+    function setToken(t){ localStorage.setItem(ADMIN_TOKEN_KEY, t); }
+    function clearToken(){ localStorage.removeItem(ADMIN_TOKEN_KEY); }
+
+    // ── Load content from API on page start ─────────────────────
+    async function loadContent(){
+      try {
+        const res = await fetch(`${API}/content`);
+        if(!res.ok) return;
+        const data = await res.json();
+        // Apply wow.* keys to their data-i18n elements
+        Object.entries(data).forEach(([key, value]) => {
+          if(!key.startsWith('wow.') || !value) return;
+          const i18nKey = key.replace('wow.', '');
+          document.querySelectorAll(`[data-i18n="${i18nKey}"]`).forEach(el => {
+            // Don't override if currently editing
+            if(el._wowEditing) return;
+            el.innerHTML = value;
+          });
+          // Handle images
+          if(key.includes('.img.') || key.includes('.image.')) {
+            const imgKey = key.replace('wow.', '');
+            document.querySelectorAll(`[data-wow-img="${imgKey}"]`).forEach(el => {
+              el.src = value.startsWith('/') ? `${API}${value}` : value;
+            });
+          }
+        });
+        // Apply image keys
+        Object.entries(data).forEach(([key, value]) => {
+          if(!key.startsWith('wow.img.') || !value) return;
+          const imgId = key.replace('wow.img.', '');
+          const el = document.querySelector(`[data-wow-img="${imgId}"]`);
+          if(el) el.src = value.startsWith('/') ? `${API}${value}` : value;
+        });
+      } catch(e) { /* offline — use defaults */ }
+    }
+
+    // ── Save text to API ────────────────────────────────────────
+    async function saveText(i18nKey, value){
+      const token = getToken();
+      if(!token) return false;
+      const contentKey = `wow.${i18nKey}`;
+      try {
+        const res = await fetch(`${API}/content/${encodeURIComponent(contentKey)}`, {
+          method: 'PUT',
+          headers: { 'Content-Type':'application/json', Authorization:`Bearer ${token}` },
+          body: JSON.stringify({ value })
+        });
+        if(res.status === 401 || res.status === 403){ clearToken(); disableEditMode(); return false; }
+        return res.ok;
+      } catch(e) { return false; }
+    }
+
+    // ── Save image to API ───────────────────────────────────────
+    async function saveImage(imgKey, file){
+      const token = getToken();
+      if(!token) return null;
+      const contentKey = `wow.img.${imgKey}`;
+      const form = new FormData();
+      form.append('file', file);
+      try {
+        const res = await fetch(`${API}/content/upload-image?key=${encodeURIComponent(contentKey)}`, {
+          method:'POST', headers:{ Authorization:`Bearer ${token}` }, body: form
+        });
+        if(!res.ok) return null;
+        const json = await res.json();
+        return json.value;
+      } catch(e) { return null; }
+    }
+
+    // ── Inline text editor ──────────────────────────────────────
+    let activeEditor = null;
+
+    function closeEditor(){
+      if(activeEditor){ activeEditor.remove(); activeEditor = null; }
+    }
+
+    function openEditor(el){
+      if(!editMode) return;
+      closeEditor();
+
+      const i18nKey = el.getAttribute('data-i18n');
+      if(!i18nKey) return;
+
+      // Don't edit form labels/buttons
+      if(el.closest('.booking-form, .bf-btn, .lang-btn, .lang-option, .lang-selected, .nav-cta, #langSwitcher')) return;
+
+      el._wowEditing = true;
+      const originalHTML = el.innerHTML;
+
+      const box = document.createElement('div');
+      box.className = 'wow-inline-editor';
+
+      const ta = document.createElement('textarea');
+      // Strip HTML tags for plain text editing
+      ta.value = el.innerText || el.textContent || '';
+      ta.rows = Math.max(2, Math.ceil(ta.value.length / 50));
+
+      const actions = document.createElement('div');
+      actions.className = 'wow-inline-editor-actions';
+
+      const hint = document.createElement('div');
+      hint.className = 'wow-ie-hint';
+      hint.textContent = 'Enter to save · Esc to cancel';
+
+      const saveBtn = document.createElement('button');
+      saveBtn.className = 'wow-ie-btn wow-ie-save';
+      saveBtn.textContent = 'Save';
+
+      const cancelBtn = document.createElement('button');
+      cancelBtn.className = 'wow-ie-btn wow-ie-cancel';
+      cancelBtn.textContent = 'Cancel';
+
+      actions.appendChild(cancelBtn);
+      actions.appendChild(saveBtn);
+      box.appendChild(ta);
+      box.appendChild(hint);
+      box.appendChild(actions);
+
+      // Position near element
+      const rect = el.getBoundingClientRect();
+      box.style.top  = (window.scrollY + rect.bottom + 6) + 'px';
+      box.style.left = Math.min(rect.left, window.innerWidth - 500) + 'px';
+      document.body.appendChild(box);
+      activeEditor = box;
+      ta.focus();
+      ta.select();
+
+      let _saved = false;   // guard: prevents outsideClick from reverting after a save
+
+      const doSave = async () => {
+        if(_saved) return;             // already saving
+        _saved = true;                 // mark immediately so outsideClick won't revert
+        const newVal = ta.value.trim();
+        if(!newVal){ _saved = false; doCancel(); return; }
+        saveBtn.classList.add('saving');
+        saveBtn.textContent = '…';
+        // Update DOM immediately so the user sees the change right away
+        el.innerHTML = newVal;
+        closeEditor();
+        // Save to DB in the background
+        const ok = await saveText(i18nKey, newVal);
+        if(ok){
+          showToast('✦ Saved — live on site');
+        } else {
+          showToast('⚠ Save failed — changes shown locally only');
+        }
+        el._wowEditing = false;
+      };
+
+      const doCancel = () => {
+        if(_saved) return;             // don't revert if already saved
+        el.innerHTML = originalHTML;
+        el._wowEditing = false;
+        closeEditor();
+      };
+
+      saveBtn.addEventListener('click', doSave);
+      cancelBtn.addEventListener('click', doCancel);
+      ta.addEventListener('keydown', e => {
+        if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); doSave(); }
+        if(e.key === 'Escape'){ doCancel(); }
+      });
+
+      // Close if clicking outside — only cancel if not already saved
+      setTimeout(() => {
+        document.addEventListener('click', function outsideClick(ev){
+          if(!box.contains(ev.target) && ev.target !== el){
+            document.removeEventListener('click', outsideClick);
+            if(!_saved) doCancel();
+          }
+        });
+      }, 100);
+    }
+
+    // ── Attach text click handlers ──────────────────────────────
+    function attachTextEditors(){
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        // Skip inputs, selects, buttons
+        if(['INPUT','SELECT','BUTTON'].includes(el.tagName)) return;
+        el.addEventListener('click', function(e){
+          if(!editMode) return;
+          e.stopPropagation();
+          openEditor(el);
+        });
+      });
+    }
+
+    // ── Image editing ───────────────────────────────────────────
+    const editableImages = [
+      // Philosophy section
+      { selector: '.stmt-img img',                 key: 'philosophy' },
+      // Experience — feature trio
+      { selector: '.ft:nth-child(1) img',           key: 'exp_cheers' },
+      { selector: '.ft:nth-child(2) img',           key: 'exp_chef' },
+      { selector: '.ft:nth-child(3) img',           key: 'exp_dessert' },
+      // Made in Italy
+      { selector: '.italy-img img',                 key: 'italy' },
+      // Hero narrative ingredient
+      { selector: '[data-wow-img="course_hero"]',   key: 'course_hero' },
+      // 9 Course ingredient images
+      { selector: '[data-wow-img="course_1"]',      key: 'course_1' },
+      { selector: '[data-wow-img="course_2"]',      key: 'course_2' },
+      { selector: '[data-wow-img="course_3"]',      key: 'course_3' },
+      { selector: '[data-wow-img="course_4"]',      key: 'course_4' },
+      { selector: '[data-wow-img="course_5"]',      key: 'course_5' },
+      { selector: '[data-wow-img="course_6"]',      key: 'course_6' },
+      { selector: '[data-wow-img="course_7"]',      key: 'course_7' },
+      { selector: '[data-wow-img="course_8"]',      key: 'course_8' },
+      { selector: '[data-wow-img="course_9"]',      key: 'course_9' },
+    ];
+
+    let pendingImgKey = null;
+
+    function wrapImageForEdit(){
+      editableImages.forEach(({ selector, key }) => {
+        const img = document.querySelector(selector);
+        if(!img || img._wowWrapped) return;
+        img._wowWrapped = true;
+        img.setAttribute('data-wow-img', key);
+
+        // Wrap in a relative container if not already
+        const parent = img.parentElement;
+        if(getComputedStyle(parent).position === 'static'){
+          parent.style.position = 'relative';
+        }
+        parent.classList.add('wow-img-wrap');
+
+        const overlay = document.createElement('div');
+        overlay.className = 'wow-img-overlay';
+        overlay.innerHTML = `<div class="wow-img-hint"><span style="font-size:1.1rem;">✦</span><br>Replace Image<br><span style="font-size:0.48rem;opacity:0.65;letter-spacing:0.08em;">JPG · PNG · WebP · Max 5MB</span></div>`;
+        parent.appendChild(overlay);
+
+        overlay.addEventListener('click', e => {
+          if(!editMode) return;
+          e.stopPropagation();
+          pendingImgKey = key;
+          fileInput.value = '';
+          fileInput.click();
+        });
+      });
+    }
+
+    fileInput.addEventListener('change', async () => {
+      const file = fileInput.files[0];
+      if(!file || !pendingImgKey) return;
+      showToast('⏳ Uploading image…', 10000);
+      const url = await saveImage(pendingImgKey, file);
+      if(url){
+        const fullUrl = url.startsWith('/') ? `${API}${url}` : url;
+        const img = document.querySelector(`[data-wow-img="${pendingImgKey}"]`);
+        if(img) img.src = fullUrl;
+        showToast('✦ Image updated — live on site');
+      } else {
+        showToast('⚠ Image upload failed');
+      }
+      pendingImgKey = null;
+    });
+
+    // ── Enable / disable edit mode ──────────────────────────────
+    function enableEditMode(){
+      editMode = true;
+      adminToken = getToken();
+      document.body.classList.add('wow-editing');
+      editBtn.textContent = '✦ Editing';
+      editBtn.classList.add('active');
+      editBtn.title = 'Exit edit mode';
+      banner.classList.add('show');
+      wrapImageForEdit();
+      showToast('Edit mode on — click any text or image to edit');
+    }
+
+    function disableEditMode(){
+      editMode = false;
+      closeEditor();
+      document.body.classList.remove('wow-editing');
+      editBtn.textContent = 'Admin Portal →';
+      editBtn.classList.remove('active');
+      editBtn.title = 'Admin content editor';
+      banner.classList.remove('show');
+    }
+
+    // ── Reset all ───────────────────────────────────────────────
+    async function resetAll(){
+      if(!confirm('Reset all WoW page content to defaults? This cannot be undone.')) return;
+      const token = getToken();
+      if(!token) return;
+      // Clear all wow.* content keys by refetching defaults from T.en
+      // We just reload the page — defaults will apply since DB is cleared server-side
+      // For simplicity: reload page with flag, defaults show
+      showToast('Resetting…', 5000);
+      // We re-apply defaults from T.en
+      const defaults = T['en'];
+      const saves = Object.entries(defaults).map(([k, v]) =>
+        fetch(`${API}/content/${encodeURIComponent('wow.'+k)}`, {
+          method:'PUT',
+          headers:{'Content-Type':'application/json',Authorization:`Bearer ${token}`},
+          body: JSON.stringify({ value: v })
+        }).catch(()=>{})
+      );
+      await Promise.allSettled(saves);
+      showToast('✦ All content reset to defaults');
+      setTimeout(()=>location.reload(), 1200);
+    }
+
+    // ── Login flow ──────────────────────────────────────────────
+    async function doLogin(){
+      const email = document.getElementById('wow-admin-email').value.trim();
+      const pw    = document.getElementById('wow-admin-pw').value;
+      const err   = document.getElementById('wow-login-err');
+      const btn   = document.getElementById('wow-login-submit');
+      err.classList.remove('show');
+      if(!email || !pw){ err.textContent='Please enter email and password.'; err.classList.add('show'); return; }
+      btn.disabled = true; btn.textContent = 'Signing in…';
+      try {
+        const res = await fetch(`${API}/admin/login`, {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ email, password: pw })
+        });
+        const data = await res.json();
+        if(!res.ok){ err.textContent = data.detail || 'Login failed'; err.classList.add('show'); return; }
+        setToken(data.access_token);
+        modal.classList.remove('show');
+        enableEditMode();
+      } catch(e){
+        err.textContent = 'Network error. Please try again.';
+        err.classList.add('show');
+      } finally {
+        btn.disabled = false; btn.textContent = 'Sign In to Edit';
+      }
+    }
+
+    // ── Event listeners ─────────────────────────────────────────
+    editBtn.addEventListener('click', () => {
+      if(editMode){
+        disableEditMode();
+      } else if(getToken()){
+        enableEditMode();
+      } else {
+        modal.classList.add('show');
+        setTimeout(()=>document.getElementById('wow-admin-pw').focus(), 100);
+      }
+    });
+
+    document.getElementById('wow-modal-close').addEventListener('click', ()=>modal.classList.remove('show'));
+    modal.addEventListener('click', e=>{ if(e.target===modal) modal.classList.remove('show'); });
+    document.getElementById('wow-login-submit').addEventListener('click', doLogin);
+    document.getElementById('wow-admin-pw').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+    document.getElementById('wow-done-btn').addEventListener('click', disableEditMode);
+    document.getElementById('wow-reset-btn').addEventListener('click', resetAll);
+
+    // Close editor on scroll
+    window.addEventListener('scroll', ()=>{ if(activeEditor) closeEditor(); }, { passive:true });
+
+    // ── Init ────────────────────────────────────────────────────
+    // Load saved content from DB
+    loadContent();
+    // Attach text click handlers
+    attachTextEditors();
+    // If token still valid, tint admin link gold as a subtle hint
+    if(getToken()){
+      editBtn.style.color = 'rgba(201,168,76,0.6)';
+      editBtn.title = 'Click to enter edit mode';
+    }
+
+  })(); // end WowCMS
+  </script>
+</body>
+</html>
