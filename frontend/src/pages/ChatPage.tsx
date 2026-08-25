@@ -116,7 +116,10 @@ export function ChatPage() {
           if (!event.startsWith('data: ')) continue
           const payload = event.slice(6)
           if (payload === '[DONE]') continue
-          const parsed = JSON.parse(payload) as { token?: string; conversation_id?: number }
+          const parsed = JSON.parse(payload) as { token?: string; conversation_id?: number; error?: string }
+          // The stream has already returned 200, so the server can't signal
+          // failure with a status code — it sends an error event instead.
+          if (parsed.error) throw new Error(parsed.error)
           if (parsed.conversation_id && !streamedConversationId) {
             streamedConversationId = parsed.conversation_id
             setActiveConversationId(parsed.conversation_id)
